@@ -90,9 +90,11 @@ export function About() {
                 Precision <br />
                 <span className="text-primary/90 italic">in Research</span>
               </h2>
-              <p className="text-xl md:text-2xl text-slate-600 font-light max-w-xl leading-relaxed mx-auto">
-                Under the expert guidance of <span className="font-semibold text-accent">{founder?.name || "Om Prakash Sinha"}</span>, we provide the rigorous methodology and academic integrity required for success in global publishing.
-              </p>
+              <div className="max-w-xl mx-auto border-y border-slate-100 py-10 my-4">
+                <p className="text-xl md:text-2xl text-slate-600 font-light leading-relaxed">
+                  Under the expert guidance of <span className="font-semibold text-accent">{founder?.name || "Om Prakash Sinha"}</span>, we provide the rigorous methodology and academic integrity required for success in global publishing.
+                </p>
+              </div>
             </div>
 
             <div className="grid sm:grid-cols-2 gap-6 pt-4 max-w-2xl mx-auto">

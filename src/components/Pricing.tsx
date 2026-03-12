@@ -79,7 +79,7 @@ export function Pricing() {
           </p>
         </div>
 
-        {/* Pricing Grid - Forced 3 columns on large screens to keep them in one line */}
+        {/* Pricing Grid - Strict 3 columns on large screens */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 items-stretch">
           {plans.map((plan, index) => (
             <Card 
