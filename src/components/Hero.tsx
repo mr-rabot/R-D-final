@@ -4,23 +4,25 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { Mail, MessageSquare, Sparkles } from "lucide-react";
 
 export function Hero() {
   const [heroData, setHeroData] = useState<any>(null);
-  const heroImage = PlaceHolderImages.find((img) => img.id === "hero-bg");
+  const [whatsapp, setWhatsapp] = useState("916209779365");
 
   useEffect(() => {
     fetch('/api/leadership')
       .then(res => res.json())
-      .then(data => setHeroData(data.hero))
+      .then(data => {
+        setHeroData(data.hero);
+        if (data.integrations?.whatsapp) setWhatsapp(data.integrations.whatsapp);
+      })
       .catch(err => console.error(err));
   }, []);
 
   const handleWhatsAppQuote = () => {
     const message = encodeURIComponent("Hi R&D Services, I'm interested in your research writing services. Can you help me with a project?");
-    window.open(`https://wa.me/916209779365?text=${message}`, '_blank');
+    window.open(`https://wa.me/${whatsapp}?text=${message}`, '_blank');
   };
 
   const handleEmailQuote = () => {
@@ -82,14 +84,13 @@ export function Hero() {
 
           <div className="mt-20 lg:mt-0 relative flex justify-center lg:block animate-in fade-in zoom-in duration-1000 delay-300">
             <div className="relative z-10 w-full max-w-xl lg:max-w-none">
-              {heroImage?.imageUrl ? (
+              {heroData.image ? (
                 <div className="relative aspect-[4/5] sm:aspect-square w-full overflow-hidden rounded-[40px] md:rounded-[60px] border-[12px] md:border-[16px] border-white/5 shadow-[0_40px_80px_rgba(0,0,0,0.5)] group">
                   <Image
-                    src={heroImage.imageUrl}
-                    alt={heroImage.description || "Researcher at desk"}
+                    src={heroData.image}
+                    alt="Hero Visual"
                     fill
                     className="object-cover transition-transform duration-1000 group-hover:scale-105"
-                    data-ai-hint={heroImage.imageHint}
                     priority
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />

@@ -1,9 +1,21 @@
+
 "use client";
 
+import { useEffect, useState } from "react";
 import { Beaker } from "lucide-react";
 import Link from "next/link";
 
 export function Footer() {
+  const [whatsapp, setWhatsapp] = useState("916209779365");
+
+  useEffect(() => {
+    fetch('/api/leadership')
+      .then(res => res.json())
+      .then(data => {
+        if (data.integrations?.whatsapp) setWhatsapp(data.integrations.whatsapp);
+      });
+  }, []);
+
   return (
     <footer className="bg-[#0a0f1c] text-white pt-24 pb-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -58,7 +70,7 @@ export function Footer() {
             <ul className="space-y-4 text-slate-400 text-sm">
               <li className="flex flex-col gap-2">
                 <span className="text-white font-bold text-base">Om Prakash Sinha</span>
-                <span className="text-white font-medium">Phone: +91 6209779365</span>
+                <span className="text-white font-medium">Phone: +{whatsapp}</span>
                 <span className="text-white font-medium">Email: support.rdservices@gmail.com</span>
                 <span>Support: 24/7 Available</span>
               </li>

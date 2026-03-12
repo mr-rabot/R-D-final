@@ -1,5 +1,7 @@
+
 "use client";
 
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -11,7 +13,6 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import { Mail, Phone, Send, User, MessageSquare } from "lucide-react";
-import { PlaceHolderImages } from "@/lib/placeholder-images";
 
 const formSchema = z.object({
   name: z.string().min(2, "Full name is required"),
@@ -23,7 +24,8 @@ const formSchema = z.object({
 
 export function InquiryForm() {
   const { toast } = useToast();
-  const contactImage = PlaceHolderImages.find(img => img.id === "service-3");
+  const [contactImage, setContactImage] = useState<string | null>(null);
+  const [whatsapp, setWhatsapp] = useState("916209779365");
   
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -36,6 +38,15 @@ export function InquiryForm() {
     },
   });
 
+  useEffect(() => {
+    fetch('/api/leadership')
+      .then(res => res.json())
+      .then(data => {
+        if (data.firmSummary?.image) setContactImage(data.firmSummary.image);
+        if (data.integrations?.whatsapp) setWhatsapp(data.integrations.whatsapp);
+      });
+  }, []);
+
   function onSubmit(values: z.infer<typeof formSchema>) {
     const messageText = `*New Inquiry from R&D Services Website*\n\n` +
       `*Name:* ${values.name}\n` +
@@ -44,7 +55,7 @@ export function InquiryForm() {
       `*Service:* ${values.service}\n` +
       `*Details:* ${values.details}`;
     
-    const whatsappUrl = `https://wa.me/916209779365?text=${encodeURIComponent(messageText)}`;
+    const whatsappUrl = `https://wa.me/${whatsapp}?text=${encodeURIComponent(messageText)}`;
     
     window.open(whatsappUrl, '_blank');
 
@@ -116,21 +127,20 @@ export function InquiryForm() {
                 </div>
                 <div>
                   <h4 className="font-bold text-accent text-lg">Call Us</h4>
-                  <p className="text-slate-600">+91 6209779365</p>
+                  <p className="text-slate-600">+{whatsapp}</p>
                   <p className="text-slate-600">Available 24/7</p>
                 </div>
               </div>
             </div>
 
             <div className="relative pt-8">
-              {contactImage?.imageUrl ? (
+              {contactImage ? (
                 <div className="relative w-full h-64 lg:h-80 overflow-hidden rounded-[32px] shadow-[0_30px_60px_rgba(0,0,0,0.15)] border border-slate-200">
                   <Image
-                    src={contactImage.imageUrl}
-                    alt={contactImage.description || "Research analysis"}
+                    src={contactImage}
+                    alt="Research Visual"
                     fill
                     className="object-cover"
-                    data-ai-hint={contactImage.imageHint}
                   />
                   <div className="absolute inset-0 bg-primary/5 mix-blend-multiply" />
                 </div>

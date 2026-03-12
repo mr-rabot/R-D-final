@@ -1,3 +1,4 @@
+
 "use client";
 
 import Link from "next/link";
@@ -9,12 +10,20 @@ import { cn } from "@/lib/utils";
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [whatsapp, setWhatsapp] = useState("916209779365");
 
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
     };
     window.addEventListener("scroll", handleScroll);
+    
+    fetch('/api/leadership')
+      .then(res => res.json())
+      .then(data => {
+        if (data.integrations?.whatsapp) setWhatsapp(data.integrations.whatsapp);
+      });
+
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -28,7 +37,7 @@ export function Navbar() {
 
   const handleWhatsAppQuote = () => {
     const message = encodeURIComponent("Hi R&D Services, I am visiting your website and would like to get a quote for a research project.");
-    window.open(`https://wa.me/916209779365?text=${message}`, '_blank');
+    window.open(`https://wa.me/${whatsapp}?text=${message}`, '_blank');
   };
 
   return (

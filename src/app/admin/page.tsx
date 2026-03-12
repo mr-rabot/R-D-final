@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useCallback, useRef, useEffect } from "react";
@@ -25,7 +26,10 @@ import {
   Star,
   Menu,
   X,
-  Beaker
+  Beaker,
+  Settings,
+  Mail,
+  Lock
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import Image from "next/image";
@@ -222,7 +226,8 @@ export default function AdminDashboard() {
     { id: "services", icon: Zap, label: "Services" },
     { id: "pricing", icon: CreditCard, label: "Pricing" },
     { id: "testimonials", icon: Star, label: "Testimonials" },
-    { id: "faq", icon: HelpCircle, label: "FAQ" }
+    { id: "faq", icon: HelpCircle, label: "FAQ" },
+    { id: "integrations", icon: Settings, label: "Integrations" }
   ];
 
   return (
@@ -306,6 +311,18 @@ export default function AdminDashboard() {
           <TabsContent value="hero">
             <Card className="border-none shadow-xl rounded-[40px] p-6 md:p-10 bg-white space-y-8">
               <div className="space-y-4">
+                <div className="flex items-center gap-6 mb-6">
+                  <div className="relative h-32 w-56 rounded-2xl overflow-hidden border-4 border-slate-50 shadow-md bg-slate-100">
+                    {siteData.hero.image ? (
+                      <Image src={siteData.hero.image} alt="Hero" fill className="object-cover" />
+                    ) : (
+                      <Rocket className="h-full w-full text-slate-300 p-8" />
+                    )}
+                  </div>
+                  <Button variant="outline" size="sm" className="rounded-xl font-bold" onClick={() => { setCurrentEditingPath(`hero.image`); fileInputRef.current?.click(); }}>
+                    <Upload className="h-4 w-4 mr-2" /> Change Hero Image
+                  </Button>
+                </div>
                 <div className="space-y-2">
                   <label className="text-[10px] font-bold uppercase text-slate-400">Hero Badge</label>
                   <Input value={siteData.hero.badge} onChange={(e) => setSiteData({...siteData, hero: {...siteData.hero, badge: e.target.value}})} className="bg-slate-50 border-none rounded-xl h-12" />
@@ -386,6 +403,18 @@ export default function AdminDashboard() {
 
           <TabsContent value="summary">
             <Card className="border-none shadow-xl rounded-[40px] p-6 md:p-10 bg-white space-y-8">
+              <div className="flex items-center gap-6 mb-6">
+                <div className="relative h-32 w-56 rounded-2xl overflow-hidden border-4 border-slate-50 shadow-md bg-slate-100">
+                  {siteData.firmSummary.image ? (
+                    <Image src={siteData.firmSummary.image} alt="Firm Summary" fill className="object-cover" />
+                  ) : (
+                    <FileText className="h-full w-full text-slate-300 p-8" />
+                  )}
+                </div>
+                <Button variant="outline" size="sm" className="rounded-xl font-bold" onClick={() => { setCurrentEditingPath(`firmSummary.image`); fileInputRef.current?.click(); }}>
+                  <Upload className="h-4 w-4 mr-2" /> Change Summary Image
+                </Button>
+              </div>
               <div className="space-y-2">
                 <label className="text-[10px] font-bold uppercase text-slate-400">Section Title</label>
                 <Input value={siteData.firmSummary.title} onChange={(e) => setSiteData({...siteData, firmSummary: {...siteData.firmSummary, title: e.target.value}})} className="bg-slate-50 border-none rounded-xl h-12" />
@@ -473,7 +502,7 @@ export default function AdminDashboard() {
           <TabsContent value="testimonials">
             <div className="space-y-6">
               <div className="flex justify-end">
-                <Button onClick={() => setSiteData({...siteData, testimonials: [...siteData.testimonials, {name: "Client Name", role: "Designation", content: "", stars: 5}]})} className="bg-primary rounded-xl">
+                <Button onClick={() => setSiteData({...siteData, testimonials: [...siteData.testimonials, {name: "Client Name", role: "Designation", content: "", stars: 5, image: ""}]})} className="bg-primary rounded-xl">
                   <Plus className="h-4 w-4 mr-2" /> Add Testimonial
                 </Button>
               </div>
@@ -484,7 +513,19 @@ export default function AdminDashboard() {
                       const newT = siteData.testimonials.filter((_: any, idx: number) => idx !== i);
                       setSiteData({...siteData, testimonials: newT});
                     }} className="absolute top-4 right-4 text-destructive opacity-0 group-hover:opacity-100"><Trash2 className="h-4 w-4" /></Button>
-                    <div className="space-y-4">
+                    <div className="space-y-6">
+                      <div className="flex items-center gap-6">
+                        <div className="relative h-16 w-16 rounded-full overflow-hidden border-2 border-slate-50 shadow-md bg-slate-100">
+                          {t.image ? (
+                            <Image src={t.image} alt="Client" fill className="object-cover" />
+                          ) : (
+                            <UserCircle className="h-full w-full text-slate-300" />
+                          )}
+                        </div>
+                        <Button variant="outline" size="xs" className="rounded-xl font-bold h-8 text-[10px]" onClick={() => { setCurrentEditingPath(`testimonials.${i}.image`); fileInputRef.current?.click(); }}>
+                          <Upload className="h-3 w-3 mr-2" /> Change Photo
+                        </Button>
+                      </div>
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div className="space-y-2">
                           <label className="text-[10px] font-bold uppercase text-slate-400">Name</label>
@@ -604,6 +645,80 @@ export default function AdminDashboard() {
              </div>
           </TabsContent>
 
+          <TabsContent value="integrations">
+            <div className="grid lg:grid-cols-2 gap-8">
+              <Card className="border-none shadow-xl rounded-[40px] p-6 md:p-10 bg-white space-y-8">
+                <div className="flex items-center gap-3 text-primary mb-2">
+                  <MessageSquare className="h-6 w-6" />
+                  <h3 className="text-2xl font-headline font-bold">WhatsApp Settings</h3>
+                </div>
+                <div className="space-y-4">
+                  <div className="space-y-2">
+                    <label className="text-[10px] font-bold uppercase text-slate-400">WhatsApp Number (with country code)</label>
+                    <Input 
+                      value={siteData.integrations?.whatsapp || ""} 
+                      onChange={(e) => setSiteData({...siteData, integrations: {...siteData.integrations, whatsapp: e.target.value}})} 
+                      placeholder="e.g. 916209779365"
+                      className="bg-slate-50 border-none rounded-xl h-12" 
+                    />
+                    <p className="text-[10px] text-slate-400 mt-1 italic">This number will be used for all WhatsApp call-to-action buttons across the site.</p>
+                  </div>
+                </div>
+              </Card>
+
+              <Card className="border-none shadow-xl rounded-[40px] p-6 md:p-10 bg-white space-y-8">
+                <div className="flex items-center gap-3 text-primary mb-2">
+                  <Mail className="h-6 w-6" />
+                  <h3 className="text-2xl font-headline font-bold">SMTP Integration</h3>
+                </div>
+                <div className="space-y-4">
+                  <div className="grid sm:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-bold uppercase text-slate-400">SMTP Host</label>
+                      <Input 
+                        value={siteData.integrations?.smtp?.host || ""} 
+                        onChange={(e) => setSiteData({...siteData, integrations: {...siteData.integrations, smtp: {...siteData.integrations.smtp, host: e.target.value}}})} 
+                        placeholder="smtp.example.com"
+                        className="bg-slate-50 border-none rounded-xl h-12" 
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-bold uppercase text-slate-400">SMTP Port</label>
+                      <Input 
+                        value={siteData.integrations?.smtp?.port || ""} 
+                        onChange={(e) => setSiteData({...siteData, integrations: {...siteData.integrations, smtp: {...siteData.integrations.smtp, port: e.target.value}}})} 
+                        placeholder="587"
+                        className="bg-slate-50 border-none rounded-xl h-12" 
+                      />
+                    </div>
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-[10px] font-bold uppercase text-slate-400">SMTP User</label>
+                    <Input 
+                      value={siteData.integrations?.smtp?.user || ""} 
+                      onChange={(e) => setSiteData({...siteData, integrations: {...siteData.integrations, smtp: {...siteData.integrations.smtp, user: e.target.value}}})} 
+                      placeholder="user@example.com"
+                      className="bg-slate-50 border-none rounded-xl h-12" 
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-[10px] font-bold uppercase text-slate-400">SMTP Password (Stored Encrypted)</label>
+                    <div className="relative">
+                      <Input 
+                        type="password"
+                        value={siteData.integrations?.smtp?.password || ""} 
+                        onChange={(e) => setSiteData({...siteData, integrations: {...siteData.integrations, smtp: {...siteData.integrations.smtp, password: e.target.value}}})} 
+                        className="bg-slate-50 border-none rounded-xl h-12 pl-10" 
+                      />
+                      <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+                    </div>
+                    <p className="text-[10px] text-slate-400 mt-1 italic">Note: For Gmail, use an "App Password". SMTP data is stored in the site configuration for automated mail responses.</p>
+                  </div>
+                </div>
+              </Card>
+            </div>
+          </TabsContent>
+
         </Tabs>
       </main>
 
@@ -616,7 +731,7 @@ export default function AdminDashboard() {
             </DialogDescription>
           </DialogHeader>
           <div className="relative h-96 bg-black">
-            {imageToCrop && <Cropper image={imageToCrop} crop={crop} zoom={zoom} aspect={1} onCropChange={setCrop} onZoomChange={setZoom} onCropComplete={onCropComplete} />}
+            {imageToCrop && <Cropper image={imageToCrop} crop={crop} zoom={zoom} aspect={currentEditingPath?.includes('hero') ? 16/9 : (currentEditingPath?.includes('firmSummary') ? 16/12 : 1)} onCropChange={setCrop} onZoomChange={setZoom} onCropComplete={onCropComplete} />}
           </div>
           <div className="p-8">
             <Button className="w-full h-14 bg-primary rounded-xl font-bold" onClick={saveCroppedImage}>Apply Crop</Button>
