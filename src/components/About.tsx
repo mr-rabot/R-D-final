@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useEffect, useState } from "react";
@@ -129,7 +128,7 @@ export function About() {
         </div>
 
         {/* Firm Summary Template */}
-        <div className="bg-[#0a0f1c] rounded-[60px] md:rounded-[100px] p-12 md:p-24 text-white relative overflow-hidden shadow-[0_60px_120px_rgba(0,0,0,0.3)] border border-white/5">
+        <div className="bg-[#0a0f1c] rounded-[60px] md:rounded-[100px] p-12 md:p-24 text-white relative overflow-hidden shadow-2xl shadow-black/60 border border-white/5">
           <div className="relative z-10 lg:grid lg:grid-cols-2 gap-24 items-center">
             <div className="space-y-10">
               <div className="flex items-center gap-3 text-primary">

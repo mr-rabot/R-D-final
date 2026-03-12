@@ -96,7 +96,7 @@ export function Testimonials() {
                 const img = PlaceHolderImages.find(i => i.id === t.image);
                 return (
                   <CarouselItem key={index} className="pl-4 basis-full md:basis-1/2 lg:basis-1/3">
-                    <div className="bg-white p-6 md:p-8 rounded-[24px] md:rounded-[32px] shadow-[0_10px_40px_rgba(0,0,0,0.04)] hover:shadow-xl transition-all duration-300 flex flex-col h-full border border-slate-100 group relative">
+                    <div className="bg-white p-6 md:p-8 rounded-[24px] md:rounded-[32px] shadow-2xl shadow-black/5 hover:shadow-black/10 transition-all duration-300 flex flex-col h-full border border-slate-100 group relative">
                       <div className="absolute top-6 right-8 opacity-5 group-hover:opacity-10 transition-opacity">
                         <Quote className="h-8 md:h-12 w-8 md:w-12 text-accent" />
                       </div>
@@ -127,8 +127,8 @@ export function Testimonials() {
               })}
             </CarouselContent>
             <div className="flex justify-center mt-8 gap-4 md:block">
-              <CarouselPrevious className="static md:absolute md:-left-12 translate-y-0 bg-white border-slate-200 hover:bg-primary hover:text-white h-10 w-10 flex items-center justify-center rounded-full" />
-              <CarouselNext className="static md:absolute md:-right-12 translate-y-0 bg-white border-slate-200 hover:bg-primary hover:text-white h-10 w-10 flex items-center justify-center rounded-full" />
+              <CarouselPrevious className="static md:absolute md:-left-12 translate-y-0 bg-white border-slate-200 hover:bg-primary hover:text-white h-10 w-10 flex items-center justify-center rounded-full shadow-lg" />
+              <CarouselNext className="static md:absolute md:-right-12 translate-y-0 bg-white border-slate-200 hover:bg-primary hover:text-white h-10 w-10 flex items-center justify-center rounded-full shadow-lg" />
             </div>
           </Carousel>
         </div>

@@ -1,4 +1,3 @@
-
 "use client";
 
 import { Check, MessageSquare, Mail, Sparkles } from "lucide-react";
@@ -80,67 +79,68 @@ export function Pricing() {
           </p>
         </div>
 
-        {/* Pricing Grid - Forced 3 columns on large desktop view */}
+        {/* Pricing Grid - 3 columns in one row for desktop */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch pt-12">
           {plans.map((plan, index) => (
-            <Card 
-              key={index} 
-              className={cn(
-                "relative flex flex-col rounded-[40px] transition-all duration-700 group animate-in fade-in slide-in-from-bottom-8",
-                plan.highlight 
-                  ? "border-primary border-2 shadow-[0_30px_60px_rgba(0,71,255,0.1)] z-10 bg-white scale-105" 
-                  : "border-slate-100 shadow-[0_15px_30px_rgba(0,0,0,0.02)] bg-white hover:shadow-xl hover:-translate-y-1"
-              )}
-              style={{ animationDelay: `${index * 150}ms` }}
-            >
-              {plan.highlight && plan.badge && (
-                <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-30">
-                  <Badge className="bg-primary text-white px-6 py-2 rounded-full shadow-2xl text-[10px] font-bold whitespace-nowrap border-none uppercase tracking-widest ring-4 ring-white">
-                    {plan.badge}
-                  </Badge>
-                </div>
-              )}
-              
-              <CardHeader className="text-center pt-12 px-8">
-                <CardTitle className="text-2xl font-headline font-bold text-accent group-hover:text-primary transition-colors">{plan.name}</CardTitle>
-                <div className="h-1 w-10 bg-primary/20 mx-auto mt-3 rounded-full group-hover:w-20 transition-all duration-500" />
-                <p className="text-sm text-slate-500 mt-5 leading-relaxed font-light min-h-[50px]">{plan.description}</p>
-              </CardHeader>
-              
-              <CardContent className="flex-grow px-8 pt-8 border-t border-slate-50">
-                <ul className="space-y-4">
-                  {plan.features.map((feature, i) => (
-                    <li key={i} className="flex items-start gap-3 text-sm text-slate-600 font-medium">
-                      <div className="rounded-full bg-primary/10 p-1 shrink-0 mt-0.5 group-hover:bg-primary group-hover:text-white transition-all duration-300">
-                        <Check className="h-3 w-3" />
-                      </div>
-                      <span className="leading-snug">{feature}</span>
-                    </li>
-                  ))}
-                </ul>
-              </CardContent>
-              
-              <CardFooter className="p-8 flex flex-col gap-3 bg-slate-50/30 rounded-b-[40px] group-hover:bg-white transition-colors">
-                <Button 
-                  onClick={() => handleWhatsAppQuote(plan.name)}
-                  variant={plan.highlight ? "default" : "outline"} 
-                  className={cn(
-                    "w-full h-14 rounded-2xl font-bold transition-all text-base flex gap-2 shadow-lg active:scale-95",
-                    plan.highlight 
-                      ? "bg-primary hover:bg-blue-600 text-white shadow-primary/20" 
-                      : "border-slate-200 text-accent hover:bg-slate-50 hover:border-primary"
-                  )}
-                >
-                  <MessageSquare className="h-5 w-5" /> Get Quote
-                </Button>
-                <button 
-                  onClick={() => handleEmailQuote(plan.name)}
-                  className="text-slate-400 hover:text-primary transition-colors text-[9px] font-bold uppercase tracking-[0.2em] flex items-center justify-center gap-2 mt-1"
-                >
-                  <Mail className="h-3 w-3" /> Request via Email
-                </button>
-              </CardFooter>
-            </Card>
+            <div key={index} className="relative flex">
+              <Card 
+                className={cn(
+                  "relative flex flex-col rounded-[40px] transition-all duration-700 group animate-in fade-in slide-in-from-bottom-8 w-full",
+                  plan.highlight 
+                    ? "border-primary border-2 shadow-2xl shadow-primary/20 z-10 bg-white scale-105" 
+                    : "border-slate-100 shadow-xl shadow-black/5 bg-white hover:shadow-2xl hover:shadow-black/10 hover:-translate-y-1"
+                )}
+                style={{ animationDelay: `${index * 150}ms` }}
+              >
+                {plan.highlight && plan.badge && (
+                  <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-[30]">
+                    <Badge className="bg-primary text-white px-6 py-2 rounded-full shadow-2xl text-[10px] font-bold whitespace-nowrap border-none uppercase tracking-widest ring-4 ring-white">
+                      {plan.badge}
+                    </Badge>
+                  </div>
+                )}
+                
+                <CardHeader className="text-center pt-12 px-8">
+                  <CardTitle className="text-2xl font-headline font-bold text-accent group-hover:text-primary transition-colors">{plan.name}</CardTitle>
+                  <div className="h-1 w-10 bg-primary/20 mx-auto mt-3 rounded-full group-hover:w-20 transition-all duration-500" />
+                  <p className="text-sm text-slate-500 mt-5 leading-relaxed font-light min-h-[50px]">{plan.description}</p>
+                </CardHeader>
+                
+                <CardContent className="flex-grow px-8 pt-8 border-t border-slate-50">
+                  <ul className="space-y-4">
+                    {plan.features.map((feature, i) => (
+                      <li key={i} className="flex items-start gap-3 text-sm text-slate-600 font-medium">
+                        <div className="rounded-full bg-primary/10 p-1 shrink-0 mt-0.5 group-hover:bg-primary group-hover:text-white transition-all duration-300">
+                          <Check className="h-3 w-3" />
+                        </div>
+                        <span className="leading-snug">{feature}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </CardContent>
+                
+                <CardFooter className="p-8 flex flex-col gap-3 bg-slate-50/30 rounded-b-[40px] group-hover:bg-white transition-colors">
+                  <Button 
+                    onClick={() => handleWhatsAppQuote(plan.name)}
+                    variant={plan.highlight ? "default" : "outline"} 
+                    className={cn(
+                      "w-full h-14 rounded-2xl font-bold transition-all text-base flex gap-2 shadow-lg active:scale-95",
+                      plan.highlight 
+                        ? "bg-primary hover:bg-blue-600 text-white shadow-primary/20" 
+                        : "border-slate-200 text-accent hover:bg-slate-50 hover:border-primary"
+                    )}
+                  >
+                    <MessageSquare className="h-5 w-5" /> Get Quote
+                  </Button>
+                  <button 
+                    onClick={() => handleEmailQuote(plan.name)}
+                    className="text-slate-400 hover:text-primary transition-colors text-[9px] font-bold uppercase tracking-[0.2em] flex items-center justify-center gap-2 mt-1"
+                  >
+                    <Mail className="h-3 w-3" /> Request via Email
+                  </button>
+                </CardFooter>
+              </Card>
+            </div>
           ))}
         </div>
 

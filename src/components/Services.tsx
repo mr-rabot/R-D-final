@@ -93,7 +93,7 @@ export function Services() {
           {trustIndicators.map((item, i) => (
             <div key={i} className="flex flex-col items-center gap-6 text-center group animate-in fade-in slide-in-from-bottom-4 duration-700" style={{ animationDelay: `${i * 100}ms` }}>
               <div className={cn(
-                "p-6 rounded-[24px] shadow-lg transition-all duration-500 group-hover:-translate-y-2 group-hover:shadow-2xl",
+                "p-6 rounded-[24px] shadow-xl transition-all duration-500 group-hover:-translate-y-2 group-hover:shadow-2xl group-hover:shadow-primary/10",
                 item.bg, item.color
               )}>
                 <item.icon className="h-8 w-8" />
@@ -129,7 +129,7 @@ export function Services() {
                 const Icon = service.icon;
                 return (
                   <CarouselItem key={index} className="pl-4 md:pl-8 basis-full md:basis-1/2 lg:basis-1/3">
-                    <Card className="border-none shadow-[0_15px_45px_rgba(0,0,0,0.03)] hover:shadow-2xl hover:shadow-primary/10 transition-all duration-500 rounded-[40px] p-8 md:p-10 bg-white flex flex-col h-full group border-b-4 border-transparent hover:border-primary">
+                    <Card className="border-none shadow-2xl shadow-black/5 hover:shadow-primary/10 transition-all duration-500 rounded-[40px] p-8 md:p-10 bg-white flex flex-col h-full group border-b-4 border-transparent hover:border-primary">
                       <CardHeader className="p-0 mb-8">
                         <div className="bg-primary/5 w-16 h-16 rounded-[22px] flex items-center justify-center text-primary mb-8 transition-all duration-500 group-hover:bg-primary group-hover:text-white group-hover:rotate-6">
                           <Icon className="h-8 w-8" />
