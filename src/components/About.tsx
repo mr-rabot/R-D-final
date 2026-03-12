@@ -36,6 +36,7 @@ export function About() {
   return (
     <section id="about" className="py-32 bg-white overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Leadership Section */}
         <div className="grid lg:grid-cols-2 gap-24 items-center mb-40">
           <div className="relative flex flex-col items-center animate-in fade-in slide-in-from-left-8 duration-1000">
             {/* Perfectly circular headshot */}
@@ -51,7 +52,7 @@ export function About() {
             </div>
             
             {/* Minimalist Name and Designation - CLEAN TEXT NO BOX */}
-            <div className="mt-6 text-center space-y-1">
+            <div className="mt-8 text-center space-y-2">
               <h3 className="text-3xl md:text-5xl font-headline font-bold text-slate-900 leading-tight">
                 {founder?.name || "Om Prakash Sinha"}
               </h3>
@@ -70,22 +71,22 @@ export function About() {
           <div className="space-y-10 text-center lg:text-left mt-16 lg:mt-0 animate-in fade-in slide-in-from-right-8 duration-1000">
             <div className="space-y-6">
               <div className="inline-flex items-center gap-3 bg-primary/10 text-primary text-[10px] uppercase tracking-[0.3em] font-bold px-6 py-2.5 rounded-full mx-auto lg:mx-0 shadow-sm">
-                Strategic Leadership
+                Strategic Guidance
               </div>
-              <h2 className="text-5xl md:text-7xl font-headline font-bold text-accent leading-tight">Elite Academic <br />Guidance</h2>
-              <p className="text-xl text-primary font-bold">Directing Excellence at R & D Services Pvt. Ltd.</p>
+              <h2 className="text-5xl md:text-7xl font-headline font-bold text-accent leading-tight">Scholarly <br />Success</h2>
+              <p className="text-xl text-primary font-bold">Bridging Innovation with High-Impact Publishing</p>
             </div>
 
             <p className="text-slate-600 leading-relaxed text-lg md:text-xl font-light max-w-2xl mx-auto lg:mx-0">
-              Under the visionary leadership of **{founder?.name || "Om Prakash Sinha"}**, our firm has set the global benchmark for academic research support, delivering unparalleled quality with absolute integrity.
+              Under the expert stewardship of **{founder?.name || "Om Prakash Sinha"}**, our firm provides the precision and integrity required to navigate the complexities of global academic standards.
             </p>
 
             <div className="grid sm:grid-cols-2 gap-6 md:gap-8">
               {[
-                { icon: GraduationCap, label: "Academic Excellence", desc: "Elite research guidance" },
-                { icon: BookOpen, label: "Global Publishing", desc: "Peer-reviewed success" },
-                { icon: Award, label: "Strategic Leadership", desc: "Operations Director" },
-                { icon: Search, label: "Methodology Expert", desc: "Research design lead" }
+                { icon: GraduationCap, label: "Academic Integrity", desc: "100% original research" },
+                { icon: BookOpen, label: "Global Standards", desc: "Peer-reviewed excellence" },
+                { icon: Award, label: "Expert Oversight", desc: "Directing quality control" },
+                { icon: Search, label: "Methodology First", desc: "Rigorous research design" }
               ].map((item, i) => (
                 <div key={i} className="flex items-center gap-6 p-6 rounded-[24px] bg-slate-50 hover:bg-white hover:shadow-xl transition-all duration-500 border border-transparent hover:border-slate-100 group">
                   <div className="bg-primary/10 p-4 rounded-2xl text-primary shrink-0 transition-transform group-hover:rotate-12">
@@ -108,7 +109,7 @@ export function About() {
                 size="lg" 
                 className="w-full sm:w-auto rounded-2xl px-12 h-16 bg-accent hover:bg-slate-900 text-white font-bold transition-all shadow-[0_20px_40px_rgba(0,0,0,0.2)] hover:-translate-y-1 active:scale-95 text-lg"
               >
-                Connect with Leadership
+                Inquire with Leadership
               </Button>
             </div>
           </div>
@@ -120,14 +121,21 @@ export function About() {
             <div className="space-y-10 text-center lg:text-left">
               <div className="flex items-center justify-center lg:justify-start gap-3 text-primary mb-2">
                   <Globe className="h-5 w-5" />
-                  <span className="text-[10px] uppercase tracking-[0.4em] font-bold text-blue-300">Our Firm Today</span>
+                  <span className="text-[10px] uppercase tracking-[0.4em] font-bold text-blue-300">R&D Services Pvt. Ltd.</span>
                 </div>
                 <h3 className="text-4xl md:text-6xl font-headline font-bold leading-tight">
-                  {firmData?.title || "R&D Services: A Global Legacy"}
+                  {firmData?.title || "Bridging the Gap to Academic Excellence"}
                 </h3>
-                <p className="text-blue-100/60 leading-relaxed text-lg md:text-xl font-light">
-                  {firmData?.description || "R & D Services Pvt. Ltd. is a premier academic consulting firm dedicated to bridging the gap between innovative research and high-impact publishing."}
-                </p>
+                
+                {/* Firm Summary Paragraph */}
+                <div className="space-y-6">
+                  <p className="text-blue-100/80 leading-relaxed text-lg md:text-xl font-light italic border-l-4 border-primary pl-6">
+                    {firmData?.description || "R & D Services Pvt. Ltd. is a premier academic consulting firm dedicated to transforming complex research into scholarly legacies. We combine systematic methodology with global publishing standards to ensure every manuscript achieves its maximum potential."}
+                  </p>
+                  <p className="text-blue-100/60 text-sm md:text-base leading-relaxed max-w-xl">
+                    Our firm operates on the principles of academic rigor and absolute confidentiality, providing a trusted platform for researchers across 40+ countries to refine their contributions to science and the humanities.
+                  </p>
+                </div>
                 
                 <div className="grid grid-cols-2 gap-12 justify-items-center lg:justify-items-start pt-6">
                   {(firmData?.stats || [
@@ -150,8 +158,8 @@ export function About() {
                     <Share2 className="h-6 w-6 text-white" />
                   </div>
                   <div className="text-center sm:text-left">
-                    <div className="font-bold text-lg mb-1">Global Research Network</div>
-                    <div className="text-[10px] uppercase tracking-widest text-blue-300/60 font-bold">Connecting 40+ countries</div>
+                    <div className="font-bold text-lg mb-1">International Research Network</div>
+                    <div className="text-[10px] uppercase tracking-widest text-blue-300/60 font-bold">Trusted by Scholars Worldwide</div>
                   </div>
                 </div>
             </div>
