@@ -5,7 +5,6 @@ import { HowItWorks } from "@/components/HowItWorks";
 import { Services } from "@/components/Services";
 import { Pricing } from "@/components/Pricing";
 import { About } from "@/components/About";
-import { Blog } from "@/components/Blog";
 import { Testimonials } from "@/components/Testimonials";
 import { FAQ } from "@/components/FAQ";
 import { InquiryForm } from "@/components/InquiryForm";
@@ -19,7 +18,6 @@ export default function Home() {
       <HowItWorks />
       <Services />
       <About />
-      <Blog />
       <Pricing />
       <Testimonials />
       <FAQ />

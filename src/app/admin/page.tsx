@@ -8,7 +8,6 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { 
   LayoutDashboard, 
-  FileText, 
   MessageSquare, 
   Settings, 
   LogOut, 
@@ -106,7 +105,6 @@ export default function AdminDashboard() {
           {[
             { icon: LayoutDashboard, label: "Control Center", active: true },
             { icon: MessageSquare, label: "Client Inquiries", count: "12" },
-            { icon: FileText, label: "Manuscript Library" },
             { icon: Users, label: "Expert Network" },
             { icon: Bell, label: "System Alerts" },
             { icon: Settings, label: "Platform Config" },
@@ -144,7 +142,7 @@ export default function AdminDashboard() {
           <div className="flex items-center gap-4 w-full md:w-auto">
             <div className="relative flex-grow md:flex-grow-0">
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
-              <Input placeholder="Search manuscripts..." className="pl-12 w-full md:w-80 bg-white border-none shadow-sm rounded-2xl h-12" />
+              <Input placeholder="Search records..." className="pl-12 w-full md:w-80 bg-white border-none shadow-sm rounded-2xl h-12" />
             </div>
             <Button className="bg-primary rounded-2xl h-12 px-6 font-bold shadow-xl shadow-primary/20 hover:bg-primary/90 gap-2 whitespace-nowrap">
               <Plus className="h-5 w-5" /> New Initiative
@@ -175,7 +173,6 @@ export default function AdminDashboard() {
         <Tabs defaultValue="inquiries" className="space-y-8">
           <TabsList className="bg-white border-none rounded-[24px] w-full md:w-auto justify-start h-14 p-2 gap-2 shadow-sm">
             <TabsTrigger value="inquiries" className="data-[state=active]:bg-primary data-[state=active]:text-white rounded-2xl px-8 h-full font-bold text-sm">Recent Inquiries</TabsTrigger>
-            <TabsTrigger value="content" className="data-[state=active]:bg-primary data-[state=active]:text-white rounded-2xl px-8 h-full font-bold text-sm">Asset Management</TabsTrigger>
             <TabsTrigger value="network" className="data-[state=active]:bg-primary data-[state=active]:text-white rounded-2xl px-8 h-full font-bold text-sm">Expert Network</TabsTrigger>
           </TabsList>
 
@@ -218,47 +215,24 @@ export default function AdminDashboard() {
             </Card>
           </TabsContent>
 
-          <TabsContent value="content">
-            <div className="grid md:grid-cols-2 gap-8">
-              <Card className="border-none shadow-sm rounded-[32px] p-8 bg-white">
+          <TabsContent value="network">
+             <Card className="border-none shadow-sm rounded-[32px] p-8 bg-white">
                 <CardHeader className="px-0 pt-0 pb-8">
-                  <CardTitle className="text-2xl font-headline font-bold">Protocol Standards</CardTitle>
-                  <CardDescription className="text-slate-400 font-medium">Internal R&D guidelines and safety standards.</CardDescription>
+                  <CardTitle className="text-2xl font-headline font-bold">Expert Roster</CardTitle>
+                  <CardDescription className="text-slate-400 font-medium">Manage and assign PhD experts to active projects.</CardDescription>
                 </CardHeader>
                 <CardContent className="px-0 space-y-4">
-                  {["Phase 1 Verification", "Ethics Submission", "Data Integrity Guide", "Peer-Review Checklist"].map((page, i) => (
-                    <div key={i} className="flex justify-between items-center p-4 bg-slate-50 rounded-2xl group cursor-pointer hover:bg-slate-100 transition-all">
-                      <span className="text-sm font-bold text-slate-600 group-hover:text-accent">{page}</span>
-                      <Button size="sm" variant="ghost" className="rounded-xl font-bold text-xs text-primary">Edit</Button>
-                    </div>
-                  ))}
-                  <Button className="w-full bg-slate-100 hover:bg-slate-200 text-accent rounded-2xl h-12 font-bold border-none mt-4 shadow-none">
-                    View Master Repository
-                  </Button>
-                </CardContent>
-              </Card>
-
-              <Card className="border-none shadow-sm rounded-[32px] p-8 bg-white">
-                <CardHeader className="px-0 pt-0 pb-8">
-                  <CardTitle className="text-2xl font-headline font-bold">Manuscript Hub</CardTitle>
-                  <CardDescription className="text-slate-400 font-medium">Manage research papers and thesis archives.</CardDescription>
-                </CardHeader>
-                <CardContent className="px-0 space-y-4">
-                  {["Deep Learning Trends", "Nanotech Bio-Safety", "Sustainable Agronomy"].map((blog, i) => (
+                  {["Dr. Sarah Chen (Life Sciences)", "Dr. Marcus Thorne (Engineering)", "Dr. Elena Rossi (Social Sciences)"].map((expert, i) => (
                     <div key={i} className="flex justify-between items-center p-4 bg-slate-50 rounded-2xl">
-                      <span className="text-sm font-bold text-slate-600 truncate max-w-[200px]">{blog}</span>
-                      <div className="flex gap-2">
-                        <Button size="sm" variant="ghost" className="rounded-xl font-bold text-xs text-primary">Audit</Button>
-                        <Button size="sm" variant="ghost" className="rounded-xl font-bold text-xs text-red-500 hover:text-red-600 hover:bg-red-50">Archive</Button>
-                      </div>
+                      <span className="text-sm font-bold text-slate-600">{expert}</span>
+                      <Button size="sm" variant="ghost" className="rounded-xl font-bold text-xs text-primary">Assign Task</Button>
                     </div>
                   ))}
                   <Button className="w-full bg-accent hover:bg-slate-900 text-white rounded-2xl h-12 font-bold shadow-xl shadow-accent/20 mt-4">
-                    Create New Resource
+                    Onboard New Expert
                   </Button>
                 </CardContent>
               </Card>
-            </div>
           </TabsContent>
         </Tabs>
       </main>
