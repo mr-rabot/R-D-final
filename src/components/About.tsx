@@ -3,8 +3,7 @@
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
-import { Award, BookOpen, GraduationCap, Search, Share2, ShieldCheck, ChevronRight } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { Award, BookOpen, GraduationCap, Search, Share2, ShieldCheck } from "lucide-react";
 
 export function About() {
   const expertImg = PlaceHolderImages.find(img => img.id === "lead-expert");
@@ -15,8 +14,8 @@ export function About() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-24 items-center mb-40">
           <div className="relative flex flex-col items-center justify-center animate-in fade-in slide-in-from-left-8 duration-1000">
-            {/* Focused headshot focused only on the face */}
-            <div className="relative w-64 h-64 sm:w-80 sm:h-80 md:w-[450px] md:h-[450px] z-10 overflow-hidden rounded-[80px] md:rounded-[120px] shadow-[0_40px_80px_rgba(0,0,0,0.1)] border-[12px] md:border-[20px] border-slate-50 transition-transform duration-700 hover:rotate-3">
+            {/* Perfectly circular headshot */}
+            <div className="relative w-64 h-64 sm:w-80 sm:h-80 md:w-[480px] md:h-[480px] z-10 overflow-hidden rounded-full shadow-[0_40px_80px_rgba(0,0,0,0.15)] border-[12px] md:border-[24px] border-slate-50 transition-all duration-700 hover:scale-[1.02]">
               {expertImg?.imageUrl && (
                 <Image
                   src={expertImg.imageUrl}
@@ -27,12 +26,13 @@ export function About() {
                 />
               )}
             </div>
-            {/* Name and Designation Overlay */}
-            <div className="mt-10 lg:absolute lg:bottom-10 lg:right-[-40px] bg-accent p-8 md:p-10 rounded-[32px] shadow-[0_30px_60px_rgba(0,0,0,0.3)] text-white min-w-[280px] z-20 text-center border-4 border-white transform hover:scale-105 transition-all cursor-default">
-              <p className="text-xl md:text-2xl font-headline font-bold leading-tight">Om Prakash Sinha</p>
-              <p className="text-[10px] uppercase tracking-[0.3em] font-bold mt-2 text-blue-300">Founder & Director</p>
+            
+            {/* Connected Name and Designation Badge */}
+            <div className="mt-[-40px] lg:mt-0 lg:absolute lg:bottom-12 lg:-right-8 bg-accent p-8 md:p-10 rounded-[40px] shadow-[0_30px_60px_rgba(0,0,0,0.3)] text-white min-w-[300px] z-20 text-center border-8 border-white transform hover:scale-105 transition-all cursor-default">
+              <h3 className="text-2xl md:text-3xl font-headline font-bold leading-tight">Om Prakash Sinha</h3>
+              <p className="text-[11px] uppercase tracking-[0.4em] font-bold mt-2 text-primary">Founder & Director</p>
               <div className="mt-6 pt-6 border-t border-white/10 flex items-center justify-center gap-3">
-                <ShieldCheck className="h-5 w-5 text-blue-400" />
+                <ShieldCheck className="h-5 w-5 text-primary" />
                 <span className="text-[10px] uppercase font-bold tracking-widest text-blue-200/60">Verified Leadership</span>
               </div>
             </div>
