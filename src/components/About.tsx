@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useEffect, useState } from "react";
@@ -52,7 +51,7 @@ export function About() {
             </div>
             
             {/* Minimalist Name and Designation - CLEAN TEXT NO BOX */}
-            <div className="mt-10 text-center space-y-2">
+            <div className="mt-6 text-center space-y-1">
               <h3 className="text-3xl md:text-5xl font-headline font-bold text-slate-900 leading-tight">
                 {founder?.name || "Om Prakash Sinha"}
               </h3>

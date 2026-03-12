@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useForm } from "react-hook-form";
@@ -59,17 +58,6 @@ export function InquiryForm() {
             </div>
             
             <div className="space-y-8">
-              <div className="flex items-start gap-6">
-                <div className="bg-blue-100 p-3 rounded-xl text-primary">
-                  <User className="h-6 w-6" />
-                </div>
-                <div>
-                  <h4 className="font-bold text-accent text-lg">Leadership</h4>
-                  <p className="text-slate-600 font-bold">Om Prakash Sinha</p>
-                  <p className="text-xs uppercase text-slate-500">Founder & Director</p>
-                </div>
-              </div>
-
               <div className="flex items-start gap-6">
                 <div className="bg-blue-100 p-3 rounded-xl text-primary">
                   <Mail className="h-6 w-6" />
