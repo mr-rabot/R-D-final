@@ -1,6 +1,7 @@
+
 "use client";
 
-import { Check } from "lucide-react";
+import { Check, MessageSquare, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -11,6 +12,7 @@ const plans = [
     description: "Essential support for basic academic reports and standard research needs.",
     features: [
       "Project Report",
+      "PPT (PowerPoint Presentation)",
       "Basic Plagiarism Check",
       "Standard Research",
       "Academic Formatting",
@@ -51,6 +53,17 @@ const plans = [
 ];
 
 export function Pricing() {
+  const handleWhatsAppQuote = (planName: string) => {
+    const message = encodeURIComponent(`Hi R&D Services, I am interested in a quote for the ${planName} package for my research project. Could you please provide more details?`);
+    window.open(`https://wa.me/916209779365?text=${message}`, '_blank');
+  };
+
+  const handleEmailQuote = (planName: string) => {
+    const subject = encodeURIComponent(`Quote Request: ${planName} Package`);
+    const body = encodeURIComponent(`Hi R&D Services,\n\nI am interested in the ${planName} package for my research project. Please provide a quote and timeline.\n\nThank you.`);
+    window.location.href = `mailto:contact@rd-services.com?subject=${subject}&body=${body}`;
+  };
+
   return (
     <section id="pricing" className="py-24 bg-slate-50/30">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -58,7 +71,7 @@ export function Pricing() {
           <div className="inline-block bg-primary/10 text-primary text-[10px] uppercase tracking-widest font-bold px-4 py-1.5 rounded-full mb-2">
             Service Packages
           </div>
-          <h2 className="text-4xl md:text-5xl font-headline font-bold text-accent">Tailored Solutions</h2>
+          <h2 className="text-4xl md:text-5xl font-headline font-bold text-accent">Affordable Packages</h2>
           <p className="text-muted-foreground max-w-2xl mx-auto text-lg">
             Choose the package that aligns with your research goals and academic requirements.
           </p>
@@ -93,16 +106,24 @@ export function Pricing() {
                 </ul>
               </CardContent>
               
-              <CardFooter className="p-8">
+              <CardFooter className="p-8 flex flex-col gap-3">
                 <Button 
+                  onClick={() => handleWhatsAppQuote(plan.name)}
                   variant={plan.highlight ? "default" : "outline"} 
-                  className={`w-full h-14 rounded-xl font-bold transition-all text-lg ${
+                  className={`w-full h-14 rounded-xl font-bold transition-all text-lg flex gap-2 ${
                     plan.highlight 
                       ? 'bg-primary hover:bg-primary/90 text-white shadow-lg shadow-primary/20' 
                       : 'border-slate-200 text-accent hover:bg-slate-50'
                   }`}
                 >
-                  Get Quote
+                  <MessageSquare className="h-5 w-5" /> Get Quote via WhatsApp
+                </Button>
+                <Button 
+                  onClick={() => handleEmailQuote(plan.name)}
+                  variant="ghost" 
+                  className="w-full text-muted-foreground hover:text-primary transition-colors text-xs font-medium gap-2"
+                >
+                  <Mail className="h-3 w-3" /> Or request via Email
                 </Button>
               </CardFooter>
             </Card>

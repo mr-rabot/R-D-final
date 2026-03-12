@@ -2,7 +2,7 @@
 "use client";
 
 import Link from "next/link";
-import { Beaker, Menu, X, ChevronRight } from "lucide-react";
+import { Beaker, Menu, X, MessageSquare } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
@@ -13,9 +13,15 @@ export function Navbar() {
   const navLinks = [
     { name: "Services", href: "#services" },
     { name: "Pricing", href: "#pricing" },
+    { name: "About", href: "#about" },
     { name: "Testimonials", href: "#testimonials" },
     { name: "Contact", href: "#contact" },
   ];
+
+  const handleWhatsAppQuote = () => {
+    const message = encodeURIComponent("Hi R&D Services, I am visiting your website and would like to get a quote for a research project.");
+    window.open(`https://wa.me/916209779365?text=${message}`, '_blank');
+  };
 
   return (
     <nav className="glass-nav border-none shadow-sm h-24 flex items-center">
@@ -47,10 +53,8 @@ export function Navbar() {
                 {link.name}
               </Link>
             ))}
-            <Button asChild variant="default" size="lg" className="rounded-full shadow-xl bg-black hover:bg-black/90 text-white font-bold h-12 px-8">
-              <Link href="#contact" className="gap-2">
-                Get Quote <ChevronRight className="h-4 w-4" />
-              </Link>
+            <Button onClick={handleWhatsAppQuote} variant="default" size="lg" className="rounded-full shadow-xl bg-black hover:bg-black/90 text-white font-bold h-12 px-8 flex gap-2">
+              Get Quote <MessageSquare className="h-4 w-4" />
             </Button>
           </div>
 
@@ -83,10 +87,8 @@ export function Navbar() {
               {link.name}
             </Link>
           ))}
-          <Button asChild variant="default" className="w-full rounded-full bg-black h-12">
-            <Link href="#contact" onClick={() => setIsOpen(false)}>
-              Get Quote
-            </Link>
+          <Button onClick={() => { handleWhatsAppQuote(); setIsOpen(false); }} variant="default" className="w-full rounded-full bg-black h-12 flex gap-2">
+            Get Quote <MessageSquare className="h-4 w-4" />
           </Button>
         </div>
       </div>

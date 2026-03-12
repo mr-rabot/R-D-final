@@ -4,10 +4,19 @@
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
-import { Mail, Phone, Sparkles } from "lucide-react";
+import { Mail, MessageSquare, Sparkles } from "lucide-react";
 
 export function Hero() {
   const heroImage = PlaceHolderImages.find((img) => img.id === "hero-bg");
+
+  const handleWhatsAppQuote = () => {
+    const message = encodeURIComponent("Hi R&D Services, I'm interested in your research writing services. Can you help me with a project?");
+    window.open(`https://wa.me/916209779365?text=${message}`, '_blank');
+  };
+
+  const handleEmailQuote = () => {
+    window.location.href = "mailto:contact@rd-services.com?subject=Inquiry about Research Services&body=Hi R&D Services team, I would like to inquire about your academic writing services.";
+  };
 
   return (
     <section className="hero-gradient text-white pt-12 pb-20 md:pt-20 md:pb-32 overflow-hidden">
@@ -30,11 +39,20 @@ export function Hero() {
             </p>
             
             <div className="flex flex-col sm:flex-row items-center gap-4">
-              <Button size="lg" className="rounded-xl px-10 h-14 text-lg bg-white text-blue-700 hover:bg-blue-50 shadow-xl font-bold flex gap-2">
-                <Mail className="h-5 w-5" /> Get Started
+              <Button 
+                onClick={handleWhatsAppQuote}
+                size="lg" 
+                className="rounded-xl px-10 h-14 text-lg bg-white text-blue-700 hover:bg-blue-50 shadow-xl font-bold flex gap-2"
+              >
+                <MessageSquare className="h-5 w-5" /> Get Quote
               </Button>
-              <Button variant="outline" size="lg" className="rounded-xl px-10 h-14 text-lg border-2 border-white text-white hover:bg-white/10 font-bold bg-transparent flex gap-2">
-                <Phone className="h-5 w-5" /> Call Us Now
+              <Button 
+                onClick={handleEmailQuote}
+                variant="outline" 
+                size="lg" 
+                className="rounded-xl px-10 h-14 text-lg border-2 border-white text-white hover:bg-white/10 font-bold bg-transparent flex gap-2"
+              >
+                <Mail className="h-5 w-5" /> Email Us
               </Button>
             </div>
 
