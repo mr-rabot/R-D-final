@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useForm } from "react-hook-form";
@@ -46,12 +47,11 @@ export function InquiryForm() {
     
     const whatsappUrl = `https://wa.me/916209779365?text=${encodeURIComponent(messageText)}`;
     
-    // Attempt to open WhatsApp
     window.open(whatsappUrl, '_blank');
 
     toast({
-      title: "Inquiry Initialized",
-      description: "Redirecting to WhatsApp to send your details...",
+      title: "Inquiry Sent",
+      description: "Redirecting to WhatsApp to finalize your quote request...",
     });
     
     form.reset();
@@ -125,14 +125,16 @@ export function InquiryForm() {
 
             <div className="relative pt-8">
               {contactImage?.imageUrl ? (
-                <Image
-                  src={contactImage.imageUrl}
-                  alt={contactImage.description || "Library books"}
-                  width={500}
-                  height={300}
-                  className="rounded-[32px] shadow-lg object-cover w-full h-64 lg:h-80"
-                  data-ai-hint={contactImage.imageHint}
-                />
+                <div className="relative w-full h-64 lg:h-80 overflow-hidden rounded-[32px] shadow-2xl border border-slate-200">
+                  <Image
+                    src={contactImage.imageUrl}
+                    alt={contactImage.description || "Research analysis"}
+                    fill
+                    className="object-cover"
+                    data-ai-hint={contactImage.imageHint}
+                  />
+                  <div className="absolute inset-0 bg-primary/5 mix-blend-multiply" />
+                </div>
               ) : null}
             </div>
           </div>

@@ -21,9 +21,9 @@
     },
     {
       "id": "service-3",
-      "description": "Thesis and dissertation support",
-      "imageUrl": "https://picsum.photos/seed/acadeflow4/600/400",
-      "imageHint": "library books"
+      "description": "Academic research and data analysis",
+      "imageUrl": "https://picsum.photos/seed/researcher/800/600",
+      "imageHint": "research analysis"
     },
     {
       "id": "lead-expert",
@@ -33,9 +33,9 @@
     },
     {
       "id": "summary-img",
-      "description": "Visual summary of research and development process",
-      "imageUrl": "https://picsum.photos/seed/rdprocess/800/600",
-      "imageHint": "research development"
+      "description": "Visual summary of research process",
+      "imageUrl": "https://picsum.photos/seed/summary/800/600",
+      "imageHint": "research data"
     },
     {
       "id": "testimonial-1",
