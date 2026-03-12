@@ -12,7 +12,8 @@ import {
   Check, 
   ClipboardCheck, 
   Book,
-  FileSearch
+  FileSearch,
+  Presentation
 } from "lucide-react";
 
 const trustIndicators = [
@@ -54,6 +55,17 @@ const services = [
       "Statistical analysis support",
       "Literature synthesis",
       "Proofreading & editing"
+    ]
+  },
+  {
+    title: "Conference Papers",
+    description: "Professional preparation of papers for academic conferences and international symposiums.",
+    icon: Presentation,
+    features: [
+      "Abstract & full paper drafting",
+      "Conference-specific formatting",
+      "Poster presentation support",
+      "Peer-review preparation"
     ]
   },
   {
