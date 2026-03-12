@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useEffect, useState } from "react";
@@ -45,10 +46,10 @@ export function About() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Leadership Profile Section */}
-        <div className="grid lg:grid-cols-2 gap-20 items-center mb-40">
-          <div className="relative flex flex-col items-center animate-in fade-in slide-in-from-left-8 duration-1000">
+        <div className="flex flex-col items-center mb-40">
+          <div className="relative flex flex-col items-center animate-in fade-in slide-in-from-bottom-8 duration-1000">
             {/* Circular Headshot */}
-            <div className="relative w-72 h-72 sm:w-80 sm:h-80 md:w-[450px] md:h-[450px] z-10 overflow-hidden rounded-full shadow-[0_40px_80px_rgba(0,71,255,0.15)] border-[12px] md:border-[16px] border-white transition-all duration-700 hover:scale-[1.02]">
+            <div className="relative w-72 h-72 sm:w-80 sm:h-80 md:w-[450px] md:h-[450px] z-10 overflow-hidden rounded-full shadow-[0_40px_80px_rgba(0,71,255,0.15)] border-[12px] md:border-[16px] border-white transition-all duration-700 hover:scale-[1.02] bg-slate-50">
               {founder?.image ? (
                 <Image
                   src={founder.image}
@@ -64,11 +65,11 @@ export function About() {
             </div>
             
             {/* Center-aligned Name and Designation */}
-            <div className="mt-12 text-center">
+            <div className="mt-12 text-center max-w-2xl">
               <h3 className="text-4xl md:text-5xl font-headline font-bold text-slate-900 tracking-tight mb-3">
                 {founder?.name || "Om Prakash Sinha"}
               </h3>
-              <div className="space-y-1">
+              <div className="space-y-1 mb-10">
                 <p className="text-[11px] md:text-[13px] uppercase tracking-[0.4em] font-bold text-primary/80">
                   {founder?.role || "Founder & Director"}
                 </p>
@@ -76,58 +77,51 @@ export function About() {
                   R & D Services Pvt. Ltd.
                 </p>
               </div>
+
+              <div className="space-y-8 flex flex-col items-center">
+                <h2 className="text-5xl md:text-7xl font-headline font-bold text-accent leading-[0.95] tracking-tight mb-6">
+                  Precision <br />
+                  <span className="text-primary/90 italic text-4xl md:text-6xl">in Research</span>
+                </h2>
+                <div className="max-w-2xl mx-auto border-t border-slate-100 pt-8 mt-4">
+                  <p className="text-xl md:text-2xl text-slate-600 font-light leading-relaxed text-center italic">
+                    Under the expert guidance of <span className="font-semibold text-accent">{founder?.name || "Om Prakash Sinha"}</span>, we provide the rigorous methodology and academic integrity required for success in global publishing.
+                  </p>
+                </div>
+              </div>
             </div>
             
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[110%] h-[110%] bg-primary/5 rounded-full blur-[120px] -z-10" />
           </div>
 
-          <div className="space-y-12 text-center animate-in fade-in slide-in-from-right-8 duration-1000">
-            <div className="space-y-8 flex flex-col items-center">
-              <div className="inline-flex items-center gap-3 bg-primary/10 text-primary text-[10px] uppercase tracking-[0.4em] font-bold px-6 py-2.5 rounded-full shadow-sm border border-primary/20">
-                Academic Stewardship
-              </div>
-              <h2 className="text-6xl md:text-8xl font-headline font-bold text-accent leading-[0.95] tracking-tight">
-                Precision <br />
-                <span className="text-primary/90 italic">in Research</span>
-              </h2>
-              <div className="max-w-xl mx-auto border-y border-slate-100 py-10 my-4">
-                <p className="text-xl md:text-2xl text-slate-600 font-light leading-relaxed">
-                  Under the expert guidance of <span className="font-semibold text-accent">{founder?.name || "Om Prakash Sinha"}</span>, we provide the rigorous methodology and academic integrity required for success in global publishing.
-                </p>
-              </div>
-            </div>
-
-            <div className="grid sm:grid-cols-2 gap-6 pt-4 max-w-2xl mx-auto">
-              {[
-                { icon: ShieldCheck, label: "Ethical Integrity", desc: "Plagiarism-free guarantee" },
-                { icon: Zap, label: "Rapid Synthesis", desc: "Expert literature review" },
-                { icon: Briefcase, label: "Research Legacy", desc: "500+ Initiatives" },
-                { icon: GraduationCap, label: "PhD Support", desc: "Thesis & Dissertation" }
-              ].map((item, i) => (
-                <div key={i} className="flex items-center gap-5 p-6 rounded-[28px] bg-slate-50 border border-slate-100 hover:border-primary/20 hover:bg-white hover:shadow-2xl hover:shadow-primary/5 transition-all duration-500 group">
-                  <div className="bg-primary/5 p-4 rounded-2xl text-primary shrink-0 transition-transform group-hover:scale-110">
-                    <item.icon className="h-6 w-6" />
-                  </div>
-                  <div className="text-left">
-                    <h4 className="font-bold text-accent text-sm mb-0.5">{item.label}</h4>
-                    <p className="text-[10px] text-slate-400 uppercase font-bold tracking-widest">{item.desc}</p>
-                  </div>
+          <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-6 pt-16 w-full">
+            {[
+              { icon: ShieldCheck, label: "Ethical Integrity", desc: "Plagiarism-free" },
+              { icon: Zap, label: "Rapid Synthesis", desc: "Expert literature" },
+              { icon: Briefcase, label: "Research Legacy", desc: "500+ Initiatives" },
+              { icon: GraduationCap, label: "PhD Support", desc: "Thesis Guidance" }
+            ].map((item, i) => (
+              <div key={i} className="flex flex-col items-center text-center p-8 rounded-[32px] bg-slate-50/50 border border-slate-100 hover:border-primary/20 hover:bg-white hover:shadow-2xl hover:shadow-primary/5 transition-all duration-500 group">
+                <div className="bg-primary/5 p-4 rounded-2xl text-primary mb-4 transition-transform group-hover:scale-110">
+                  <item.icon className="h-6 w-6" />
                 </div>
-              ))}
-            </div>
+                <h4 className="font-bold text-accent text-sm mb-1">{item.label}</h4>
+                <p className="text-[9px] text-slate-400 uppercase font-bold tracking-widest">{item.desc}</p>
+              </div>
+            ))}
+          </div>
 
-            <div className="pt-8">
-              <Button 
-                onClick={() => {
-                  const el = document.getElementById('contact');
-                  if (el) el.scrollIntoView({ behavior: 'smooth' });
-                }}
-                size="lg" 
-                className="w-full sm:w-auto rounded-2xl px-12 h-16 bg-accent hover:bg-slate-900 text-white font-bold transition-all shadow-xl hover:-translate-y-1 active:scale-95"
-              >
-                Consult with Leadership
-              </Button>
-            </div>
+          <div className="pt-12">
+            <Button 
+              onClick={() => {
+                const el = document.getElementById('contact');
+                if (el) el.scrollIntoView({ behavior: 'smooth' });
+              }}
+              size="lg" 
+              className="rounded-2xl px-12 h-16 bg-accent hover:bg-slate-900 text-white font-bold transition-all shadow-xl hover:-translate-y-1 active:scale-95"
+            >
+              Consult with Leadership
+            </Button>
           </div>
         </div>
 
