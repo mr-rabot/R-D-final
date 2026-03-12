@@ -79,38 +79,39 @@ export function Pricing() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12 items-stretch">
+        {/* Pricing Grid - Forced 3 columns on large screens to keep them in one line */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 items-stretch">
           {plans.map((plan, index) => (
             <Card 
               key={index} 
               className={cn(
-                "relative flex flex-col rounded-[48px] overflow-hidden transition-all duration-700 group animate-in fade-in slide-in-from-bottom-8",
+                "relative flex flex-col rounded-[40px] overflow-hidden transition-all duration-700 group animate-in fade-in slide-in-from-bottom-8",
                 plan.highlight 
-                  ? "border-primary border-4 shadow-[0_40px_80px_rgba(0,71,255,0.15)] lg:scale-105 z-10 bg-white" 
-                  : "border-slate-100 shadow-[0_20px_40px_rgba(0,0,0,0.03)] bg-white hover:shadow-2xl hover:-translate-y-2"
+                  ? "border-primary border-2 shadow-[0_30px_60px_rgba(0,71,255,0.1)] z-10 bg-white" 
+                  : "border-slate-100 shadow-[0_15px_30px_rgba(0,0,0,0.02)] bg-white hover:shadow-xl hover:-translate-y-1"
               )}
               style={{ animationDelay: `${index * 150}ms` }}
             >
               {plan.highlight && plan.badge && (
                 <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20">
-                  <Badge className="bg-primary text-white px-8 py-2.5 rounded-full shadow-2xl text-[10px] font-bold whitespace-nowrap border-none uppercase tracking-widest animate-pulse">
+                  <Badge className="bg-primary text-white px-6 py-2 rounded-full shadow-2xl text-[9px] font-bold whitespace-nowrap border-none uppercase tracking-widest animate-pulse">
                     {plan.badge}
                   </Badge>
                 </div>
               )}
               
-              <CardHeader className="text-center pt-16 px-10">
-                <CardTitle className="text-3xl font-headline font-bold text-accent group-hover:text-primary transition-colors">{plan.name}</CardTitle>
-                <div className="h-1 w-12 bg-primary/20 mx-auto mt-4 rounded-full group-hover:w-24 transition-all duration-500" />
-                <p className="text-base text-slate-500 mt-6 leading-relaxed font-light min-h-[60px]">{plan.description}</p>
+              <CardHeader className="text-center pt-12 px-8">
+                <CardTitle className="text-2xl font-headline font-bold text-accent group-hover:text-primary transition-colors">{plan.name}</CardTitle>
+                <div className="h-1 w-10 bg-primary/20 mx-auto mt-3 rounded-full group-hover:w-20 transition-all duration-500" />
+                <p className="text-sm text-slate-500 mt-5 leading-relaxed font-light min-h-[50px]">{plan.description}</p>
               </CardHeader>
               
-              <CardContent className="flex-grow px-10 pt-10 border-t border-slate-50">
-                <ul className="space-y-5">
+              <CardContent className="flex-grow px-8 pt-8 border-t border-slate-50">
+                <ul className="space-y-4">
                   {plan.features.map((feature, i) => (
-                    <li key={i} className="flex items-start gap-4 text-sm md:text-base text-slate-600 font-medium">
-                      <div className="rounded-full bg-primary/10 p-1.5 shrink-0 mt-0.5 group-hover:bg-primary group-hover:text-white transition-all duration-300">
-                        <Check className="h-3.5 w-3.5" />
+                    <li key={i} className="flex items-start gap-3 text-sm text-slate-600 font-medium">
+                      <div className="rounded-full bg-primary/10 p-1 shrink-0 mt-0.5 group-hover:bg-primary group-hover:text-white transition-all duration-300">
+                        <Check className="h-3 w-3" />
                       </div>
                       <span className="leading-snug">{feature}</span>
                     </li>
@@ -118,24 +119,24 @@ export function Pricing() {
                 </ul>
               </CardContent>
               
-              <CardFooter className="p-10 flex flex-col gap-4 bg-slate-50/30 group-hover:bg-white transition-colors">
+              <CardFooter className="p-8 flex flex-col gap-3 bg-slate-50/30 group-hover:bg-white transition-colors">
                 <Button 
                   onClick={() => handleWhatsAppQuote(plan.name)}
                   variant={plan.highlight ? "default" : "outline"} 
                   className={cn(
-                    "w-full h-16 rounded-[22px] font-bold transition-all text-lg flex gap-3 shadow-xl active:scale-95",
+                    "w-full h-14 rounded-2xl font-bold transition-all text-base flex gap-2 shadow-lg active:scale-95",
                     plan.highlight 
                       ? "bg-primary hover:bg-blue-600 text-white shadow-primary/20" 
                       : "border-slate-200 text-accent hover:bg-slate-50 hover:border-primary"
                   )}
                 >
-                  <MessageSquare className="h-6 w-6" /> Get Quote
+                  <MessageSquare className="h-5 w-5" /> Get Quote
                 </Button>
                 <button 
                   onClick={() => handleEmailQuote(plan.name)}
-                  className="text-slate-400 hover:text-primary transition-colors text-[10px] font-bold uppercase tracking-[0.2em] flex items-center justify-center gap-2 mt-2"
+                  className="text-slate-400 hover:text-primary transition-colors text-[9px] font-bold uppercase tracking-[0.2em] flex items-center justify-center gap-2 mt-1"
                 >
-                  <Mail className="h-4 w-4" /> Request via Email
+                  <Mail className="h-3 w-3" /> Request via Email
                 </button>
               </CardFooter>
             </Card>
@@ -143,15 +144,15 @@ export function Pricing() {
         </div>
 
         {/* Custom Project Note */}
-        <div className="mt-20 text-center animate-in fade-in duration-1000 delay-500">
-          <p className="text-slate-400 text-sm font-medium italic">
+        <div className="mt-16 text-center animate-in fade-in duration-1000 delay-500">
+          <p className="text-slate-400 text-xs font-medium italic">
             * Have a specific or multi-disciplinary project? 
             <button 
               onClick={() => {
                 const el = document.getElementById('contact');
                 if (el) el.scrollIntoView({ behavior: 'smooth' });
               }}
-              className="text-primary font-bold ml-2 underline hover:text-blue-600 transition-colors"
+              className="text-primary font-bold ml-1 underline hover:text-blue-600 transition-colors"
             >
               Contact us for a tailored solution
             </button>

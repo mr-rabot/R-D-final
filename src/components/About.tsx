@@ -14,8 +14,8 @@ export function About() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-24 items-center mb-40">
           <div className="relative flex flex-col items-center justify-center animate-in fade-in slide-in-from-left-8 duration-1000">
-            {/* Perfectly circular headshot */}
-            <div className="relative w-64 h-64 sm:w-80 sm:h-80 md:w-[480px] md:h-[480px] z-10 overflow-hidden rounded-full shadow-[0_40px_80px_rgba(0,0,0,0.15)] border-[12px] md:border-[24px] border-slate-50 transition-all duration-700 hover:scale-[1.02]">
+            {/* Perfectly circular headshot with thick professional border */}
+            <div className="relative w-72 h-72 sm:w-80 sm:h-80 md:w-[480px] md:h-[480px] z-10 overflow-hidden rounded-full shadow-[0_40px_80px_rgba(0,0,0,0.1)] border-[16px] md:border-[24px] border-slate-50 transition-all duration-700 hover:scale-[1.01]">
               {expertImg?.imageUrl && (
                 <Image
                   src={expertImg.imageUrl}
@@ -27,13 +27,13 @@ export function About() {
               )}
             </div>
             
-            {/* Connected Name and Designation Badge */}
-            <div className="mt-[-40px] lg:mt-0 lg:absolute lg:bottom-12 lg:-right-8 bg-accent p-8 md:p-10 rounded-[40px] shadow-[0_30px_60px_rgba(0,0,0,0.3)] text-white min-w-[300px] z-20 text-center border-8 border-white transform hover:scale-105 transition-all cursor-default">
+            {/* Connected Name and Designation Badge - Overlapping the circle */}
+            <div className="mt-[-60px] lg:mt-0 lg:absolute lg:bottom-16 lg:-right-4 bg-accent p-8 md:p-10 rounded-[40px] shadow-[0_30px_60px_rgba(0,0,0,0.25)] text-white min-w-[320px] z-20 text-center border-[6px] border-white transform hover:scale-105 transition-all cursor-default animate-in zoom-in duration-700 delay-300">
               <h3 className="text-2xl md:text-3xl font-headline font-bold leading-tight">Om Prakash Sinha</h3>
-              <p className="text-[11px] uppercase tracking-[0.4em] font-bold mt-2 text-primary">Founder & Director</p>
+              <p className="text-[10px] uppercase tracking-[0.4em] font-bold mt-2 text-primary">Founder & Director</p>
               <div className="mt-6 pt-6 border-t border-white/10 flex items-center justify-center gap-3">
                 <ShieldCheck className="h-5 w-5 text-primary" />
-                <span className="text-[10px] uppercase font-bold tracking-widest text-blue-200/60">Verified Leadership</span>
+                <span className="text-[10px] uppercase font-bold tracking-widest text-blue-200/60">Verified Identity</span>
               </div>
             </div>
             
@@ -43,7 +43,7 @@ export function About() {
           <div className="space-y-10 text-center lg:text-left mt-16 lg:mt-0 animate-in fade-in slide-in-from-right-8 duration-1000">
             <div className="space-y-6">
               <div className="inline-flex items-center gap-3 bg-primary/10 text-primary text-[10px] uppercase tracking-[0.3em] font-bold px-6 py-2.5 rounded-full mx-auto lg:mx-0 shadow-sm">
-                Visionary Leadership
+                Strategic Leadership
               </div>
               <h2 className="text-5xl md:text-7xl font-headline font-bold text-accent leading-tight">Elite Academic <br />Guidance</h2>
               <p className="text-xl text-primary font-bold">Directing Excellence at R & D Services Pvt. Ltd.</p>
