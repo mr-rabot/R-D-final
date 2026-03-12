@@ -1,4 +1,3 @@
-
 {
   "hero": {
     "badge": "Premier Research Excellence",
@@ -18,13 +17,13 @@
         "value": "24/7"
       }
     ],
-    "image": "https://picsum.photos/seed/acadeflow1/1200/800"
+    "image": "/images/hero_image_1773330358980.jpg"
   },
   "leadership": {
     "founder": {
       "name": "Om Prakash Sinha",
       "role": "Founder & Director",
-      "image": "https://picsum.photos/seed/opsinha-face/600/600"
+      "image": "/images/leadership_founder_image_1773330439700.jpg"
     },
     "coFounder": {
       "name": "Dr. Anjali Sinha",
@@ -45,7 +44,7 @@
         "value": "120+"
       }
     ],
-    "image": "https://picsum.photos/seed/summary/800/600"
+    "image": "/images/firmsummary_image_1773330381812.jpg"
   },
   "services": [
     {

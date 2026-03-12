@@ -25,6 +25,7 @@ interface FirmData {
   title: string;
   description: string;
   stats: { label: string, value: string }[];
+  image?: string;
 }
 
 export function About() {
@@ -32,7 +33,7 @@ export function About() {
   const [firmData, setFirmData] = useState<FirmData | null>(null);
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
-  const summaryImg = PlaceHolderImages.find(img => img.id === "summary-img");
+  const placeholderSummary = PlaceHolderImages.find(img => img.id === "summary-img");
 
   useEffect(() => {
     fetch('/api/leadership', { cache: 'no-store' })
@@ -59,6 +60,8 @@ export function About() {
 
     return () => observer.disconnect();
   }, []);
+
+  const displaySummaryImage = firmData?.image || placeholderSummary?.imageUrl;
 
   return (
     <section id="about" ref={sectionRef} className="py-32 bg-white overflow-hidden">
@@ -208,14 +211,14 @@ export function About() {
             </div>
 
             <div className="relative mt-24 lg:mt-0">
-              {summaryImg?.imageUrl && (
-                <div className="relative aspect-[16/12] w-full overflow-hidden rounded-[50px] shadow-[0_40px_80px_rgba(0,0,0,0.6)] border border-white/10 group">
+              {displaySummaryImage && (
+                <div className="relative aspect-[16/12] w-full overflow-hidden rounded-[50px] shadow-[0_40px_80px_rgba(0,0,0,0.6)] border border-white/10 group bg-slate-800">
                   <Image
-                    src={summaryImg.imageUrl}
+                    src={displaySummaryImage}
                     alt="Research and Development Overview"
                     fill
                     className="object-cover grayscale hover:grayscale-0 transition-all duration-1000 group-hover:scale-105"
-                    data-ai-hint={summaryImg.imageHint}
+                    data-ai-hint={placeholderSummary?.imageHint || "research data"}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0a0f1c] via-transparent to-transparent opacity-60" />
                 </div>
