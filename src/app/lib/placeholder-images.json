@@ -1,4 +1,3 @@
-
 {
   "placeholderImages": [
     {
@@ -27,9 +26,9 @@
     },
     {
       "id": "lead-expert",
-      "description": "Om Prakash Sinha - Founder & Director",
-      "imageUrl": "https://picsum.photos/seed/founder/800/1000",
-      "imageHint": "professional man suit"
+      "description": "Om Prakash Sinha - Founder & Director (Young Professional Portrait)",
+      "imageUrl": "https://picsum.photos/seed/director-professional/800/800",
+      "imageHint": "professional man"
     },
     {
       "id": "summary-img",

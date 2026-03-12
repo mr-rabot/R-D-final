@@ -1,4 +1,3 @@
-
 "use client";
 
 import Image from "next/image";
@@ -15,18 +14,19 @@ export function About() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-16 items-center mb-32">
           <div className="relative">
-            <div className="aspect-[4/5] relative z-10 overflow-hidden rounded-[40px] shadow-2xl border-[12px] border-slate-50">
+            {/* Focused portrait as requested "add only face" */}
+            <div className="aspect-square relative z-10 overflow-hidden rounded-[40px] shadow-2xl border-[12px] border-slate-50 max-w-md mx-auto">
               {expertImg?.imageUrl && (
                 <Image
                   src={expertImg.imageUrl}
                   alt="Om Prakash Sinha"
                   fill
-                  className="object-cover"
-                  data-ai-hint={expertImg.imageHint}
+                  className="object-cover object-top scale-110"
+                  data-ai-hint="professional headshot"
                 />
               )}
             </div>
-            <div className="absolute -bottom-6 -right-6 bg-primary p-8 rounded-[32px] shadow-xl text-white max-w-xs z-20 hidden md:block">
+            <div className="absolute -bottom-6 -right-2 bg-primary p-8 rounded-[32px] shadow-xl text-white max-w-xs z-20 hidden md:block">
               <Quote className="h-8 w-8 mb-4 opacity-50 fill-current" />
               <p className="text-sm italic font-medium leading-relaxed">
                 "Our mission is to provide world-class academic support with absolute integrity and research excellence."
@@ -35,7 +35,7 @@ export function About() {
             <div className="absolute -top-10 -left-10 w-64 h-64 bg-primary/5 rounded-full blur-3xl -z-10" />
           </div>
 
-          <div className="space-y-8">
+          <div className="space-y-8 text-center lg:text-left">
             <div className="space-y-4">
               <div className="inline-flex items-center gap-2 bg-primary/10 text-primary text-[10px] uppercase tracking-widest font-bold px-4 py-1.5 rounded-full">
                 Leadership
@@ -45,7 +45,7 @@ export function About() {
             </div>
 
             <p className="text-slate-600 leading-relaxed text-lg">
-              Under the visionary leadership of Om Prakash Sinha, R & D Services Pvt. Ltd. has grown into a premier destination for academic research and professional publishing support, serving scholars globally with dedicated expertise and unwavering commitment to quality.
+              Under the visionary leadership of Om Prakash Sinha, R & D Services Pvt. Ltd. has grown into a premier destination for academic research and professional publishing support, serving scholars globally with dedicated expertise.
             </p>
 
             <div className="grid sm:grid-cols-2 gap-6">
@@ -56,10 +56,10 @@ export function About() {
                 { icon: Search, label: "Methodology Expert", desc: "Specialist in research design" }
               ].map((item, i) => (
                 <div key={i} className="flex items-start gap-4 p-4 rounded-2xl hover:bg-slate-50 transition-colors border border-transparent hover:border-slate-100">
-                  <div className="bg-primary/10 p-2 rounded-lg text-primary">
+                  <div className="bg-primary/10 p-2 rounded-lg text-primary shrink-0">
                     <item.icon className="h-5 w-5" />
                   </div>
-                  <div>
+                  <div className="text-left">
                     <h4 className="font-bold text-accent text-sm">{item.label}</h4>
                     <p className="text-xs text-slate-500">{item.desc}</p>
                   </div>
@@ -67,9 +67,11 @@ export function About() {
               ))}
             </div>
 
-            <Button size="lg" className="rounded-xl px-8 h-12 bg-black hover:bg-slate-900 text-white font-bold transition-all shadow-lg hover:shadow-black/20">
-              Our Journey & Vision
-            </Button>
+            <div className="pt-4">
+              <Button size="lg" className="rounded-xl px-8 h-12 bg-black hover:bg-slate-900 text-white font-bold transition-all shadow-lg hover:shadow-black/20">
+                Contact Founder
+              </Button>
+            </div>
           </div>
         </div>
 
@@ -78,7 +80,7 @@ export function About() {
             <div className="space-y-8">
               <h3 className="text-4xl font-headline font-bold">Research Impact & <br />Global Reach</h3>
               <p className="text-blue-100/80 leading-relaxed text-lg">
-                We don't just provide services; we build academic careers. Our systematic approach ensures your work meets the highest international standards of academic integrity and impact.
+                We build academic careers. Our systematic approach ensures your work meets the highest international standards of academic integrity and impact.
               </p>
               
               <div className="grid grid-cols-2 gap-8">
