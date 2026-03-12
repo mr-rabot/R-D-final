@@ -29,7 +29,8 @@ import {
   Beaker,
   Settings,
   Mail,
-  Lock
+  Lock,
+  Loader2
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import Image from "next/image";
@@ -52,7 +53,7 @@ const getCroppedImg = async (imageSrc: string, pixelCrop: any): Promise<string> 
   const ctx = canvas.getContext("2d");
   if (!ctx) return "";
 
-  const targetSize = 600;
+  const targetSize = 800;
   canvas.width = targetSize;
   canvas.height = targetSize;
 
@@ -74,6 +75,8 @@ const getCroppedImg = async (imageSrc: string, pixelCrop: any): Promise<string> 
 export default function AdminDashboard() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [isSyncing, setIsSyncing] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -109,7 +112,7 @@ export default function AdminDashboard() {
     }
   }, [isLoggedIn, fetchData]);
 
-  // Image Cropping Logic
+  // Image Cropping & Upload Logic
   const [imageToCrop, setImageToCrop] = useState<string | null>(null);
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
@@ -137,24 +140,47 @@ export default function AdminDashboard() {
 
   const saveCroppedImage = async () => {
     if (imageToCrop && croppedAreaPixels && currentEditingPath) {
-      const croppedImage = await getCroppedImg(imageToCrop, croppedAreaPixels);
-      const newData = { ...siteData };
-      
-      const parts = currentEditingPath.split('.');
-      let current = newData;
-      for (let i = 0; i < parts.length - 1; i++) {
-        current = current[parts[i]];
-      }
-      current[parts[parts.length - 1]] = croppedImage;
+      setIsUploading(true);
+      try {
+        const croppedBase64 = await getCroppedImg(imageToCrop, croppedAreaPixels);
+        
+        // Upload to server
+        const uploadRes = await fetch('/api/upload', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ 
+            image: croppedBase64, 
+            name: currentEditingPath.replace(/\./g, '_') 
+          })
+        });
 
-      setSiteData(newData);
-      setIsCropperOpen(false);
-      setImageToCrop(null);
-      if (fileInputRef.current) fileInputRef.current.value = "";
+        if (!uploadRes.ok) throw new Error("Upload failed");
+        const { url } = await uploadRes.json();
+
+        // Update local siteData with the new URL
+        const newData = { ...siteData };
+        const parts = currentEditingPath.split('.');
+        let current = newData;
+        for (let i = 0; i < parts.length - 1; i++) {
+          current = current[parts[i]];
+        }
+        current[parts[parts.length - 1]] = url;
+
+        setSiteData(newData);
+        setIsCropperOpen(false);
+        setImageToCrop(null);
+        toast({ title: "Upload Success", description: "Image saved to project directory." });
+      } catch (err) {
+        toast({ variant: "destructive", title: "Upload Error", description: "Failed to save image to server folder." });
+      } finally {
+        setIsUploading(false);
+        if (fileInputRef.current) fileInputRef.current.value = "";
+      }
     }
   };
 
   const saveToSite = async () => {
+    setIsSyncing(true);
     try {
       const res = await fetch('/api/leadership', {
         method: 'POST',
@@ -162,12 +188,14 @@ export default function AdminDashboard() {
         body: JSON.stringify(siteData)
       });
       if (res.ok) {
-        toast({ title: "Sync Successful", description: "Website content updated successfully." });
+        toast({ title: "Sync Successful", description: "Website configuration updated." });
       } else {
         throw new Error("Sync Failed");
       }
     } catch (error) {
       toast({ variant: "destructive", title: "Error", description: "Failed to sync updates." });
+    } finally {
+      setIsSyncing(false);
     }
   };
 
@@ -299,10 +327,15 @@ export default function AdminDashboard() {
             <h2 className="text-3xl font-headline font-bold text-slate-900 uppercase tracking-tight">
               {activeTab.replace("-", " ")}
             </h2>
-            <p className="text-sm text-slate-400">Manage your website content in real-time</p>
+            <p className="text-sm text-slate-400">Manage your website content securely</p>
           </div>
-          <Button onClick={saveToSite} className="w-full md:w-auto bg-primary rounded-xl font-bold shadow-xl px-8 h-12 flex gap-2">
-            <Save className="h-4 w-4" /> Push Updates to Site
+          <Button 
+            disabled={isSyncing}
+            onClick={saveToSite} 
+            className="w-full md:w-auto bg-primary rounded-xl font-bold shadow-xl px-8 h-12 flex gap-2"
+          >
+            {isSyncing ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
+            {isSyncing ? "Syncing..." : "Push Updates to Site"}
           </Button>
         </div>
 
@@ -522,7 +555,7 @@ export default function AdminDashboard() {
                             <UserCircle className="h-full w-full text-slate-300" />
                           )}
                         </div>
-                        <Button variant="outline" size="xs" className="rounded-xl font-bold h-8 text-[10px]" onClick={() => { setCurrentEditingPath(`testimonials.${i}.image`); fileInputRef.current?.click(); }}>
+                        <Button variant="outline" size="sm" className="rounded-xl font-bold h-8 text-[10px]" onClick={() => { setCurrentEditingPath(`testimonials.${i}.image`); fileInputRef.current?.click(); }}>
                           <Upload className="h-3 w-3 mr-2" /> Change Photo
                         </Button>
                       </div>
@@ -727,14 +760,17 @@ export default function AdminDashboard() {
           <DialogHeader className="sr-only">
             <DialogTitle>Crop Image</DialogTitle>
             <DialogDescription>
-              Adjust the crop area for the selected profile image.
+              Adjust the crop area for the selected image.
             </DialogDescription>
           </DialogHeader>
           <div className="relative h-96 bg-black">
             {imageToCrop && <Cropper image={imageToCrop} crop={crop} zoom={zoom} aspect={currentEditingPath?.includes('hero') ? 16/9 : (currentEditingPath?.includes('firmSummary') ? 16/12 : 1)} onCropChange={setCrop} onZoomChange={setZoom} onCropComplete={onCropComplete} />}
           </div>
           <div className="p-8">
-            <Button className="w-full h-14 bg-primary rounded-xl font-bold" onClick={saveCroppedImage}>Apply Crop</Button>
+            <Button disabled={isUploading} className="w-full h-14 bg-primary rounded-xl font-bold" onClick={saveCroppedImage}>
+              {isUploading ? <Loader2 className="h-5 w-5 animate-spin mr-2" /> : null}
+              {isUploading ? "Uploading to Server..." : "Apply Crop & Upload"}
+            </Button>
           </div>
         </DialogContent>
       </Dialog>
