@@ -8,21 +8,20 @@ import { Badge } from "@/components/ui/badge";
 const plans = [
   {
     name: "Basic",
-    description: "Essential support for project reports and academic presentations.",
+    description: "Essential support for basic academic reports and standard research needs.",
     features: [
       "Project Report",
-      "PPT (PowerPoint Presentation)",
+      "Basic Plagiarism Check",
       "Standard Research",
       "Academic Formatting",
-      "3 Days Delivery",
       "1 Revision Round",
-      "Basic Plagiarism Check"
+      "3-5 Days Delivery"
     ],
     highlight: false
   },
   {
     name: "Professional",
-    description: "Comprehensive support for research papers and articles.",
+    description: "Advanced support for comprehensive research papers and dissertation work.",
     features: [
       "Synopsis Writing",
       "Review Paper",
@@ -30,22 +29,18 @@ const plans = [
       "Dissertation Support",
       "PPT Presentation",
       "Plagiarism Report",
-      "Bibliography & Citations",
-      "5 Days Delivery",
-      "3 Revision Rounds"
+      "5-8 Days Delivery"
     ],
     highlight: true,
     badge: "Most Popular"
   },
   {
     name: "Premium",
-    description: "Complete end-to-end support for thesis and high-impact publishing.",
+    description: "Complete end-to-end support for high-impact thesis and publication work.",
     features: [
       "Everything in Professional",
       "Full Thesis Writing",
       "Research Proposal",
-      "Publication Guidance",
-      "Data Interpretation",
       "Expert Consultation",
       "Priority 24/7 Support",
       "Unlimited Revisions",
@@ -63,9 +58,9 @@ export function Pricing() {
           <div className="inline-block bg-primary/10 text-primary text-[10px] uppercase tracking-widest font-bold px-4 py-1.5 rounded-full mb-2">
             Service Packages
           </div>
-          <h2 className="text-4xl md:text-5xl font-headline font-bold text-accent">Affordable Solutions</h2>
+          <h2 className="text-4xl md:text-5xl font-headline font-bold text-accent">Tailored Solutions</h2>
           <p className="text-muted-foreground max-w-2xl mx-auto text-lg">
-            Select the package that best fits your academic and research requirements.
+            Choose the package that aligns with your research goals and academic requirements.
           </p>
         </div>
 
