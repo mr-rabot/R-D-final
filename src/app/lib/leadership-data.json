@@ -1,4 +1,3 @@
-
 {
   "founder": {
     "name": "Om Prakash Sinha",
@@ -14,8 +13,14 @@
     "title": "R&D Services: A Global Legacy",
     "description": "R & D Services Pvt. Ltd. is a premier academic consulting firm dedicated to bridging the gap between innovative research and high-impact publishing. We don't just draft papers; we cultivate scholarly legacies through a systematic, methodology-first approach.",
     "stats": [
-      { "label": "Global Initiatives", "value": "500+" },
-      { "label": "Elite Journals", "value": "120+" }
+      {
+        "label": "Global Initiatives",
+        "value": "500+"
+      },
+      {
+        "label": "Elite Journals",
+        "value": "120+"
+      }
     ]
   }
 }

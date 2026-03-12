@@ -82,18 +82,24 @@ export default function AdminDashboard() {
   const [coFounder, setCoFounder] = useState({ name: "", role: "", image: "" });
   const [firmSummary, setFirmSummary] = useState({ title: "", description: "", stats: [] as { label: string, value: string }[] });
 
+  const fetchData = useCallback(async () => {
+    try {
+      const res = await fetch('/api/leadership');
+      if (!res.ok) throw new Error("Failed to fetch");
+      const data = await res.json();
+      if (data.founder) setFounder(data.founder);
+      if (data.coFounder) setCoFounder(data.coFounder);
+      if (data.firmSummary) setFirmSummary(data.firmSummary);
+    } catch (error) {
+      console.error("Fetch Error:", error);
+    }
+  }, []);
+
   useEffect(() => {
     if (isLoggedIn) {
-      fetch('/api/leadership')
-        .then(res => res.json())
-        .then(data => {
-          if (data.founder) setFounder(data.founder);
-          if (data.coFounder) setCoFounder(data.coFounder);
-          if (data.firmSummary) setFirmSummary(data.firmSummary);
-        })
-        .catch(() => toast({ variant: "destructive", title: "Sync Error", description: "Could not load data." }));
+      fetchData();
     }
-  }, [isLoggedIn, toast]);
+  }, [isLoggedIn, fetchData]);
 
   const [imageToCrop, setImageToCrop] = useState<string | null>(null);
   const [crop, setCrop] = useState({ x: 0, y: 0 });
@@ -149,9 +155,11 @@ export default function AdminDashboard() {
       });
       if (res.ok) {
         toast({ title: "Sync Successful", description: "Website content updated successfully." });
+      } else {
+        throw new Error("API responded with error");
       }
-    } catch {
-      toast({ variant: "destructive", title: "Sync Failed", description: "Failed to push updates." });
+    } catch (error) {
+      toast({ variant: "destructive", title: "Sync Failed", description: "Failed to push updates to the server." });
     }
   };
 
@@ -169,7 +177,7 @@ export default function AdminDashboard() {
   const removeStat = (index: number) => setFirmSummary(prev => ({ ...prev, stats: prev.stats.filter((_, i) => i !== index) }));
   const updateStat = (index: number, field: 'label' | 'value', value: string) => {
     const newStats = [...firmSummary.stats];
-    newStats[index][field] = value;
+    newStats[index] = { ...newStats[index], [field]: value };
     setFirmSummary(prev => ({ ...prev, stats: newStats }));
   };
 
@@ -259,8 +267,12 @@ export default function AdminDashboard() {
                   <h3 className="text-2xl font-headline font-bold mb-6">{profile.title}</h3>
                   <div className="space-y-8">
                     <div className="flex items-center gap-6">
-                      <div className="relative h-24 w-24 rounded-full overflow-hidden border-4 border-slate-50 shadow-md">
-                        {profile.data.image && <Image src={profile.data.image} alt="Profile" fill className="object-cover" />}
+                      <div className="relative h-24 w-24 rounded-full overflow-hidden border-4 border-slate-50 shadow-md bg-slate-100">
+                        {profile.data.image ? (
+                          <Image src={profile.data.image} alt="Profile" fill className="object-cover" />
+                        ) : (
+                          <UserCircle className="h-full w-full text-slate-300" />
+                        )}
                       </div>
                       <Button variant="outline" size="sm" className="rounded-xl font-bold" onClick={() => { setCurrentEditingType(profile.type as any); fileInputRef.current?.click(); }}>
                         <Upload className="h-4 w-4 mr-2" /> Upload Pic
