@@ -1,3 +1,4 @@
+
 "use client";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -20,10 +21,31 @@ const testimonials = [
     stars: 5
   },
   {
+    name: "Preeti Sahani",
+    role: "MCA Student",
+    content: "The programming research and project documentation provided was top-notch. It helped me secure an A grade in my final semester project.",
+    image: "testimonial-3",
+    stars: 5
+  },
+  {
+    name: "Deepak Kumar",
+    role: "MCA Student",
+    content: "Professional team with great technical insights. My project report was formatted perfectly according to my university standards.",
+    image: "testimonial-4",
+    stars: 5
+  },
+  {
+    name: "Sanya Gupta",
+    role: "MTech Student",
+    content: "I was struggling with my MTech thesis methodology. Their experts provided clear guidance and helped me finish the data analysis section effortlessly.",
+    image: "testimonial-5",
+    stars: 5
+  },
+  {
     name: "Anjali Desai",
     role: "Engineering Student",
-    content: "Professional and reliable. They helped me with my project report and the quality exceeded my expectations. Great communication throughout the process.",
-    image: "testimonial-1",
+    content: "Professional and reliable. They helped me with my project report and the quality exceeded my expectations. Great communication throughout.",
+    image: "testimonial-6",
     stars: 5
   }
 ];
@@ -41,13 +63,13 @@ export function Testimonials() {
           <p className="text-muted-foreground text-lg">Don't just take our word for it - hear from our satisfied clients</p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {testimonials.map((t, index) => {
             const img = PlaceHolderImages.find(i => i.id === t.image);
             return (
               <div 
                 key={index} 
-                className="bg-white p-10 rounded-[32px] shadow-[0_10px_40px_rgba(0,0,0,0.04)] hover:shadow-xl transition-all duration-300 flex flex-col h-full"
+                className="bg-white p-8 rounded-[32px] shadow-[0_10px_40px_rgba(0,0,0,0.04)] hover:shadow-xl transition-all duration-300 flex flex-col h-full border border-slate-100"
               >
                 <div className="flex gap-1 mb-6">
                   {[...Array(t.stars)].map((_, i) => (
@@ -55,18 +77,18 @@ export function Testimonials() {
                   ))}
                 </div>
                 
-                <p className="text-slate-600 italic leading-relaxed mb-10 flex-grow">
+                <p className="text-slate-600 italic leading-relaxed mb-10 flex-grow text-sm">
                   "{t.content}"
                 </p>
                 
-                <div className="flex items-center gap-4">
-                  <Avatar className="h-12 w-12 border-2 border-slate-50">
+                <div className="flex items-center gap-4 border-t pt-6 border-slate-50">
+                  <Avatar className="h-12 w-12 border-2 border-white shadow-sm">
                     <AvatarImage src={img?.imageUrl} alt={t.name} />
-                    <AvatarFallback>{t.name[0]}</AvatarFallback>
+                    <AvatarFallback className="bg-primary/10 text-primary font-bold">{t.name[0]}</AvatarFallback>
                   </Avatar>
                   <div className="text-left">
                     <h4 className="font-bold text-accent leading-none mb-1">{t.name}</h4>
-                    <p className="text-xs text-muted-foreground font-medium uppercase tracking-wider">{t.role}</p>
+                    <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider">{t.role}</p>
                   </div>
                 </div>
               </div>

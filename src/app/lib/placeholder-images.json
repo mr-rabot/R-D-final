@@ -39,15 +39,39 @@
     },
     {
       "id": "testimonial-1",
-      "description": "Dr. Sarah Johnson",
+      "description": "Professional portrait 1",
       "imageUrl": "https://picsum.photos/seed/face1/100/100",
       "imageHint": "professional portrait"
     },
     {
       "id": "testimonial-2",
-      "description": "James Miller, PhD Candidate",
+      "description": "Professional portrait 2",
       "imageUrl": "https://picsum.photos/seed/face2/100/100",
       "imageHint": "smiling person"
+    },
+    {
+      "id": "testimonial-3",
+      "description": "Professional portrait 3",
+      "imageUrl": "https://picsum.photos/seed/face3/100/100",
+      "imageHint": "academic person"
+    },
+    {
+      "id": "testimonial-4",
+      "description": "Professional portrait 4",
+      "imageUrl": "https://picsum.photos/seed/face4/100/100",
+      "imageHint": "student portrait"
+    },
+    {
+      "id": "testimonial-5",
+      "description": "Professional portrait 5",
+      "imageUrl": "https://picsum.photos/seed/face5/100/100",
+      "imageHint": "smiling student"
+    },
+    {
+      "id": "testimonial-6",
+      "description": "Professional portrait 6",
+      "imageUrl": "https://picsum.photos/seed/face6/100/100",
+      "imageHint": "expert portrait"
     }
   ]
 }
