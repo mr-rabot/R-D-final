@@ -47,7 +47,7 @@ export function About() {
         {/* Leadership Profile Section */}
         <div className="grid lg:grid-cols-2 gap-20 items-center mb-40">
           <div className="relative flex flex-col items-center animate-in fade-in slide-in-from-left-8 duration-1000">
-            {/* Perfectly circular headshot with premium border */}
+            {/* Circular Headshot */}
             <div className="relative w-72 h-72 sm:w-80 sm:h-80 md:w-[450px] md:h-[450px] z-10 overflow-hidden rounded-full shadow-[0_40px_80px_rgba(0,71,255,0.15)] border-[12px] md:border-[16px] border-white transition-all duration-700 hover:scale-[1.02]">
               {founder?.image ? (
                 <Image
@@ -63,7 +63,7 @@ export function About() {
               )}
             </div>
             
-            {/* Minimalist Name and Designation - CLEAN TEXT NO BOX */}
+            {/* Center-aligned Name and Designation */}
             <div className="mt-12 text-center space-y-3">
               <h3 className="text-4xl md:text-5xl font-headline font-bold text-slate-900 tracking-tight">
                 {founder?.name || "Om Prakash Sinha"}
@@ -71,13 +71,8 @@ export function About() {
               <p className="text-[12px] md:text-[14px] uppercase tracking-[0.5em] font-bold text-primary/80">
                 {founder?.role || "Founder & Director"}
               </p>
-              <div className="flex items-center justify-center gap-2 pt-2 opacity-40">
-                <CheckCircle2 className="h-4 w-4 text-primary" />
-                <span className="text-[10px] uppercase font-bold tracking-[0.2em] text-slate-400">Verified Leadership</span>
-              </div>
             </div>
             
-            {/* Background decorative glow */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[110%] h-[110%] bg-primary/5 rounded-full blur-[120px] -z-10" />
           </div>
 
@@ -131,7 +126,7 @@ export function About() {
           </div>
         </div>
 
-        {/* Firm Summary Template - Professional Profile Section */}
+        {/* Firm Summary Template */}
         <div className="bg-[#0a0f1c] rounded-[60px] md:rounded-[100px] p-12 md:p-24 text-white relative overflow-hidden shadow-[0_60px_120px_rgba(0,0,0,0.3)] border border-white/5">
           <div className="relative z-10 lg:grid lg:grid-cols-2 gap-24 items-center">
             <div className="space-y-10">
@@ -169,21 +164,8 @@ export function About() {
               </div>
 
               <div className="pt-10 flex items-center gap-6 border-t border-white/10">
-                <div className="flex -space-x-4">
-                  {[1, 2, 3, 4].map((i) => (
-                    <div key={i} className="w-12 h-12 rounded-full border-2 border-[#0a0f1c] bg-slate-800 overflow-hidden">
-                      <Image 
-                        src={`https://picsum.photos/seed/user${i}/100/100`} 
-                        alt="User" 
-                        width={100} 
-                        height={100}
-                        className="object-cover grayscale"
-                      />
-                    </div>
-                  ))}
-                </div>
                 <div className="text-xs uppercase tracking-widest font-bold text-blue-200/50">
-                  Trusted by 5000+ Scholars
+                  Global Academic Reach & Impact
                 </div>
               </div>
             </div>
@@ -199,22 +181,8 @@ export function About() {
                     data-ai-hint={summaryImg.imageHint}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0a0f1c] via-transparent to-transparent opacity-60" />
-                  
-                  {/* Floating Metric Card inside image */}
-                  <div className="absolute bottom-10 left-10 right-10 p-8 bg-white/5 backdrop-blur-xl rounded-[32px] border border-white/10 hidden md:block">
-                    <div className="flex justify-between items-center">
-                      <div>
-                        <div className="text-primary font-bold text-2xl">98% Success</div>
-                        <div className="text-[10px] uppercase tracking-widest font-bold opacity-60 text-blue-100">Journal Acceptance Rate</div>
-                      </div>
-                      <Zap className="h-8 w-8 text-primary" />
-                    </div>
-                  </div>
                 </div>
               )}
-              {/* Background Glows for summary */}
-              <div className="absolute -top-20 -right-20 w-64 h-64 bg-primary/20 blur-[100px] rounded-full" />
-              <div className="absolute -bottom-20 -left-20 w-64 h-64 bg-blue-600/10 blur-[100px] rounded-full" />
             </div>
           </div>
         </div>

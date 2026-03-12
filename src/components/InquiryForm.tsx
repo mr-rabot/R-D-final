@@ -10,7 +10,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
-import { Mail, Phone, Send, User } from "lucide-react";
+import { Mail, Phone, Send, User, MessageSquare } from "lucide-react";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 
 const formSchema = z.object({
@@ -37,13 +37,47 @@ export function InquiryForm() {
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+    const messageText = `*New Inquiry from R&D Services Website*\n\n` +
+      `*Name:* ${values.name}\n` +
+      `*Email:* ${values.email}\n` +
+      `*Phone:* ${values.phone || 'N/A'}\n` +
+      `*Service:* ${values.service}\n` +
+      `*Details:* ${values.details}`;
+    
+    const whatsappUrl = `https://wa.me/916209779365?text=${encodeURIComponent(messageText)}`;
+    
+    // Attempt to open WhatsApp
+    window.open(whatsappUrl, '_blank');
+
     toast({
-      title: "Inquiry Submitted",
-      description: "We have received your request and will respond within 24 hours.",
+      title: "Inquiry Initialized",
+      description: "Redirecting to WhatsApp to send your details...",
     });
+    
     form.reset();
   }
+
+  const handleEmailSubmit = () => {
+    const values = form.getValues();
+    if (!values.name || !values.email || !values.service || !values.details) {
+      toast({
+        variant: "destructive",
+        title: "Incomplete Form",
+        description: "Please fill out the required fields before sending an email.",
+      });
+      return;
+    }
+
+    const subject = `Quote Request: ${values.service} - ${values.name}`;
+    const body = `Hi R&D Services Team,\n\nI would like to request a quote for the following project:\n\n` +
+      `Name: ${values.name}\n` +
+      `Email: ${values.email}\n` +
+      `Phone: ${values.phone || 'N/A'}\n` +
+      `Service: ${values.service}\n\n` +
+      `Project Details:\n${values.details}`;
+    
+    window.location.href = `mailto:support.rdservices@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  };
 
   return (
     <section id="contact" className="py-24 bg-slate-50/50">
@@ -53,7 +87,7 @@ export function InquiryForm() {
             <div className="space-y-6">
               <h2 className="text-5xl font-headline font-bold text-accent">Get in Touch</h2>
               <p className="text-lg text-slate-600 leading-relaxed max-w-md">
-                Have a research project in mind? Contact R & D Services Pvt. Ltd. to discuss how we can help.
+                Discuss your research project directly with our experts. We guarantee scholarly precision and academic integrity.
               </p>
             </div>
             
@@ -106,7 +140,7 @@ export function InquiryForm() {
           <div className="bg-white p-10 rounded-[32px] shadow-xl border border-slate-100">
             <div className="mb-10 space-y-2">
               <h3 className="text-2xl font-bold text-accent">Get Your Quote</h3>
-              <p className="text-slate-500">Fill out the form and we'll respond within 24 hours</p>
+              <p className="text-slate-500">Fill out the details and send via your preferred channel</p>
             </div>
 
             <Form {...form}>
@@ -125,33 +159,35 @@ export function InquiryForm() {
                   )}
                 />
                 
-                <FormField
-                  control={form.control}
-                  name="email"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="text-sm font-bold text-accent">Email Address *</FormLabel>
-                      <FormControl>
-                        <Input placeholder="your.email@example.com" {...field} className="bg-slate-50 border-none rounded-xl h-12" />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                <div className="grid sm:grid-cols-2 gap-4">
+                  <FormField
+                    control={form.control}
+                    name="email"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-sm font-bold text-accent">Email *</FormLabel>
+                        <FormControl>
+                          <Input placeholder="email@example.com" {...field} className="bg-slate-50 border-none rounded-xl h-12" />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
-                <FormField
-                  control={form.control}
-                  name="phone"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="text-sm font-bold text-accent">Phone Number</FormLabel>
-                      <FormControl>
-                        <Input placeholder="+91 XXXXX XXXXX" {...field} className="bg-slate-50 border-none rounded-xl h-12" />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                  <FormField
+                    control={form.control}
+                    name="phone"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-sm font-bold text-accent">Phone</FormLabel>
+                        <FormControl>
+                          <Input placeholder="+91..." {...field} className="bg-slate-50 border-none rounded-xl h-12" />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
 
                 <FormField
                   control={form.control}
@@ -166,15 +202,15 @@ export function InquiryForm() {
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
-                          <SelectItem value="research-paper">Research Paper</SelectItem>
-                          <SelectItem value="thesis">Thesis Writing</SelectItem>
-                          <SelectItem value="dissertation">Dissertation</SelectItem>
-                          <SelectItem value="synopsis">Synopsis Writing</SelectItem>
-                          <SelectItem value="ppt">PPT Presentation</SelectItem>
-                          <SelectItem value="plagiarism-report">Plagiarism Report</SelectItem>
-                          <SelectItem value="project-report">Project Report</SelectItem>
-                          <SelectItem value="literature-review">Literature Review</SelectItem>
-                          <SelectItem value="proposal">Research Proposal</SelectItem>
+                          <SelectItem value="Research Paper">Research Paper</SelectItem>
+                          <SelectItem value="Thesis Writing">Thesis Writing</SelectItem>
+                          <SelectItem value="Dissertation">Dissertation</SelectItem>
+                          <SelectItem value="Synopsis Writing">Synopsis Writing</SelectItem>
+                          <SelectItem value="PPT Presentation">PPT Presentation</SelectItem>
+                          <SelectItem value="Plagiarism Report">Plagiarism Report</SelectItem>
+                          <SelectItem value="Project Report">Project Report</SelectItem>
+                          <SelectItem value="Literature Review">Literature Review</SelectItem>
+                          <SelectItem value="Research Proposal">Research Proposal</SelectItem>
                         </SelectContent>
                       </Select>
                       <FormMessage />
@@ -200,9 +236,19 @@ export function InquiryForm() {
                   )}
                 />
 
-                <Button type="submit" className="w-full h-14 rounded-xl text-lg bg-black hover:bg-slate-900 text-white shadow-lg flex gap-2">
-                   <Send className="h-5 w-5" /> Submit Inquiry
-                </Button>
+                <div className="flex flex-col gap-3 pt-4">
+                  <Button type="submit" className="w-full h-14 rounded-xl text-lg bg-primary hover:bg-blue-600 text-white shadow-lg flex gap-3 transition-all active:scale-95">
+                     <MessageSquare className="h-6 w-6" /> Submit via WhatsApp
+                  </Button>
+                  <Button 
+                    type="button" 
+                    onClick={handleEmailSubmit}
+                    variant="outline" 
+                    className="w-full h-14 rounded-xl text-lg border-2 border-slate-200 hover:border-primary text-slate-600 hover:text-primary transition-all active:scale-95 flex gap-3"
+                  >
+                    <Mail className="h-6 w-6" /> Submit via Email
+                  </Button>
+                </div>
               </form>
             </Form>
           </div>
