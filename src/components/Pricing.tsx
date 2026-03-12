@@ -11,7 +11,7 @@ const plans = [
     name: "Basic",
     description: "Essential support for standard academic reports and research projects.",
     features: [
-      "Standard Research Paper",
+      "Project Report",
       "PPT (10-15 Slides)",
       "Plagiarism Check (Basic)",
       "Standard Academic Formatting",
@@ -40,11 +40,11 @@ const plans = [
     description: "Elite end-to-end guidance for high-impact thesis and global publishing.",
     features: [
       "Full PhD Thesis Writing",
+      "Everything in Professional & Basic",
       "Research Proposal Design",
       "Expert Journal Consultation",
       "Advanced Data Analysis",
       "Unlimited Revision Support",
-      "Fast-Track 48hr Delivery",
       "24/7 Dedicated Support"
     ],
     highlight: false
