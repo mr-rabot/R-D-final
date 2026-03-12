@@ -13,7 +13,6 @@ export function About() {
   return (
     <section id="about" className="py-24 bg-white overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Expert Profile Section */}
         <div className="grid lg:grid-cols-2 gap-16 items-center mb-32">
           <div className="relative">
             <div className="aspect-[4/5] relative z-10 overflow-hidden rounded-[40px] shadow-2xl border-[12px] border-slate-50">
@@ -27,14 +26,12 @@ export function About() {
                 />
               )}
             </div>
-            {/* Decorative Quote */}
             <div className="absolute -bottom-6 -right-6 bg-primary p-8 rounded-[32px] shadow-xl text-white max-w-xs z-20 hidden md:block">
               <Quote className="h-8 w-8 mb-4 opacity-50 fill-current" />
               <p className="text-sm italic font-medium leading-relaxed">
                 "Our mission is to provide world-class academic support with absolute integrity and research excellence."
               </p>
             </div>
-            {/* Background Shape */}
             <div className="absolute -top-10 -left-10 w-64 h-64 bg-primary/5 rounded-full blur-3xl -z-10" />
           </div>
 
@@ -48,7 +45,7 @@ export function About() {
             </div>
 
             <p className="text-slate-600 leading-relaxed text-lg">
-              Under the visionary leadership of Om Prakash Sinha, R & D Services Pvt. Ltd. has grown into a premier destination for academic research and professional publishing support, serving scholars globally with dedicated expertise.
+              Under the visionary leadership of Om Prakash Sinha, R & D Services Pvt. Ltd. has grown into a premier destination for academic research and professional publishing support, serving scholars globally with dedicated expertise and unwavering commitment to quality.
             </p>
 
             <div className="grid sm:grid-cols-2 gap-6">
@@ -70,13 +67,12 @@ export function About() {
               ))}
             </div>
 
-            <Button size="lg" className="rounded-xl px-8 h-12 bg-black hover:bg-slate-900 text-white font-bold">
-              Learn More About Our Journey
+            <Button size="lg" className="rounded-xl px-8 h-12 bg-black hover:bg-slate-900 text-white font-bold transition-all shadow-lg hover:shadow-black/20">
+              Our Journey & Vision
             </Button>
           </div>
         </div>
 
-        {/* Impact Summary Section */}
         <div className="bg-accent rounded-[48px] p-8 md:p-16 text-white relative overflow-hidden shadow-2xl">
           <div className="relative z-10 lg:grid lg:grid-cols-2 gap-16 items-center">
             <div className="space-y-8">
@@ -123,8 +119,6 @@ export function About() {
               </div>
             </div>
           </div>
-          
-          {/* Background Decoration */}
           <div className="absolute top-0 right-0 w-96 h-96 bg-primary/10 blur-[100px] -z-0" />
           <div className="absolute bottom-0 left-0 w-96 h-96 bg-primary/10 blur-[100px] -z-0" />
         </div>
