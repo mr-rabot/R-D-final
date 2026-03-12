@@ -9,11 +9,7 @@ import {
   CheckCircle, 
   Zap, 
   Lock, 
-  FileText, 
-  ArrowRight,
-  MessageSquare,
-  Mail,
-  X
+  FileText
 } from "lucide-react";
 import {
   Carousel,
@@ -22,14 +18,6 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-} from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
 import Autoplay from "embla-carousel-autoplay";
 import { cn } from "@/lib/utils";
 
@@ -43,9 +31,6 @@ const trustIndicators = [
 export function Services() {
   const [services, setServices] = useState<any[]>([]);
   const [isVisible, setIsVisible] = useState(false);
-  const [whatsapp, setWhatsapp] = useState("916209779365");
-  const [selectedService, setSelectedService] = useState<string | null>(null);
-  const [isQuoteDialogOpen, setIsQuoteDialogOpen] = useState(false);
   
   const sectionRef = useRef<HTMLElement>(null);
   const plugin = React.useRef(
@@ -57,7 +42,6 @@ export function Services() {
       .then(res => res.json())
       .then(data => {
         setServices(data.services || []);
-        if (data.integrations?.whatsapp) setWhatsapp(data.integrations.whatsapp);
       })
       .catch(err => console.error(err));
 
@@ -77,24 +61,6 @@ export function Services() {
 
     return () => observer.disconnect();
   }, []);
-
-  const handleQuoteClick = (serviceTitle: string) => {
-    setSelectedService(serviceTitle);
-    setIsQuoteDialogOpen(true);
-  };
-
-  const handleWhatsAppAction = () => {
-    const message = encodeURIComponent(`Hi R&D Services, I am interested in a quote for your "${selectedService}" service for my academic project.`);
-    window.open(`https://wa.me/${whatsapp}?text=${message}`, '_blank');
-    setIsQuoteDialogOpen(false);
-  };
-
-  const handleEmailAction = () => {
-    const subject = encodeURIComponent(`Quote Request: ${selectedService}`);
-    const body = encodeURIComponent(`Hi R&D Services Team,\n\nI would like to request a professional quote for the following service: ${selectedService}.\n\nPlease let me know the requirements and timeline.\n\nBest regards.`);
-    window.location.href = `mailto:support.rdservices@gmail.com?subject=${subject}&body=${body}`;
-    setIsQuoteDialogOpen(false);
-  };
 
   return (
     <section id="services" ref={sectionRef} className="py-32 bg-slate-50/50 overflow-hidden">
@@ -167,21 +133,6 @@ export function Services() {
                           ))}
                         </div>
                       </CardContent>
-                      <div className="pt-12 flex justify-between items-center">
-                        <Button 
-                          onClick={() => handleQuoteClick(service.title)}
-                          variant="ghost" 
-                          className="text-primary font-bold hover:bg-primary/5 rounded-xl px-4 flex gap-2"
-                        >
-                          Get Quote <ArrowRight className="h-4 w-4" />
-                        </Button>
-                        <div 
-                          onClick={() => handleQuoteClick(service.title)}
-                          className="p-4 bg-primary/5 rounded-full text-primary hover:bg-primary hover:text-white transition-colors cursor-pointer shadow-sm opacity-0 group-hover:opacity-100 transition-opacity duration-700 hidden sm:flex"
-                        >
-                          <ArrowRight className="h-6 w-6" />
-                        </div>
-                      </div>
                     </Card>
                   </CarouselItem>
                 );
@@ -194,36 +145,6 @@ export function Services() {
           </Carousel>
         </div>
       </div>
-
-      {/* Quote Dialog */}
-      <Dialog open={isQuoteDialogOpen} onOpenChange={setIsQuoteDialogOpen}>
-        <DialogContent className="sm:max-w-md rounded-[32px] border-none shadow-2xl p-0 overflow-hidden bg-white">
-          <DialogHeader className="p-10 pb-0">
-            <DialogTitle className="text-3xl font-headline font-bold text-accent">Connect with Experts</DialogTitle>
-            <DialogDescription className="text-slate-500 pt-2">
-              How would you like to receive your professional quote for <span className="text-primary font-bold">"{selectedService}"</span>?
-            </DialogDescription>
-          </DialogHeader>
-          <div className="p-10 space-y-4">
-            <Button 
-              onClick={handleWhatsAppAction}
-              className="w-full h-16 rounded-2xl bg-[#25D366] hover:bg-[#22c35e] text-white font-bold text-lg flex gap-4 shadow-lg shadow-emerald-500/20"
-            >
-              <MessageSquare className="h-6 w-6" /> Continue to WhatsApp
-            </Button>
-            <Button 
-              onClick={handleEmailAction}
-              variant="outline"
-              className="w-full h-16 rounded-2xl border-2 border-slate-100 hover:border-primary text-slate-600 hover:text-primary font-bold text-lg flex gap-4 shadow-sm"
-            >
-              <Mail className="h-6 w-6" /> Send Official Email
-            </Button>
-          </div>
-          <div className="p-6 bg-slate-50 text-center text-[10px] text-slate-400 uppercase tracking-widest font-bold border-t">
-            Guaranteed Confidentiality & Scientific Rigor
-          </div>
-        </DialogContent>
-      </Dialog>
     </section>
   );
 }
