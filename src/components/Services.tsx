@@ -2,7 +2,18 @@
 "use client";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { GraduationCap, CheckCircle, Zap, Lock, FileText, BookOpen, Check } from "lucide-react";
+import { 
+  GraduationCap, 
+  CheckCircle, 
+  Zap, 
+  Lock, 
+  FileText, 
+  BookOpen, 
+  Check, 
+  ClipboardCheck, 
+  Book,
+  FileSearch
+} from "lucide-react";
 
 const trustIndicators = [
   { icon: GraduationCap, label: "PhD Experts", color: "text-purple-600", bg: "bg-purple-50" },
@@ -44,6 +55,39 @@ const services = [
       "Literature synthesis",
       "Proofreading & editing"
     ]
+  },
+  {
+    title: "Project Reports",
+    description: "Technical and academic project reports with proper documentation.",
+    icon: ClipboardCheck,
+    features: [
+      "Executive summary",
+      "Technical documentation",
+      "Result analysis",
+      "Professional formatting"
+    ]
+  },
+  {
+    title: "Literature Review",
+    description: "Comprehensive literature reviews covering relevant research in your field.",
+    icon: Book,
+    features: [
+      "Current research synthesis",
+      "Gap identification",
+      "Critical analysis",
+      "Systematic approach"
+    ]
+  },
+  {
+    title: "Research Proposal",
+    description: "Well-crafted research proposals to get your project approved.",
+    icon: FileSearch,
+    features: [
+      "Clear objectives",
+      "Methodology design",
+      "Timeline planning",
+      "Budget estimation"
+    ]
   }
 ];
 
@@ -76,7 +120,7 @@ export function Services() {
         </div>
 
         {/* Services Grid */}
-        <div className="grid md:grid-cols-3 gap-8">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {services.map((service, index) => {
             const Icon = service.icon;
             return (
