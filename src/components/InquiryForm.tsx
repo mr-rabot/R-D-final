@@ -3,28 +3,34 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
-import { Send, CloudUpload } from "lucide-react";
+import { Mail, Phone, Send } from "lucide-react";
+import { PlaceHolderImages } from "@/lib/placeholder-images";
 
 const formSchema = z.object({
-  name: z.string().min(2, "Name must be at least 2 characters"),
+  name: z.string().min(2, "Full name is required"),
   email: z.string().email("Please enter a valid email address"),
+  phone: z.string().optional(),
   service: z.string().min(1, "Please select a service"),
-  details: z.string().min(10, "Please provide more details about your manuscript"),
+  details: z.string().min(10, "Please provide some project details"),
 });
 
 export function InquiryForm() {
   const { toast } = useToast();
+  const contactImage = PlaceHolderImages.find(img => img.id === "service-3");
+  
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
       email: "",
+      phone: "",
       service: "",
       details: "",
     },
@@ -33,38 +39,70 @@ export function InquiryForm() {
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
     toast({
-      title: "Manuscript Received",
-      description: "Our publishing specialists are reviewing your request. We will contact you within 24 hours.",
+      title: "Inquiry Submitted",
+      description: "We have received your request and will respond within 24 hours.",
     });
     form.reset();
   }
 
   return (
-    <section id="contact" className="py-24 bg-white">
+    <section id="contact" className="py-24 bg-slate-50/50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
-          <div className="space-y-8">
-            <h2 className="text-4xl font-headline font-bold text-accent">Submit Your Manuscript for Review</h2>
-            <p className="text-lg text-muted-foreground leading-relaxed">
-              Take the first step toward successful publication. Provide your paper details and receive a comprehensive publishing strategy within one business day.
-            </p>
-            
+        <div className="grid lg:grid-cols-2 gap-16 items-start">
+          {/* Left Column: Get in Touch */}
+          <div className="space-y-12">
             <div className="space-y-6">
-              {[
-                "Blind Peer-Review Options Available",
-                "Compliance with COPE Standards",
-                "Non-Disclosure Agreement Included",
-                "Journal Impact Factor Matching"
-              ].map((text, i) => (
-                <div key={i} className="flex items-center gap-3">
-                  <div className="h-2 w-2 rounded-full bg-primary" />
-                  <span className="font-medium text-accent">{text}</span>
+              <h2 className="text-5xl font-headline font-bold text-accent">Get in Touch</h2>
+              <p className="text-lg text-slate-600 leading-relaxed max-w-md">
+                Have a project in mind? Let's discuss how we can help you achieve your academic goals.
+              </p>
+            </div>
+            
+            <div className="space-y-8">
+              <div className="flex items-start gap-6">
+                <div className="bg-blue-100 p-3 rounded-xl text-primary">
+                  <Mail className="h-6 w-6" />
                 </div>
-              ))}
+                <div>
+                  <h4 className="font-bold text-accent text-lg">Email Us</h4>
+                  <p className="text-slate-600">contact@rd-services.com</p>
+                  <p className="text-slate-600">info@rd-services.com</p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-6">
+                <div className="bg-blue-100 p-3 rounded-xl text-primary">
+                  <Phone className="h-6 w-6" />
+                </div>
+                <div>
+                  <h4 className="font-bold text-accent text-lg">Call Us</h4>
+                  <p className="text-slate-600">+91 XXXXX XXXXX</p>
+                  <p className="text-slate-600">Available 24/7</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="relative pt-8">
+              {contactImage?.imageUrl && (
+                <Image
+                  src={contactImage.imageUrl}
+                  alt="Library books"
+                  width={500}
+                  height={300}
+                  className="rounded-[32px] shadow-lg object-cover w-full h-64 lg:h-80"
+                  data-ai-hint="library books"
+                />
+              )}
             </div>
           </div>
 
-          <div className="bg-background p-8 rounded-3xl shadow-xl border border-white/50">
+          {/* Right Column: Get Your Quote Form */}
+          <div className="bg-white p-10 rounded-[32px] shadow-xl border border-slate-100">
+            <div className="mb-10 space-y-2">
+              <h3 className="text-2xl font-bold text-accent">Get Your Quote</h3>
+              <p className="text-slate-500">Fill out the form and we'll respond within 24 hours</p>
+            </div>
+
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                 <FormField
@@ -72,9 +110,9 @@ export function InquiryForm() {
                   name="name"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Author Name</FormLabel>
+                      <FormLabel className="text-sm font-bold text-accent">Full Name *</FormLabel>
                       <FormControl>
-                        <Input placeholder="Dr. Jane Smith" {...field} className="bg-white rounded-xl h-12" />
+                        <Input placeholder="Enter your name" {...field} className="bg-slate-50 border-none rounded-xl h-12" />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -86,9 +124,23 @@ export function InquiryForm() {
                   name="email"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Academic Email</FormLabel>
+                      <FormLabel className="text-sm font-bold text-accent">Email Address *</FormLabel>
                       <FormControl>
-                        <Input placeholder="jane.smith@university.edu" {...field} className="bg-white rounded-xl h-12" />
+                        <Input placeholder="your.email@example.com" {...field} className="bg-slate-50 border-none rounded-xl h-12" />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="phone"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-sm font-bold text-accent">Phone Number</FormLabel>
+                      <FormControl>
+                        <Input placeholder="+91 XXXXX XXXXX" {...field} className="bg-slate-50 border-none rounded-xl h-12" />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -100,18 +152,20 @@ export function InquiryForm() {
                   name="service"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Manuscript Status</FormLabel>
+                      <FormLabel className="text-sm font-bold text-accent">Service Required *</FormLabel>
                       <Select onValueChange={field.onChange} defaultValue={field.value}>
                         <FormControl>
-                          <SelectTrigger className="bg-white rounded-xl h-12">
-                            <SelectValue placeholder="Select current status" />
+                          <SelectTrigger className="bg-slate-50 border-none rounded-xl h-12">
+                            <SelectValue placeholder="Select service type" />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
-                          <SelectItem value="draft">Initial Draft Review</SelectItem>
-                          <SelectItem value="editing">Technical Editing Needed</SelectItem>
-                          <SelectItem value="peer-review">Pre-Submission Peer Review</SelectItem>
-                          <SelectItem value="rejection">Addressing Journal Rejection</SelectItem>
+                          <SelectItem value="research-paper">Research Paper</SelectItem>
+                          <SelectItem value="thesis">Thesis Writing</SelectItem>
+                          <SelectItem value="dissertation">Dissertation</SelectItem>
+                          <SelectItem value="project-report">Project Report</SelectItem>
+                          <SelectItem value="literature-review">Literature Review</SelectItem>
+                          <SelectItem value="proposal">Research Proposal</SelectItem>
                         </SelectContent>
                       </Select>
                       <FormMessage />
@@ -124,11 +178,11 @@ export function InquiryForm() {
                   name="details"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Paper Abstract / Goals</FormLabel>
+                      <FormLabel className="text-sm font-bold text-accent">Project Details *</FormLabel>
                       <FormControl>
                         <Textarea 
-                          placeholder="Briefly describe your research findings and target journals..." 
-                          className="bg-white rounded-xl min-h-[120px]" 
+                          placeholder="Tell us about your project requirements, deadline, topic, etc." 
+                          className="bg-slate-50 border-none rounded-xl min-h-[120px]" 
                           {...field} 
                         />
                       </FormControl>
@@ -137,13 +191,8 @@ export function InquiryForm() {
                   )}
                 />
 
-                <div className="border-2 border-dashed border-muted-foreground/20 rounded-xl p-6 text-center cursor-pointer hover:bg-white/50 transition-colors">
-                  <CloudUpload className="h-8 w-8 text-primary mx-auto mb-2" />
-                  <span className="text-sm text-muted-foreground">Upload Draft (PDF/DOCX)</span>
-                </div>
-
-                <Button type="submit" className="w-full h-14 rounded-xl text-lg bg-accent hover:bg-accent/90 shadow-lg flex gap-2">
-                  Submit Manuscript <Send className="h-5 w-5" />
+                <Button type="submit" className="w-full h-14 rounded-xl text-lg bg-black hover:bg-slate-900 text-white shadow-lg flex gap-2">
+                   <Send className="h-5 w-5" /> Submit Inquiry
                 </Button>
               </form>
             </Form>
