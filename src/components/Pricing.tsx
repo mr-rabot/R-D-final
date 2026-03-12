@@ -78,14 +78,15 @@ export function Pricing() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch pt-12 overflow-visible">
+        {/* Updated Grid for 1 Column on Mobile, 3 Columns on Desktop with healthy gaps */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 lg:gap-16 items-stretch pt-12 overflow-visible">
           {plans.map((plan, index) => (
-            <div key={index} className="relative flex h-full">
+            <div key={index} className="relative flex h-full overflow-visible">
               <Card 
                 className={cn(
                   "relative flex flex-col rounded-[40px] transition-all duration-700 group w-full border-none",
                   plan.highlight 
-                    ? "bg-white shadow-[0_40px_80px_rgba(0,71,255,0.15)] z-10 scale-105" 
+                    ? "bg-white shadow-[0_40px_80px_rgba(0,71,255,0.18)] z-10 lg:scale-105" 
                     : "bg-white shadow-[0_20px_40px_rgba(0,0,0,0.04)] hover:shadow-[0_40px_60px_rgba(0,0,0,0.08)] hover:-translate-y-2"
                 )}
               >

@@ -1,6 +1,8 @@
 "use client";
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarAvatarImage } from "@/components/ui/avatar";
+import { AvatarImage } from "@/components/ui/avatar";
+import { AvatarFallback } from "@/components/ui/avatar";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { Star, Users, Quote, ShieldCheck, Award, Zap, CheckCircle2 } from "lucide-react";
 import {
@@ -82,20 +84,21 @@ export function Testimonials() {
           </p>
         </div>
 
-        <div className="relative px-4 sm:px-12">
+        {/* Increased padding-x to Carousel container to prevent card clipping */}
+        <div className="relative px-6 sm:px-16 lg:px-20 overflow-visible">
           <Carousel
             plugins={[plugin.current]}
-            className="w-full"
+            className="w-full overflow-visible"
             opts={{
               align: "start",
               loop: true,
             }}
           >
-            <CarouselContent className="-ml-4 md:-ml-6">
+            <CarouselContent className="-ml-6 md:-ml-8 overflow-visible">
               {testimonials.map((t, index) => {
                 const img = PlaceHolderImages.find(i => i.id === t.image);
                 return (
-                  <CarouselItem key={index} className="pl-4 md:pl-6 basis-full md:basis-1/2 lg:basis-1/3 py-8">
+                  <CarouselItem key={index} className="pl-6 md:pl-8 basis-full md:basis-1/2 lg:basis-1/3 py-10 overflow-visible">
                     <div className="bg-white p-10 rounded-[40px] border border-slate-100 shadow-xl hover:shadow-2xl hover:shadow-primary/10 transition-all duration-500 flex flex-col h-full group relative overflow-hidden">
                       <div className="absolute -top-6 -right-6 opacity-[0.03] group-hover:opacity-[0.08] transition-opacity">
                         <Quote className="h-32 w-32 text-accent" />
@@ -115,10 +118,13 @@ export function Testimonials() {
                       </div>
                       
                       <div className="flex items-center gap-5 pt-8 border-t border-slate-50 mt-auto">
-                        <Avatar className="h-14 w-14 border-4 border-white shadow-lg">
-                          <AvatarImage src={img?.imageUrl} alt={t.name} />
-                          <AvatarFallback className="bg-primary/10 text-primary font-bold">{t.name[0]}</AvatarFallback>
-                        </Avatar>
+                        <div className="relative h-14 w-14 rounded-full overflow-hidden border-4 border-white shadow-lg">
+                          <img 
+                            src={img?.imageUrl} 
+                            alt={t.name} 
+                            className="h-full w-full object-cover" 
+                          />
+                        </div>
                         <div className="text-left">
                           <h4 className="font-headline font-bold text-accent text-xl leading-none mb-2">{t.name}</h4>
                           <p className="text-[10px] text-primary/80 font-bold uppercase tracking-[0.2em]">{t.role}</p>
