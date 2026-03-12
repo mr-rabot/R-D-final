@@ -4,7 +4,15 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
-import { Award, BookOpen, GraduationCap, Search, CheckCircle2, Globe, ShieldCheck, Zap, Briefcase } from "lucide-react";
+import { 
+  GraduationCap, 
+  CheckCircle2, 
+  Globe, 
+  ShieldCheck, 
+  Zap, 
+  Briefcase,
+  Check
+} from "lucide-react";
 
 interface LeadershipProfile {
   name: string;
@@ -77,7 +85,7 @@ export function About() {
               </div>
               <h2 className="text-5xl md:text-7xl font-headline font-bold text-accent leading-[1.1]">Precision <br />in Research</h2>
               <p className="text-xl text-slate-600 font-light max-w-xl">
-                Under the guidance of **{founder?.name}**, we provide the rigorous methodology required for success in global publishing.
+                Under the guidance of {founder?.name}, we provide the rigorous methodology required for success in global publishing.
               </p>
             </div>
 
@@ -85,7 +93,7 @@ export function About() {
               {[
                 { icon: ShieldCheck, label: "Ethical Integrity", desc: "Plagiarism-free guarantee" },
                 { icon: Zap, label: "Rapid Synthesis", desc: "Expert literature review" },
-                { icon: Briefcase, label: "Global Reach", desc: "40+ Countries served" },
+                { icon: Briefcase, label: "Research Legacy", desc: "500+ Initiatives" },
                 { icon: GraduationCap, label: "PhD Support", desc: "Thesis & Dissertation" }
               ].map((item, i) => (
                 <div key={i} className="flex items-center gap-5 p-6 rounded-[28px] bg-slate-50 border border-slate-100 hover:border-primary/20 hover:bg-white hover:shadow-2xl hover:shadow-primary/5 transition-all duration-500 group">
