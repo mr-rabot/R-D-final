@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useForm } from "react-hook-form";
@@ -49,7 +50,6 @@ export function InquiryForm() {
     <section id="contact" className="py-24 bg-slate-50/50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-16 items-start">
-          {/* Left Column: Get in Touch */}
           <div className="space-y-12">
             <div className="space-y-6">
               <h2 className="text-5xl font-headline font-bold text-accent">Get in Touch</h2>
@@ -83,20 +83,19 @@ export function InquiryForm() {
             </div>
 
             <div className="relative pt-8">
-              {contactImage?.imageUrl && (
+              {contactImage?.imageUrl ? (
                 <Image
                   src={contactImage.imageUrl}
-                  alt="Library books"
+                  alt={contactImage.description || "Library books"}
                   width={500}
                   height={300}
                   className="rounded-[32px] shadow-lg object-cover w-full h-64 lg:h-80"
-                  data-ai-hint="library books"
+                  data-ai-hint={contactImage.imageHint}
                 />
-              )}
+              ) : null}
             </div>
           </div>
 
-          {/* Right Column: Get Your Quote Form */}
           <div className="bg-white p-10 rounded-[32px] shadow-xl border border-slate-100">
             <div className="mb-10 space-y-2">
               <h3 className="text-2xl font-bold text-accent">Get Your Quote</h3>

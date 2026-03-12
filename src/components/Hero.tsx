@@ -1,11 +1,10 @@
+
 "use client";
 
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { Mail, Phone, Sparkles } from "lucide-react";
-import { StatsCounter } from "./StatsCounter";
 
 export function Hero() {
   const heroImage = PlaceHolderImages.find((img) => img.id === "hero-bg");
@@ -57,18 +56,17 @@ export function Hero() {
 
           <div className="mt-16 lg:mt-0 relative">
             <div className="relative z-10">
-              {heroImage?.imageUrl && (
+              {heroImage?.imageUrl ? (
                 <Image
                   src={heroImage.imageUrl}
-                  alt="Researcher working at desk"
+                  alt={heroImage.description || "Researcher working at desk"}
                   width={600}
                   height={450}
                   className="rounded-[40px] shadow-3xl object-cover aspect-[4/3] border-[12px] border-white/5"
-                  data-ai-hint="researcher desk"
+                  data-ai-hint={heroImage.imageHint}
                 />
-              )}
+              ) : null}
             </div>
-            {/* Background decorative blob */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-white/5 blur-3xl rounded-full -z-10" />
           </div>
         </div>
