@@ -49,14 +49,18 @@ export function About() {
         <div className="grid lg:grid-cols-2 gap-20 items-center mb-40">
           <div className="relative flex flex-col items-center animate-in fade-in slide-in-from-left-8 duration-1000">
             {/* Perfectly circular headshot with premium border */}
-            <div className="relative w-72 h-72 sm:w-80 sm:h-80 md:w-[450px] md:h-[450px] z-10 overflow-hidden rounded-full shadow-[0_40px_80px_rgba(0,71,255,0.1)] border-[12px] md:border-[16px] border-white transition-all duration-700 hover:scale-[1.02]">
-              {founder?.image && (
+            <div className="relative w-72 h-72 sm:w-80 sm:h-80 md:w-[450px] md:h-[450px] z-10 overflow-hidden rounded-full shadow-[0_40px_80px_rgba(0,71,255,0.15)] border-[12px] md:border-[16px] border-white transition-all duration-700 hover:scale-[1.02]">
+              {founder?.image ? (
                 <Image
                   src={founder.image}
                   alt={founder.name}
                   fill
                   className="object-cover"
                 />
+              ) : (
+                <div className="w-full h-full bg-slate-100 flex items-center justify-center text-slate-300">
+                  <Globe className="h-20 w-20" />
+                </div>
               )}
             </div>
             
@@ -78,21 +82,21 @@ export function About() {
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[110%] h-[110%] bg-primary/5 rounded-full blur-[120px] -z-10" />
           </div>
 
-          <div className="space-y-12 text-center lg:text-left animate-in fade-in slide-in-from-right-8 duration-1000">
-            <div className="space-y-8">
-              <div className="inline-flex items-center gap-3 bg-primary/10 text-primary text-[10px] uppercase tracking-[0.4em] font-bold px-6 py-2.5 rounded-full mx-auto lg:mx-0 shadow-sm border border-primary/20">
+          <div className="space-y-12 text-center animate-in fade-in slide-in-from-right-8 duration-1000">
+            <div className="space-y-8 flex flex-col items-center">
+              <div className="inline-flex items-center gap-3 bg-primary/10 text-primary text-[10px] uppercase tracking-[0.4em] font-bold px-6 py-2.5 rounded-full shadow-sm border border-primary/20">
                 Academic Stewardship
               </div>
               <h2 className="text-6xl md:text-8xl font-headline font-bold text-accent leading-[0.95] tracking-tight">
                 Precision <br />
                 <span className="text-primary/90 italic">in Research</span>
               </h2>
-              <p className="text-xl md:text-2xl text-slate-600 font-light max-w-xl leading-relaxed">
+              <p className="text-xl md:text-2xl text-slate-600 font-light max-w-xl leading-relaxed mx-auto">
                 Under the expert guidance of <span className="font-semibold text-accent">{founder?.name || "Om Prakash Sinha"}</span>, we provide the rigorous methodology and academic integrity required for success in global publishing.
               </p>
             </div>
 
-            <div className="grid sm:grid-cols-2 gap-6 pt-4">
+            <div className="grid sm:grid-cols-2 gap-6 pt-4 max-w-2xl mx-auto">
               {[
                 { icon: ShieldCheck, label: "Ethical Integrity", desc: "Plagiarism-free guarantee" },
                 { icon: Zap, label: "Rapid Synthesis", desc: "Expert literature review" },
