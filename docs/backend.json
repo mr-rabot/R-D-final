@@ -1,0 +1,958 @@
+{
+  "entities": {
+    "File": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "File",
+      "type": "object",
+      "description": "Represents metadata for a file uploaded to the application, such as images for content or attachments for inquiries.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the File entity."
+        },
+        "fileName": {
+          "type": "string",
+          "description": "The original name of the uploaded file."
+        },
+        "fileSize": {
+          "type": "number",
+          "description": "The size of the file in bytes."
+        },
+        "mimeType": {
+          "type": "string",
+          "description": "The MIME type of the file (e.g., 'image/jpeg', 'application/pdf')."
+        },
+        "storagePath": {
+          "type": "string",
+          "description": "The URL or path where the file is stored and can be accessed."
+        },
+        "uploadedAt": {
+          "type": "string",
+          "description": "The timestamp when the file was uploaded.",
+          "format": "date-time"
+        },
+        "uploadedByAdminId": {
+          "type": "string",
+          "description": "Reference to the AdminUser who uploaded the file. (Relationship: AdminUser 1:N File)"
+        },
+        "description": {
+          "type": "string",
+          "description": "An optional description or context for the file."
+        }
+      },
+      "required": [
+        "id",
+        "fileName",
+        "fileSize",
+        "mimeType",
+        "storagePath",
+        "uploadedAt"
+      ]
+    },
+    "AdminUser": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "AdminUser",
+      "type": "object",
+      "description": "Represents an administrator user with access to the content management system. Authentication details (password) are managed externally.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the AdminUser entity."
+        },
+        "firstName": {
+          "type": "string",
+          "description": "The first name of the administrator."
+        },
+        "lastName": {
+          "type": "string",
+          "description": "The last name of the administrator."
+        },
+        "email": {
+          "type": "string",
+          "description": "The email address of the administrator, used for identification.",
+          "format": "email"
+        },
+        "role": {
+          "type": "string",
+          "description": "The role of the administrator (e.g., 'SuperAdmin', 'ContentManager')."
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "The timestamp when the admin user account was created.",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "The timestamp when the admin user account was last updated.",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "firstName",
+        "lastName",
+        "email",
+        "role",
+        "createdAt"
+      ]
+    },
+    "PageContent": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "PageContent",
+      "type": "object",
+      "description": "Manages various static content sections and pages within the application, such as 'About Us', 'Home Page sections', or 'Service Descriptions'.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the PageContent entity."
+        },
+        "title": {
+          "type": "string",
+          "description": "The main title or heading for the content section."
+        },
+        "slug": {
+          "type": "string",
+          "description": "A URL-friendly identifier for the content section."
+        },
+        "content": {
+          "type": "string",
+          "description": "The main body of the content, which can include HTML or Markdown."
+        },
+        "contentType": {
+          "type": "string",
+          "description": "Defines the type of content (e.g., 'STATIC_PAGE', 'SERVICE_SECTION', 'ABOUT_US')."
+        },
+        "featuredImageId": {
+          "type": "string",
+          "description": "Reference to a File entity for a featured image associated with this content. (Relationship: File 1:N PageContent)"
+        },
+        "galleryImageIds": {
+          "type": "array",
+          "description": "An array of references to File entities for a gallery of images associated with this content. (Relationship: File N:N PageContent)",
+          "items": {
+            "type": "string"
+          }
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "The timestamp when this content was created.",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "The timestamp when this content was last updated.",
+          "format": "date-time"
+        },
+        "published": {
+          "type": "boolean",
+          "description": "Indicates whether the content is currently published and visible to users."
+        }
+      },
+      "required": [
+        "id",
+        "title",
+        "slug",
+        "content",
+        "contentType",
+        "createdAt",
+        "published"
+      ]
+    },
+    "Service": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Service",
+      "type": "object",
+      "description": "Defines an academic R&D service offered by AcadeFlow Solutions.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Service entity."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the service (e.g., 'Thesis Editing', 'Data Analysis')."
+        },
+        "description": {
+          "type": "string",
+          "description": "A detailed description of the service."
+        },
+        "shortDescription": {
+          "type": "string",
+          "description": "A brief summary of the service, ideal for card displays."
+        },
+        "iconName": {
+          "type": "string",
+          "description": "The name of an icon to represent the service (e.g., 'feather', 'flask')."
+        },
+        "heroImageId": {
+          "type": "string",
+          "description": "Reference to a File entity for a hero or banner image for the service. (Relationship: File 1:N Service)"
+        },
+        "pricingPlanIds": {
+          "type": "array",
+          "description": "An array of references to PricingPlan entities associated with this service. (Relationship: PricingPlan N:N Service)",
+          "items": {
+            "type": "string"
+          }
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "The timestamp when the service was added.",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "The timestamp when the service details were last updated.",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "description",
+        "shortDescription",
+        "iconName",
+        "createdAt"
+      ]
+    },
+    "PricingPlan": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "PricingPlan",
+      "type": "object",
+      "description": "Details a specific pricing tier or option for a service.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the PricingPlan entity."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the pricing plan (e.g., 'Basic', 'Premium', 'Hourly Rate')."
+        },
+        "price": {
+          "type": "number",
+          "description": "The base price of the plan."
+        },
+        "currency": {
+          "type": "string",
+          "description": "The currency of the price (e.g., 'USD', 'EUR')."
+        },
+        "description": {
+          "type": "string",
+          "description": "A detailed description of what the plan includes."
+        },
+        "features": {
+          "type": "array",
+          "description": "An array of strings listing key features or benefits of the plan.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "type": {
+          "type": "string",
+          "description": "The type of pricing (e.g., 'FIXED_PRICE', 'HOURLY', 'CUSTOM_QUOTE')."
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "The timestamp when the pricing plan was created.",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "The timestamp when the pricing plan was last updated.",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "currency",
+        "description",
+        "features",
+        "type",
+        "createdAt"
+      ]
+    },
+    "Testimonial": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Testimonial",
+      "type": "object",
+      "description": "Stores client testimonials to build credibility and trust.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Testimonial entity."
+        },
+        "clientName": {
+          "type": "string",
+          "description": "The name of the client providing the testimonial."
+        },
+        "clientTitle": {
+          "type": "string",
+          "description": "The client's title or affiliation (e.g., 'PhD Candidate', 'Research Scientist')."
+        },
+        "quote": {
+          "type": "string",
+          "description": "The actual text of the testimonial."
+        },
+        "clientAvatarImageId": {
+          "type": "string",
+          "description": "Reference to a File entity for the client's avatar or profile picture. (Relationship: File 1:N Testimonial)"
+        },
+        "companyLogoImageId": {
+          "type": "string",
+          "description": "Reference to a File entity for the client's company or institution logo. (Relationship: File 1:N Testimonial)"
+        },
+        "rating": {
+          "type": "number",
+          "description": "A numerical rating provided by the client, typically on a scale like 1-5."
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "The timestamp when the testimonial was added.",
+          "format": "date-time"
+        },
+        "published": {
+          "type": "boolean",
+          "description": "Indicates whether the testimonial is currently published and visible on the website."
+        }
+      },
+      "required": [
+        "id",
+        "clientName",
+        "quote",
+        "createdAt",
+        "published"
+      ]
+    },
+    "BlogPost": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "BlogPost",
+      "type": "object",
+      "description": "Represents an educational article or post in the academic blog and resource library.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the BlogPost entity."
+        },
+        "title": {
+          "type": "string",
+          "description": "The title of the blog post."
+        },
+        "slug": {
+          "type": "string",
+          "description": "A URL-friendly slug for the blog post."
+        },
+        "authorAdminId": {
+          "type": "string",
+          "description": "Reference to the AdminUser who authored the blog post. (Relationship: AdminUser 1:N BlogPost)"
+        },
+        "publishDate": {
+          "type": "string",
+          "description": "The date when the blog post was published.",
+          "format": "date-time"
+        },
+        "content": {
+          "type": "string",
+          "description": "The main content of the blog post, possibly in HTML or Markdown."
+        },
+        "featuredImageId": {
+          "type": "string",
+          "description": "Reference to a File entity for the featured image of the blog post. (Relationship: File 1:N BlogPost)"
+        },
+        "tagIds": {
+          "type": "array",
+          "description": "An array of references to Tag entities associated with this blog post. (Relationship: Tag N:N BlogPost)",
+          "items": {
+            "type": "string"
+          }
+        },
+        "readTimeMinutes": {
+          "type": "number",
+          "description": "Estimated reading time of the blog post in minutes."
+        },
+        "seoDescription": {
+          "type": "string",
+          "description": "A short description for SEO purposes."
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "The timestamp when the blog post was initially created.",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "The timestamp when the blog post was last updated.",
+          "format": "date-time"
+        },
+        "published": {
+          "type": "boolean",
+          "description": "Indicates whether the blog post is currently published and visible to users."
+        }
+      },
+      "required": [
+        "id",
+        "title",
+        "slug",
+        "authorAdminId",
+        "publishDate",
+        "content",
+        "createdAt",
+        "published"
+      ]
+    },
+    "Tag": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Tag",
+      "type": "object",
+      "description": "Represents a tag used to categorize blog posts and resources.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Tag entity."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the tag (e.g., 'Research Methodology', 'Academic Writing')."
+        },
+        "slug": {
+          "type": "string",
+          "description": "A URL-friendly slug for the tag."
+        },
+        "description": {
+          "type": "string",
+          "description": "An optional short description for the tag."
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "slug"
+      ]
+    },
+    "Resource": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Resource",
+      "type": "object",
+      "description": "Represents a downloadable academic resource, such as a thesis template or citation guide.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Resource entity."
+        },
+        "title": {
+          "type": "string",
+          "description": "The title of the resource."
+        },
+        "description": {
+          "type": "string",
+          "description": "A detailed description of the resource."
+        },
+        "fileId": {
+          "type": "string",
+          "description": "Reference to the File entity representing the actual downloadable resource. (Relationship: File 1:N Resource)"
+        },
+        "resourceType": {
+          "type": "string",
+          "description": "The type of resource (e.g., 'Template', 'Guide', 'Checklist')."
+        },
+        "thumbnailImageId": {
+          "type": "string",
+          "description": "Reference to a File entity for a thumbnail image of the resource. (Relationship: File 1:N Resource)"
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "The timestamp when the resource was added.",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "The timestamp when the resource details were last updated.",
+          "format": "date-time"
+        },
+        "published": {
+          "type": "boolean",
+          "description": "Indicates whether the resource is currently published and available for download."
+        }
+      },
+      "required": [
+        "id",
+        "title",
+        "description",
+        "fileId",
+        "resourceType",
+        "createdAt",
+        "published"
+      ]
+    },
+    "FAQ": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "FAQ",
+      "type": "object",
+      "description": "Stores frequently asked questions and their answers.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the FAQ entity."
+        },
+        "question": {
+          "type": "string",
+          "description": "The frequently asked question."
+        },
+        "answer": {
+          "type": "string",
+          "description": "The detailed answer to the question."
+        },
+        "category": {
+          "type": "string",
+          "description": "A category for organizing FAQs (e.g., 'Services', 'Pricing', 'General')."
+        },
+        "order": {
+          "type": "number",
+          "description": "The display order of the FAQ within its category."
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "The timestamp when the FAQ was created.",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "The timestamp when the FAQ was last updated.",
+          "format": "date-time"
+        },
+        "published": {
+          "type": "boolean",
+          "description": "Indicates whether the FAQ is currently published and visible to users."
+        }
+      },
+      "required": [
+        "id",
+        "question",
+        "answer",
+        "category",
+        "order",
+        "createdAt",
+        "published"
+      ]
+    },
+    "Inquiry": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Inquiry",
+      "type": "object",
+      "description": "Stores general contact inquiries submitted through the website forms.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Inquiry entity."
+        },
+        "fullName": {
+          "type": "string",
+          "description": "The full name of the person submitting the inquiry."
+        },
+        "email": {
+          "type": "string",
+          "description": "The email address of the inquirer.",
+          "format": "email"
+        },
+        "phoneNumber": {
+          "type": "string",
+          "description": "The optional phone number of the inquirer."
+        },
+        "subject": {
+          "type": "string",
+          "description": "The subject line of the inquiry."
+        },
+        "message": {
+          "type": "string",
+          "description": "The detailed message of the inquiry."
+        },
+        "attachedFileIds": {
+          "type": "array",
+          "description": "An array of references to File entities attached to this inquiry. (Relationship: File N:N Inquiry)",
+          "items": {
+            "type": "string"
+          }
+        },
+        "submissionDateTime": {
+          "type": "string",
+          "description": "The timestamp when the inquiry was submitted.",
+          "format": "date-time"
+        },
+        "status": {
+          "type": "string",
+          "description": "The current status of the inquiry (e.g., 'New', 'In Progress', 'Resolved')."
+        },
+        "adminNotes": {
+          "type": "string",
+          "description": "Internal notes added by administrators regarding the inquiry."
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "The timestamp when the inquiry record was created.",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "The timestamp when the inquiry record was last updated.",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "fullName",
+        "email",
+        "subject",
+        "message",
+        "submissionDateTime",
+        "status",
+        "createdAt"
+      ]
+    },
+    "QuoteRequest": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "QuoteRequest",
+      "type": "object",
+      "description": "Stores specific service quote requests submitted by potential clients.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the QuoteRequest entity."
+        },
+        "fullName": {
+          "type": "string",
+          "description": "The full name of the client requesting the quote."
+        },
+        "email": {
+          "type": "string",
+          "description": "The email address of the client.",
+          "format": "email"
+        },
+        "phoneNumber": {
+          "type": "string",
+          "description": "The optional phone number of the client."
+        },
+        "companyName": {
+          "type": "string",
+          "description": "The optional company or institution name of the client."
+        },
+        "serviceOfInterestId": {
+          "type": "string",
+          "description": "Reference to the Service entity the client is interested in. (Relationship: Service 1:N QuoteRequest)"
+        },
+        "projectDescription": {
+          "type": "string",
+          "description": "A detailed description of the project requiring a quote."
+        },
+        "budget": {
+          "type": "string",
+          "description": "The client's optional budget range for the project."
+        },
+        "timeline": {
+          "type": "string",
+          "description": "The client's desired timeline for project completion."
+        },
+        "attachedFileIds": {
+          "type": "array",
+          "description": "An array of references to File entities attached to this quote request (e.g., project briefs, sample documents). (Relationship: File N:N QuoteRequest)",
+          "items": {
+            "type": "string"
+          }
+        },
+        "submissionDateTime": {
+          "type": "string",
+          "description": "The timestamp when the quote request was submitted.",
+          "format": "date-time"
+        },
+        "status": {
+          "type": "string",
+          "description": "The current status of the quote request (e.g., 'New', 'Reviewing', 'Quoted', 'Accepted', 'Declined')."
+        },
+        "quoteAmount": {
+          "type": "number",
+          "description": "The final quoted amount for the service."
+        },
+        "quoteCurrency": {
+          "type": "string",
+          "description": "The currency of the quoted amount (e.g., 'USD', 'EUR')."
+        },
+        "adminNotes": {
+          "type": "string",
+          "description": "Internal notes added by administrators regarding the quote request."
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "The timestamp when the quote request record was created.",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "The timestamp when the quote request record was last updated.",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "fullName",
+        "email",
+        "projectDescription",
+        "submissionDateTime",
+        "status",
+        "createdAt"
+      ]
+    }
+  },
+  "auth": {
+    "providers": [
+      "password",
+      "anonymous"
+    ]
+  },
+  "firestore": {
+    "structure": [
+      {
+        "path": "/adminUsers/{adminId}",
+        "definition": {
+          "entityName": "AdminUser",
+          "schema": {
+            "$ref": "#/backend/entities/AdminUser"
+          },
+          "description": "Stores profile information for administrators. Access is restricted to authenticated administrators. The `{adminId}` must match `request.auth.uid` for a user to access their own profile, or `request.auth.uid` must be a SuperAdmin for broader access."
+        }
+      },
+      {
+        "path": "/admin_roles/{adminId}",
+        "definition": {
+          "entityName": "AdminRole",
+          "schema": {
+            "$ref": "#/backend/entities/AdminUser"
+          },
+          "description": "A sentinel collection to establish an administrator's presence for authorization rules. The existence of a document at `/admin_roles/request.auth.uid` denotes an authenticated user is an administrator. This explicitly enables Authorization Independence by avoiding `get()` calls for role checks.",
+          "params": [
+            {
+              "name": "adminId",
+              "description": "The unique identifier of the administrator, which corresponds to `request.auth.uid`."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/files/{fileId}",
+        "definition": {
+          "entityName": "File",
+          "schema": {
+            "$ref": "#/backend/entities/File"
+          },
+          "description": "Stores metadata for public-facing files (e.g., images for page content, services, testimonials, blog posts, resources) uploaded by administrators. Documents include `uploadedByAdminId`. Public users can read this collection; only authenticated administrators can create, update, or delete documents. This collection is structurally segregated for general public content access.",
+          "params": [
+            {
+              "name": "fileId",
+              "description": "The unique identifier of the file."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/pageContents/{pageContentId}",
+        "definition": {
+          "entityName": "PageContent",
+          "schema": {
+            "$ref": "#/backend/entities/PageContent"
+          },
+          "description": "Manages static website content sections. Public users can read documents where `published: true`. Authenticated administrators can read and write all documents. The `featuredImageId` and `galleryImageIds` fields reference documents in `/files/{fileId}`.",
+          "params": [
+            {
+              "name": "pageContentId",
+              "description": "The unique identifier for the page content section."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/services/{serviceId}",
+        "definition": {
+          "entityName": "Service",
+          "schema": {
+            "$ref": "#/backend/entities/Service"
+          },
+          "description": "Defines academic R&D services offered. Public users can read this collection. Authenticated administrators can read and write documents. The `heroImageId` references a document in `/files/{fileId}`.",
+          "params": [
+            {
+              "name": "serviceId",
+              "description": "The unique identifier for the service."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/pricingPlans/{pricingPlanId}",
+        "definition": {
+          "entityName": "PricingPlan",
+          "schema": {
+            "$ref": "#/backend/entities/PricingPlan"
+          },
+          "description": "Details pricing tiers for services. Public users can read this collection. Authenticated administrators can read and write documents. Linked to `Service` documents via `pricingPlanIds` array.",
+          "params": [
+            {
+              "name": "pricingPlanId",
+              "description": "The unique identifier for the pricing plan."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/testimonials/{testimonialId}",
+        "definition": {
+          "entityName": "Testimonial",
+          "schema": {
+            "$ref": "#/backend/entities/Testimonial"
+          },
+          "description": "Stores client testimonials. Public users can read documents where `published: true`. Authenticated administrators can read and write all documents. The `clientAvatarImageId` and `companyLogoImageId` reference documents in `/files/{fileId}`.",
+          "params": [
+            {
+              "name": "testimonialId",
+              "description": "The unique identifier for the testimonial."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/blogPosts/{blogPostId}",
+        "definition": {
+          "entityName": "BlogPost",
+          "schema": {
+            "$ref": "#/backend/entities/BlogPost"
+          },
+          "description": "Represents blog articles. Public users can read documents where `published: true`. Authenticated administrators can read and write all documents. Includes `authorAdminId` (denormalized ownership) and `featuredImageId` referencing a document in `/files/{fileId}`.",
+          "params": [
+            {
+              "name": "blogPostId",
+              "description": "The unique identifier for the blog post."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/tags/{tagId}",
+        "definition": {
+          "entityName": "Tag",
+          "schema": {
+            "$ref": "#/backend/entities/Tag"
+          },
+          "description": "Categorizes blog posts and resources. Public users can read this collection. Authenticated administrators can read and write documents.",
+          "params": [
+            {
+              "name": "tagId",
+              "description": "The unique identifier for the tag."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/resources/{resourceId}",
+        "definition": {
+          "entityName": "Resource",
+          "schema": {
+            "$ref": "#/backend/entities/Resource"
+          },
+          "description": "Stores downloadable academic resources. Public users can read documents where `published: true`. Authenticated administrators can read and write all documents. The `fileId` and `thumbnailImageId` reference documents in `/files/{fileId}`.",
+          "params": [
+            {
+              "name": "resourceId",
+              "description": "The unique identifier for the resource."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/faqs/{faqId}",
+        "definition": {
+          "entityName": "FAQ",
+          "schema": {
+            "$ref": "#/backend/entities/FAQ"
+          },
+          "description": "Manages frequently asked questions. Public users can read documents where `published: true`. Authenticated administrators can read and write all documents.",
+          "params": [
+            {
+              "name": "faqId",
+              "description": "The unique identifier for the FAQ entry."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/inquiries/{inquiryId}",
+        "definition": {
+          "entityName": "Inquiry",
+          "schema": {
+            "$ref": "#/backend/entities/Inquiry"
+          },
+          "description": "Stores general contact inquiries. Anonymous users can create documents. Only authenticated administrators can read, update, or delete documents. This structural segregation ensures QAPs are met by preventing public users from listing or reading submitted inquiries.",
+          "params": [
+            {
+              "name": "inquiryId",
+              "description": "The unique identifier for the inquiry."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/inquiries/{inquiryId}/attachedFiles/{fileId}",
+        "definition": {
+          "entityName": "File",
+          "schema": {
+            "$ref": "#/backend/entities/File"
+          },
+          "description": "Stores metadata for files attached to a specific inquiry. Anonymous users can create (only in conjunction with parent inquiry creation). Only authenticated administrators can read, update, or delete documents. The path itself denormalizes the `inquiryId` for Authorization Independence, simplifying rules for this private data.",
+          "params": [
+            {
+              "name": "inquiryId",
+              "description": "The unique identifier of the parent inquiry."
+            },
+            {
+              "name": "fileId",
+              "description": "The unique identifier of the attached file."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/quoteRequests/{quoteRequestId}",
+        "definition": {
+          "entityName": "QuoteRequest",
+          "schema": {
+            "$ref": "#/backend/entities/QuoteRequest"
+          },
+          "description": "Stores service quote requests. Anonymous users can create documents. Only authenticated administrators can read, update, or delete documents. This structural segregation ensures QAPs are met by preventing public users from listing or reading submitted quote requests.",
+          "params": [
+            {
+              "name": "quoteRequestId",
+              "description": "The unique identifier for the quote request."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/quoteRequests/{quoteRequestId}/attachedFiles/{fileId}",
+        "definition": {
+          "entityName": "File",
+          "schema": {
+            "$ref": "#/backend/entities/File"
+          },
+          "description": "Stores metadata for files attached to a specific quote request. Anonymous users can create (only in conjunction with parent quote request creation). Only authenticated administrators can read, update, or delete documents. The path itself denormalizes the `quoteRequestId` for Authorization Independence, simplifying rules for this private data.",
+          "params": [
+            {
+              "name": "quoteRequestId",
+              "description": "The unique identifier of the parent quote request."
+            },
+            {
+              "name": "fileId",
+              "description": "The unique identifier of the attached file."
+            }
+          ]
+        }
+      }
+    ],
+    "reasoning": "The Firestore structure for AcadeFlow Solutions is designed with a strong emphasis on Authorization Independence, Structural Segregation, and consistent Access Modeling to ensure security, scalability, and debuggability, especially in light of potential file upload errors. \n\n**Authorization Independence:**\n1.  **Admin Role Management:** Instead of relying on `get()` calls to an `AdminUser` document to determine if a user is an admin, a dedicated collection, `/admin_roles/{adminId}`, will be used. The mere existence of a document at `admin_roles/request.auth.uid` signifies an authenticated user is an administrator. This approach completely avoids `get()` calls for primary authorization, ensuring atomic operations and simplified, robust security rules.\n2.  **Denormalized Authorization Context for Files:**\n    *   Files that are part of the public-facing content (e.g., featured images, service hero images) are stored in `/files/{fileId}`. The `File` document includes `uploadedByAdminId`, clearly linking it to an administrator. Access is globally readable, with write access restricted to authenticated administrators.\n    *   Files attached to inquiries or quote requests are structurally segregated into subcollections: `/inquiries/{inquiryId}/attachedFiles/{fileId}` and `/quoteRequests/{quoteRequestId}/attachedFiles/{fileId}`. The path itself denormalizes the parent `inquiryId` or `quoteRequestId` into the file's access context. This means security rules for these files do not need to `get()` the parent `inquiry` or `quoteRequest` document to determine access rights; they can directly use the `{inquiryId}` or `{quoteRequestId}` from the path, enabling atomic operations (e.g., creating an inquiry and its attached files in a single batched write).\n\n**Structural Segregation (Homogeneous Security Posture):**\n1.  **Public Content vs. Admin Content:** Most content entities (`PageContent`, `Service`, `PricingPlan`, `Testimonial`, `BlogPost`, `Tag`, `Resource`, `FAQ`) are placed in top-level collections. These collections will contain a `published: true/false` field. This allows for a clear distinction: publicly accessible documents (`published: true`) and internal/draft documents (`published: false`). Security rules can enforce that anonymous or public users can only read documents where `published` is true, while administrators can read/write all documents. This prevents mixing different security postures within the same collection based on granular field values and instead uses a clear state machine (`published`).\n2.  **File Segregation:** As detailed above, public-facing files are separate from files attached to private inquiries/quotes, each with distinct access rules.\n3.  **Inquiry and Quote Requests:** `/inquiries/{inquiryId}` and `/quoteRequests/{quoteRequestId}` are distinct. Public users can *create* documents in these collections (anonymous write), but only administrators can *read* or *update* them. This ensures sensitive user submissions are only accessible to authorized personnel.\n\n**QAPs (Rules are not Filters):**\n1.  **Publicly Accessible Collections:** For collections like `/pageContents`, `/services`, `/blogPosts`, `/faqs`, `/resources`, and `/testimonials`, security rules will enforce that public `list` operations must include a `where('published', '==', true)` clause. If a query does not include this filter, the rule will deny the operation, ensuring that clients cannot inadvertently or maliciously retrieve unpublished content. This guarantees that data returned by a query is always within the user's authorized scope, meeting the QAPs principle.\n2.  **Admin-Only Collections/Operations:** For `admin_roles`, `adminUsers`, `inquiries`, `quoteRequests`, and their `attachedFiles`, `list` operations are restricted entirely to authenticated administrators. Public users cannot list these collections at all, thereby satisfying QAPs by preventing unauthorized data exposure via list operations. Anonymous users are only permitted `create` operations on `inquiries` and `quoteRequests` (and their associated `attachedFiles`), not `list` or `read`."
+  }
+}
