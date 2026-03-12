@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useForm } from "react-hook-form";
@@ -11,7 +10,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
-import { Mail, Phone, Send } from "lucide-react";
+import { Mail, Phone, Send, User } from "lucide-react";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 
 const formSchema = z.object({
@@ -54,11 +53,22 @@ export function InquiryForm() {
             <div className="space-y-6">
               <h2 className="text-5xl font-headline font-bold text-accent">Get in Touch</h2>
               <p className="text-lg text-slate-600 leading-relaxed max-w-md">
-                Have a project in mind? Let's discuss how we can help you achieve your academic goals.
+                Have a research project in mind? Contact R & D Services Pvt. Ltd. to discuss how we can help.
               </p>
             </div>
             
             <div className="space-y-8">
+              <div className="flex items-start gap-6">
+                <div className="bg-blue-100 p-3 rounded-xl text-primary">
+                  <User className="h-6 w-6" />
+                </div>
+                <div>
+                  <h4 className="font-bold text-accent text-lg">Leadership</h4>
+                  <p className="text-slate-600 font-bold">Om Prakash Sinha</p>
+                  <p className="text-xs uppercase text-slate-500">Founder & Director</p>
+                </div>
+              </div>
+
               <div className="flex items-start gap-6">
                 <div className="bg-blue-100 p-3 rounded-xl text-primary">
                   <Mail className="h-6 w-6" />
@@ -66,7 +76,6 @@ export function InquiryForm() {
                 <div>
                   <h4 className="font-bold text-accent text-lg">Email Us</h4>
                   <p className="text-slate-600">contact@rd-services.com</p>
-                  <p className="text-slate-600">info@rd-services.com</p>
                 </div>
               </div>
 
@@ -76,7 +85,7 @@ export function InquiryForm() {
                 </div>
                 <div>
                   <h4 className="font-bold text-accent text-lg">Call Us</h4>
-                  <p className="text-slate-600">+91 XXXXX XXXXX</p>
+                  <p className="text-slate-600">+91 6209779365</p>
                   <p className="text-slate-600">Available 24/7</p>
                 </div>
               </div>

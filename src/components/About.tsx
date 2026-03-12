@@ -1,4 +1,3 @@
-
 "use client";
 
 import Image from "next/image";
@@ -20,7 +19,7 @@ export function About() {
               {expertImg?.imageUrl && (
                 <Image
                   src={expertImg.imageUrl}
-                  alt="Dr. James Aris"
+                  alt="Om Prakash Sinha"
                   fill
                   className="object-cover"
                   data-ai-hint={expertImg.imageHint}
@@ -31,7 +30,7 @@ export function About() {
             <div className="absolute -bottom-6 -right-6 bg-primary p-8 rounded-[32px] shadow-xl text-white max-w-xs z-20 hidden md:block">
               <Quote className="h-8 w-8 mb-4 opacity-50 fill-current" />
               <p className="text-sm italic font-medium leading-relaxed">
-                "Our mission is to bridge the gap between rigorous research and high-impact publishing success."
+                "Our mission is to provide world-class academic support with absolute integrity and research excellence."
               </p>
             </div>
             {/* Background Shape */}
@@ -41,22 +40,22 @@ export function About() {
           <div className="space-y-8">
             <div className="space-y-4">
               <div className="inline-flex items-center gap-2 bg-primary/10 text-primary text-[10px] uppercase tracking-widest font-bold px-4 py-1.5 rounded-full">
-                Meet Our Lead Expert
+                Leadership
               </div>
-              <h2 className="text-5xl font-headline font-bold text-accent">Dr. James Aris</h2>
-              <p className="text-lg text-primary font-bold">PhD, Senior Academic Consultant & Lead Researcher</p>
+              <h2 className="text-5xl font-headline font-bold text-accent">Om Prakash Sinha</h2>
+              <p className="text-lg text-primary font-bold">Founder & Director, R & D Services Pvt. Ltd.</p>
             </div>
 
             <p className="text-slate-600 leading-relaxed text-lg">
-              With over 15 years of experience in academic writing and scholarly publishing, Dr. Aris has guided hundreds of researchers from the initial hypothesis to successful publication in high-impact journals like Nature and Science.
+              Under the visionary leadership of Om Prakash Sinha, R & D Services Pvt. Ltd. has grown into a premier destination for academic research and professional publishing support, serving scholars globally with dedicated expertise.
             </p>
 
             <div className="grid sm:grid-cols-2 gap-6">
               {[
-                { icon: GraduationCap, label: "Ivy League PhD", desc: "Advanced research methodology" },
-                { icon: BookOpen, label: "200+ Publications", desc: "Peer-reviewed success" },
-                { icon: Award, label: "Academic Mentor", desc: "Specialist in thesis guidance" },
-                { icon: Search, label: "Data Scientist", desc: "Expert in statistical analysis" }
+                { icon: GraduationCap, label: "Academic Excellence", desc: "Expert research guidance" },
+                { icon: BookOpen, label: "Global Publishing", desc: "Peer-reviewed success" },
+                { icon: Award, label: "Strategic Leadership", desc: "Guiding R&D operations" },
+                { icon: Search, label: "Methodology Expert", desc: "Specialist in research design" }
               ].map((item, i) => (
                 <div key={i} className="flex items-start gap-4 p-4 rounded-2xl hover:bg-slate-50 transition-colors border border-transparent hover:border-slate-100">
                   <div className="bg-primary/10 p-2 rounded-lg text-primary">
@@ -71,7 +70,7 @@ export function About() {
             </div>
 
             <Button size="lg" className="rounded-xl px-8 h-12 bg-black hover:bg-slate-900 text-white font-bold">
-              View Publication History
+              Learn More About Our Journey
             </Button>
           </div>
         </div>
@@ -82,13 +81,13 @@ export function About() {
             <div className="space-y-8">
               <h3 className="text-4xl font-headline font-bold">Research Impact & <br />Global Reach</h3>
               <p className="text-blue-100/80 leading-relaxed text-lg">
-                We don't just write; we strategize for success. Our systematic approach ensures your work meets the highest international standards of academic integrity and impact.
+                We don't just provide services; we build academic careers. Our systematic approach ensures your work meets the highest international standards of academic integrity and impact.
               </p>
               
               <div className="grid grid-cols-2 gap-8">
                 <div className="space-y-2">
-                  <div className="text-4xl font-bold text-primary">₹5Cr+</div>
-                  <div className="text-xs uppercase tracking-widest font-bold text-blue-200">Grant Funding Secured</div>
+                  <div className="text-4xl font-bold text-primary">500+</div>
+                  <div className="text-xs uppercase tracking-widest font-bold text-blue-200">Projects Delivered</div>
                 </div>
                 <div className="space-y-2">
                   <div className="text-4xl font-bold text-primary">120+</div>
