@@ -22,7 +22,8 @@ import {
   MessageSquare,
   HelpCircle,
   Save,
-  Rocket
+  Rocket,
+  Star
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import Image from "next/image";
@@ -85,7 +86,7 @@ export default function AdminDashboard() {
 
   const fetchData = useCallback(async () => {
     try {
-      const res = await fetch('/api/leadership');
+      const res = await fetch('/api/leadership', { cache: 'no-store' });
       if (!res.ok) throw new Error("Failed to fetch");
       const data = await res.json();
       setSiteData(data);
@@ -132,7 +133,6 @@ export default function AdminDashboard() {
       const croppedImage = await getCroppedImg(imageToCrop, croppedAreaPixels);
       const newData = { ...siteData };
       
-      // Handle nested paths like 'leadership.founder.image'
       const parts = currentEditingPath.split('.');
       let current = newData;
       for (let i = 0; i < parts.length - 1; i++) {
@@ -228,6 +228,7 @@ export default function AdminDashboard() {
             { id: "summary", icon: FileText, label: "Firm Summary" },
             { id: "services", icon: Zap, label: "Services" },
             { id: "pricing", icon: CreditCard, label: "Pricing" },
+            { id: "testimonials", icon: Star, label: "Testimonials" },
             { id: "faq", icon: HelpCircle, label: "FAQ" }
           ].map((item) => (
             <div 
@@ -424,6 +425,62 @@ export default function AdminDashboard() {
                           }}
                           className="bg-slate-50 border-none text-xs h-32" 
                         />
+                      </div>
+                    </div>
+                  </Card>
+                ))}
+              </div>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="testimonials">
+            <div className="space-y-6">
+              <div className="flex justify-end">
+                <Button onClick={() => setSiteData({...siteData, testimonials: [...siteData.testimonials, {name: "Client Name", role: "Designation", content: "", stars: 5}]})} className="bg-primary rounded-xl">
+                  <Plus className="h-4 w-4 mr-2" /> Add Testimonial
+                </Button>
+              </div>
+              <div className="grid md:grid-cols-2 gap-6">
+                {siteData.testimonials.map((t: any, i: number) => (
+                  <Card key={i} className="p-8 border-none shadow-lg rounded-3xl bg-white relative group">
+                    <Button variant="ghost" onClick={() => {
+                      const newT = siteData.testimonials.filter((_: any, idx: number) => idx !== i);
+                      setSiteData({...siteData, testimonials: newT});
+                    }} className="absolute top-4 right-4 text-destructive opacity-0 group-hover:opacity-100"><Trash2 className="h-4 w-4" /></Button>
+                    <div className="space-y-4">
+                      <div className="grid grid-cols-2 gap-4">
+                        <div className="space-y-2">
+                          <label className="text-[10px] font-bold uppercase text-slate-400">Name</label>
+                          <Input value={t.name} onChange={(e) => {
+                            const newT = [...siteData.testimonials];
+                            newT[i].name = e.target.value;
+                            setSiteData({...siteData, testimonials: newT});
+                          }} className="bg-slate-50 border-none font-bold" />
+                        </div>
+                        <div className="space-y-2">
+                          <label className="text-[10px] font-bold uppercase text-slate-400">Role</label>
+                          <Input value={t.role} onChange={(e) => {
+                            const newT = [...siteData.testimonials];
+                            newT[i].role = e.target.value;
+                            setSiteData({...siteData, testimonials: newT});
+                          }} className="bg-slate-50 border-none font-bold" />
+                        </div>
+                      </div>
+                      <div className="space-y-2">
+                        <label className="text-[10px] font-bold uppercase text-slate-400">Review Content</label>
+                        <Textarea value={t.content} onChange={(e) => {
+                          const newT = [...siteData.testimonials];
+                          newT[i].content = e.target.value;
+                          setSiteData({...siteData, testimonials: newT});
+                        }} className="bg-slate-50 border-none text-sm h-32" />
+                      </div>
+                      <div className="flex items-center gap-4">
+                        <label className="text-[10px] font-bold uppercase text-slate-400">Stars (1-5)</label>
+                        <Input type="number" min="1" max="5" value={t.stars} onChange={(e) => {
+                          const newT = [...siteData.testimonials];
+                          newT[i].stars = parseInt(e.target.value);
+                          setSiteData({...siteData, testimonials: newT});
+                        }} className="bg-slate-50 border-none w-20" />
                       </div>
                     </div>
                   </Card>

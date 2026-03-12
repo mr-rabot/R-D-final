@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useEffect, useState } from "react";
@@ -31,10 +32,10 @@ export function About() {
   const summaryImg = PlaceHolderImages.find(img => img.id === "summary-img");
 
   useEffect(() => {
-    fetch('/api/leadership')
+    fetch('/api/leadership', { cache: 'no-store' })
       .then(res => res.json())
       .then(data => {
-        if (data.founder) setFounder(data.founder);
+        if (data.leadership?.founder) setFounder(data.leadership.founder);
         if (data.firmSummary) setFirmData(data.firmSummary);
       })
       .catch(err => console.error("Error fetching about data:", err));

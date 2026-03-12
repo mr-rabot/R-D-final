@@ -1,8 +1,7 @@
+
 "use client";
 
-import { Avatar, AvatarAvatarImage } from "@/components/ui/avatar";
-import { AvatarImage } from "@/components/ui/avatar";
-import { AvatarFallback } from "@/components/ui/avatar";
+import { useEffect, useState } from "react";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { Star, Users, Quote, ShieldCheck, Award, Zap, CheckCircle2 } from "lucide-react";
 import {
@@ -16,55 +15,18 @@ import Autoplay from "embla-carousel-autoplay";
 import * as React from "react";
 import { cn } from "@/lib/utils";
 
-const testimonials = [
-  {
-    name: "Priya Sharma",
-    role: "MBA Scholar",
-    content: "The level of academic rigor and methodological precision provided by R&D Services is unparalleled. My thesis was delivered ahead of schedule with flawless citations.",
-    image: "testimonial-1",
-    stars: 5
-  },
-  {
-    name: "Dr. Rahul Verma",
-    role: "Post-Doctoral Researcher",
-    content: "Collaborating with Om Prakash Sinha's team was a turning point for my research paper. Their insights into journal-specific requirements were instrumental in my acceptance.",
-    image: "testimonial-2",
-    stars: 5
-  },
-  {
-    name: "Preeti Sahani",
-    role: "Research Candidate",
-    content: "The technical documentation and literature synthesis were exceptionally deep. They don't just write; they understand the core scientific contribution of your work.",
-    image: "testimonial-3",
-    stars: 5
-  },
-  {
-    name: "Deepak Kumar",
-    role: "Senior Graduate Student",
-    content: "Professional, ethical, and highly efficient. The formatting was exactly in line with international standards, saving me weeks of tedious revisions.",
-    image: "testimonial-4",
-    stars: 5
-  },
-  {
-    name: "Kiran Thapa",
-    role: "MTech Scholar",
-    content: "Their cross-border academic support is exceptional. The guidance I received for my engineering thesis met every standard of my international university.",
-    image: "testimonial-5",
-    stars: 5
-  },
-  {
-    name: "Tenzin Dorji",
-    role: "Academic Researcher",
-    content: "Highly professional service. The research integrity and plagiarism-free guarantee provided me with the confidence I needed for my final submission.",
-    image: "testimonial-6",
-    stars: 5
-  }
-];
-
 export function Testimonials() {
+  const [testimonials, setTestimonials] = useState<any[]>([]);
   const plugin = React.useRef(
     Autoplay({ delay: 4000, stopOnInteraction: false })
   );
+
+  useEffect(() => {
+    fetch('/api/leadership', { cache: 'no-store' })
+      .then(res => res.json())
+      .then(data => setTestimonials(data.testimonials || []))
+      .catch(err => console.error(err));
+  }, []);
 
   return (
     <section id="testimonials" className="py-32 bg-white overflow-hidden relative">
@@ -84,7 +46,6 @@ export function Testimonials() {
           </p>
         </div>
 
-        {/* Generous container padding for shadow rendering */}
         <div className="relative px-8 sm:px-16 lg:px-20 py-12 overflow-visible">
           <Carousel
             plugins={[plugin.current]}
@@ -96,7 +57,8 @@ export function Testimonials() {
           >
             <CarouselContent className="-ml-6 md:-ml-8 overflow-visible">
               {testimonials.map((t, index) => {
-                const img = PlaceHolderImages.find(i => i.id === t.image);
+                const placeholderId = `testimonial-${(index % 6) + 1}`;
+                const img = PlaceHolderImages.find(i => i.id === placeholderId);
                 return (
                   <CarouselItem key={index} className="pl-6 md:pl-8 basis-full md:basis-1/2 lg:basis-1/3 py-10 overflow-visible">
                     <div className="bg-white p-10 rounded-[40px] border border-slate-100 shadow-[0_30px_70px_-15px_rgba(0,0,0,0.12)] hover:shadow-[0_45px_100px_-20px_rgba(0,71,255,0.15)] transition-all duration-500 flex flex-col h-full group relative overflow-hidden">
