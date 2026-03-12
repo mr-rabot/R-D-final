@@ -24,7 +24,7 @@ export function Footer() {
               </div>
             </Link>
             <p className="text-slate-400 leading-relaxed text-sm">
-              Professional research writing and academic consulting services. Led by Founder Om Prakash Sinha, we guarantee quality, originality, and timely delivery.
+              Professional research writing and academic consulting services. Led by Om Prakash Sinha, we guarantee quality, originality, and timely delivery for R&D Services Pvt. Ltd.
             </p>
           </div>
 

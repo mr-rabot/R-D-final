@@ -144,7 +144,7 @@ export function About() {
               
               <div className="space-y-8">
                 <p className="text-blue-100/80 leading-relaxed text-lg md:text-xl font-light italic border-l-2 border-primary/50 pl-8">
-                  {firmData?.description || "We provide a premier academic consulting platform dedicated to bridging the gap between innovative research and high-impact publishing. Our mission is to cultivate scholarly legacies through a methodology-first approach."}
+                  {firmData?.description || "R&D Services Pvt. Ltd. provides a premier academic consulting platform dedicated to bridging the gap between innovative research and high-impact publishing. Our mission is to cultivate scholarly legacies through a methodology-first approach."}
                 </p>
                 <div className="grid grid-cols-2 gap-10">
                   {(firmData?.stats || [
