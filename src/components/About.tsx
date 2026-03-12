@@ -47,8 +47,8 @@ export function About() {
         {/* Leadership Profile Section */}
         <div className="flex flex-col items-center mb-40">
           <div className="relative flex flex-col items-center animate-in fade-in slide-in-from-bottom-8 duration-1000">
-            {/* Circular Headshot */}
-            <div className="relative w-72 h-72 sm:w-80 sm:h-80 md:w-[450px] md:h-[450px] z-10 overflow-hidden rounded-full shadow-[0_40px_80px_rgba(0,71,255,0.12)] border-[12px] md:border-[16px] border-white transition-all duration-700 hover:scale-[1.02] bg-slate-50">
+            {/* Circular Headshot with Premium Shadow */}
+            <div className="relative w-72 h-72 sm:w-80 sm:h-80 md:w-[450px] md:h-[450px] z-10 overflow-hidden rounded-full shadow-[0_40px_100px_rgba(0,71,255,0.15)] border-[12px] md:border-[16px] border-white transition-all duration-700 hover:scale-[1.02] bg-slate-50">
               {founder?.image ? (
                 <Image
                   src={founder.image}
@@ -103,7 +103,7 @@ export function About() {
               { icon: Briefcase, label: "Research Legacy", desc: "500+ Initiatives" },
               { icon: GraduationCap, label: "PhD Support", desc: "Thesis Guidance" }
             ].map((item, i) => (
-              <div key={i} className="flex flex-col items-center text-center p-10 rounded-[40px] bg-slate-50/50 border border-slate-100 hover:border-primary/20 hover:bg-white hover:shadow-2xl hover:shadow-primary/5 transition-all duration-500 group">
+              <div key={i} className="flex flex-col items-center text-center p-10 rounded-[40px] bg-white border border-slate-100 hover:border-primary/20 hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.1)] transition-all duration-500 group shadow-sm">
                 <div className="bg-primary/5 p-4 rounded-2xl text-primary mb-5 transition-transform group-hover:scale-110">
                   <item.icon className="h-7 w-7" />
                 </div>
@@ -120,15 +120,15 @@ export function About() {
                 if (el) el.scrollIntoView({ behavior: 'smooth' });
               }}
               size="lg" 
-              className="rounded-2xl px-14 h-18 bg-accent hover:bg-slate-900 text-white font-bold transition-all shadow-2xl hover:-translate-y-1 active:scale-95 text-lg"
+              className="rounded-2xl px-14 h-18 bg-accent hover:bg-slate-900 text-white font-bold transition-all shadow-[0_20px_40px_rgba(0,0,0,0.3)] hover:-translate-y-1 active:scale-95 text-lg"
             >
               Consult with Leadership
             </Button>
           </div>
         </div>
 
-        {/* Firm Summary Block */}
-        <div className="bg-[#0a0f1c] rounded-[60px] md:rounded-[100px] p-12 md:p-24 text-white relative overflow-hidden shadow-[0_60px_100px_rgba(0,0,0,0.4)] border border-white/5">
+        {/* Firm Summary Block with Deep Shadow */}
+        <div className="bg-[#0a0f1c] rounded-[60px] md:rounded-[100px] p-12 md:p-24 text-white relative overflow-hidden shadow-[0_60px_120px_rgba(0,0,0,0.5)] border border-white/5">
           <div className="relative z-10 lg:grid lg:grid-cols-2 gap-24 items-center">
             <div className="space-y-12">
               <div className="flex items-center gap-3 text-primary">
@@ -173,7 +173,7 @@ export function About() {
 
             <div className="relative mt-24 lg:mt-0">
               {summaryImg?.imageUrl && (
-                <div className="relative aspect-[16/12] w-full overflow-hidden rounded-[50px] shadow-3xl border border-white/10 group">
+                <div className="relative aspect-[16/12] w-full overflow-hidden rounded-[50px] shadow-[0_40px_80px_rgba(0,0,0,0.6)] border border-white/10 group">
                   <Image
                     src={summaryImg.imageUrl}
                     alt="Research and Development Overview"

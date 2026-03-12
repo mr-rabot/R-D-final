@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useForm } from "react-hook-form";
@@ -93,7 +92,7 @@ export function InquiryForm() {
             
             <div className="space-y-8">
               <div className="flex items-start gap-6">
-                <div className="bg-blue-100 p-3 rounded-xl text-primary">
+                <div className="bg-white shadow-md p-3 rounded-xl text-primary">
                   <User className="h-6 w-6" />
                 </div>
                 <div>
@@ -102,7 +101,7 @@ export function InquiryForm() {
               </div>
 
               <div className="flex items-start gap-6">
-                <div className="bg-blue-100 p-3 rounded-xl text-primary">
+                <div className="bg-white shadow-md p-3 rounded-xl text-primary">
                   <Mail className="h-6 w-6" />
                 </div>
                 <div>
@@ -112,7 +111,7 @@ export function InquiryForm() {
               </div>
 
               <div className="flex items-start gap-6">
-                <div className="bg-blue-100 p-3 rounded-xl text-primary">
+                <div className="bg-white shadow-md p-3 rounded-xl text-primary">
                   <Phone className="h-6 w-6" />
                 </div>
                 <div>
@@ -125,7 +124,7 @@ export function InquiryForm() {
 
             <div className="relative pt-8">
               {contactImage?.imageUrl ? (
-                <div className="relative w-full h-64 lg:h-80 overflow-hidden rounded-[32px] shadow-2xl border border-slate-200">
+                <div className="relative w-full h-64 lg:h-80 overflow-hidden rounded-[32px] shadow-[0_30px_60px_rgba(0,0,0,0.15)] border border-slate-200">
                   <Image
                     src={contactImage.imageUrl}
                     alt={contactImage.description || "Research analysis"}
@@ -139,7 +138,7 @@ export function InquiryForm() {
             </div>
           </div>
 
-          <div className="bg-white p-10 rounded-[32px] shadow-xl border border-slate-100">
+          <div className="bg-white p-10 rounded-[32px] shadow-[0_40px_100px_-20px_rgba(0,0,0,0.12)] border border-slate-100">
             <div className="mb-10 space-y-2">
               <h3 className="text-2xl font-bold text-accent">Get Your Quote</h3>
               <p className="text-slate-500">Fill out the details and send via your preferred channel</p>
@@ -154,7 +153,7 @@ export function InquiryForm() {
                     <FormItem>
                       <FormLabel className="text-sm font-bold text-accent">Full Name *</FormLabel>
                       <FormControl>
-                        <Input placeholder="Enter your name" {...field} className="bg-slate-50 border-none rounded-xl h-12" />
+                        <Input placeholder="Enter your name" {...field} className="bg-slate-50 border-none rounded-xl h-12 shadow-inner" />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -169,7 +168,7 @@ export function InquiryForm() {
                       <FormItem>
                         <FormLabel className="text-sm font-bold text-accent">Email *</FormLabel>
                         <FormControl>
-                          <Input placeholder="email@example.com" {...field} className="bg-slate-50 border-none rounded-xl h-12" />
+                          <Input placeholder="email@example.com" {...field} className="bg-slate-50 border-none rounded-xl h-12 shadow-inner" />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -183,7 +182,7 @@ export function InquiryForm() {
                       <FormItem>
                         <FormLabel className="text-sm font-bold text-accent">Phone</FormLabel>
                         <FormControl>
-                          <Input placeholder="+91..." {...field} className="bg-slate-50 border-none rounded-xl h-12" />
+                          <Input placeholder="+91..." {...field} className="bg-slate-50 border-none rounded-xl h-12 shadow-inner" />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -199,7 +198,7 @@ export function InquiryForm() {
                       <FormLabel className="text-sm font-bold text-accent">Service Required *</FormLabel>
                       <Select onValueChange={field.onChange} defaultValue={field.value}>
                         <FormControl>
-                          <SelectTrigger className="bg-slate-50 border-none rounded-xl h-12">
+                          <SelectTrigger className="bg-slate-50 border-none rounded-xl h-12 shadow-inner">
                             <SelectValue placeholder="Select service type" />
                           </SelectTrigger>
                         </FormControl>
@@ -229,7 +228,7 @@ export function InquiryForm() {
                       <FormControl>
                         <Textarea 
                           placeholder="Tell us about your project requirements, deadline, topic, etc." 
-                          className="bg-slate-50 border-none rounded-xl min-h-[120px]" 
+                          className="bg-slate-50 border-none rounded-xl min-h-[120px] shadow-inner" 
                           {...field} 
                         />
                       </FormControl>
@@ -246,7 +245,7 @@ export function InquiryForm() {
                     type="button" 
                     onClick={handleEmailSubmit}
                     variant="outline" 
-                    className="w-full h-14 rounded-xl text-lg border-2 border-slate-200 hover:border-primary text-slate-600 hover:text-primary transition-all active:scale-95 flex gap-3"
+                    className="w-full h-14 rounded-xl text-lg border-2 border-slate-200 hover:border-primary text-slate-600 hover:text-primary transition-all active:scale-95 flex gap-3 shadow-sm"
                   >
                     <Mail className="h-6 w-6" /> Submit via Email
                   </Button>

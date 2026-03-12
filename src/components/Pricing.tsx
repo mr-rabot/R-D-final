@@ -78,7 +78,7 @@ export function Pricing() {
           </p>
         </div>
 
-        {/* Updated Grid for 1 Column on Mobile, 3 Columns on Desktop with healthy gaps */}
+        {/* Updated Grid with refined gaps and shadows */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 lg:gap-16 items-stretch pt-12 overflow-visible">
           {plans.map((plan, index) => (
             <div key={index} className="relative flex h-full overflow-visible">
@@ -86,13 +86,13 @@ export function Pricing() {
                 className={cn(
                   "relative flex flex-col rounded-[40px] transition-all duration-700 group w-full border-none",
                   plan.highlight 
-                    ? "bg-white shadow-[0_40px_80px_rgba(0,71,255,0.18)] z-10 lg:scale-105" 
-                    : "bg-white shadow-[0_20px_40px_rgba(0,0,0,0.04)] hover:shadow-[0_40px_60px_rgba(0,0,0,0.08)] hover:-translate-y-2"
+                    ? "bg-white premium-shadow z-10 lg:scale-105" 
+                    : "bg-white shadow-[0_20px_50px_-12px_rgba(0,0,0,0.1)] hover:shadow-[0_40px_80px_-15px_rgba(0,0,0,0.15)] hover:-translate-y-2"
                 )}
               >
                 {plan.highlight && plan.badge && (
                   <div className="absolute -top-5 left-1/2 -translate-x-1/2 z-[40]">
-                    <Badge className="bg-primary text-white px-8 py-2.5 rounded-full shadow-2xl text-[10px] font-bold whitespace-nowrap border-none uppercase tracking-widest ring-8 ring-white">
+                    <Badge className="bg-primary text-white px-8 py-2.5 rounded-full shadow-[0_15px_30px_rgba(0,71,255,0.3)] text-[10px] font-bold whitespace-nowrap border-none uppercase tracking-widest ring-8 ring-white">
                       {plan.badge}
                     </Badge>
                   </div>
@@ -108,7 +108,7 @@ export function Pricing() {
                   <ul className="space-y-5">
                     {plan.features.map((feature, i) => (
                       <li key={i} className="flex items-start gap-4 text-sm text-slate-600 font-medium">
-                        <div className="rounded-full bg-primary/10 p-1 shrink-0 mt-0.5 group-hover:bg-primary group-hover:text-white transition-all duration-300">
+                        <div className="rounded-full bg-primary/10 p-1 shrink-0 mt-0.5 group-hover:bg-primary group-hover:text-white transition-all duration-300 shadow-sm">
                           <Check className="h-3.5 w-3.5" />
                         </div>
                         <span className="leading-snug">{feature}</span>
@@ -122,7 +122,7 @@ export function Pricing() {
                     onClick={() => handleWhatsAppQuote(plan.name)}
                     variant={plan.highlight ? "default" : "outline"} 
                     className={cn(
-                      "w-full h-16 rounded-2xl font-bold transition-all text-base flex gap-3 shadow-xl active:scale-95",
+                      "w-full h-16 rounded-2xl font-bold transition-all text-base flex gap-3 shadow-lg active:scale-95",
                       plan.highlight 
                         ? "bg-primary hover:bg-blue-600 text-white shadow-primary/20" 
                         : "border-slate-200 text-accent hover:bg-slate-50 hover:border-primary"

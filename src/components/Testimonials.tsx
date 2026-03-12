@@ -84,8 +84,8 @@ export function Testimonials() {
           </p>
         </div>
 
-        {/* Increased padding-x to Carousel container to prevent card clipping */}
-        <div className="relative px-6 sm:px-16 lg:px-20 overflow-visible">
+        {/* Generous container padding for shadow rendering */}
+        <div className="relative px-8 sm:px-16 lg:px-20 py-12 overflow-visible">
           <Carousel
             plugins={[plugin.current]}
             className="w-full overflow-visible"
@@ -99,14 +99,14 @@ export function Testimonials() {
                 const img = PlaceHolderImages.find(i => i.id === t.image);
                 return (
                   <CarouselItem key={index} className="pl-6 md:pl-8 basis-full md:basis-1/2 lg:basis-1/3 py-10 overflow-visible">
-                    <div className="bg-white p-10 rounded-[40px] border border-slate-100 shadow-xl hover:shadow-2xl hover:shadow-primary/10 transition-all duration-500 flex flex-col h-full group relative overflow-hidden">
+                    <div className="bg-white p-10 rounded-[40px] border border-slate-100 shadow-[0_30px_70px_-15px_rgba(0,0,0,0.12)] hover:shadow-[0_45px_100px_-20px_rgba(0,71,255,0.15)] transition-all duration-500 flex flex-col h-full group relative overflow-hidden">
                       <div className="absolute -top-6 -right-6 opacity-[0.03] group-hover:opacity-[0.08] transition-opacity">
                         <Quote className="h-32 w-32 text-accent" />
                       </div>
                       
                       <div className="flex gap-1 mb-8">
                         {[...Array(t.stars)].map((_, i) => (
-                          <Star key={i} className="h-4 w-4 fill-primary text-primary" />
+                          <Star key={i} className="h-4 w-4 fill-primary text-primary drop-shadow-sm" />
                         ))}
                       </div>
                       
@@ -118,7 +118,7 @@ export function Testimonials() {
                       </div>
                       
                       <div className="flex items-center gap-5 pt-8 border-t border-slate-50 mt-auto">
-                        <div className="relative h-14 w-14 rounded-full overflow-hidden border-4 border-white shadow-lg">
+                        <div className="relative h-14 w-14 rounded-full overflow-hidden border-4 border-white shadow-[0_5px_15px_rgba(0,0,0,0.1)]">
                           <img 
                             src={img?.imageUrl} 
                             alt={t.name} 
@@ -137,8 +137,8 @@ export function Testimonials() {
             </CarouselContent>
             
             <div className="flex justify-center mt-12 gap-6 md:block">
-              <CarouselPrevious className="static md:absolute md:-left-16 translate-y-0 bg-white border-slate-100 hover:bg-primary hover:text-white h-14 w-14 flex items-center justify-center rounded-full shadow-2xl transition-all hover:scale-110 active:scale-90" />
-              <CarouselNext className="static md:absolute md:-right-16 translate-y-0 bg-white border-slate-100 hover:bg-primary hover:text-white h-14 w-14 flex items-center justify-center rounded-full shadow-2xl transition-all hover:scale-110 active:scale-90" />
+              <CarouselPrevious className="static md:absolute md:-left-16 translate-y-0 bg-white border-slate-100 hover:bg-primary hover:text-white h-14 w-14 flex items-center justify-center rounded-full shadow-[0_10px_25px_rgba(0,0,0,0.1)] transition-all hover:scale-110 active:scale-90" />
+              <CarouselNext className="static md:absolute md:-right-16 translate-y-0 bg-white border-slate-100 hover:bg-primary hover:text-white h-14 w-14 flex items-center justify-center rounded-full shadow-[0_10px_25px_rgba(0,0,0,0.1)] transition-all hover:scale-110 active:scale-90" />
             </div>
           </Carousel>
         </div>
@@ -151,7 +151,7 @@ export function Testimonials() {
             { icon: CheckCircle2, label: "98%", sub: "Journal Acceptance" }
           ].map((badge, i) => (
             <div key={i} className="flex flex-col items-center text-center group">
-              <div className="bg-slate-50 p-4 rounded-2xl text-primary mb-4 transition-transform group-hover:scale-110 group-hover:bg-primary/5">
+              <div className="bg-white shadow-[0_10px_30px_rgba(0,0,0,0.05)] p-4 rounded-2xl text-primary mb-4 transition-transform group-hover:scale-110 group-hover:shadow-[0_15px_35px_rgba(0,71,255,0.1)]">
                 <badge.icon className="h-6 w-6" />
               </div>
               <div className="text-3xl font-headline font-bold text-accent group-hover:text-primary transition-colors">{badge.label}</div>

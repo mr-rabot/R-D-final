@@ -90,7 +90,7 @@ export function Services() {
           {trustIndicators.map((item, i) => (
             <div key={i} className="flex flex-col items-center gap-6 text-center group animate-in fade-in slide-in-from-bottom-4 duration-700" style={{ animationDelay: `${i * 100}ms` }}>
               <div className={cn(
-                "p-7 rounded-[32px] shadow-xl transition-all duration-500 group-hover:-translate-y-2 group-hover:shadow-2xl group-hover:shadow-primary/15",
+                "p-7 rounded-[32px] shadow-[0_15px_35px_rgba(0,0,0,0.08)] transition-all duration-500 group-hover:-translate-y-2 group-hover:shadow-[0_25px_50px_rgba(0,71,255,0.15)]",
                 item.bg, item.color
               )}>
                 <item.icon className="h-9 w-9" />
@@ -110,7 +110,8 @@ export function Services() {
           </p>
         </div>
 
-        <div className="relative px-4 sm:px-12">
+        {/* Increased padding-y and padding-x for shadow rendering */}
+        <div className="relative px-6 sm:px-12 py-12">
           <Carousel
             plugins={[plugin.current]}
             className="w-full"
@@ -123,8 +124,8 @@ export function Services() {
               {services.map((service, index) => {
                 const Icon = service.icon;
                 return (
-                  <CarouselItem key={index} className="pl-6 md:pl-10 basis-full md:basis-1/2 lg:basis-1/3 py-10">
-                    <Card className="border-none shadow-[0_30px_60px_rgba(0,0,0,0.05)] hover:shadow-[0_40px_80px_rgba(0,71,255,0.15)] transition-all duration-700 rounded-[45px] p-10 md:p-12 bg-white flex flex-col h-full group border-b-8 border-transparent hover:border-primary">
+                  <CarouselItem key={index} className="pl-6 md:pl-10 basis-full md:basis-1/2 lg:basis-1/3 py-8">
+                    <Card className="border-none shadow-[0_25px_60px_-15px_rgba(0,0,0,0.08)] hover:shadow-[0_45px_90px_-20px_rgba(0,71,255,0.2)] transition-all duration-700 rounded-[45px] p-10 md:p-12 bg-white flex flex-col h-full group border-b-8 border-transparent hover:border-primary">
                       <CardHeader className="p-0 mb-10">
                         <div className="bg-primary/5 w-18 h-18 rounded-[25px] flex items-center justify-center text-primary mb-10 transition-all duration-500 group-hover:bg-primary group-hover:text-white group-hover:rotate-6 shadow-sm">
                           <Icon className="h-9 w-9" />
@@ -145,7 +146,7 @@ export function Services() {
                         </div>
                       </CardContent>
                       <div className="pt-12 flex justify-end opacity-0 group-hover:opacity-100 transition-opacity duration-700">
-                        <div className="p-4 bg-primary/5 rounded-full text-primary hover:bg-primary hover:text-white transition-colors cursor-pointer">
+                        <div className="p-4 bg-primary/5 rounded-full text-primary hover:bg-primary hover:text-white transition-colors cursor-pointer shadow-sm">
                           <ArrowRight className="h-6 w-6" />
                         </div>
                       </div>
@@ -155,8 +156,8 @@ export function Services() {
               })}
             </CarouselContent>
             <div className="flex justify-center mt-12 gap-8 md:block">
-              <CarouselPrevious className="static md:absolute md:-left-16 translate-y-0 bg-white border-none hover:bg-primary hover:text-white h-16 w-16 flex items-center justify-center rounded-full shadow-2xl transition-all hover:scale-110 active:scale-90" />
-              <CarouselNext className="static md:absolute md:-right-16 translate-y-0 bg-white border-none hover:bg-primary hover:text-white h-16 w-16 flex items-center justify-center rounded-full shadow-2xl transition-all hover:scale-110 active:scale-90" />
+              <CarouselPrevious className="static md:absolute md:-left-16 translate-y-0 bg-white border-none hover:bg-primary hover:text-white h-16 w-16 flex items-center justify-center rounded-full shadow-[0_15px_30px_rgba(0,0,0,0.1)] transition-all hover:scale-110 active:scale-90" />
+              <CarouselNext className="static md:absolute md:-right-16 translate-y-0 bg-white border-none hover:bg-primary hover:text-white h-16 w-16 flex items-center justify-center rounded-full shadow-[0_15px_30px_rgba(0,0,0,0.1)] transition-all hover:scale-110 active:scale-90" />
             </div>
           </Carousel>
         </div>
