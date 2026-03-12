@@ -16,59 +16,59 @@ export function Hero() {
         <div className="lg:grid lg:grid-cols-12 lg:gap-12 items-center">
           <div className="lg:col-span-7 text-center lg:text-left space-y-8">
             <div className="inline-flex items-center gap-2 bg-primary/10 px-4 py-2 rounded-full text-primary font-semibold text-sm">
-              <Badge variant="secondary" className="rounded-full px-2 py-0">Latest</Badge>
-              Advanced R&D Analysis Dashboard Now Live
+              <Badge variant="secondary" className="rounded-full px-2 py-0">New</Badge>
+              Journal Matching Algorithm 2.0 Now Live
             </div>
             
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-headline font-bold text-accent leading-tight">
-              Pioneering <br />
-              <span className="text-primary">Research & Development</span>
+              Publish Your <br />
+              <span className="text-primary">Research Paper</span>
             </h1>
             
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto lg:mx-0 leading-relaxed">
-              Precision-driven support for the global scientific community. From data modeling to high-impact publishing strategies.
+              From initial draft to high-impact journal publication. We provide expert peer-review support, technical editing, and strategic manuscript positioning.
             </p>
             
             <div className="flex flex-col sm:flex-row items-center gap-4 justify-center lg:justify-start">
               <Button size="lg" className="rounded-full px-8 h-14 text-lg bg-accent hover:bg-accent/90 shadow-lg">
-                Initiate Project
+                Submit Manuscript
               </Button>
               <Button variant="outline" size="lg" className="rounded-full px-8 h-14 text-lg border-primary text-primary hover:bg-primary/5">
-                Our Methodology
+                Publishing Process
               </Button>
             </div>
 
             <div className="grid grid-cols-3 gap-4 pt-8">
-              <StatsCounter label="Projects" value={2500} suffix="+" />
-              <StatsCounter label="Scientists" value={800} suffix="+" />
-              <StatsCounter label="Success Rate" value={99} suffix="%" />
+              <StatsCounter label="Papers Published" value={1850} suffix="+" />
+              <StatsCounter label="Journal Partners" value={120} suffix="+" />
+              <StatsCounter label="Acceptance Rate" value={94} suffix="%" />
             </div>
           </div>
 
           <div className="mt-16 lg:mt-0 lg:col-span-5 relative">
             <div className="relative z-10 animate-float">
-              {heroImage && heroImage.imageUrl ? (
+              {heroImage?.imageUrl && (
                 <Image
                   src={heroImage.imageUrl}
-                  alt={heroImage.description || "R&D research and development hero image"}
+                  alt={heroImage.description || "Research paper manuscript and pen"}
                   width={600}
                   height={500}
                   className="rounded-2xl shadow-2xl border-4 border-white object-cover aspect-[4/3]"
                   data-ai-hint={heroImage.imageHint}
                 />
-              ) : null}
+              )}
               <div className="absolute -bottom-6 -left-6 bg-white p-6 rounded-xl shadow-xl space-y-4 max-w-[200px]">
                 <div className="flex items-center gap-3">
                   <div className="bg-green-100 p-2 rounded-full">
                     <ShieldCheck className="h-5 w-5 text-green-600" />
                   </div>
-                  <span className="text-xs font-bold text-accent">100% Secure</span>
+                  <span className="text-xs font-bold text-accent">Peer Review Ready</span>
                 </div>
                 <div className="flex items-center gap-3">
                   <div className="bg-blue-100 p-2 rounded-full">
                     <FileCheck className="h-5 w-5 text-blue-600" />
                   </div>
-                  <span className="text-xs font-bold text-accent">Verified Integrity</span>
+                  <span className="text-xs font-bold text-accent">Plagiarism Checked</span>
                 </div>
               </div>
             </div>

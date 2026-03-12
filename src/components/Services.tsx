@@ -1,46 +1,45 @@
-
 "use client";
 
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Microscope, Database, FileText, Share2, ClipboardList, TrendingUp } from "lucide-react";
+import { BookOpen, Search, FileEdit, Send, CheckCircle, Award } from "lucide-react";
 import Image from "next/image";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 
 const services = [
   {
-    title: "Research Design & Strategy",
-    description: "Tailored methodologies for complex academic inquiries, ensuring robust results.",
-    icon: Microscope,
+    title: "Manuscript Formatting",
+    description: "Tailoring your paper to the specific layout and citation styles (APA, MLA, IEEE) of your target journal.",
+    icon: FileEdit,
     image: "service-1"
   },
   {
-    title: "Advanced Data Analysis",
-    description: "Expert statistical processing using R, Python, and specialized academic software.",
-    icon: Database,
+    title: "Journal Recommendation",
+    description: "Identifying high-impact factors and open-access journals that align with your research niche.",
+    icon: Search,
     image: "service-2"
   },
   {
-    title: "Technical Writing",
-    description: "Scholarly drafting and structural editing for journals and high-stakes theses.",
-    icon: FileText,
+    title: "Peer Review Simulation",
+    description: "Expert feedback from published researchers to address potential critiques before submission.",
+    icon: CheckCircle,
     image: "service-3"
   },
   {
-    title: "Publication Support",
-    description: "End-to-end guidance through the rigorous peer-review and submission process.",
-    icon: Share2,
+    title: "Abstract Optimization",
+    description: "Refining your abstract and keywords to maximize indexing visibility and citation potential.",
+    icon: BookOpen,
     image: "service-1"
   },
   {
-    title: "Grant Writing",
-    description: "Developing compelling proposals for government and private research funding.",
-    icon: ClipboardList,
+    title: "Response to Reviewers",
+    description: "Strategic assistance in addressing journal editor comments and navigating the revision cycle.",
+    icon: Send,
     image: "service-2"
   },
   {
-    title: "Citations & Compliance",
-    description: "Meticulous referencing and adherence to global academic integrity standards.",
-    icon: TrendingUp,
+    title: "Plagiarism & Integrity Audit",
+    description: "Comprehensive similarity reports and reference verification to ensure academic compliance.",
+    icon: Award,
     image: "service-3"
   }
 ];
@@ -50,9 +49,9 @@ export function Services() {
     <section id="services" className="py-24 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16 space-y-4">
-          <h2 className="text-4xl font-headline font-bold text-accent">Our Academic Solutions</h2>
+          <h2 className="text-4xl font-headline font-bold text-accent">Publishing Support Services</h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
-            Leverage world-class R&D expertise to elevate your research potential.
+            Comprehensive solutions designed to navigate the complexities of academic publishing.
           </p>
         </div>
 

@@ -3,8 +3,8 @@ import './globals.css';
 import { Toaster } from "@/components/ui/toaster";
 
 export const metadata: Metadata = {
-  title: 'R&D research and development | Academic & Professional Solutions',
-  description: 'Empowering global research communities through professional R&D and publishing services.',
+  title: 'R&D Research & Paper Publishing | Academic Manuscript Solutions',
+  description: 'Expert support for scholarly publishing, research paper drafting, and peer-review success. Elevate your academic impact.',
 };
 
 export default function RootLayout({
