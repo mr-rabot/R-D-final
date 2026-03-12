@@ -8,8 +8,7 @@ import { Badge } from "@/components/ui/badge";
 const plans = [
   {
     name: "Basic",
-    price: "₹500",
-    description: "Ideal for short project reports and academic assignments.",
+    description: "Essential support for project reports and academic presentations.",
     features: [
       "Project Report",
       "PPT (PowerPoint Presentation)",
@@ -23,7 +22,6 @@ const plans = [
   },
   {
     name: "Professional",
-    price: "₹800",
     description: "Comprehensive support for research papers and articles.",
     features: [
       "Synopsis Writing",
@@ -41,7 +39,6 @@ const plans = [
   },
   {
     name: "Premium",
-    price: "₹1200",
     description: "Complete end-to-end support for thesis and high-impact publishing.",
     features: [
       "Everything in Professional",
@@ -64,11 +61,11 @@ export function Pricing() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16 space-y-4">
           <div className="inline-block bg-primary/10 text-primary text-[10px] uppercase tracking-widest font-bold px-4 py-1.5 rounded-full mb-2">
-            Pricing Plans
+            Service Packages
           </div>
-          <h2 className="text-4xl md:text-5xl font-headline font-bold text-accent">Affordable Packages</h2>
+          <h2 className="text-4xl md:text-5xl font-headline font-bold text-accent">Affordable Solutions</h2>
           <p className="text-muted-foreground max-w-2xl mx-auto text-lg">
-            Select the plan that best fits your academic and research requirements.
+            Select the package that best fits your academic and research requirements.
           </p>
         </div>
 
@@ -86,13 +83,9 @@ export function Pricing() {
               <CardHeader className="text-left pt-12 px-8">
                 <CardTitle className="text-2xl font-headline font-bold text-accent">{plan.name}</CardTitle>
                 <p className="text-sm text-muted-foreground mt-4 h-10">{plan.description}</p>
-                <div className="mt-8 flex items-baseline gap-1">
-                  <span className="text-5xl font-bold text-accent">{plan.price}</span>
-                  <span className="text-muted-foreground text-sm font-medium">/ unit</span>
-                </div>
               </CardHeader>
               
-              <CardContent className="flex-grow px-8 pt-8">
+              <CardContent className="flex-grow px-8 pt-8 border-t border-slate-50">
                 <ul className="space-y-4">
                   {plan.features.map((feature, i) => (
                     <li key={i} className="flex items-start gap-3 text-sm text-slate-600">
@@ -114,7 +107,7 @@ export function Pricing() {
                       : 'border-slate-200 text-accent hover:bg-slate-50'
                   }`}
                 >
-                  Get Started
+                  Get Quote
                 </Button>
               </CardFooter>
             </Card>
