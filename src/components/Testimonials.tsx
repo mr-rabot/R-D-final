@@ -129,8 +129,8 @@ export function Testimonials() {
               })}
             </CarouselContent>
             <div className="flex justify-center mt-8 gap-4 md:block">
-              <CarouselPrevious className="static md:absolute md:-left-12 translate-y-0 bg-white border-slate-200 hover:bg-primary hover:text-white h-10 w-10" />
-              <CarouselNext className="static md:absolute md:-right-12 translate-y-0 bg-white border-slate-200 hover:bg-primary hover:text-white h-10 w-10" />
+              <CarouselPrevious className="static md:absolute md:-left-12 translate-y-0 bg-white border-slate-200 hover:bg-primary hover:text-white h-10 w-10 flex items-center justify-center rounded-full" />
+              <CarouselNext className="static md:absolute md:-right-12 translate-y-0 bg-white border-slate-200 hover:bg-primary hover:text-white h-10 w-10 flex items-center justify-center rounded-full" />
             </div>
           </Carousel>
         </div>

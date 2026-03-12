@@ -20,23 +20,34 @@ import {
   CheckCircle2,
   AlertCircle,
   Menu,
-  X
+  X,
+  UserPlus,
+  Upload,
+  UserCircle
 } from "lucide-react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import { useToast } from "@/hooks/use-toast";
+import Image from "next/image";
 
 export default function AdminDashboard() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState("control-center");
   const { toast } = useToast();
+
+  // Co-founder state simulation
+  const [coFounder, setCoFounder] = useState({
+    name: "Dr. Anjali Sinha",
+    role: "Co-Founder & Research Head",
+    image: "https://picsum.photos/seed/cofounder/400/400"
+  });
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    // Specific credentials provided by user
     if (email === "prexani.tech@gmail.com" && password === "Admin@9343") {
       setIsLoggedIn(true);
       toast({
@@ -50,6 +61,14 @@ export default function AdminDashboard() {
         description: "Invalid credentials. Please check your token and email.",
       });
     }
+  };
+
+  const handleCoFounderUpdate = (e: React.FormEvent) => {
+    e.preventDefault();
+    toast({
+      title: "Profile Updated",
+      description: "Co-Founder profile has been updated successfully.",
+    });
   };
 
   if (!isLoggedIn) {
@@ -76,7 +95,7 @@ export default function AdminDashboard() {
                   type="email" 
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="admin@rd-services.com" 
+                  placeholder="prexani.tech@gmail.com" 
                   className="rounded-2xl h-14 bg-slate-50 border-none px-6 focus-visible:ring-primary" 
                 />
               </div>
@@ -104,11 +123,11 @@ export default function AdminDashboard() {
   }
 
   const navItems = [
-    { icon: LayoutDashboard, label: "Control Center", active: true },
-    { icon: MessageSquare, label: "Client Inquiries", count: "12" },
-    { icon: Users, label: "Expert Network" },
-    { icon: Bell, label: "System Alerts" },
-    { icon: Settings, label: "Platform Config" },
+    { id: "control-center", icon: LayoutDashboard, label: "Control Center" },
+    { id: "inquiries", icon: MessageSquare, label: "Client Inquiries", count: "12" },
+    { id: "team", icon: UserPlus, label: "Team Management" },
+    { id: "experts", icon: Users, label: "Expert Network" },
+    { id: "settings", icon: Settings, label: "Platform Config" },
   ];
 
   return (
@@ -140,11 +159,14 @@ export default function AdminDashboard() {
           </div>
         </div>
         <nav className="flex-grow p-6 space-y-3 overflow-y-auto">
-          {navItems.map((item, i) => (
+          {navItems.map((item) => (
             <div 
-              key={i} 
-              onClick={() => setIsSidebarOpen(false)}
-              className={`flex items-center justify-between p-4 rounded-2xl cursor-pointer transition-all ${item.active ? 'bg-primary text-white shadow-xl shadow-primary/20' : 'hover:bg-white/5 text-blue-100/40 hover:text-white'}`}
+              key={item.id} 
+              onClick={() => {
+                setActiveTab(item.id);
+                setIsSidebarOpen(false);
+              }}
+              className={`flex items-center justify-between p-4 rounded-2xl cursor-pointer transition-all ${activeTab === item.id ? 'bg-primary text-white shadow-xl shadow-primary/20' : 'hover:bg-white/5 text-blue-100/40 hover:text-white'}`}
             >
               <div className="flex items-center gap-4">
                 <item.icon className="h-5 w-5" />
@@ -177,37 +199,36 @@ export default function AdminDashboard() {
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
               <Input placeholder="Search records..." className="pl-12 w-full sm:w-80 bg-white border-none shadow-sm rounded-2xl h-12" />
             </div>
-            <Button className="bg-primary rounded-2xl h-12 px-6 font-bold shadow-xl shadow-primary/20 hover:bg-primary/90 gap-2 w-full sm:w-auto whitespace-nowrap">
-              <Plus className="h-5 w-5" /> New Initiative
-            </Button>
           </div>
         </header>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 mb-12">
-          {[
-            { label: "Active Pipelines", value: "48", trend: "+12%", icon: TrendingUp, color: "text-blue-600", bg: "bg-blue-50" },
-            { label: "Pending Review", value: "14", trend: "High Priority", icon: Clock, color: "text-orange-600", bg: "bg-orange-50" },
-            { label: "Completed Works", value: "522", trend: "Overall", icon: CheckCircle2, color: "text-green-600", bg: "bg-green-50" },
-            { label: "Alerts", value: "2", trend: "Action Required", icon: AlertCircle, color: "text-red-600", bg: "bg-red-50" }
-          ].map((stat, i) => (
-            <Card key={i} className="border-none shadow-sm rounded-[32px] p-6 bg-white hover:shadow-md transition-shadow">
-              <div className="flex justify-between items-start mb-4">
-                <div className={`p-3 rounded-2xl ${stat.bg} ${stat.color}`}>
-                  <stat.icon className="h-6 w-6" />
-                </div>
-                <Badge variant="outline" className="border-slate-100 text-[10px] font-bold text-slate-400 rounded-lg">{stat.trend}</Badge>
-              </div>
-              <p className="text-sm font-bold text-slate-400 uppercase tracking-widest mb-1">{stat.label}</p>
-              <h3 className={`text-2xl md:text-3xl font-bold text-accent`}>{stat.value}</h3>
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-8">
+          <TabsContent value="control-center" className="mt-0 space-y-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 mb-12">
+              {[
+                { label: "Active Pipelines", value: "48", trend: "+12%", icon: TrendingUp, color: "text-blue-600", bg: "bg-blue-50" },
+                { label: "Pending Review", value: "14", trend: "High Priority", icon: Clock, color: "text-orange-600", bg: "bg-orange-50" },
+                { label: "Completed Works", value: "522", trend: "Overall", icon: CheckCircle2, color: "text-green-600", bg: "bg-green-50" },
+                { label: "Alerts", value: "2", trend: "Action Required", icon: AlertCircle, color: "text-red-600", bg: "bg-red-50" }
+              ].map((stat, i) => (
+                <Card key={i} className="border-none shadow-sm rounded-[32px] p-6 bg-white hover:shadow-md transition-shadow">
+                  <div className="flex justify-between items-start mb-4">
+                    <div className={`p-3 rounded-2xl ${stat.bg} ${stat.color}`}>
+                      <stat.icon className="h-6 w-6" />
+                    </div>
+                    <Badge variant="outline" className="border-slate-100 text-[10px] font-bold text-slate-400 rounded-lg">{stat.trend}</Badge>
+                  </div>
+                  <p className="text-sm font-bold text-slate-400 uppercase tracking-widest mb-1">{stat.label}</p>
+                  <h3 className={`text-2xl md:text-3xl font-bold text-accent`}>{stat.value}</h3>
+                </Card>
+              ))}
+            </div>
+            
+            <Card className="border-none shadow-sm rounded-[32px] overflow-hidden bg-white p-8">
+              <h3 className="text-xl font-bold text-accent mb-6">Recent Activity</h3>
+              <p className="text-slate-500">System overview and real-time research tracking.</p>
             </Card>
-          ))}
-        </div>
-
-        <Tabs defaultValue="inquiries" className="space-y-8">
-          <TabsList className="bg-white border-none rounded-[24px] w-full md:w-auto justify-start h-auto md:h-14 p-2 gap-2 shadow-sm overflow-x-auto">
-            <TabsTrigger value="inquiries" className="data-[state=active]:bg-primary data-[state=active]:text-white rounded-2xl px-6 md:px-8 h-10 md:h-full font-bold text-sm">Inquiries</TabsTrigger>
-            <TabsTrigger value="network" className="data-[state=active]:bg-primary data-[state=active]:text-white rounded-2xl px-6 md:px-8 h-10 md:h-full font-bold text-sm">Experts</TabsTrigger>
-          </TabsList>
+          </TabsContent>
 
           <TabsContent value="inquiries">
             <Card className="border-none shadow-sm rounded-[32px] overflow-hidden bg-white">
@@ -250,7 +271,79 @@ export default function AdminDashboard() {
             </Card>
           </TabsContent>
 
-          <TabsContent value="network">
+          <TabsContent value="team">
+            <div className="grid lg:grid-cols-2 gap-8">
+              <Card className="border-none shadow-sm rounded-[32px] p-8 bg-white">
+                <CardHeader className="px-0 pt-0">
+                  <CardTitle className="text-2xl font-headline font-bold">Manage Co-Founder Profile</CardTitle>
+                  <CardDescription>Update name, role, and profile picture for the co-founder.</CardDescription>
+                </CardHeader>
+                <CardContent className="px-0 pt-6">
+                  <form onSubmit={handleCoFounderUpdate} className="space-y-6">
+                    <div className="space-y-4">
+                      <div className="flex items-center gap-6">
+                        <div className="relative h-24 w-24 rounded-full overflow-hidden border-4 border-slate-50 bg-slate-100 flex items-center justify-center">
+                          {coFounder.image ? (
+                            <Image src={coFounder.image} alt="Co-Founder" fill className="object-cover" />
+                          ) : (
+                            <UserCircle className="h-12 w-12 text-slate-300" />
+                          )}
+                        </div>
+                        <div className="space-y-2">
+                          <Button type="button" variant="outline" className="rounded-xl flex gap-2 border-slate-200">
+                            <Upload className="h-4 w-4" /> Upload New Pic
+                          </Button>
+                          <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">JPG, PNG or GIF. Max 5MB.</p>
+                        </div>
+                      </div>
+
+                      <div className="space-y-2">
+                        <label className="text-xs font-bold uppercase tracking-widest text-slate-400">Full Name</label>
+                        <Input 
+                          value={coFounder.name} 
+                          onChange={(e) => setCoFounder({...coFounder, name: e.target.value})}
+                          className="rounded-2xl h-12 bg-slate-50 border-none" 
+                        />
+                      </div>
+
+                      <div className="space-y-2">
+                        <label className="text-xs font-bold uppercase tracking-widest text-slate-400">Designation / Role</label>
+                        <Input 
+                          value={coFounder.role}
+                          onChange={(e) => setCoFounder({...coFounder, role: e.target.value})}
+                          className="rounded-2xl h-12 bg-slate-50 border-none" 
+                        />
+                      </div>
+                    </div>
+
+                    <Button className="w-full h-12 bg-primary rounded-2xl font-bold shadow-xl shadow-primary/20">
+                      Save Profile Changes
+                    </Button>
+                  </form>
+                </CardContent>
+              </Card>
+
+              <Card className="border-none shadow-sm rounded-[32px] p-8 bg-accent text-white relative overflow-hidden">
+                <div className="relative z-10">
+                  <h3 className="text-2xl font-headline font-bold mb-4">Profile Preview</h3>
+                  <div className="bg-white/5 border border-white/10 p-6 rounded-[24px] flex flex-col items-center text-center">
+                    <div className="h-32 w-32 rounded-full overflow-hidden mb-6 border-4 border-white/10">
+                      <Image src={coFounder.image} alt="Preview" width={128} height={128} className="object-cover" />
+                    </div>
+                    <h4 className="text-xl font-bold">{coFounder.name}</h4>
+                    <p className="text-blue-200 text-sm font-medium">{coFounder.role}</p>
+                    <div className="mt-8 flex gap-2">
+                      <Badge className="bg-primary/20 text-primary border-none text-[10px]">Preview Only</Badge>
+                      <Badge className="bg-white/10 text-white border-none text-[10px]">Active</Badge>
+                    </div>
+                  </div>
+                </div>
+                <div className="absolute top-0 right-0 w-64 h-64 bg-primary/10 blur-[100px] rounded-full" />
+              </Card>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="experts">
              <Card className="border-none shadow-sm rounded-[32px] p-6 md:p-8 bg-white">
                 <CardHeader className="px-0 pt-0 pb-8">
                   <CardTitle className="text-2xl font-headline font-bold">Expert Roster</CardTitle>
