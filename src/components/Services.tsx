@@ -13,7 +13,9 @@ import {
   ClipboardCheck, 
   Book,
   FileSearch,
-  Presentation
+  Presentation,
+  FileCheck,
+  Monitor
 } from "lucide-react";
 
 const trustIndicators = [
@@ -58,9 +60,42 @@ const services = [
     ]
   },
   {
+    title: "Synopsis Writing",
+    description: "Structured and concise research outlines essential for project approval and admissions.",
+    icon: ClipboardCheck,
+    features: [
+      "Clear research objectives",
+      "Defined methodology outline",
+      "Problem statement drafting",
+      "Approval-oriented structure"
+    ]
+  },
+  {
+    title: "PPT Presentation",
+    description: "High-quality academic presentations designed for thesis defense or conferences.",
+    icon: Presentation,
+    features: [
+      "Engaging visual layout",
+      "Key point summarization",
+      "Speaker notes included",
+      "Professional slide design"
+    ]
+  },
+  {
+    title: "Plagiarism Report",
+    description: "Comprehensive similarity checks using premium tools like Turnitin to ensure integrity.",
+    icon: FileCheck,
+    features: [
+      "Detailed similarity index",
+      "Source identification",
+      "Originality certificate",
+      "AI detection check"
+    ]
+  },
+  {
     title: "Conference Papers",
     description: "Professional preparation of papers for academic conferences and international symposiums.",
-    icon: Presentation,
+    icon: Book,
     features: [
       "Abstract & full paper drafting",
       "Conference-specific formatting",
@@ -71,7 +106,7 @@ const services = [
   {
     title: "Project Reports",
     description: "Technical and academic project reports with proper documentation.",
-    icon: ClipboardCheck,
+    icon: FileSearch,
     features: [
       "Executive summary",
       "Technical documentation",
@@ -88,17 +123,6 @@ const services = [
       "Gap identification",
       "Critical analysis",
       "Systematic approach"
-    ]
-  },
-  {
-    title: "Research Proposal",
-    description: "Well-crafted research proposals to get your project approved.",
-    icon: FileSearch,
-    features: [
-      "Clear objectives",
-      "Methodology design",
-      "Timeline planning",
-      "Budget estimation"
     ]
   }
 ];

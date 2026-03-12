@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useForm } from "react-hook-form";
@@ -171,6 +172,9 @@ export function InquiryForm() {
                           <SelectItem value="research-paper">Research Paper</SelectItem>
                           <SelectItem value="thesis">Thesis Writing</SelectItem>
                           <SelectItem value="dissertation">Dissertation</SelectItem>
+                          <SelectItem value="synopsis">Synopsis Writing</SelectItem>
+                          <SelectItem value="ppt">PPT Presentation</SelectItem>
+                          <SelectItem value="plagiarism-report">Plagiarism Report</SelectItem>
                           <SelectItem value="project-report">Project Report</SelectItem>
                           <SelectItem value="literature-review">Literature Review</SelectItem>
                           <SelectItem value="proposal">Research Proposal</SelectItem>
