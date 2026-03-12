@@ -3,7 +3,16 @@
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
-import { Star, Users } from "lucide-react";
+import { Star, Users, Quote } from "lucide-react";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
+import Autoplay from "embla-carousel-autoplay";
+import * as React from "react";
 
 const testimonials = [
   {
@@ -47,10 +56,21 @@ const testimonials = [
     content: "Highly professional service for my MCA project. The documentation was thorough and perfectly formatted according to my university guidelines in Bhutan.",
     image: "testimonial-6",
     stars: 5
+  },
+  {
+    name: "Amitosh Kumar",
+    role: "MTech Student",
+    content: "The technical analysis provided for my research article was very detailed. The team is very supportive and responsive to revisions.",
+    image: "testimonial-1",
+    stars: 5
   }
 ];
 
 export function Testimonials() {
+  const plugin = React.useRef(
+    Autoplay({ delay: 4000, stopOnInteraction: true })
+  );
+
   return (
     <section id="testimonials" className="py-24 bg-slate-50/50 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -60,40 +80,58 @@ export function Testimonials() {
             Client Reviews
           </div>
           <h2 className="text-5xl font-headline font-bold text-accent mb-4">What Our Clients Say</h2>
-          <p className="text-muted-foreground text-lg">Don't just take our word for it - hear from our satisfied clients</p>
+          <p className="text-muted-foreground text-lg">Don't just take our word for it - hear from our satisfied scholars across the globe.</p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {testimonials.map((t, index) => {
-            const img = PlaceHolderImages.find(i => i.id === t.image);
-            return (
-              <div 
-                key={index} 
-                className="bg-white p-8 rounded-[32px] shadow-[0_10px_40px_rgba(0,0,0,0.04)] hover:shadow-xl transition-all duration-300 flex flex-col h-full border border-slate-100"
-              >
-                <div className="flex gap-1 mb-6">
-                  {[...Array(t.stars)].map((_, i) => (
-                    <Star key={i} className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                  ))}
-                </div>
-                
-                <p className="text-slate-600 italic leading-relaxed mb-10 flex-grow text-sm">
-                  "{t.content}"
-                </p>
-                
-                <div className="flex items-center gap-4 border-t pt-6 border-slate-50">
-                  <Avatar className="h-12 w-12 border-2 border-white shadow-sm">
-                    <AvatarImage src={img?.imageUrl} alt={t.name} />
-                    <AvatarFallback className="bg-primary/10 text-primary font-bold">{t.name[0]}</AvatarFallback>
-                  </Avatar>
-                  <div className="text-left">
-                    <h4 className="font-bold text-accent leading-none mb-1">{t.name}</h4>
-                    <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider">{t.role}</p>
-                  </div>
-                </div>
-              </div>
-            );
-          })}
+        <div className="relative px-12">
+          <Carousel
+            plugins={[plugin.current]}
+            className="w-full max-w-5xl mx-auto"
+            onMouseEnter={plugin.current.stop}
+            onMouseLeave={plugin.current.reset}
+            opts={{
+              align: "start",
+              loop: true,
+            }}
+          >
+            <CarouselContent className="-ml-4">
+              {testimonials.map((t, index) => {
+                const img = PlaceHolderImages.find(i => i.id === t.image);
+                return (
+                  <CarouselItem key={index} className="pl-4 md:basis-1/2 lg:basis-1/3">
+                    <div className="bg-white p-8 rounded-[32px] shadow-[0_10px_40px_rgba(0,0,0,0.04)] hover:shadow-xl transition-all duration-300 flex flex-col h-full border border-slate-100 group relative">
+                      <div className="absolute top-6 right-8 opacity-5 group-hover:opacity-10 transition-opacity">
+                        <Quote className="h-12 w-12 text-accent" />
+                      </div>
+                      
+                      <div className="flex gap-1 mb-6">
+                        {[...Array(t.stars)].map((_, i) => (
+                          <Star key={i} className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                        ))}
+                      </div>
+                      
+                      <p className="text-slate-600 italic leading-relaxed mb-10 flex-grow text-sm relative z-10">
+                        "{t.content}"
+                      </p>
+                      
+                      <div className="flex items-center gap-4 border-t pt-6 border-slate-50">
+                        <Avatar className="h-12 w-12 border-2 border-white shadow-sm">
+                          <AvatarImage src={img?.imageUrl} alt={t.name} />
+                          <AvatarFallback className="bg-primary/10 text-primary font-bold">{t.name[0]}</AvatarFallback>
+                        </Avatar>
+                        <div className="text-left">
+                          <h4 className="font-bold text-accent leading-none mb-1">{t.name}</h4>
+                          <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider">{t.role}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </CarouselItem>
+                );
+              })}
+            </CarouselContent>
+            <CarouselPrevious className="hidden md:flex -left-12 bg-white border-slate-200 hover:bg-primary hover:text-white" />
+            <CarouselNext className="hidden md:flex -right-12 bg-white border-slate-200 hover:bg-primary hover:text-white" />
+          </Carousel>
         </div>
 
         <div className="mt-24 grid grid-cols-2 md:grid-cols-4 gap-8 border-t border-slate-200 pt-16">
