@@ -35,16 +35,16 @@ const testimonials = [
     stars: 5
   },
   {
-    name: "Sanya Gupta",
-    role: "MTech Student",
-    content: "I was struggling with my MTech thesis methodology. Their experts provided clear guidance and helped me finish the data analysis section effortlessly.",
+    name: "Kiran Thapa",
+    role: "MTech Student, Nepal",
+    content: "The guidance for my MTech thesis was exceptional. The technical depth and research quality were exactly what I needed for my submission in Nepal.",
     image: "testimonial-5",
     stars: 5
   },
   {
-    name: "Anjali Desai",
-    role: "Engineering Student",
-    content: "Professional and reliable. They helped me with my project report and the quality exceeded my expectations. Great communication throughout.",
+    name: "Tenzin Dorji",
+    role: "MCA Student, Bhutan",
+    content: "Highly professional service for my MCA project. The documentation was thorough and perfectly formatted according to my university guidelines in Bhutan.",
     image: "testimonial-6",
     stars: 5
   }
