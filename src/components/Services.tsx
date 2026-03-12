@@ -81,7 +81,7 @@ const services = [
 
 export function Services() {
   const plugin = React.useRef(
-    Autoplay({ delay: 3500, stopOnInteraction: true })
+    Autoplay({ delay: 3000, stopOnInteraction: false })
   );
 
   return (
@@ -119,8 +119,6 @@ export function Services() {
           <Carousel
             plugins={[plugin.current]}
             className="w-full"
-            onMouseEnter={plugin.current.stop}
-            onMouseLeave={plugin.current.reset}
             opts={{
               align: "start",
               loop: true,

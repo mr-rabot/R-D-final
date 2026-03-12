@@ -67,7 +67,7 @@ const testimonials = [
 
 export function Testimonials() {
   const plugin = React.useRef(
-    Autoplay({ delay: 4000, stopOnInteraction: true })
+    Autoplay({ delay: 3500, stopOnInteraction: false })
   );
 
   return (
@@ -86,8 +86,6 @@ export function Testimonials() {
           <Carousel
             plugins={[plugin.current]}
             className="w-full max-w-5xl mx-auto"
-            onMouseEnter={plugin.current.stop}
-            onMouseLeave={plugin.current.reset}
             opts={{
               align: "start",
               loop: true,
