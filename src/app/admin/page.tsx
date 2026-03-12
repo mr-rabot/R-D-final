@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useCallback, useRef, useEffect } from "react";
@@ -23,7 +22,10 @@ import {
   HelpCircle,
   Save,
   Rocket,
-  Star
+  Star,
+  Menu,
+  X,
+  Beaker
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import Image from "next/image";
@@ -68,6 +70,7 @@ const getCroppedImg = async (imageSrc: string, pixelCrop: any): Promise<string> 
 export default function AdminDashboard() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [activeTab, setActiveTab] = useState("hero");
@@ -212,28 +215,57 @@ export default function AdminDashboard() {
 
   if (!siteData) return <div className="p-20 text-center font-bold">Initializing Data...</div>;
 
+  const navigationItems = [
+    { id: "hero", icon: Rocket, label: "Hero & Stats" },
+    { id: "leadership", icon: Users, label: "Leadership" },
+    { id: "summary", icon: FileText, label: "Firm Summary" },
+    { id: "services", icon: Zap, label: "Services" },
+    { id: "pricing", icon: CreditCard, label: "Pricing" },
+    { id: "testimonials", icon: Star, label: "Testimonials" },
+    { id: "faq", icon: HelpCircle, label: "FAQ" }
+  ];
+
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col lg:flex-row">
+    <div className="min-h-screen bg-slate-50 flex flex-col lg:flex-row relative">
       <input type="file" ref={fileInputRef} className="hidden" accept="image/*" onChange={(e) => handleFileChange(e, currentEditingPath || '')} />
       
-      <aside className="w-full lg:w-72 bg-slate-900 text-white flex flex-col">
-        <div className="p-8 border-b border-white/5">
+      {/* Mobile Header Bar */}
+      <header className="lg:hidden h-20 bg-slate-900 text-white flex items-center justify-between px-6 sticky top-0 z-[100] shadow-xl">
+        <div className="flex items-center gap-3">
+          <div className="bg-primary p-1.5 rounded-lg">
+            <Beaker className="h-5 w-5 text-white" />
+          </div>
+          <div>
+            <h1 className="text-lg font-headline font-bold leading-none">R&D OPS</h1>
+            <p className="text-[8px] text-blue-400 font-bold uppercase tracking-widest mt-1">Management</p>
+          </div>
+        </div>
+        <button 
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
+          className="p-2 hover:bg-white/10 rounded-xl transition-colors"
+        >
+          {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+        </button>
+      </header>
+
+      {/* Navigation Sidebar */}
+      <aside className={cn(
+        "fixed inset-0 z-[90] bg-slate-900 text-white flex flex-col transition-transform duration-300 lg:relative lg:translate-x-0 lg:w-72 lg:z-auto",
+        isMenuOpen ? "translate-x-0" : "-translate-x-full"
+      )}>
+        <div className="p-8 border-b border-white/5 hidden lg:block">
           <h1 className="text-xl font-headline font-bold">R&D OPS HUB</h1>
           <p className="text-[9px] text-blue-400 font-bold uppercase tracking-widest mt-1">Management Portal</p>
         </div>
-        <nav className="flex-grow p-4 space-y-2">
-          {[
-            { id: "hero", icon: Rocket, label: "Hero & Stats" },
-            { id: "leadership", icon: Users, label: "Leadership" },
-            { id: "summary", icon: FileText, label: "Firm Summary" },
-            { id: "services", icon: Zap, label: "Services" },
-            { id: "pricing", icon: CreditCard, label: "Pricing" },
-            { id: "testimonials", icon: Star, label: "Testimonials" },
-            { id: "faq", icon: HelpCircle, label: "FAQ" }
-          ].map((item) => (
+        
+        <nav className="flex-grow p-6 lg:p-4 space-y-2 mt-20 lg:mt-0">
+          {navigationItems.map((item) => (
             <div 
               key={item.id}
-              onClick={() => setActiveTab(item.id)}
+              onClick={() => {
+                setActiveTab(item.id);
+                setIsMenuOpen(false);
+              }}
               className={cn(
                 "p-4 rounded-xl cursor-pointer flex gap-4 items-center transition-all",
                 activeTab === item.id ? "bg-primary text-white shadow-lg" : "text-slate-400 hover:text-white hover:bg-white/5"
@@ -244,22 +276,27 @@ export default function AdminDashboard() {
             </div>
           ))}
         </nav>
-        <div className="p-4 mt-auto">
-          <Button variant="ghost" className="w-full justify-start text-slate-500 hover:text-white hover:bg-destructive/10" onClick={handleLogout}>
+
+        <div className="p-6 lg:p-4 mt-auto border-t border-white/5 lg:border-none">
+          <Button 
+            variant="ghost" 
+            className="w-full justify-start text-slate-500 hover:text-white hover:bg-destructive/10 h-12 rounded-xl" 
+            onClick={handleLogout}
+          >
             <LogOut className="h-5 w-5 mr-3" /> Sign Out
           </Button>
         </div>
       </aside>
 
       <main className="flex-grow p-6 md:p-12 overflow-auto">
-        <div className="flex justify-between items-center mb-10">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-10">
           <div>
             <h2 className="text-3xl font-headline font-bold text-slate-900 uppercase tracking-tight">
               {activeTab.replace("-", " ")}
             </h2>
             <p className="text-sm text-slate-400">Manage your website content in real-time</p>
           </div>
-          <Button onClick={saveToSite} className="bg-primary rounded-xl font-bold shadow-xl px-8 h-12 flex gap-2">
+          <Button onClick={saveToSite} className="w-full md:w-auto bg-primary rounded-xl font-bold shadow-xl px-8 h-12 flex gap-2">
             <Save className="h-4 w-4" /> Push Updates to Site
           </Button>
         </div>
@@ -267,7 +304,7 @@ export default function AdminDashboard() {
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-8">
           
           <TabsContent value="hero">
-            <Card className="border-none shadow-xl rounded-[40px] p-10 bg-white space-y-8">
+            <Card className="border-none shadow-xl rounded-[40px] p-6 md:p-10 bg-white space-y-8">
               <div className="space-y-4">
                 <div className="space-y-2">
                   <label className="text-[10px] font-bold uppercase text-slate-400">Hero Badge</label>
@@ -308,7 +345,7 @@ export default function AdminDashboard() {
           <TabsContent value="leadership">
             <div className="grid lg:grid-cols-2 gap-8">
               {['founder', 'coFounder'].map((type) => (
-                <Card key={type} className="border-none shadow-xl rounded-[40px] p-10 bg-white">
+                <Card key={type} className="border-none shadow-xl rounded-[40px] p-6 md:p-10 bg-white">
                   <h3 className="text-2xl font-headline font-bold mb-6 capitalize">{type === 'founder' ? 'Founder (Om Prakash Sinha)' : 'Co-Founder'} Profile</h3>
                   <div className="space-y-8">
                     <div className="flex items-center gap-6">
@@ -348,7 +385,7 @@ export default function AdminDashboard() {
           </TabsContent>
 
           <TabsContent value="summary">
-            <Card className="border-none shadow-xl rounded-[40px] p-10 bg-white space-y-8">
+            <Card className="border-none shadow-xl rounded-[40px] p-6 md:p-10 bg-white space-y-8">
               <div className="space-y-2">
                 <label className="text-[10px] font-bold uppercase text-slate-400">Section Title</label>
                 <Input value={siteData.firmSummary.title} onChange={(e) => setSiteData({...siteData, firmSummary: {...siteData.firmSummary, title: e.target.value}})} className="bg-slate-50 border-none rounded-xl h-12" />
@@ -398,7 +435,7 @@ export default function AdminDashboard() {
               </div>
               <div className="grid md:grid-cols-2 gap-6">
                 {siteData.services.map((service: any, i: number) => (
-                  <Card key={i} className="p-8 border-none shadow-lg rounded-3xl bg-white relative group">
+                  <Card key={i} className="p-6 md:p-8 border-none shadow-lg rounded-3xl bg-white relative group">
                     <Button variant="ghost" onClick={() => {
                       const newServices = siteData.services.filter((_: any, idx: number) => idx !== i);
                       setSiteData({...siteData, services: newServices});
@@ -442,13 +479,13 @@ export default function AdminDashboard() {
               </div>
               <div className="grid md:grid-cols-2 gap-6">
                 {siteData.testimonials.map((t: any, i: number) => (
-                  <Card key={i} className="p-8 border-none shadow-lg rounded-3xl bg-white relative group">
+                  <Card key={i} className="p-6 md:p-8 border-none shadow-lg rounded-3xl bg-white relative group">
                     <Button variant="ghost" onClick={() => {
                       const newT = siteData.testimonials.filter((_: any, idx: number) => idx !== i);
                       setSiteData({...siteData, testimonials: newT});
                     }} className="absolute top-4 right-4 text-destructive opacity-0 group-hover:opacity-100"><Trash2 className="h-4 w-4" /></Button>
                     <div className="space-y-4">
-                      <div className="grid grid-cols-2 gap-4">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div className="space-y-2">
                           <label className="text-[10px] font-bold uppercase text-slate-400">Name</label>
                           <Input value={t.name} onChange={(e) => {
@@ -490,7 +527,7 @@ export default function AdminDashboard() {
           </TabsContent>
 
           <TabsContent value="faq">
-            <Card className="p-10 border-none shadow-xl rounded-[40px] bg-white">
+            <Card className="p-6 md:p-10 border-none shadow-xl rounded-[40px] bg-white">
               <div className="flex justify-between items-center mb-8">
                 <h3 className="text-xl font-headline font-bold">Frequently Asked Questions</h3>
                 <Button onClick={() => setSiteData({...siteData, faqs: [...siteData.faqs, {question: "New Question", answer: ""}]})} variant="outline" className="rounded-xl">
@@ -523,9 +560,9 @@ export default function AdminDashboard() {
           </TabsContent>
 
           <TabsContent value="pricing">
-             <div className="grid lg:grid-cols-3 gap-8">
+             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                {siteData.pricing.map((plan: any, i: number) => (
-                 <Card key={i} className={cn("p-8 border-none shadow-xl rounded-[40px] bg-white relative", plan.highlight && "ring-4 ring-primary/20")}>
+                 <Card key={i} className={cn("p-6 md:p-8 border-none shadow-xl rounded-[40px] bg-white relative", plan.highlight && "ring-4 ring-primary/20")}>
                     <div className="space-y-4">
                       <div className="flex justify-between">
                         <label className="text-[10px] font-bold uppercase text-slate-400">Plan Name</label>
