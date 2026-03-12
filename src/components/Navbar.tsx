@@ -1,3 +1,4 @@
+
 "use client";
 
 import Link from "next/link";
@@ -17,19 +18,19 @@ export function Navbar() {
   ];
 
   return (
-    <nav className="glass-nav">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-24 items-center">
+    <nav className="glass-nav border-none shadow-sm h-24 flex items-center">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+        <div className="flex justify-between items-center">
           <div className="flex items-center">
-            <Link href="/" className="flex items-center gap-3 group">
-              <div className="bg-primary p-2.5 rounded-xl transition-transform group-hover:scale-105">
-                <Beaker className="h-7 w-7 text-white" />
+            <Link href="/" className="flex items-center gap-4 group">
+              <div className="bg-primary p-2.5 rounded-xl transition-transform group-hover:scale-105 shadow-lg shadow-primary/20">
+                <Beaker className="h-6 w-6 text-white" />
               </div>
               <div className="flex flex-col">
-                <span className="font-headline text-2xl font-bold text-accent tracking-tight leading-none">
+                <span className="font-headline text-2xl font-bold text-primary tracking-tight leading-none">
                   R&D
                 </span>
-                <span className="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold mt-1">
+                <span className="text-[9px] uppercase tracking-wider text-muted-foreground font-semibold mt-1">
                   Research & Development Services
                 </span>
               </div>
@@ -46,7 +47,7 @@ export function Navbar() {
                 {link.name}
               </Link>
             ))}
-            <Button asChild variant="default" size="lg" className="rounded-full shadow-lg bg-black hover:bg-black/90 text-white font-bold h-12 px-8">
+            <Button asChild variant="default" size="lg" className="rounded-full shadow-xl bg-black hover:bg-black/90 text-white font-bold h-12 px-8">
               <Link href="#contact" className="gap-2">
                 Get Quote <ChevronRight className="h-4 w-4" />
               </Link>
@@ -67,8 +68,8 @@ export function Navbar() {
       {/* Mobile Menu */}
       <div
         className={cn(
-          "md:hidden absolute w-full bg-white border-b transition-all duration-300 ease-in-out overflow-hidden",
-          isOpen ? "max-h-96 opacity-100 py-4" : "max-h-0 opacity-0"
+          "md:hidden absolute top-24 left-0 w-full bg-white border-b shadow-lg transition-all duration-300 ease-in-out overflow-hidden z-[60]",
+          isOpen ? "max-h-96 opacity-100 py-6" : "max-h-0 opacity-0"
         )}
       >
         <div className="px-4 space-y-4">
@@ -82,7 +83,7 @@ export function Navbar() {
               {link.name}
             </Link>
           ))}
-          <Button asChild variant="default" className="w-full rounded-full bg-black">
+          <Button asChild variant="default" className="w-full rounded-full bg-black h-12">
             <Link href="#contact" onClick={() => setIsOpen(false)}>
               Get Quote
             </Link>

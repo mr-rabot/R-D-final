@@ -1,46 +1,49 @@
+
 "use client";
 
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { BookOpen, Search, FileEdit, Send, CheckCircle, Award } from "lucide-react";
-import Image from "next/image";
-import { PlaceHolderImages } from "@/lib/placeholder-images";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { GraduationCap, CheckCircle, Zap, Lock, FileText, BookOpen, Check } from "lucide-react";
+
+const trustIndicators = [
+  { icon: GraduationCap, label: "PhD Experts", color: "text-purple-600", bg: "bg-purple-50" },
+  { icon: CheckCircle, label: "100% Plagiarism Free", color: "text-green-600", bg: "bg-green-50" },
+  { icon: Zap, label: "Fast Delivery", color: "text-orange-500", bg: "bg-orange-50" },
+  { icon: Lock, label: "Confidential", color: "text-amber-600", bg: "bg-amber-50" },
+];
 
 const services = [
   {
-    title: "Manuscript Formatting",
-    description: "Tailoring your paper to the specific layout and citation styles (APA, MLA, IEEE) of your target journal.",
-    icon: FileEdit,
-    image: "service-1"
+    title: "Research Papers",
+    description: "Well-researched, structured academic papers with proper citations and references.",
+    icon: FileText,
+    features: [
+      "Original & plagiarism-free content",
+      "Proper formatting (APA, MLA, Chicago)",
+      "In-depth literature review",
+      "Timely delivery"
+    ]
   },
   {
-    title: "Journal Recommendation",
-    description: "Identifying high-impact factors and open-access journals that align with your research niche.",
-    icon: Search,
-    image: "service-2"
+    title: "Thesis Writing",
+    description: "Complete thesis writing from proposal to final submission with expert guidance.",
+    icon: GraduationCap,
+    features: [
+      "Comprehensive research methodology",
+      "Data analysis & interpretation",
+      "Multiple revision rounds",
+      "Supervisor-ready format"
+    ]
   },
   {
-    title: "Peer Review Simulation",
-    description: "Expert feedback from published researchers to address potential critiques before submission.",
-    icon: CheckCircle,
-    image: "service-3"
-  },
-  {
-    title: "Abstract Optimization",
-    description: "Refining your abstract and keywords to maximize indexing visibility and citation potential.",
+    title: "Dissertation",
+    description: "Detailed dissertations with thorough research and academic rigor.",
     icon: BookOpen,
-    image: "service-1"
-  },
-  {
-    title: "Response to Reviewers",
-    description: "Strategic assistance in addressing journal editor comments and navigating the revision cycle.",
-    icon: Send,
-    image: "service-2"
-  },
-  {
-    title: "Plagiarism & Integrity Audit",
-    description: "Comprehensive similarity reports and reference verification to ensure academic compliance.",
-    icon: Award,
-    image: "service-3"
+    features: [
+      "Chapter-wise development",
+      "Statistical analysis support",
+      "Literature synthesis",
+      "Proofreading & editing"
+    ]
   }
 ];
 
@@ -48,42 +51,54 @@ export function Services() {
   return (
     <section id="services" className="py-24 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        {/* Trust Indicators Bar */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-24">
+          {trustIndicators.map((item, i) => (
+            <div key={i} className="flex flex-col items-center gap-4 text-center group">
+              <div className={`p-4 rounded-xl ${item.bg} ${item.color} transition-transform group-hover:scale-110`}>
+                <item.icon className="h-6 w-6" />
+              </div>
+              <span className="text-sm font-medium text-muted-foreground">{item.label}</span>
+            </div>
+          ))}
+        </div>
+
+        {/* Section Header */}
         <div className="text-center mb-16 space-y-4">
-          <h2 className="text-4xl font-headline font-bold text-accent">Publishing Support Services</h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto">
-            Comprehensive solutions designed to navigate the complexities of academic publishing.
+          <div className="inline-block bg-accent text-white text-[10px] uppercase tracking-widest font-bold px-4 py-1.5 rounded-full mb-2">
+            Our Expertise
+          </div>
+          <h2 className="text-5xl font-headline font-bold text-accent">Services We Offer</h2>
+          <p className="text-muted-foreground max-w-2xl mx-auto text-lg">
+            Comprehensive research writing solutions for all your academic needs
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {/* Services Grid */}
+        <div className="grid md:grid-cols-3 gap-8">
           {services.map((service, index) => {
-            const imgData = PlaceHolderImages.find(img => img.id === service.image);
             const Icon = service.icon;
-            
             return (
-              <Card key={index} className="group overflow-hidden border-none shadow-sm hover:shadow-xl transition-all duration-300 rounded-2xl bg-background/50">
-                <div className="relative h-48 overflow-hidden">
-                  {imgData?.imageUrl && (
-                    <Image
-                      src={imgData.imageUrl}
-                      alt={service.title}
-                      fill
-                      className="object-cover transition-transform duration-500 group-hover:scale-110"
-                      data-ai-hint={imgData.imageHint}
-                    />
-                  )}
-                  <div className="absolute inset-0 bg-accent/20 group-hover:bg-accent/10 transition-colors" />
-                  <div className="absolute top-4 left-4 bg-white p-2 rounded-lg shadow-md text-primary">
-                    <Icon className="h-6 w-6" />
+              <Card key={index} className="border-none shadow-[0_10px_40px_rgba(0,0,0,0.04)] hover:shadow-xl transition-all duration-300 rounded-[32px] p-6 bg-background">
+                <CardHeader className="p-0 mb-6">
+                  <div className="bg-primary/10 w-14 h-14 rounded-2xl flex items-center justify-center text-primary mb-6">
+                    <Icon className="h-7 w-7" />
                   </div>
-                </div>
-                <CardHeader>
-                  <CardTitle className="font-headline text-xl text-accent">{service.title}</CardTitle>
+                  <CardTitle className="font-headline text-2xl text-accent mb-4">{service.title}</CardTitle>
                 </CardHeader>
-                <CardContent>
-                  <CardDescription className="text-base text-muted-foreground leading-relaxed">
+                <CardContent className="p-0 space-y-8">
+                  <p className="text-muted-foreground leading-relaxed">
                     {service.description}
-                  </CardDescription>
+                  </p>
+                  <ul className="space-y-4">
+                    {service.features.map((feature, i) => (
+                      <li key={i} className="flex items-start gap-3 text-sm text-muted-foreground leading-snug">
+                        <Check className="h-4 w-4 text-primary mt-0.5 shrink-0" />
+                        <span>{feature}</span>
+                      </li>
+                    ))}
+                  </ul>
                 </CardContent>
               </Card>
             );
