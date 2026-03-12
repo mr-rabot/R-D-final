@@ -10,8 +10,7 @@ import {
   Globe, 
   ShieldCheck, 
   Zap, 
-  Briefcase,
-  Check
+  Briefcase
 } from "lucide-react";
 
 interface LeadershipProfile {
