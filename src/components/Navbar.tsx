@@ -1,4 +1,3 @@
-
 "use client";
 
 import Link from "next/link";
@@ -21,15 +20,20 @@ export function Navbar() {
   return (
     <nav className="glass-nav">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-16 items-center">
+        <div className="flex justify-between h-20 items-center">
           <div className="flex items-center">
             <Link href="/" className="flex items-center gap-2 group">
               <div className="bg-primary p-2 rounded-lg transition-transform group-hover:rotate-12">
                 <GraduationCap className="h-6 w-6 text-white" />
               </div>
-              <span className="font-headline text-2xl font-bold text-accent tracking-tight">
-                AcadeFlow
-              </span>
+              <div className="flex flex-col">
+                <span className="font-headline text-2xl font-bold text-accent tracking-tight leading-none">
+                  R&D
+                </span>
+                <span className="text-[10px] uppercase tracking-wider text-primary font-semibold">
+                  research and development
+                </span>
+              </div>
             </Link>
           </div>
 

@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState } from "react";
@@ -15,7 +14,8 @@ import {
   Users, 
   Bell,
   Search,
-  Plus
+  Plus,
+  GraduationCap
 } from "lucide-react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
@@ -36,8 +36,13 @@ export default function AdminDashboard() {
       <div className="min-h-screen bg-background flex items-center justify-center p-4">
         <Card className="w-full max-w-md border-none shadow-2xl rounded-3xl overflow-hidden">
           <div className="bg-accent p-8 text-center text-white">
-            <h2 className="text-3xl font-headline font-bold">Admin Portal</h2>
-            <p className="text-blue-100 text-sm mt-2">Secure access for AcadeFlow staff</p>
+            <div className="flex justify-center mb-4">
+               <div className="bg-primary p-2 rounded-lg">
+                <GraduationCap className="h-8 w-8 text-white" />
+              </div>
+            </div>
+            <h2 className="text-3xl font-headline font-bold">R&D Portal</h2>
+            <p className="text-blue-100 text-sm mt-2">Secure access for research staff</p>
           </div>
           <CardContent className="p-8">
             <form onSubmit={handleLogin} className="space-y-6">
@@ -47,7 +52,7 @@ export default function AdminDashboard() {
                   type="email" 
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="admin@acadeflow.com" 
+                  placeholder="staff@rd-research.com" 
                   className="rounded-xl h-12" 
                 />
               </div>
@@ -77,16 +82,24 @@ export default function AdminDashboard() {
   return (
     <div className="min-h-screen bg-muted/30 flex">
       {/* Sidebar */}
-      <aside className="w-64 bg-accent text-white flex flex-col hidden md:flex">
+      <aside className="w-72 bg-accent text-white flex flex-col hidden md:flex">
         <div className="p-6 border-b border-white/10">
-          <h1 className="text-xl font-headline font-bold">AcadeFlow Admin</h1>
+          <div className="flex items-center gap-2">
+            <div className="bg-primary p-1.5 rounded-md">
+              <GraduationCap className="h-5 w-5 text-white" />
+            </div>
+            <div>
+               <h1 className="text-lg font-headline font-bold leading-none">R&D</h1>
+               <span className="text-[8px] uppercase tracking-widest text-blue-200">research and development</span>
+            </div>
+          </div>
         </div>
         <nav className="flex-grow p-4 space-y-2">
           {[
             { icon: LayoutDashboard, label: "Dashboard", active: true },
-            { icon: FileText, label: "Content CMS" },
-            { icon: MessageSquare, label: "Inquiries" },
-            { icon: Users, label: "Researchers" },
+            { icon: FileText, label: "Resource Library" },
+            { icon: MessageSquare, label: "Researcher Inquiries" },
+            { icon: Users, label: "Academic Network" },
             { icon: Bell, label: "Notifications" },
             { icon: Settings, label: "System Settings" },
           ].map((item, i) => (
@@ -110,24 +123,24 @@ export default function AdminDashboard() {
       <main className="flex-grow p-8 overflow-auto">
         <header className="flex justify-between items-center mb-12">
           <div>
-            <h2 className="text-3xl font-headline font-bold text-accent">Dashboard Overview</h2>
-            <p className="text-muted-foreground">Welcome back, Admin. Here's what's happening today.</p>
+            <h2 className="text-3xl font-headline font-bold text-accent">Operations Center</h2>
+            <p className="text-muted-foreground">Managing global research initiatives.</p>
           </div>
           <div className="flex gap-4">
             <div className="relative hidden sm:block">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-              <Input placeholder="Search inquiries..." className="pl-10 w-64 bg-white border-none shadow-sm rounded-xl" />
+              <Input placeholder="Search records..." className="pl-10 w-64 bg-white border-none shadow-sm rounded-xl" />
             </div>
-            <Button className="bg-primary rounded-xl gap-2"><Plus className="h-4 w-4" /> New Content</Button>
+            <Button className="bg-primary rounded-xl gap-2"><Plus className="h-4 w-4" /> New Initiative</Button>
           </div>
         </header>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
           {[
-            { label: "Total Inquiries", value: "142", trend: "+12%", color: "text-blue-600" },
-            { label: "Active Projects", value: "28", trend: "+3", color: "text-green-600" },
-            { label: "New Blog Posts", value: "5", trend: "This week", color: "text-purple-600" },
-            { label: "Client Rating", value: "4.9/5", trend: "0.1", color: "text-orange-600" }
+            { label: "Pending Reviews", value: "142", trend: "+12%", color: "text-blue-600" },
+            { label: "Active Grants", value: "28", trend: "+3", color: "text-green-600" },
+            { label: "New Publications", value: "5", trend: "This week", color: "text-purple-600" },
+            { label: "System Uptime", value: "99.9%", trend: "Optimal", color: "text-orange-600" }
           ].map((stat, i) => (
             <Card key={i} className="border-none shadow-sm rounded-2xl">
               <CardContent className="p-6">
@@ -144,8 +157,8 @@ export default function AdminDashboard() {
         <Tabs defaultValue="inquiries" className="space-y-6">
           <TabsList className="bg-transparent border-b rounded-none w-full justify-start h-auto p-0 gap-8">
             <TabsTrigger value="inquiries" className="bg-transparent data-[state=active]:bg-transparent data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:shadow-none rounded-none py-4 px-0">Recent Inquiries</TabsTrigger>
-            <TabsTrigger value="content" className="bg-transparent data-[state=active]:bg-transparent data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:shadow-none rounded-none py-4 px-0">Manage Content</TabsTrigger>
-            <TabsTrigger value="stats" className="bg-transparent data-[state=active]:bg-transparent data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:shadow-none rounded-none py-4 px-0">Analytics</TabsTrigger>
+            <TabsTrigger value="content" className="bg-transparent data-[state=active]:bg-transparent data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:shadow-none rounded-none py-4 px-0">Resource Management</TabsTrigger>
+            <TabsTrigger value="stats" className="bg-transparent data-[state=active]:bg-transparent data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:shadow-none rounded-none py-4 px-0">Analytics Hub</TabsTrigger>
           </TabsList>
 
           <TabsContent value="inquiries">
@@ -153,19 +166,19 @@ export default function AdminDashboard() {
               <Table>
                 <TableHeader className="bg-muted/50">
                   <TableRow>
-                    <TableHead>Client</TableHead>
-                    <TableHead>Project Type</TableHead>
-                    <TableHead>Date</TableHead>
+                    <TableHead>Principal Investigator</TableHead>
+                    <TableHead>Field of Study</TableHead>
+                    <TableHead>Submission</TableHead>
                     <TableHead>Status</TableHead>
                     <TableHead className="text-right">Action</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {[
-                    { name: "Alice Johnson", project: "Clinical Analysis", date: "Oct 24, 2024", status: "Pending" },
-                    { name: "Robert Smith", project: "Thesis Formatting", date: "Oct 23, 2024", status: "In Progress" },
-                    { name: "Dr. K. Miller", project: "Grant Proposal", date: "Oct 22, 2024", status: "Completed" },
-                    { name: "Sarah Williams", project: "Literature Review", date: "Oct 22, 2024", status: "Pending" },
+                    { name: "Alice Johnson", project: "Clinical Neuro", date: "Oct 24, 2024", status: "Pending" },
+                    { name: "Robert Smith", project: "Quantum Logic", date: "Oct 23, 2024", status: "In Progress" },
+                    { name: "Dr. K. Miller", project: "Bio-Genetics", date: "Oct 22, 2024", status: "Completed" },
+                    { name: "Sarah Williams", project: "Social Dynamics", date: "Oct 22, 2024", status: "Pending" },
                   ].map((row, i) => (
                     <TableRow key={i}>
                       <TableCell className="font-medium">{row.name}</TableCell>
@@ -177,7 +190,7 @@ export default function AdminDashboard() {
                         </Badge>
                       </TableCell>
                       <TableCell className="text-right">
-                        <Button variant="ghost" size="sm">View Details</Button>
+                        <Button variant="ghost" size="sm">Audit</Button>
                       </TableCell>
                     </TableRow>
                   ))}
@@ -190,14 +203,14 @@ export default function AdminDashboard() {
             <div className="grid md:grid-cols-2 gap-8">
               <Card className="border-none shadow-sm rounded-2xl">
                 <CardHeader>
-                  <CardTitle>Static Pages</CardTitle>
-                  <CardDescription>Edit homepage sections and service descriptions.</CardDescription>
+                  <CardTitle>Core Methodology</CardTitle>
+                  <CardDescription>Define standards for R&D processes.</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  {["Homepage Hero", "Services Catalog", "Pricing Tiers", "FAQ Section"].map((page, i) => (
+                  {["Phase 1 Protocol", "Safety Standards", "Ethics Framework", "Data Handling"].map((page, i) => (
                     <div key={i} className="flex justify-between items-center p-3 bg-muted/20 rounded-xl">
                       <span className="text-sm font-medium">{page}</span>
-                      <Button size="sm" variant="outline" className="rounded-lg">Edit</Button>
+                      <Button size="sm" variant="outline" className="rounded-lg">Update</Button>
                     </div>
                   ))}
                 </CardContent>
@@ -205,20 +218,20 @@ export default function AdminDashboard() {
 
               <Card className="border-none shadow-sm rounded-2xl">
                 <CardHeader>
-                  <CardTitle>Academic Blog</CardTitle>
-                  <CardDescription>Manage articles and publication guides.</CardDescription>
+                  <CardTitle>Knowledge Hub</CardTitle>
+                  <CardDescription>Internal research findings and guidance.</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  {["10 Tips for PhD Success", "Understanding LaTeX", "Citation Best Practices"].map((blog, i) => (
+                  {["Statistical Best Practices", "Grant Winning Strategies", "Peer-Review Ethics"].map((blog, i) => (
                     <div key={i} className="flex justify-between items-center p-3 bg-muted/20 rounded-xl">
                       <span className="text-sm font-medium truncate max-w-[150px]">{blog}</span>
                       <div className="flex gap-2">
-                        <Button size="sm" variant="outline" className="rounded-lg">Edit</Button>
-                        <Button size="sm" variant="destructive" className="rounded-lg">Delete</Button>
+                        <Button size="sm" variant="outline" className="rounded-lg">Review</Button>
+                        <Button size="sm" variant="destructive" className="rounded-lg">Archive</Button>
                       </div>
                     </div>
                   ))}
-                  <Button className="w-full bg-accent rounded-xl">Write New Post</Button>
+                  <Button className="w-full bg-accent rounded-xl">Publish New Finding</Button>
                 </CardContent>
               </Card>
             </div>

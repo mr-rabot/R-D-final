@@ -1,11 +1,10 @@
-
 import type {Metadata} from 'next';
 import './globals.css';
 import { Toaster } from "@/components/ui/toaster";
 
 export const metadata: Metadata = {
-  title: 'AcadeFlow Solutions | Academic R&D & Publishing Services',
-  description: 'Empowering academic research with professional solutions for students and researchers.',
+  title: 'R&D research and development | Academic & Professional Solutions',
+  description: 'Empowering global research communities through professional R&D and publishing services.',
 };
 
 export default function RootLayout({
