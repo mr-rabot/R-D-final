@@ -86,7 +86,6 @@ export function Services() {
     <section id="services" className="py-32 bg-slate-50/50 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Trust Indicators Bar */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-16 mb-40">
           {trustIndicators.map((item, i) => (
             <div key={i} className="flex flex-col items-center gap-6 text-center group animate-in fade-in slide-in-from-bottom-4 duration-700" style={{ animationDelay: `${i * 100}ms` }}>
@@ -101,7 +100,6 @@ export function Services() {
           ))}
         </div>
 
-        {/* Section Header */}
         <div className="text-center mb-28 space-y-6">
           <div className="inline-block bg-accent text-white text-[10px] uppercase tracking-[0.3em] font-bold px-7 py-2.5 rounded-full mb-2 shadow-xl shadow-accent/20">
             Our Expertise
@@ -112,7 +110,6 @@ export function Services() {
           </p>
         </div>
 
-        {/* Services Carousel */}
         <div className="relative px-4 sm:px-12">
           <Carousel
             plugins={[plugin.current]}
@@ -126,8 +123,8 @@ export function Services() {
               {services.map((service, index) => {
                 const Icon = service.icon;
                 return (
-                  <CarouselItem key={index} className="pl-6 md:pl-10 basis-full md:basis-1/2 lg:basis-1/3">
-                    <Card className="border-none shadow-[0_30px_60px_rgba(0,0,0,0.05)] hover:shadow-[0_40px_80px_rgba(0,71,255,0.1)] transition-all duration-700 rounded-[45px] p-10 md:p-12 bg-white flex flex-col h-full group border-b-8 border-transparent hover:border-primary">
+                  <CarouselItem key={index} className="pl-6 md:pl-10 basis-full md:basis-1/2 lg:basis-1/3 py-10">
+                    <Card className="border-none shadow-[0_30px_60px_rgba(0,0,0,0.05)] hover:shadow-[0_40px_80px_rgba(0,71,255,0.15)] transition-all duration-700 rounded-[45px] p-10 md:p-12 bg-white flex flex-col h-full group border-b-8 border-transparent hover:border-primary">
                       <CardHeader className="p-0 mb-10">
                         <div className="bg-primary/5 w-18 h-18 rounded-[25px] flex items-center justify-center text-primary mb-10 transition-all duration-500 group-hover:bg-primary group-hover:text-white group-hover:rotate-6 shadow-sm">
                           <Icon className="h-9 w-9" />
@@ -157,7 +154,7 @@ export function Services() {
                 );
               })}
             </CarouselContent>
-            <div className="flex justify-center mt-20 gap-8 md:block">
+            <div className="flex justify-center mt-12 gap-8 md:block">
               <CarouselPrevious className="static md:absolute md:-left-16 translate-y-0 bg-white border-none hover:bg-primary hover:text-white h-16 w-16 flex items-center justify-center rounded-full shadow-2xl transition-all hover:scale-110 active:scale-90" />
               <CarouselNext className="static md:absolute md:-right-16 translate-y-0 bg-white border-none hover:bg-primary hover:text-white h-16 w-16 flex items-center justify-center rounded-full shadow-2xl transition-all hover:scale-110 active:scale-90" />
             </div>

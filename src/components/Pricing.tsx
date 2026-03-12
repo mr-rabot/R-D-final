@@ -62,7 +62,7 @@ export function Pricing() {
   };
 
   return (
-    <section id="pricing" className="py-32 bg-slate-50/50 relative overflow-visible">
+    <section id="pricing" className="py-32 bg-slate-50/50 relative">
       <div className="absolute top-[-10%] right-[-10%] w-[40%] h-[40%] bg-primary/5 blur-[120px] rounded-full pointer-events-none" />
       <div className="absolute bottom-[-5%] left-[-5%] w-[30%] h-[30%] bg-blue-400/5 blur-[100px] rounded-full pointer-events-none" />
       
@@ -78,14 +78,14 @@ export function Pricing() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch pt-12">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch pt-12 overflow-visible">
           {plans.map((plan, index) => (
-            <div key={index} className="relative flex">
+            <div key={index} className="relative flex h-full">
               <Card 
                 className={cn(
                   "relative flex flex-col rounded-[40px] transition-all duration-700 group w-full border-none",
                   plan.highlight 
-                    ? "bg-white shadow-[0_40px_80px_rgba(0,71,255,0.12)] z-10 scale-105" 
+                    ? "bg-white shadow-[0_40px_80px_rgba(0,71,255,0.15)] z-10 scale-105" 
                     : "bg-white shadow-[0_20px_40px_rgba(0,0,0,0.04)] hover:shadow-[0_40px_60px_rgba(0,0,0,0.08)] hover:-translate-y-2"
                 )}
               >

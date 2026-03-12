@@ -66,7 +66,6 @@ export function Testimonials() {
 
   return (
     <section id="testimonials" className="py-32 bg-white overflow-hidden relative">
-      {/* Subtle Background Elements */}
       <div className="absolute top-0 right-0 w-1/3 h-1/3 bg-primary/5 blur-[120px] rounded-full pointer-events-none" />
       <div className="absolute bottom-0 left-0 w-1/4 h-1/4 bg-blue-400/5 blur-[100px] rounded-full pointer-events-none" />
 
@@ -83,22 +82,21 @@ export function Testimonials() {
           </p>
         </div>
 
-        <div className="relative px-0 sm:px-12">
+        <div className="relative px-4 sm:px-12">
           <Carousel
             plugins={[plugin.current]}
-            className="w-full max-w-6xl mx-auto"
+            className="w-full"
             opts={{
               align: "start",
               loop: true,
             }}
           >
-            <CarouselContent className="-ml-4 md:-ml-8">
+            <CarouselContent className="-ml-4 md:-ml-6">
               {testimonials.map((t, index) => {
                 const img = PlaceHolderImages.find(i => i.id === t.image);
                 return (
-                  <CarouselItem key={index} className="pl-4 md:pl-8 basis-full md:basis-1/2 lg:basis-1/3">
-                    <div className="bg-white p-10 rounded-[40px] border border-slate-100 shadow-xl hover:shadow-2xl hover:shadow-primary/5 transition-all duration-500 flex flex-col h-full group relative overflow-hidden">
-                      {/* Decorative Background Icon */}
+                  <CarouselItem key={index} className="pl-4 md:pl-6 basis-full md:basis-1/2 lg:basis-1/3 py-8">
+                    <div className="bg-white p-10 rounded-[40px] border border-slate-100 shadow-xl hover:shadow-2xl hover:shadow-primary/10 transition-all duration-500 flex flex-col h-full group relative overflow-hidden">
                       <div className="absolute -top-6 -right-6 opacity-[0.03] group-hover:opacity-[0.08] transition-opacity">
                         <Quote className="h-32 w-32 text-accent" />
                       </div>
@@ -132,14 +130,13 @@ export function Testimonials() {
               })}
             </CarouselContent>
             
-            <div className="flex justify-center mt-16 gap-6 md:block">
-              <CarouselPrevious className="static md:absolute md:-left-12 translate-y-0 bg-white border-slate-100 hover:bg-primary hover:text-white h-14 w-14 flex items-center justify-center rounded-full shadow-2xl transition-all hover:scale-110 active:scale-90" />
-              <CarouselNext className="static md:absolute md:-right-12 translate-y-0 bg-white border-slate-100 hover:bg-primary hover:text-white h-14 w-14 flex items-center justify-center rounded-full shadow-2xl transition-all hover:scale-110 active:scale-90" />
+            <div className="flex justify-center mt-12 gap-6 md:block">
+              <CarouselPrevious className="static md:absolute md:-left-16 translate-y-0 bg-white border-slate-100 hover:bg-primary hover:text-white h-14 w-14 flex items-center justify-center rounded-full shadow-2xl transition-all hover:scale-110 active:scale-90" />
+              <CarouselNext className="static md:absolute md:-right-16 translate-y-0 bg-white border-slate-100 hover:bg-primary hover:text-white h-14 w-14 flex items-center justify-center rounded-full shadow-2xl transition-all hover:scale-110 active:scale-90" />
             </div>
           </Carousel>
         </div>
 
-        {/* Global Success Indicators */}
         <div className="mt-32 grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 border-t border-slate-100 pt-20">
           {[
             { icon: ShieldCheck, label: "100%", sub: "Academic Integrity" },
