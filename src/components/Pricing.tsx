@@ -1,3 +1,4 @@
+
 "use client";
 
 import { Check, MessageSquare, Mail, Sparkles } from "lucide-react";
@@ -79,22 +80,22 @@ export function Pricing() {
           </p>
         </div>
 
-        {/* Pricing Grid - Strict 3 columns on large screens */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 items-stretch">
+        {/* Pricing Grid - Forced 3 columns on large desktop view */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch pt-12">
           {plans.map((plan, index) => (
             <Card 
               key={index} 
               className={cn(
-                "relative flex flex-col rounded-[40px] overflow-hidden transition-all duration-700 group animate-in fade-in slide-in-from-bottom-8",
+                "relative flex flex-col rounded-[40px] transition-all duration-700 group animate-in fade-in slide-in-from-bottom-8",
                 plan.highlight 
-                  ? "border-primary border-2 shadow-[0_30px_60px_rgba(0,71,255,0.1)] z-10 bg-white" 
+                  ? "border-primary border-2 shadow-[0_30px_60px_rgba(0,71,255,0.1)] z-10 bg-white scale-105" 
                   : "border-slate-100 shadow-[0_15px_30px_rgba(0,0,0,0.02)] bg-white hover:shadow-xl hover:-translate-y-1"
               )}
               style={{ animationDelay: `${index * 150}ms` }}
             >
               {plan.highlight && plan.badge && (
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20">
-                  <Badge className="bg-primary text-white px-6 py-2 rounded-full shadow-2xl text-[9px] font-bold whitespace-nowrap border-none uppercase tracking-widest animate-pulse">
+                <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-30">
+                  <Badge className="bg-primary text-white px-6 py-2 rounded-full shadow-2xl text-[10px] font-bold whitespace-nowrap border-none uppercase tracking-widest ring-4 ring-white">
                     {plan.badge}
                   </Badge>
                 </div>
@@ -119,7 +120,7 @@ export function Pricing() {
                 </ul>
               </CardContent>
               
-              <CardFooter className="p-8 flex flex-col gap-3 bg-slate-50/30 group-hover:bg-white transition-colors">
+              <CardFooter className="p-8 flex flex-col gap-3 bg-slate-50/30 rounded-b-[40px] group-hover:bg-white transition-colors">
                 <Button 
                   onClick={() => handleWhatsAppQuote(plan.name)}
                   variant={plan.highlight ? "default" : "outline"} 
@@ -144,7 +145,7 @@ export function Pricing() {
         </div>
 
         {/* Custom Project Note */}
-        <div className="mt-16 text-center animate-in fade-in duration-1000 delay-500">
+        <div className="mt-24 text-center animate-in fade-in duration-1000 delay-500">
           <p className="text-slate-400 text-xs font-medium italic">
             * Have a specific or multi-disciplinary project? 
             <button 
