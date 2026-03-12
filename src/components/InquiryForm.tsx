@@ -60,6 +60,15 @@ export function InquiryForm() {
             <div className="space-y-8">
               <div className="flex items-start gap-6">
                 <div className="bg-blue-100 p-3 rounded-xl text-primary">
+                  <User className="h-6 w-6" />
+                </div>
+                <div>
+                  <h4 className="font-bold text-accent text-xl">Om Prakash Sinha</h4>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-6">
+                <div className="bg-blue-100 p-3 rounded-xl text-primary">
                   <Mail className="h-6 w-6" />
                 </div>
                 <div>

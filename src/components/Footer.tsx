@@ -57,6 +57,7 @@ export function Footer() {
             <h4 className="text-lg font-bold">Contact Info</h4>
             <ul className="space-y-4 text-slate-400 text-sm">
               <li className="flex flex-col gap-2">
+                <span className="text-white font-bold text-base">Om Prakash Sinha</span>
                 <span className="text-white font-medium">Phone: +91 6209779365</span>
                 <span className="text-white font-medium">Email: support.rdservices@gmail.com</span>
                 <span>Support: 24/7 Available</span>
