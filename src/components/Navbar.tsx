@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { GraduationCap, Menu, X, ChevronRight } from "lucide-react";
+import { Beaker, Menu, X, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
@@ -12,32 +12,31 @@ export function Navbar() {
   const navLinks = [
     { name: "Services", href: "#services" },
     { name: "Pricing", href: "#pricing" },
-    { name: "Blog", href: "#blog" },
-    { name: "Resources", href: "#resources" },
-    { name: "Admin", href: "/admin" },
+    { name: "Testimonials", href: "#testimonials" },
+    { name: "Contact", href: "#contact" },
   ];
 
   return (
     <nav className="glass-nav">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-20 items-center">
+        <div className="flex justify-between h-24 items-center">
           <div className="flex items-center">
-            <Link href="/" className="flex items-center gap-2 group">
-              <div className="bg-primary p-2 rounded-lg transition-transform group-hover:rotate-12">
-                <GraduationCap className="h-6 w-6 text-white" />
+            <Link href="/" className="flex items-center gap-3 group">
+              <div className="bg-primary p-2.5 rounded-xl transition-transform group-hover:scale-105">
+                <Beaker className="h-7 w-7 text-white" />
               </div>
               <div className="flex flex-col">
                 <span className="font-headline text-2xl font-bold text-accent tracking-tight leading-none">
                   R&D
                 </span>
-                <span className="text-[10px] uppercase tracking-wider text-primary font-semibold">
-                  research and development
+                <span className="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold mt-1">
+                  Research & Development Services
                 </span>
               </div>
             </Link>
           </div>
 
-          <div className="hidden md:flex items-center space-x-8">
+          <div className="hidden md:flex items-center space-x-10">
             {navLinks.map((link) => (
               <Link
                 key={link.name}
@@ -47,9 +46,9 @@ export function Navbar() {
                 {link.name}
               </Link>
             ))}
-            <Button asChild variant="default" size="sm" className="rounded-full shadow-md bg-accent hover:bg-accent/90">
+            <Button asChild variant="default" size="lg" className="rounded-full shadow-lg bg-black hover:bg-black/90 text-white font-bold h-12 px-8">
               <Link href="#contact" className="gap-2">
-                Get a Quote <ChevronRight className="h-4 w-4" />
+                Get Quote <ChevronRight className="h-4 w-4" />
               </Link>
             </Button>
           </div>
@@ -68,7 +67,7 @@ export function Navbar() {
       {/* Mobile Menu */}
       <div
         className={cn(
-          "md:hidden absolute w-full bg-background/95 backdrop-blur-lg border-b transition-all duration-300 ease-in-out overflow-hidden",
+          "md:hidden absolute w-full bg-white border-b transition-all duration-300 ease-in-out overflow-hidden",
           isOpen ? "max-h-96 opacity-100 py-4" : "max-h-0 opacity-0"
         )}
       >
@@ -83,9 +82,9 @@ export function Navbar() {
               {link.name}
             </Link>
           ))}
-          <Button asChild variant="default" className="w-full rounded-full bg-accent">
+          <Button asChild variant="default" className="w-full rounded-full bg-black">
             <Link href="#contact" onClick={() => setIsOpen(false)}>
-              Get a Quote
+              Get Quote
             </Link>
           </Button>
         </div>

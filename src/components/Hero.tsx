@@ -3,79 +3,76 @@
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { StatsCounter } from "./StatsCounter";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
-import { ShieldCheck, FileCheck } from "lucide-react";
+import { Mail, Phone, Sparkles } from "lucide-react";
+import { StatsCounter } from "./StatsCounter";
 
 export function Hero() {
   const heroImage = PlaceHolderImages.find((img) => img.id === "hero-bg");
 
   return (
-    <div className="relative overflow-hidden pt-16 pb-24 md:pt-24 md:pb-32">
+    <section className="hero-gradient text-white pt-12 pb-20 md:pt-20 md:pb-32 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="lg:grid lg:grid-cols-12 lg:gap-12 items-center">
-          <div className="lg:col-span-7 text-center lg:text-left space-y-8">
-            <div className="inline-flex items-center gap-2 bg-primary/10 px-4 py-2 rounded-full text-primary font-semibold text-sm">
-              <Badge variant="secondary" className="rounded-full px-2 py-0">New</Badge>
-              Journal Matching Algorithm 2.0 Now Live
+        <div className="lg:grid lg:grid-cols-2 lg:gap-16 items-center">
+          <div className="space-y-10">
+            <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 px-4 py-1.5 rounded-full text-white font-medium text-xs">
+              <Sparkles className="h-3 w-3" />
+              Professional Research Writing Services
             </div>
             
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-headline font-bold text-accent leading-tight">
-              Publish Your <br />
-              <span className="text-primary">Research Paper</span>
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-headline font-bold leading-tight">
+              Expert Research <br />
+              Papers, Thesis & <br />
+              Reports Writing
             </h1>
             
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto lg:mx-0 leading-relaxed">
-              From initial draft to high-impact journal publication. We provide expert peer-review support, technical editing, and strategic manuscript positioning.
+            <p className="text-xl text-blue-50/80 max-w-xl leading-relaxed font-light">
+              We provide high-quality, plagiarism-free research papers, thesis, dissertations, and project reports tailored to your academic needs.
             </p>
             
-            <div className="flex flex-col sm:flex-row items-center gap-4 justify-center lg:justify-start">
-              <Button size="lg" className="rounded-full px-8 h-14 text-lg bg-accent hover:bg-accent/90 shadow-lg">
-                Submit Manuscript
+            <div className="flex flex-col sm:flex-row items-center gap-4">
+              <Button size="lg" className="rounded-xl px-10 h-14 text-lg bg-white text-blue-700 hover:bg-blue-50 shadow-xl font-bold flex gap-2">
+                <Mail className="h-5 w-5" /> Get Started
               </Button>
-              <Button variant="outline" size="lg" className="rounded-full px-8 h-14 text-lg border-primary text-primary hover:bg-primary/5">
-                Publishing Process
+              <Button variant="outline" size="lg" className="rounded-xl px-10 h-14 text-lg border-2 border-white text-white hover:bg-white/10 font-bold bg-transparent flex gap-2">
+                <Phone className="h-5 w-5" /> Call Us Now
               </Button>
             </div>
 
-            <div className="grid grid-cols-3 gap-4 pt-8">
-              <StatsCounter label="Papers Published" value={1850} suffix="+" />
-              <StatsCounter label="Journal Partners" value={120} suffix="+" />
-              <StatsCounter label="Acceptance Rate" value={94} suffix="%" />
+            <div className="grid grid-cols-3 gap-8 pt-12 border-t border-white/10">
+              <div className="space-y-1">
+                <div className="text-4xl font-headline font-bold">500+</div>
+                <div className="text-xs text-blue-100/70 uppercase tracking-widest font-medium">Projects Completed</div>
+              </div>
+              <div className="space-y-1">
+                <div className="text-4xl font-headline font-bold">98%</div>
+                <div className="text-xs text-blue-100/70 uppercase tracking-widest font-medium">Client Satisfaction</div>
+              </div>
+              <div className="space-y-1">
+                <div className="text-4xl font-headline font-bold">24/7</div>
+                <div className="text-xs text-blue-100/70 uppercase tracking-widest font-medium">Support Available</div>
+              </div>
             </div>
           </div>
 
-          <div className="mt-16 lg:mt-0 lg:col-span-5 relative">
-            <div className="relative z-10 animate-float">
+          <div className="mt-16 lg:mt-0 relative">
+            <div className="relative z-10">
               {heroImage?.imageUrl && (
                 <Image
                   src={heroImage.imageUrl}
-                  alt={heroImage.description || "Research paper manuscript and pen"}
+                  alt="Researcher working at desk"
                   width={600}
-                  height={500}
-                  className="rounded-2xl shadow-2xl border-4 border-white object-cover aspect-[4/3]"
-                  data-ai-hint={heroImage.imageHint}
+                  height={450}
+                  className="rounded-[40px] shadow-3xl object-cover aspect-[4/3] border-[12px] border-white/5"
+                  data-ai-hint="researcher desk"
                 />
               )}
-              <div className="absolute -bottom-6 -left-6 bg-white p-6 rounded-xl shadow-xl space-y-4 max-w-[200px]">
-                <div className="flex items-center gap-3">
-                  <div className="bg-green-100 p-2 rounded-full">
-                    <ShieldCheck className="h-5 w-5 text-green-600" />
-                  </div>
-                  <span className="text-xs font-bold text-accent">Peer Review Ready</span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <div className="bg-blue-100 p-2 rounded-full">
-                    <FileCheck className="h-5 w-5 text-blue-600" />
-                  </div>
-                  <span className="text-xs font-bold text-accent">Plagiarism Checked</span>
-                </div>
-              </div>
             </div>
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-primary/20 blur-3xl -z-10 rounded-full" />
+            {/* Background decorative blob */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-white/5 blur-3xl rounded-full -z-10" />
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 }

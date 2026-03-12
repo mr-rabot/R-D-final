@@ -1,11 +1,9 @@
-
 import { Navbar } from "@/components/Navbar";
 import { Hero } from "@/components/Hero";
 import { Services } from "@/components/Services";
 import { Pricing } from "@/components/Pricing";
-import { Blog } from "@/components/Blog";
-import { InquiryForm } from "@/components/InquiryForm";
 import { Testimonials } from "@/components/Testimonials";
+import { InquiryForm } from "@/components/InquiryForm";
 import { Footer } from "@/components/Footer";
 
 export default function Home() {
@@ -16,7 +14,6 @@ export default function Home() {
       <Services />
       <Pricing />
       <Testimonials />
-      <Blog />
       <InquiryForm />
       <Footer />
     </main>
