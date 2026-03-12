@@ -4,6 +4,7 @@
 import { useState, useCallback, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { 
@@ -26,7 +27,10 @@ import {
   ShieldCheck,
   Zap,
   Briefcase,
-  Crop as CropIcon
+  FileText,
+  Globe,
+  Plus,
+  Trash2
 } from "lucide-react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
@@ -76,6 +80,7 @@ export default function AdminDashboard() {
 
   const [founder, setFounder] = useState({ name: "", role: "", image: "" });
   const [coFounder, setCoFounder] = useState({ name: "", role: "", image: "" });
+  const [firmSummary, setFirmSummary] = useState({ title: "", description: "", stats: [] as { label: string, value: string }[] });
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -84,8 +89,9 @@ export default function AdminDashboard() {
         .then(data => {
           if (data.founder) setFounder(data.founder);
           if (data.coFounder) setCoFounder(data.coFounder);
+          if (data.firmSummary) setFirmSummary(data.firmSummary);
         })
-        .catch(() => toast({ variant: "destructive", title: "Sync Error", description: "Could not load leadership data." }));
+        .catch(() => toast({ variant: "destructive", title: "Sync Error", description: "Could not load data." }));
     }
   }, [isLoggedIn, toast]);
 
@@ -128,10 +134,11 @@ export default function AdminDashboard() {
     }
   };
 
-  const syncToWebsite = async (type: 'founder' | 'co-founder') => {
+  const syncToWebsite = async () => {
     const updatedData = {
-      founder: type === 'founder' ? founder : founder,
-      coFounder: type === 'co-founder' ? coFounder : coFounder
+      founder,
+      coFounder,
+      firmSummary
     };
 
     try {
@@ -141,10 +148,10 @@ export default function AdminDashboard() {
         body: JSON.stringify(updatedData)
       });
       if (res.ok) {
-        toast({ title: "Sync Successful", description: "Leadership profile updated on the website." });
+        toast({ title: "Sync Successful", description: "Website content updated successfully." });
       }
     } catch {
-      toast({ variant: "destructive", title: "Sync Failed", description: "Failed to push updates to local storage." });
+      toast({ variant: "destructive", title: "Sync Failed", description: "Failed to push updates." });
     }
   };
 
@@ -156,6 +163,14 @@ export default function AdminDashboard() {
     } else {
       toast({ variant: "destructive", title: "Access Denied", description: "Invalid credentials." });
     }
+  };
+
+  const addStat = () => setFirmSummary(prev => ({ ...prev, stats: [...prev.stats, { label: "", value: "" }] }));
+  const removeStat = (index: number) => setFirmSummary(prev => ({ ...prev, stats: prev.stats.filter((_, i) => i !== index) }));
+  const updateStat = (index: number, field: 'label' | 'value', value: string) => {
+    const newStats = [...firmSummary.stats];
+    newStats[index][field] = value;
+    setFirmSummary(prev => ({ ...prev, stats: newStats }));
   };
 
   if (!isLoggedIn) {
@@ -195,10 +210,13 @@ export default function AdminDashboard() {
         </div>
         <nav className="flex-grow p-8 space-y-4">
           <div onClick={() => setActiveTab("control-center")} className={cn("p-4 rounded-xl cursor-pointer flex gap-4 items-center", activeTab === "control-center" ? "bg-primary text-white" : "text-slate-400 hover:text-white")}>
-            <LayoutDashboard className="h-5 w-5" /> <span>Command</span>
+            <LayoutDashboard className="h-5 w-5" /> <span>Dashboard</span>
           </div>
-          <div onClick={() => setActiveTab("team")} className={cn("p-4 rounded-xl cursor-pointer flex gap-4 items-center", activeTab === "team" ? "bg-primary text-white" : "text-slate-400 hover:text-white")}>
+          <div onClick={() => setActiveTab("leadership")} className={cn("p-4 rounded-xl cursor-pointer flex gap-4 items-center", activeTab === "leadership" ? "bg-primary text-white" : "text-slate-400 hover:text-white")}>
             <Users className="h-5 w-5" /> <span>Leadership</span>
+          </div>
+          <div onClick={() => setActiveTab("content")} className={cn("p-4 rounded-xl cursor-pointer flex gap-4 items-center", activeTab === "content" ? "bg-primary text-white" : "text-slate-400 hover:text-white")}>
+            <FileText className="h-5 w-5" /> <span>Firm Summary</span>
           </div>
         </nav>
         <div className="p-8">
@@ -209,6 +227,15 @@ export default function AdminDashboard() {
       </aside>
 
       <main className="flex-grow p-6 md:p-12 overflow-auto">
+        <div className="flex justify-between items-center mb-10">
+          <h2 className="text-3xl font-headline font-bold text-slate-900 uppercase tracking-tight">
+            {activeTab.replace("-", " ")}
+          </h2>
+          <Button onClick={syncToWebsite} className="bg-primary rounded-xl font-bold shadow-lg px-8 h-12 flex gap-2">
+            <Zap className="h-4 w-4" /> Push Updates to Site
+          </Button>
+        </div>
+
         <Tabs value={activeTab} onValueChange={setActiveTab}>
           <TabsContent value="control-center">
              <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
@@ -222,7 +249,7 @@ export default function AdminDashboard() {
              </div>
           </TabsContent>
 
-          <TabsContent value="team">
+          <TabsContent value="leadership">
             <div className="grid lg:grid-cols-2 gap-8">
               {[
                 { data: founder, setData: setFounder, type: 'founder', title: "Founder Profile" },
@@ -242,18 +269,51 @@ export default function AdminDashboard() {
                     <div className="space-y-4">
                       <div className="space-y-2">
                         <label className="text-[10px] font-bold uppercase text-slate-400">Name</label>
-                        <Input value={profile.data.name} onChange={(e) => profile.setData({ ...profile.data, name: e.target.value })} className="bg-slate-50 border-none rounded-xl" />
+                        <Input value={profile.data.name} onChange={(e) => profile.setData({ ...profile.data, name: e.target.value })} className="bg-slate-50 border-none rounded-xl h-12" />
                       </div>
                       <div className="space-y-2">
                         <label className="text-[10px] font-bold uppercase text-slate-400">Role</label>
-                        <Input value={profile.data.role} onChange={(e) => profile.setData({ ...profile.data, role: e.target.value })} className="bg-slate-50 border-none rounded-xl" />
+                        <Input value={profile.data.role} onChange={(e) => profile.setData({ ...profile.data, role: e.target.value })} className="bg-slate-50 border-none rounded-xl h-12" />
                       </div>
                     </div>
-                    <Button onClick={() => syncToWebsite(profile.type as any)} className="w-full h-14 bg-primary rounded-2xl font-bold shadow-lg">Sync to Website</Button>
                   </div>
                 </Card>
               ))}
             </div>
+          </TabsContent>
+
+          <TabsContent value="content">
+            <Card className="border-none shadow-xl rounded-[40px] p-10 bg-white max-w-4xl">
+              <h3 className="text-2xl font-headline font-bold mb-8">Firm Summary & Stats</h3>
+              <div className="space-y-8">
+                <div className="space-y-2">
+                  <label className="text-[10px] font-bold uppercase text-slate-400">Section Title</label>
+                  <Input value={firmSummary.title} onChange={(e) => setFirmSummary({ ...firmSummary, title: e.target.value })} className="bg-slate-50 border-none rounded-xl h-12" />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-[10px] font-bold uppercase text-slate-400">Description Text</label>
+                  <Textarea value={firmSummary.description} onChange={(e) => setFirmSummary({ ...firmSummary, description: e.target.value })} className="bg-slate-50 border-none rounded-xl min-h-[150px]" />
+                </div>
+                
+                <div className="space-y-4 pt-6">
+                  <div className="flex justify-between items-center">
+                    <label className="text-[10px] font-bold uppercase text-slate-400">Impact Stats</label>
+                    <Button variant="ghost" size="sm" onClick={addStat} className="text-primary hover:bg-primary/5 rounded-lg"><Plus className="h-4 w-4 mr-2" /> Add Stat</Button>
+                  </div>
+                  <div className="grid sm:grid-cols-2 gap-4">
+                    {firmSummary.stats.map((stat, i) => (
+                      <div key={i} className="bg-slate-50 p-6 rounded-2xl relative group">
+                        <Button variant="ghost" size="sm" onClick={() => removeStat(i)} className="absolute top-2 right-2 text-slate-300 hover:text-destructive opacity-0 group-hover:opacity-100 transition-all"><Trash2 className="h-4 w-4" /></Button>
+                        <div className="space-y-3">
+                          <Input value={stat.value} placeholder="e.g. 500+" onChange={(e) => updateStat(i, 'value', e.target.value)} className="bg-white border-none rounded-lg h-10 font-bold text-xl" />
+                          <Input value={stat.label} placeholder="e.g. Papers Published" onChange={(e) => updateStat(i, 'label', e.target.value)} className="bg-white border-none rounded-lg h-8 text-xs uppercase tracking-widest" />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </Card>
           </TabsContent>
         </Tabs>
       </main>

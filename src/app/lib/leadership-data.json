@@ -9,5 +9,13 @@
     "name": "Dr. Anjali Sinha",
     "role": "Co-Founder & Research Head",
     "image": "https://picsum.photos/seed/cofounder/400/400"
+  },
+  "firmSummary": {
+    "title": "R&D Services: A Global Legacy",
+    "description": "R & D Services Pvt. Ltd. is a premier academic consulting firm dedicated to bridging the gap between innovative research and high-impact publishing. We don't just draft papers; we cultivate scholarly legacies through a systematic, methodology-first approach.",
+    "stats": [
+      { "label": "Global Initiatives", "value": "500+" },
+      { "label": "Elite Journals", "value": "120+" }
+    ]
   }
 }

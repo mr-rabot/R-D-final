@@ -13,8 +13,15 @@ interface LeadershipProfile {
   image: string;
 }
 
+interface FirmData {
+  title: string;
+  description: string;
+  stats: { label: string, value: string }[];
+}
+
 export function About() {
   const [founder, setFounder] = useState<LeadershipProfile | null>(null);
+  const [firmData, setFirmData] = useState<FirmData | null>(null);
   const summaryImg = PlaceHolderImages.find(img => img.id === "summary-img");
 
   useEffect(() => {
@@ -22,8 +29,9 @@ export function About() {
       .then(res => res.json())
       .then(data => {
         if (data.founder) setFounder(data.founder);
+        if (data.firmSummary) setFirmData(data.firmSummary);
       })
-      .catch(err => console.error("Error fetching leadership:", err));
+      .catch(err => console.error("Error fetching about data:", err));
   }, []);
 
   return (
@@ -43,7 +51,7 @@ export function About() {
               )}
             </div>
             
-            {/* Minimalist Name and Designation */}
+            {/* Minimalist Name and Designation - CLEAN TEXT NO BOX */}
             <div className="mt-10 text-center space-y-2">
               <h3 className="text-3xl md:text-5xl font-headline font-bold text-slate-900 leading-tight">
                 {founder?.name || "Om Prakash Sinha"}
@@ -107,7 +115,7 @@ export function About() {
           </div>
         </div>
 
-        {/* Firm Summary & Impact Section */}
+        {/* Dynamic Firm Summary & Impact Section */}
         <div className="bg-accent rounded-[60px] md:rounded-[80px] p-12 md:p-24 text-white relative overflow-hidden shadow-[0_50px_100px_rgba(0,71,255,0.2)] animate-in fade-in duration-1000">
           <div className="relative z-10 lg:grid lg:grid-cols-2 gap-20 items-center">
             <div className="space-y-10 text-center lg:text-left">
@@ -115,20 +123,27 @@ export function About() {
                   <Globe className="h-5 w-5" />
                   <span className="text-[10px] uppercase tracking-[0.4em] font-bold text-blue-300">Our Firm Today</span>
                 </div>
-                <h3 className="text-4xl md:text-6xl font-headline font-bold leading-tight">R&D Services: <br />A Global Legacy</h3>
+                <h3 className="text-4xl md:text-6xl font-headline font-bold leading-tight">
+                  {firmData?.title || "R&D Services: A Global Legacy"}
+                </h3>
                 <p className="text-blue-100/60 leading-relaxed text-lg md:text-xl font-light">
-                  R & D Services Pvt. Ltd. is a premier academic consulting firm dedicated to bridging the gap between innovative research and high-impact publishing. We don&apos;t just draft papers; we cultivate scholarly legacies through a systematic, methodology-first approach.
+                  {firmData?.description || "R & D Services Pvt. Ltd. is a premier academic consulting firm dedicated to bridging the gap between innovative research and high-impact publishing."}
                 </p>
                 
                 <div className="grid grid-cols-2 gap-12 justify-items-center lg:justify-items-start pt-6">
-                  <div className="space-y-2 group cursor-default">
-                    <div className="text-5xl md:text-7xl font-headline font-bold text-primary transition-all duration-500 group-hover:scale-110">500+</div>
-                    <div className="text-[10px] uppercase tracking-[0.3em] font-bold text-blue-300">Global Initiatives</div>
-                  </div>
-                  <div className="space-y-2 group cursor-default">
-                    <div className="text-5xl md:text-7xl font-headline font-bold text-primary transition-all duration-500 group-hover:scale-110">120+</div>
-                    <div className="text-[10px] uppercase tracking-[0.3em] font-bold text-blue-300">Elite Journals</div>
-                  </div>
+                  {(firmData?.stats || [
+                    { label: "Global Initiatives", value: "500+" },
+                    { label: "Elite Journals", value: "120+" }
+                  ]).map((stat, i) => (
+                    <div key={i} className="space-y-2 group cursor-default">
+                      <div className="text-5xl md:text-7xl font-headline font-bold text-primary transition-all duration-500 group-hover:scale-110">
+                        {stat.value}
+                      </div>
+                      <div className="text-[10px] uppercase tracking-[0.3em] font-bold text-blue-300">
+                        {stat.label}
+                      </div>
+                    </div>
+                  ))}
                 </div>
 
                 <div className="flex flex-col sm:flex-row gap-6 items-center pt-10 border-t border-white/10">
