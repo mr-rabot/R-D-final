@@ -64,13 +64,15 @@ export function Services() {
             return (
               <Card key={index} className="group overflow-hidden border-none shadow-sm hover:shadow-xl transition-all duration-300 rounded-2xl bg-background/50">
                 <div className="relative h-48 overflow-hidden">
-                  <Image
-                    src={imgData?.imageUrl || ""}
-                    alt={service.title}
-                    fill
-                    className="object-cover transition-transform duration-500 group-hover:scale-110"
-                    data-ai-hint={imgData?.imageHint}
-                  />
+                  {imgData?.imageUrl && (
+                    <Image
+                      src={imgData.imageUrl}
+                      alt={service.title}
+                      fill
+                      className="object-cover transition-transform duration-500 group-hover:scale-110"
+                      data-ai-hint={imgData.imageHint}
+                    />
+                  )}
                   <div className="absolute inset-0 bg-accent/20 group-hover:bg-accent/10 transition-colors" />
                   <div className="absolute top-4 left-4 bg-white p-2 rounded-lg shadow-md text-primary">
                     <Icon className="h-6 w-6" />

@@ -55,13 +55,15 @@ export function Blog() {
                 return (
                   <Card key={i} className="overflow-hidden border-none shadow-lg hover:-translate-y-1 transition-all duration-300 rounded-2xl group">
                     <div className="relative h-56">
-                      <Image
-                        src={img?.imageUrl || ""}
-                        alt={post.title}
-                        fill
-                        className="object-cover group-hover:scale-105 transition-transform duration-500"
-                        data-ai-hint={img?.imageHint}
-                      />
+                      {img?.imageUrl && (
+                        <Image
+                          src={img.imageUrl}
+                          alt={post.title}
+                          fill
+                          className="object-cover group-hover:scale-105 transition-transform duration-500"
+                          data-ai-hint={img.imageHint}
+                        />
+                      )}
                       <div className="absolute top-4 left-4">
                         <span className="bg-primary text-white text-xs font-bold px-3 py-1 rounded-full">{post.category}</span>
                       </div>

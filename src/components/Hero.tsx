@@ -48,14 +48,16 @@ export function Hero() {
 
           <div className="mt-16 lg:mt-0 lg:col-span-5 relative">
             <div className="relative z-10 animate-float">
-              <Image
-                src={heroImage?.imageUrl || ""}
-                alt={heroImage?.description || ""}
-                width={600}
-                height={500}
-                className="rounded-2xl shadow-2xl border-4 border-white object-cover aspect-[4/3]"
-                data-ai-hint={heroImage?.imageHint}
-              />
+              {heroImage?.imageUrl && (
+                <Image
+                  src={heroImage.imageUrl}
+                  alt={heroImage.description || "Academic research hero image"}
+                  width={600}
+                  height={500}
+                  className="rounded-2xl shadow-2xl border-4 border-white object-cover aspect-[4/3]"
+                  data-ai-hint={heroImage.imageHint}
+                />
+              )}
               <div className="absolute -bottom-6 -left-6 bg-white p-6 rounded-xl shadow-xl space-y-4 max-w-[200px]">
                 <div className="flex items-center gap-3">
                   <div className="bg-green-100 p-2 rounded-full">
