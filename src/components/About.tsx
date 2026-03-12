@@ -64,13 +64,18 @@ export function About() {
             </div>
             
             {/* Center-aligned Name and Designation */}
-            <div className="mt-12 text-center space-y-3">
-              <h3 className="text-4xl md:text-5xl font-headline font-bold text-slate-900 tracking-tight">
+            <div className="mt-12 text-center">
+              <h3 className="text-4xl md:text-5xl font-headline font-bold text-slate-900 tracking-tight mb-3">
                 {founder?.name || "Om Prakash Sinha"}
               </h3>
-              <p className="text-[12px] md:text-[14px] uppercase tracking-[0.5em] font-bold text-primary/80">
-                {founder?.role || "Founder & Director"}
-              </p>
+              <div className="space-y-1">
+                <p className="text-[11px] md:text-[13px] uppercase tracking-[0.4em] font-bold text-primary/80">
+                  {founder?.role || "Founder & Director"}
+                </p>
+                <p className="text-[11px] md:text-[13px] uppercase tracking-[0.4em] font-bold text-slate-400">
+                  R & D Services Pvt. Ltd.
+                </p>
+              </div>
             </div>
             
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[110%] h-[110%] bg-primary/5 rounded-full blur-[120px] -z-10" />
@@ -132,7 +137,7 @@ export function About() {
             <div className="space-y-10">
               <div className="flex items-center gap-3 text-primary">
                 <Globe className="h-6 w-6" />
-                <span className="text-[11px] uppercase tracking-[0.5em] font-bold text-blue-400">R&D Services Pvt. Ltd.</span>
+                <span className="text-[11px] uppercase tracking-[0.5em] font-bold text-blue-400">R & D Services Pvt. Ltd.</span>
               </div>
               
               <div className="space-y-6">
@@ -144,7 +149,7 @@ export function About() {
               
               <div className="space-y-8">
                 <p className="text-blue-100/80 leading-relaxed text-lg md:text-xl font-light italic border-l-2 border-primary/50 pl-8">
-                  {firmData?.description || "R&D Services Pvt. Ltd. provides a premier academic consulting platform dedicated to bridging the gap between innovative research and high-impact publishing. Our mission is to cultivate scholarly legacies through a methodology-first approach."}
+                  {firmData?.description || "R & D Services Pvt. Ltd. provides a premier academic consulting platform dedicated to bridging the gap between innovative research and high-impact publishing. Our mission is to cultivate scholarly legacies through a methodology-first approach."}
                 </p>
                 <div className="grid grid-cols-2 gap-10">
                   {(firmData?.stats || [
