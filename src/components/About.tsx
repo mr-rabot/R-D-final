@@ -64,8 +64,8 @@ export function About() {
               )}
             </div>
             
-            {/* Center-aligned Name and Designation */}
-            <div className="mt-12 text-center max-w-2xl">
+            {/* Center-aligned Name, Designation, and Company */}
+            <div className="mt-12 text-center max-w-3xl">
               <h3 className="text-4xl md:text-5xl font-headline font-bold text-slate-900 tracking-tight mb-3">
                 {founder?.name || "Om Prakash Sinha"}
               </h3>
@@ -78,12 +78,15 @@ export function About() {
                 </p>
               </div>
 
+              {/* Guiding Principle Heading */}
               <div className="space-y-8 flex flex-col items-center">
                 <h2 className="text-5xl md:text-7xl font-headline font-bold text-accent leading-[0.95] tracking-tight mb-6">
                   Precision <br />
                   <span className="text-primary/90 italic text-4xl md:text-6xl">in Research</span>
                 </h2>
-                <div className="max-w-2xl mx-auto border-t border-slate-100 pt-8 mt-4">
+                
+                {/* Centered Descriptive Text */}
+                <div className="max-w-3xl mx-auto border-t border-slate-100 pt-8 mt-4">
                   <p className="text-xl md:text-2xl text-slate-600 font-light leading-relaxed text-center italic">
                     Under the expert guidance of <span className="font-semibold text-accent">{founder?.name || "Om Prakash Sinha"}</span>, we provide the rigorous methodology and academic integrity required for success in global publishing.
                   </p>
@@ -94,7 +97,7 @@ export function About() {
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[110%] h-[110%] bg-primary/5 rounded-full blur-[120px] -z-10" />
           </div>
 
-          <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-6 pt-16 w-full">
+          <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-6 pt-24 w-full">
             {[
               { icon: ShieldCheck, label: "Ethical Integrity", desc: "Plagiarism-free" },
               { icon: Zap, label: "Rapid Synthesis", desc: "Expert literature" },
@@ -111,7 +114,7 @@ export function About() {
             ))}
           </div>
 
-          <div className="pt-12">
+          <div className="pt-16">
             <Button 
               onClick={() => {
                 const el = document.getElementById('contact');
@@ -174,7 +177,7 @@ export function About() {
                 <div className="relative aspect-[16/11] w-full overflow-hidden rounded-[40px] shadow-3xl border border-white/10 group">
                   <Image
                     src={summaryImg.imageUrl}
-                    alt="Firm Overview"
+                    alt="Research and Development Overview"
                     fill
                     className="object-cover grayscale hover:grayscale-0 transition-all duration-1000 group-hover:scale-105"
                     data-ai-hint={summaryImg.imageHint}

@@ -27,15 +27,15 @@
     },
     {
       "id": "lead-expert",
-      "description": "Om Prakash Sinha - Founder & Director (Headshot focus)",
+      "description": "Om Prakash Sinha - Founder & Director",
       "imageUrl": "https://picsum.photos/seed/opsinha-face/600/600",
       "imageHint": "man face"
     },
     {
       "id": "summary-img",
-      "description": "Visual summary of research process",
-      "imageUrl": "https://picsum.photos/seed/summary/800/600",
-      "imageHint": "research data"
+      "description": "Visual summary of research and development process",
+      "imageUrl": "https://picsum.photos/seed/rdprocess/800/600",
+      "imageHint": "research development"
     },
     {
       "id": "testimonial-1",
