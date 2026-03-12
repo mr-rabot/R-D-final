@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useCallback, useRef, useEffect } from "react";
@@ -221,23 +220,23 @@ export default function AdminDashboard() {
   if (!isLoggedIn) {
     return (
       <div className="min-h-screen bg-slate-900 flex items-center justify-center p-4">
-        <Card className="w-full max-w-md border-none shadow-2xl rounded-[40px] overflow-hidden bg-white">
-          <div className="bg-primary p-12 text-center text-white">
-            <ShieldCheck className="h-12 w-12 mx-auto mb-4" />
-            <h2 className="text-2xl font-headline font-bold uppercase">Operations Hub</h2>
-            <p className="text-blue-100/60 text-[10px] font-bold uppercase tracking-widest mt-2">Secure Staff Access</p>
+        <Card className="w-full max-w-md border-none shadow-2xl rounded-[30px] md:rounded-[40px] overflow-hidden bg-white animate-in fade-in zoom-in duration-500">
+          <div className="bg-primary p-8 md:p-12 text-center text-white">
+            <ShieldCheck className="h-10 w-10 md:h-12 md:w-12 mx-auto mb-4" />
+            <h2 className="text-xl md:text-2xl font-headline font-bold uppercase tracking-tight">Operations Hub</h2>
+            <p className="text-blue-100/60 text-[8px] md:text-[10px] font-bold uppercase tracking-widest mt-2">Secure Staff Access</p>
           </div>
-          <CardContent className="p-10">
+          <CardContent className="p-6 md:p-10">
             <form onSubmit={handleLogin} className="space-y-6">
               <div className="space-y-2">
-                <label className="text-[10px] font-bold uppercase text-slate-400">Identity</label>
-                <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" className="rounded-xl h-12 bg-slate-50 border-none" />
+                <label className="text-[10px] font-bold uppercase text-slate-400 ml-1">Identity</label>
+                <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" className="rounded-xl h-12 bg-slate-50 border-none shadow-sm focus:ring-2 focus:ring-primary/20" />
               </div>
               <div className="space-y-2">
-                <label className="text-[10px] font-bold uppercase text-slate-400">Token</label>
-                <Input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" className="rounded-xl h-12 bg-slate-50 border-none" />
+                <label className="text-[10px] font-bold uppercase text-slate-400 ml-1">Token</label>
+                <Input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" className="rounded-xl h-12 bg-slate-50 border-none shadow-sm focus:ring-2 focus:ring-primary/20" />
               </div>
-              <Button type="submit" className="w-full bg-primary h-14 rounded-xl font-bold shadow-lg">Authenticate</Button>
+              <Button type="submit" className="w-full bg-primary h-14 rounded-xl font-bold shadow-lg hover:shadow-primary/30 transition-all hover:-translate-y-0.5 active:scale-95">Authenticate</Button>
             </form>
           </CardContent>
         </Card>
