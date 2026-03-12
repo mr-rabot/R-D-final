@@ -23,7 +23,7 @@
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
     --ring: 221 83% 53%;
-    --radius: 0.75rem;
+    --radius: 1rem;
   }
   .dark {
     --background: 222.2 84% 4.9%;
@@ -53,17 +53,25 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground font-body;
+    @apply bg-background text-foreground font-body antialiased;
   }
   h1, h2, h3, h4, h5, h6 {
-    @apply font-headline;
+    @apply font-headline tracking-tight;
   }
-}
-
-.glass-nav {
-  @apply sticky top-0 z-50 w-full bg-white border-b;
 }
 
 .hero-gradient {
-  background: linear-gradient(135deg, #0047FF 0%, #0030AD 100%);
+  background: linear-gradient(135deg, #0a192f 0%, #0047FF 100%);
 }
+
+.glass-card {
+  @apply bg-white/10 backdrop-blur-md border border-white/20 shadow-2xl;
+}
+
+.premium-shadow {
+  box-shadow: 0 20px 50px -12px rgba(0, 71, 255, 0.15);
+}
+
+.animate-delay-100 { animation-delay: 100ms; }
+.animate-delay-200 { animation-delay: 200ms; }
+.animate-delay-300 { animation-delay: 300ms; }
