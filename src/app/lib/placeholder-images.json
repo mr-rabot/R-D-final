@@ -26,16 +26,16 @@
       "imageHint": "library books"
     },
     {
-      "id": "blog-1",
-      "description": "Research methodology tips",
-      "imageUrl": "https://picsum.photos/seed/acadeflow5/800/600",
-      "imageHint": "research methods"
+      "id": "lead-expert",
+      "description": "Dr. James Aris - Lead Academic Consultant",
+      "imageUrl": "https://picsum.photos/seed/expert1/800/1000",
+      "imageHint": "professional scientist"
     },
     {
-      "id": "blog-2",
-      "description": "Academic citation guides",
-      "imageUrl": "https://picsum.photos/seed/acadeflow6/800/600",
-      "imageHint": "citation library"
+      "id": "summary-img",
+      "description": "Visual summary of research process",
+      "imageUrl": "https://picsum.photos/seed/summary/800/600",
+      "imageHint": "research data"
     },
     {
       "id": "testimonial-1",
