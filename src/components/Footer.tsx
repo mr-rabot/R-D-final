@@ -1,4 +1,3 @@
-
 "use client";
 
 import { Beaker } from "lucide-react";
@@ -59,7 +58,7 @@ export function Footer() {
             <ul className="space-y-4 text-slate-400 text-sm">
               <li className="flex flex-col gap-2">
                 <span className="text-white font-medium">Phone: +91 6209779365</span>
-                <span className="text-white font-medium">Email: contact@rd-services.com</span>
+                <span className="text-white font-medium">Email: support.rdservices@gmail.com</span>
                 <div className="pt-2 border-t border-slate-800">
                   <span className="block text-blue-200 font-bold">Om Prakash Sinha</span>
                   <span className="block text-[10px] uppercase">Founder & Director</span>

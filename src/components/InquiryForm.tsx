@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useForm } from "react-hook-form";
@@ -76,7 +75,7 @@ export function InquiryForm() {
                 </div>
                 <div>
                   <h4 className="font-bold text-accent text-lg">Email Us</h4>
-                  <p className="text-slate-600">contact@rd-services.com</p>
+                  <p className="text-slate-600">support.rdservices@gmail.com</p>
                 </div>
               </div>
 

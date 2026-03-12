@@ -1,4 +1,3 @@
-
 "use client";
 
 import { Check, MessageSquare, Mail } from "lucide-react";
@@ -61,7 +60,7 @@ export function Pricing() {
   const handleEmailQuote = (planName: string) => {
     const subject = encodeURIComponent(`Quote Request: ${planName} Package`);
     const body = encodeURIComponent(`Hi R&D Services,\n\nI am interested in the ${planName} package for my research project. Please provide a quote and timeline.\n\nThank you.`);
-    window.location.href = `mailto:contact@rd-services.com?subject=${subject}&body=${body}`;
+    window.location.href = `mailto:support.rdservices@gmail.com?subject=${subject}&body=${body}`;
   };
 
   return (

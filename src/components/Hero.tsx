@@ -1,4 +1,3 @@
-
 "use client";
 
 import Image from "next/image";
@@ -15,7 +14,7 @@ export function Hero() {
   };
 
   const handleEmailQuote = () => {
-    window.location.href = "mailto:contact@rd-services.com?subject=Inquiry about Research Services&body=Hi R&D Services team, I would like to inquire about your academic writing services.";
+    window.location.href = "mailto:support.rdservices@gmail.com?subject=Inquiry about Research Services&body=Hi R&D Services team, I would like to inquire about your academic writing services.";
   };
 
   return (
