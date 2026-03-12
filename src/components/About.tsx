@@ -45,10 +45,10 @@ export function About() {
     <section id="about" className="py-32 bg-white overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Leadership Profile - Minimalist & High-End */}
-        <div className="grid lg:grid-cols-2 gap-20 items-center mb-32">
+        {/* Leadership Profile Section */}
+        <div className="grid lg:grid-cols-2 gap-20 items-center mb-40">
           <div className="relative flex flex-col items-center animate-in fade-in slide-in-from-left-8 duration-1000">
-            {/* Perfectly circular headshot */}
+            {/* Perfectly circular headshot with premium border */}
             <div className="relative w-72 h-72 sm:w-80 sm:h-80 md:w-[450px] md:h-[450px] z-10 overflow-hidden rounded-full shadow-[0_40px_80px_rgba(0,71,255,0.1)] border-[12px] md:border-[16px] border-white transition-all duration-700 hover:scale-[1.02]">
               {founder?.image && (
                 <Image
@@ -78,18 +78,21 @@ export function About() {
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[110%] h-[110%] bg-primary/5 rounded-full blur-[120px] -z-10" />
           </div>
 
-          <div className="space-y-10 text-center lg:text-left animate-in fade-in slide-in-from-right-8 duration-1000">
-            <div className="space-y-6">
-              <div className="inline-flex items-center gap-3 bg-primary/10 text-primary text-[10px] uppercase tracking-[0.3em] font-bold px-6 py-2.5 rounded-full mx-auto lg:mx-0 shadow-sm border border-primary/20">
+          <div className="space-y-12 text-center lg:text-left animate-in fade-in slide-in-from-right-8 duration-1000">
+            <div className="space-y-8">
+              <div className="inline-flex items-center gap-3 bg-primary/10 text-primary text-[10px] uppercase tracking-[0.4em] font-bold px-6 py-2.5 rounded-full mx-auto lg:mx-0 shadow-sm border border-primary/20">
                 Academic Stewardship
               </div>
-              <h2 className="text-5xl md:text-7xl font-headline font-bold text-accent leading-[1.1]">Precision <br />in Research</h2>
-              <p className="text-xl text-slate-600 font-light max-w-xl">
-                Under the guidance of {founder?.name}, we provide the rigorous methodology required for success in global publishing.
+              <h2 className="text-6xl md:text-8xl font-headline font-bold text-accent leading-[0.95] tracking-tight">
+                Precision <br />
+                <span className="text-primary/90 italic">in Research</span>
+              </h2>
+              <p className="text-xl md:text-2xl text-slate-600 font-light max-w-xl leading-relaxed">
+                Under the expert guidance of <span className="font-semibold text-accent">{founder?.name || "Om Prakash Sinha"}</span>, we provide the rigorous methodology and academic integrity required for success in global publishing.
               </p>
             </div>
 
-            <div className="grid sm:grid-cols-2 gap-6">
+            <div className="grid sm:grid-cols-2 gap-6 pt-4">
               {[
                 { icon: ShieldCheck, label: "Ethical Integrity", desc: "Plagiarism-free guarantee" },
                 { icon: Zap, label: "Rapid Synthesis", desc: "Expert literature review" },
@@ -108,22 +111,22 @@ export function About() {
               ))}
             </div>
 
-            <div className="pt-6">
+            <div className="pt-8">
               <Button 
                 onClick={() => {
                   const el = document.getElementById('contact');
                   if (el) el.scrollIntoView({ behavior: 'smooth' });
                 }}
                 size="lg" 
-                className="w-full sm:w-auto rounded-2xl px-12 h-16 bg-accent hover:bg-slate-900 text-white font-bold transition-all shadow-xl hover:-translate-y-1"
+                className="w-full sm:w-auto rounded-2xl px-12 h-16 bg-accent hover:bg-slate-900 text-white font-bold transition-all shadow-xl hover:-translate-y-1 active:scale-95"
               >
-                Inquire with Leadership
+                Consult with Leadership
               </Button>
             </div>
           </div>
         </div>
 
-        {/* Professional Summary Template - The "Firm Profile" Section */}
+        {/* Firm Summary Template - Professional Profile Section */}
         <div className="bg-[#0a0f1c] rounded-[60px] md:rounded-[100px] p-12 md:p-24 text-white relative overflow-hidden shadow-[0_60px_120px_rgba(0,0,0,0.3)] border border-white/5">
           <div className="relative z-10 lg:grid lg:grid-cols-2 gap-24 items-center">
             <div className="space-y-10">
@@ -145,7 +148,7 @@ export function About() {
                 </p>
                 <div className="grid grid-cols-2 gap-10">
                   {(firmData?.stats || [
-                    { label: "Global Initiatives", value: "500+" },
+                    { label: "Research Legacy", value: "500+" },
                     { label: "Elite Journals", value: "120+" }
                   ]).map((stat, i) => (
                     <div key={i} className="space-y-2 group">
