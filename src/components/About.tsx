@@ -1,40 +1,55 @@
 
 "use client";
 
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { Award, BookOpen, GraduationCap, Search, Share2, CheckCircle2, Globe } from "lucide-react";
 
+interface LeadershipProfile {
+  name: string;
+  role: string;
+  image: string;
+}
+
 export function About() {
-  const expertImg = PlaceHolderImages.find(img => img.id === "lead-expert");
+  const [founder, setFounder] = useState<LeadershipProfile | null>(null);
   const summaryImg = PlaceHolderImages.find(img => img.id === "summary-img");
+
+  useEffect(() => {
+    fetch('/api/leadership')
+      .then(res => res.json())
+      .then(data => {
+        if (data.founder) setFounder(data.founder);
+      })
+      .catch(err => console.error("Error fetching leadership:", err));
+  }, []);
 
   return (
     <section id="about" className="py-32 bg-white overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-24 items-center mb-40">
           <div className="relative flex flex-col items-center animate-in fade-in slide-in-from-left-8 duration-1000">
-            {/* Perfectly circular headshot with thick professional border */}
+            {/* Perfectly circular headshot */}
             <div className="relative w-72 h-72 sm:w-80 sm:h-80 md:w-[480px] md:h-[480px] z-10 overflow-hidden rounded-full shadow-[0_40px_80px_rgba(0,0,0,0.12)] border-[12px] md:border-[16px] border-white transition-all duration-700 hover:scale-[1.01]">
-              {expertImg?.imageUrl && (
+              {founder?.image && (
                 <Image
-                  src={expertImg.imageUrl}
-                  alt="Om Prakash Sinha"
+                  src={founder.image}
+                  alt={founder.name}
                   fill
                   className="object-cover"
-                  data-ai-hint="man face"
                 />
               )}
             </div>
             
-            {/* Minimalist Name and Designation - Clean Text, No Box */}
-            <div className="mt-10 text-center space-y-2 animate-in fade-in zoom-in duration-700 delay-300">
+            {/* Minimalist Name and Designation */}
+            <div className="mt-10 text-center space-y-2">
               <h3 className="text-3xl md:text-5xl font-headline font-bold text-slate-900 leading-tight">
-                Om Prakash Sinha
+                {founder?.name || "Om Prakash Sinha"}
               </h3>
               <p className="text-[12px] md:text-[14px] uppercase tracking-[0.4em] font-bold text-primary">
-                Founder & Director
+                {founder?.role || "Founder & Director"}
               </p>
               <div className="flex items-center justify-center gap-2 pt-2 opacity-60">
                 <CheckCircle2 className="h-4 w-4 text-emerald-600" />
@@ -42,7 +57,6 @@ export function About() {
               </div>
             </div>
             
-            {/* Decorative Background Blur */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-primary/5 rounded-full blur-[100px] -z-10" />
           </div>
 
@@ -56,7 +70,7 @@ export function About() {
             </div>
 
             <p className="text-slate-600 leading-relaxed text-lg md:text-xl font-light max-w-2xl mx-auto lg:mx-0">
-              Under the visionary leadership of **Om Prakash Sinha**, our firm has set the global benchmark for academic research support, delivering unparalleled quality with absolute integrity.
+              Under the visionary leadership of **{founder?.name || "Om Prakash Sinha"}**, our firm has set the global benchmark for academic research support, delivering unparalleled quality with absolute integrity.
             </p>
 
             <div className="grid sm:grid-cols-2 gap-6 md:gap-8">
@@ -103,10 +117,7 @@ export function About() {
                 </div>
                 <h3 className="text-4xl md:text-6xl font-headline font-bold leading-tight">R&D Services: <br />A Global Legacy</h3>
                 <p className="text-blue-100/60 leading-relaxed text-lg md:text-xl font-light">
-                  R & D Services Pvt. Ltd. is a premier academic consulting firm dedicated to bridging the gap between innovative research and high-impact publishing. We don't just draft papers; we cultivate scholarly legacies through a systematic, methodology-first approach.
-                </p>
-                <p className="text-blue-100/40 leading-relaxed text-base font-light italic">
-                  Headquartered in India with a global network of PhD experts, we provide 24/7 strategic support to researchers, students, and institutions worldwide.
+                  R & D Services Pvt. Ltd. is a premier academic consulting firm dedicated to bridging the gap between innovative research and high-impact publishing. We don&apos;t just draft papers; we cultivate scholarly legacies through a systematic, methodology-first approach.
                 </p>
                 
                 <div className="grid grid-cols-2 gap-12 justify-items-center lg:justify-items-start pt-6">
@@ -145,12 +156,10 @@ export function About() {
                     <div className="absolute inset-0 bg-primary/20 mix-blend-overlay" />
                   </div>
                 )}
-                <div className="absolute -inset-6 border border-white/10 rounded-[50px] pointer-events-none hidden sm:block animate-pulse" />
               </div>
             </div>
           </div>
           <div className="absolute top-0 right-0 w-[50%] h-[50%] bg-primary/20 blur-[150px] rounded-full -z-0" />
-          <div className="absolute bottom-0 left-0 w-[40%] h-[40%] bg-blue-500/10 blur-[120px] rounded-full -z-0" />
         </div>
       </div>
     </section>
