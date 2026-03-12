@@ -4,7 +4,7 @@
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
-import { Award, BookOpen, GraduationCap, Search, Share2, CheckCircle2 } from "lucide-react";
+import { Award, BookOpen, GraduationCap, Search, Share2, CheckCircle2, Globe } from "lucide-react";
 
 export function About() {
   const expertImg = PlaceHolderImages.find(img => img.id === "lead-expert");
@@ -28,7 +28,7 @@ export function About() {
               )}
             </div>
             
-            {/* Minimalist Name and Designation - No Square Box */}
+            {/* Minimalist Name and Designation - Clean Text, No Box */}
             <div className="mt-10 text-center space-y-2 animate-in fade-in zoom-in duration-700 delay-300">
               <h3 className="text-3xl md:text-5xl font-headline font-bold text-slate-900 leading-tight">
                 Om Prakash Sinha
@@ -93,37 +93,42 @@ export function About() {
           </div>
         </div>
 
-        {/* Impact Section */}
+        {/* Firm Summary & Impact Section */}
         <div className="bg-accent rounded-[60px] md:rounded-[80px] p-12 md:p-24 text-white relative overflow-hidden shadow-[0_50px_100px_rgba(0,71,255,0.2)] animate-in fade-in duration-1000">
           <div className="relative z-10 lg:grid lg:grid-cols-2 gap-20 items-center">
             <div className="space-y-10 text-center lg:text-left">
-              <div className="space-y-6">
-                <h3 className="text-4xl md:text-6xl font-headline font-bold leading-tight">Global Research <br />Transformation</h3>
+              <div className="flex items-center justify-center lg:justify-start gap-3 text-primary mb-2">
+                  <Globe className="h-5 w-5" />
+                  <span className="text-[10px] uppercase tracking-[0.4em] font-bold text-blue-300">Our Firm Today</span>
+                </div>
+                <h3 className="text-4xl md:text-6xl font-headline font-bold leading-tight">R&amp;D Services: <br />A Global Legacy</h3>
                 <p className="text-blue-100/60 leading-relaxed text-lg md:text-xl font-light">
-                  We don't just write papers; we build academic legacies. Our systematic approach ensures global impact and scholarly integrity.
+                  R & D Services Pvt. Ltd. is a premier academic consulting firm dedicated to bridging the gap between innovative research and high-impact publishing. We don't just draft papers; we cultivate scholarly legacies through a systematic, methodology-first approach.
                 </p>
-              </div>
-              
-              <div className="grid grid-cols-2 gap-12 justify-items-center lg:justify-items-start">
-                <div className="space-y-2 group cursor-default">
-                  <div className="text-5xl md:text-7xl font-headline font-bold text-primary transition-all duration-500 group-hover:scale-110">500+</div>
-                  <div className="text-[10px] uppercase tracking-[0.3em] font-bold text-blue-300">Global Initiatives</div>
+                <p className="text-blue-100/40 leading-relaxed text-base font-light italic">
+                  Headquartered in India with a global network of PhD experts, we provide 24/7 strategic support to researchers, students, and institutions worldwide.
+                </p>
+                
+                <div className="grid grid-cols-2 gap-12 justify-items-center lg:justify-items-start pt-6">
+                  <div className="space-y-2 group cursor-default">
+                    <div className="text-5xl md:text-7xl font-headline font-bold text-primary transition-all duration-500 group-hover:scale-110">500+</div>
+                    <div className="text-[10px] uppercase tracking-[0.3em] font-bold text-blue-300">Global Initiatives</div>
+                  </div>
+                  <div className="space-y-2 group cursor-default">
+                    <div className="text-5xl md:text-7xl font-headline font-bold text-primary transition-all duration-500 group-hover:scale-110">120+</div>
+                    <div className="text-[10px] uppercase tracking-[0.3em] font-bold text-blue-300">Elite Journals</div>
+                  </div>
                 </div>
-                <div className="space-y-2 group cursor-default">
-                  <div className="text-5xl md:text-7xl font-headline font-bold text-primary transition-all duration-500 group-hover:scale-110">120+</div>
-                  <div className="text-[10px] uppercase tracking-[0.3em] font-bold text-blue-300">Elite Journals</div>
-                </div>
-              </div>
 
-              <div className="flex flex-col sm:flex-row gap-6 items-center pt-10 border-t border-white/10">
-                <div className="bg-primary p-4 rounded-full shadow-lg animate-pulse">
-                  <Share2 className="h-6 w-6 text-white" />
+                <div className="flex flex-col sm:flex-row gap-6 items-center pt-10 border-t border-white/10">
+                  <div className="bg-primary p-4 rounded-full shadow-lg animate-pulse">
+                    <Share2 className="h-6 w-6 text-white" />
+                  </div>
+                  <div className="text-center sm:text-left">
+                    <div className="font-bold text-lg mb-1">Global Research Network</div>
+                    <div className="text-[10px] uppercase tracking-widest text-blue-300/60 font-bold">Connecting 40+ countries</div>
+                  </div>
                 </div>
-                <div className="text-center sm:text-left">
-                  <div className="font-bold text-lg mb-1">Global Research Network</div>
-                  <div className="text-[10px] uppercase tracking-widest text-blue-300/60 font-bold">Connecting 40+ countries</div>
-                </div>
-              </div>
             </div>
 
             <div className="mt-16 lg:mt-0 flex justify-center lg:block group">
