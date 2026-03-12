@@ -1,27 +1,49 @@
 
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { cn } from "@/lib/utils";
 
 export function FAQ() {
   const [faqs, setFaqs] = useState<any[]>([]);
+  const [isVisible, setIsVisible] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     fetch('/api/leadership')
       .then(res => res.json())
       .then(data => setFaqs(data.faqs))
       .catch(err => console.error(err));
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.unobserve(entry.target);
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => observer.disconnect();
   }, []);
 
   return (
-    <section id="faq" className="py-24 bg-slate-50/50">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="faq" ref={sectionRef} className="py-24 bg-slate-50/50">
+      <div className={cn(
+        "max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 transition-all duration-1000",
+        isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+      )}>
         <div className="text-center mb-16">
           <div className="inline-block bg-black text-white text-[10px] uppercase tracking-widest font-bold px-4 py-1.5 rounded-full mb-6">
             Have Questions?
@@ -34,7 +56,11 @@ export function FAQ() {
             <AccordionItem 
               key={index} 
               value={`item-${index}`}
-              className="bg-white px-6 rounded-2xl border border-slate-100 shadow-sm"
+              className={cn(
+                "bg-white px-6 rounded-2xl border border-slate-100 shadow-sm transition-all duration-500",
+                isVisible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-4"
+              )}
+              style={{ transitionDelay: `${index * 100}ms` }}
             >
               <AccordionTrigger className="text-left font-bold text-accent hover:text-primary transition-colors py-6">
                 {faq.question}

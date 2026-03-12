@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
@@ -13,6 +13,7 @@ import {
   Zap, 
   Briefcase
 } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface LeadershipProfile {
   name: string;
@@ -29,6 +30,8 @@ interface FirmData {
 export function About() {
   const [founder, setFounder] = useState<LeadershipProfile | null>(null);
   const [firmData, setFirmData] = useState<FirmData | null>(null);
+  const [isVisible, setIsVisible] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
   const summaryImg = PlaceHolderImages.find(img => img.id === "summary-img");
 
   useEffect(() => {
@@ -39,17 +42,39 @@ export function About() {
         if (data.firmSummary) setFirmData(data.firmSummary);
       })
       .catch(err => console.error("Error fetching about data:", err));
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.unobserve(entry.target);
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => observer.disconnect();
   }, []);
 
   return (
-    <section id="about" className="py-32 bg-white overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="about" ref={sectionRef} className="py-32 bg-white overflow-hidden">
+      <div className={cn(
+        "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 transition-all duration-1000",
+        isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+      )}>
         
         {/* Leadership Profile Section */}
         <div className="flex flex-col items-center mb-40">
-          <div className="relative flex flex-col items-center animate-in fade-in slide-in-from-bottom-8 duration-1000">
+          <div className="relative flex flex-col items-center">
             {/* Circular Headshot with Premium Shadow */}
-            <div className="relative w-72 h-72 sm:w-80 sm:h-80 md:w-[450px] md:h-[450px] z-10 overflow-hidden rounded-full shadow-[0_40px_100px_rgba(0,71,255,0.15)] border-[12px] md:border-[16px] border-white transition-all duration-700 hover:scale-[1.02] bg-slate-50">
+            <div className={cn(
+              "relative w-72 h-72 sm:w-80 sm:h-80 md:w-[450px] md:h-[450px] z-10 overflow-hidden rounded-full shadow-[0_40px_100px_rgba(0,71,255,0.15)] border-[12px] md:border-[16px] border-white transition-all duration-700 hover:scale-[1.02] bg-slate-50",
+              isVisible ? "scale-100 opacity-100" : "scale-90 opacity-0"
+            )}>
               {founder?.image ? (
                 <Image
                   src={founder.image}
@@ -104,7 +129,14 @@ export function About() {
               { icon: Briefcase, label: "Research Legacy", desc: "500+ Initiatives" },
               { icon: GraduationCap, label: "PhD Support", desc: "Thesis Guidance" }
             ].map((item, i) => (
-              <div key={i} className="flex flex-col items-center text-center p-10 rounded-[40px] bg-white border border-slate-100 hover:border-primary/20 hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.1)] transition-all duration-500 group shadow-sm">
+              <div 
+                key={i} 
+                className={cn(
+                  "flex flex-col items-center text-center p-10 rounded-[40px] bg-white border border-slate-100 hover:border-primary/20 hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.1)] transition-all duration-500 group shadow-sm",
+                  isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+                )}
+                style={{ transitionDelay: `${i * 100}ms` }}
+              >
                 <div className="bg-primary/5 p-4 rounded-2xl text-primary mb-5 transition-transform group-hover:scale-110">
                   <item.icon className="h-7 w-7" />
                 </div>
@@ -129,7 +161,10 @@ export function About() {
         </div>
 
         {/* Firm Summary Block with Deep Shadow */}
-        <div className="bg-[#0a0f1c] rounded-[60px] md:rounded-[100px] p-12 md:p-24 text-white relative overflow-hidden shadow-[0_60px_120px_rgba(0,0,0,0.5)] border border-white/5">
+        <div className={cn(
+          "bg-[#0a0f1c] rounded-[60px] md:rounded-[100px] p-12 md:p-24 text-white relative overflow-hidden shadow-[0_60px_120px_rgba(0,0,0,0.5)] border border-white/5 transition-all duration-1000",
+          isVisible ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-12 scale-95"
+        )}>
           <div className="relative z-10 lg:grid lg:grid-cols-2 gap-24 items-center">
             <div className="space-y-12">
               <div className="flex items-center gap-3 text-primary">

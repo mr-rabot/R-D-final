@@ -1,6 +1,9 @@
+
 "use client";
 
+import { useEffect, useRef, useState } from "react";
 import { Mail, Phone, FileText, CheckCircle } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 const steps = [
   {
@@ -30,9 +33,33 @@ const steps = [
 ];
 
 export function HowItWorks() {
+  const [isVisible, setIsVisible] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.unobserve(entry.target);
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <section className="py-24 bg-white overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section ref={sectionRef} className="py-24 bg-white overflow-hidden">
+      <div className={cn(
+        "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 transition-all duration-1000",
+        isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+      )}>
         <div className="text-center mb-20">
           <div className="inline-flex items-center gap-2 bg-black text-white text-[10px] uppercase tracking-widest font-bold px-4 py-1.5 rounded-full mb-6">
             <div className="h-1.5 w-1.5 rounded-full bg-white animate-pulse" />
@@ -46,7 +73,14 @@ export function HowItWorks() {
           {steps.map((step, index) => {
             const Icon = step.icon;
             return (
-              <div key={index} className="flex flex-col items-center text-center group">
+              <div 
+                key={index} 
+                className={cn(
+                  "flex flex-col items-center text-center group transition-all duration-700",
+                  isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+                )}
+                style={{ transitionDelay: `${index * 150}ms` }}
+              >
                 <div className="relative mb-8">
                   <div className="w-24 h-24 bg-primary rounded-[24px] flex items-center justify-center text-white text-4xl font-bold shadow-xl shadow-primary/20 transform group-hover:scale-105 transition-transform duration-300">
                     {step.number}

@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Check, MessageSquare, Mail, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -10,12 +10,30 @@ import { cn } from "@/lib/utils";
 
 export function Pricing() {
   const [plans, setPlans] = useState<any[]>([]);
+  const [isVisible, setIsVisible] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     fetch('/api/leadership')
       .then(res => res.json())
       .then(data => setPlans(data.pricing))
       .catch(err => console.error(err));
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.unobserve(entry.target);
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => observer.disconnect();
   }, []);
 
   const handleWhatsAppQuote = (planName: string) => {
@@ -28,8 +46,11 @@ export function Pricing() {
   };
 
   return (
-    <section id="pricing" className="py-32 bg-slate-50/50 relative">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+    <section id="pricing" ref={sectionRef} className="py-32 bg-slate-50/50 relative">
+      <div className={cn(
+        "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 transition-all duration-1000",
+        isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+      )}>
         <div className="text-center mb-24 space-y-6">
           <div className="inline-flex items-center gap-2 bg-primary/10 text-primary text-[10px] uppercase tracking-[0.3em] font-bold px-6 py-2 rounded-full mb-2">
             <Sparkles className="h-3 w-3" />
@@ -40,7 +61,14 @@ export function Pricing() {
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 lg:gap-16 items-stretch pt-12">
           {plans.map((plan, index) => (
-            <div key={index} className="relative flex h-full">
+            <div 
+              key={index} 
+              className={cn(
+                "relative flex h-full transition-all duration-700",
+                isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+              )}
+              style={{ transitionDelay: `${index * 200}ms` }}
+            >
               <Card 
                 className={cn(
                   "relative flex flex-col rounded-[40px] transition-all duration-700 group w-full border-none",

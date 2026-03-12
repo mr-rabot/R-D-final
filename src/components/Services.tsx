@@ -2,7 +2,7 @@
 "use client";
 
 import * as React from "react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { 
   GraduationCap, 
@@ -31,6 +31,8 @@ const trustIndicators = [
 
 export function Services() {
   const [services, setServices] = useState<any[]>([]);
+  const [isVisible, setIsVisible] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
   const plugin = React.useRef(
     Autoplay({ delay: 3000, stopOnInteraction: false })
   );
@@ -40,15 +42,41 @@ export function Services() {
       .then(res => res.json())
       .then(data => setServices(data.services))
       .catch(err => console.error(err));
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.unobserve(entry.target);
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => observer.disconnect();
   }, []);
 
   return (
-    <section id="services" className="py-32 bg-slate-50/50 overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="services" ref={sectionRef} className="py-32 bg-slate-50/50 overflow-hidden">
+      <div className={cn(
+        "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 transition-all duration-1000",
+        isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+      )}>
         
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-16 mb-40">
           {trustIndicators.map((item, i) => (
-            <div key={i} className="flex flex-col items-center gap-6 text-center group animate-in fade-in slide-in-from-bottom-4 duration-700" style={{ animationDelay: `${i * 100}ms` }}>
+            <div 
+              key={i} 
+              className={cn(
+                "flex flex-col items-center gap-6 text-center group transition-all duration-700",
+                isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+              )} 
+              style={{ transitionDelay: `${i * 100}ms` }}
+            >
               <div className={cn(
                 "p-7 rounded-[32px] shadow-[0_15px_35px_rgba(0,0,0,0.08)] transition-all duration-500 group-hover:-translate-y-2 group-hover:shadow-[0_25px_50px_rgba(0,71,255,0.15)]",
                 item.bg, item.color

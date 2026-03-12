@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -13,6 +13,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import { Mail, Phone, Send, User, MessageSquare } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 const formSchema = z.object({
   name: z.string().min(2, "Full name is required"),
@@ -26,6 +27,8 @@ export function InquiryForm() {
   const { toast } = useToast();
   const [contactImage, setContactImage] = useState<string | null>(null);
   const [whatsapp, setWhatsapp] = useState("916209779365");
+  const [isVisible, setIsVisible] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
   
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -45,6 +48,22 @@ export function InquiryForm() {
         if (data.firmSummary?.image) setContactImage(data.firmSummary.image);
         if (data.integrations?.whatsapp) setWhatsapp(data.integrations.whatsapp);
       });
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.unobserve(entry.target);
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => observer.disconnect();
   }, []);
 
   function onSubmit(values: z.infer<typeof formSchema>) {
@@ -90,8 +109,11 @@ export function InquiryForm() {
   };
 
   return (
-    <section id="contact" className="py-24 bg-slate-50/50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="contact" ref={sectionRef} className="py-24 bg-slate-50/50">
+      <div className={cn(
+        "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 transition-all duration-1000",
+        isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+      )}>
         <div className="grid lg:grid-cols-2 gap-16 items-start">
           <div className="space-y-12">
             <div className="space-y-6">
@@ -135,7 +157,10 @@ export function InquiryForm() {
 
             <div className="relative pt-8">
               {contactImage ? (
-                <div className="relative w-full h-64 lg:h-80 overflow-hidden rounded-[32px] shadow-[0_30px_60px_rgba(0,0,0,0.15)] border border-slate-200">
+                <div className={cn(
+                  "relative w-full h-64 lg:h-80 overflow-hidden rounded-[32px] shadow-[0_30px_60px_rgba(0,0,0,0.15)] border border-slate-200 transition-all duration-1000 delay-300",
+                  isVisible ? "scale-100 opacity-100" : "scale-95 opacity-0"
+                )}>
                   <Image
                     src={contactImage}
                     alt="Research Visual"
@@ -148,7 +173,10 @@ export function InquiryForm() {
             </div>
           </div>
 
-          <div className="bg-white p-10 rounded-[32px] shadow-[0_40px_100px_-20px_rgba(0,0,0,0.12)] border border-slate-100">
+          <div className={cn(
+            "bg-white p-10 rounded-[32px] shadow-[0_40px_100px_-20px_rgba(0,0,0,0.12)] border border-slate-100 transition-all duration-1000",
+            isVisible ? "translate-x-0 opacity-100" : "translate-x-12 opacity-0"
+          )}>
             <div className="mb-10 space-y-2">
               <h3 className="text-2xl font-bold text-accent">Get Your Quote</h3>
               <p className="text-slate-500">Fill out the details and send via your preferred channel</p>

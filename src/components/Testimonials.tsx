@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { Star, Users, Quote, ShieldCheck, Award, Zap, CheckCircle2 } from "lucide-react";
 import {
@@ -17,6 +17,8 @@ import { cn } from "@/lib/utils";
 
 export function Testimonials() {
   const [testimonials, setTestimonials] = useState<any[]>([]);
+  const [isVisible, setIsVisible] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
   const plugin = React.useRef(
     Autoplay({ delay: 4000, stopOnInteraction: false })
   );
@@ -26,14 +28,33 @@ export function Testimonials() {
       .then(res => res.json())
       .then(data => setTestimonials(data.testimonials || []))
       .catch(err => console.error(err));
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.unobserve(entry.target);
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => observer.disconnect();
   }, []);
 
   return (
-    <section id="testimonials" className="py-32 bg-white overflow-hidden relative">
+    <section id="testimonials" ref={sectionRef} className="py-32 bg-white overflow-hidden relative">
       <div className="absolute top-0 right-0 w-1/3 h-1/3 bg-primary/5 blur-[120px] rounded-full pointer-events-none" />
       <div className="absolute bottom-0 left-0 w-1/4 h-1/4 bg-blue-400/5 blur-[100px] rounded-full pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div className={cn(
+        "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 transition-all duration-1000",
+        isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+      )}>
         <div className="flex flex-col items-center mb-24 text-center space-y-6">
           <div className="inline-flex items-center gap-2 bg-slate-900 text-white text-[10px] uppercase tracking-[0.3em] font-bold px-6 py-2 rounded-full mb-2 shadow-xl shadow-black/10">
             <Users className="h-3 w-3" />
@@ -112,7 +133,14 @@ export function Testimonials() {
             { icon: Zap, label: "Rapid", sub: "Scholarly Synthesis" },
             { icon: CheckCircle2, label: "98%", sub: "Journal Acceptance" }
           ].map((badge, i) => (
-            <div key={i} className="flex flex-col items-center text-center group">
+            <div 
+              key={i} 
+              className={cn(
+                "flex flex-col items-center text-center group transition-all duration-700",
+                isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+              )}
+              style={{ transitionDelay: `${i * 100}ms` }}
+            >
               <div className="bg-white shadow-[0_10px_30px_rgba(0,0,0,0.05)] p-4 rounded-2xl text-primary mb-4 transition-transform group-hover:scale-110 group-hover:shadow-[0_15px_35px_rgba(0,71,255,0.1)]">
                 <badge.icon className="h-6 w-6" />
               </div>
