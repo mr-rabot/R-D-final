@@ -43,7 +43,7 @@ export function Services() {
       .then(data => {
         setServices(data.services || []);
       })
-      .catch(err => console.error(err));
+      .catch(err => console.error("Error fetching services:", err));
 
     const observer = new IntersectionObserver(
       ([entry]) => {

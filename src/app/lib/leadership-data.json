@@ -50,7 +50,7 @@
   "services": [
     {
       "title": "Research Papers",
-      "description": "Well-researched, structured academic papers with proper citations and references.",
+      "description": "Well-researched, structured academic papers with proper citations and references, adhering to international scholarly standards.",
       "features": [
         "Original content",
         "Proper formatting",
@@ -60,7 +60,7 @@
     },
     {
       "title": "Synopsis Writing",
-      "description": "Structured research outlines essential for project approval and admissions.",
+      "description": "Structured research outlines essential for project approval, funding applications, and higher education admissions.",
       "features": [
         "Clear objectives",
         "Methodology outline",
@@ -70,7 +70,7 @@
     },
     {
       "title": "PPT Presentation",
-      "description": "High-quality academic presentations designed for thesis defense or conferences.",
+      "description": "High-quality academic presentations designed for thesis defense, international conferences, or corporate research reviews.",
       "features": [
         "Visual layout",
         "Speaker notes",

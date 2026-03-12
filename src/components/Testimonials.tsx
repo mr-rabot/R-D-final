@@ -27,7 +27,7 @@ export function Testimonials() {
     fetch('/api/leadership', { cache: 'no-store' })
       .then(res => res.json())
       .then(data => setTestimonials(data.testimonials || []))
-      .catch(err => console.error(err));
+      .catch(err => console.error("Error fetching testimonials:", err));
 
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -103,7 +103,7 @@ export function Testimonials() {
                       <div className="flex items-center gap-5 pt-8 border-t border-slate-50 mt-auto">
                         <div className="relative h-14 w-14 rounded-full overflow-hidden border-4 border-white shadow-[0_5px_15px_rgba(0,0,0,0.1)]">
                           <img 
-                            src={img?.imageUrl} 
+                            src={t.image || img?.imageUrl} 
                             alt={t.name} 
                             className="h-full w-full object-cover" 
                           />
