@@ -1,9 +1,10 @@
+
 "use client";
 
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
-import { Award, BookOpen, GraduationCap, Search, Share2, ShieldCheck } from "lucide-react";
+import { Award, BookOpen, GraduationCap, Search, Share2, CheckCircle2 } from "lucide-react";
 
 export function About() {
   const expertImg = PlaceHolderImages.find(img => img.id === "lead-expert");
@@ -15,7 +16,7 @@ export function About() {
         <div className="grid lg:grid-cols-2 gap-24 items-center mb-40">
           <div className="relative flex flex-col items-center justify-center animate-in fade-in slide-in-from-left-8 duration-1000">
             {/* Perfectly circular headshot with thick professional border */}
-            <div className="relative w-72 h-72 sm:w-80 sm:h-80 md:w-[480px] md:h-[480px] z-10 overflow-hidden rounded-full shadow-[0_40px_80px_rgba(0,0,0,0.1)] border-[16px] md:border-[24px] border-slate-50 transition-all duration-700 hover:scale-[1.01]">
+            <div className="relative w-72 h-72 sm:w-80 sm:h-80 md:w-[460px] md:h-[460px] z-10 overflow-hidden rounded-full shadow-[0_40px_80px_rgba(0,0,0,0.1)] border-[12px] md:border-[20px] border-slate-50 transition-all duration-700 hover:scale-[1.01]">
               {expertImg?.imageUrl && (
                 <Image
                   src={expertImg.imageUrl}
@@ -27,17 +28,21 @@ export function About() {
               )}
             </div>
             
-            {/* Connected Name and Designation Badge - Overlapping the circle */}
-            <div className="mt-[-60px] lg:mt-0 lg:absolute lg:bottom-16 lg:-right-4 bg-accent p-8 md:p-10 rounded-[40px] shadow-[0_30px_60px_rgba(0,0,0,0.25)] text-white min-w-[320px] z-20 text-center border-[6px] border-white transform hover:scale-105 transition-all cursor-default animate-in zoom-in duration-700 delay-300">
-              <h3 className="text-2xl md:text-3xl font-headline font-bold leading-tight">Om Prakash Sinha</h3>
-              <p className="text-[10px] uppercase tracking-[0.4em] font-bold mt-2 text-primary">Founder & Director</p>
-              <div className="mt-6 pt-6 border-t border-white/10 flex items-center justify-center gap-3">
-                <ShieldCheck className="h-5 w-5 text-primary" />
-                <span className="text-[10px] uppercase font-bold tracking-widest text-blue-200/60">Verified Identity</span>
+            {/* Connected Name and Designation Badge - Redesigned for a perfect fit */}
+            <div className="mt-[-50px] lg:mt-0 lg:absolute lg:bottom-10 lg:-right-6 bg-white p-8 md:p-10 rounded-[40px] shadow-[0_30px_70px_rgba(0,71,255,0.15)] text-accent min-w-[320px] z-20 text-center border-t-4 border-primary transform hover:scale-105 transition-all cursor-default animate-in zoom-in duration-700 delay-300">
+              <div className="space-y-2">
+                <h3 className="text-3xl md:text-4xl font-headline font-bold text-slate-900 leading-none">Om Prakash Sinha</h3>
+                <p className="text-[11px] uppercase tracking-[0.4em] font-bold text-primary">Founder & Director</p>
+              </div>
+              <div className="mt-8 pt-6 border-t border-slate-100 flex items-center justify-center gap-2.5">
+                <div className="bg-emerald-500/10 p-1.5 rounded-full">
+                  <CheckCircle2 className="h-4 w-4 text-emerald-600" />
+                </div>
+                <span className="text-[10px] uppercase font-bold tracking-[0.2em] text-slate-400">Verified Leadership</span>
               </div>
             </div>
             
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-primary/5 rounded-full blur-[100px] -z-10" />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[130%] h-[130%] bg-primary/5 rounded-full blur-[120px] -z-10" />
           </div>
 
           <div className="space-y-10 text-center lg:text-left mt-16 lg:mt-0 animate-in fade-in slide-in-from-right-8 duration-1000">
