@@ -1,5 +1,6 @@
 "use client";
 
+import * as React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { 
   GraduationCap, 
@@ -15,6 +16,14 @@ import {
   Presentation,
   FileCheck
 } from "lucide-react";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
+import Autoplay from "embla-carousel-autoplay";
 
 const trustIndicators = [
   { icon: GraduationCap, label: "PhD Experts", color: "text-purple-600", bg: "bg-purple-50" },
@@ -126,8 +135,12 @@ const services = [
 ];
 
 export function Services() {
+  const plugin = React.useRef(
+    Autoplay({ delay: 3500, stopOnInteraction: true })
+  );
+
   return (
-    <section id="services" className="py-24 bg-white">
+    <section id="services" className="py-24 bg-white overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Trust Indicators Bar */}
@@ -153,34 +166,53 @@ export function Services() {
           </p>
         </div>
 
-        {/* Services Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-          {services.map((service, index) => {
-            const Icon = service.icon;
-            return (
-              <Card key={index} className="border-none shadow-[0_10px_40px_rgba(0,0,0,0.04)] hover:shadow-xl transition-all duration-300 rounded-[32px] p-6 md:p-8 bg-background flex flex-col h-full">
-                <CardHeader className="p-0 mb-6">
-                  <div className="bg-primary/10 w-14 h-14 rounded-2xl flex items-center justify-center text-primary mb-6">
-                    <Icon className="h-7 w-7" />
-                  </div>
-                  <CardTitle className="font-headline text-2xl text-accent mb-4">{service.title}</CardTitle>
-                </CardHeader>
-                <CardContent className="p-0 space-y-6 flex-grow">
-                  <p className="text-slate-500 text-sm md:text-base leading-relaxed">
-                    {service.description}
-                  </p>
-                  <ul className="space-y-3">
-                    {service.features.map((feature, i) => (
-                      <li key={i} className="flex items-start gap-3 text-sm text-slate-600 font-medium">
-                        <Check className="h-4 w-4 text-primary mt-0.5 shrink-0" />
-                        <span>{feature}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </CardContent>
-              </Card>
-            );
-          })}
+        {/* Services Carousel */}
+        <div className="relative px-4 sm:px-12">
+          <Carousel
+            plugins={[plugin.current]}
+            className="w-full"
+            onMouseEnter={plugin.current.stop}
+            onMouseLeave={plugin.current.reset}
+            opts={{
+              align: "start",
+              loop: true,
+            }}
+          >
+            <CarouselContent className="-ml-4 md:-ml-6">
+              {services.map((service, index) => {
+                const Icon = service.icon;
+                return (
+                  <CarouselItem key={index} className="pl-4 md:pl-6 basis-full md:basis-1/2 lg:basis-1/3">
+                    <Card className="border-none shadow-[0_10px_40px_rgba(0,0,0,0.04)] hover:shadow-xl transition-all duration-300 rounded-[32px] p-6 md:p-8 bg-background flex flex-col h-full group">
+                      <CardHeader className="p-0 mb-6">
+                        <div className="bg-primary/10 w-14 h-14 rounded-2xl flex items-center justify-center text-primary mb-6 transition-colors group-hover:bg-primary group-hover:text-white">
+                          <Icon className="h-7 w-7" />
+                        </div>
+                        <CardTitle className="font-headline text-2xl text-accent mb-4 group-hover:text-primary transition-colors">{service.title}</CardTitle>
+                      </CardHeader>
+                      <CardContent className="p-0 space-y-6 flex-grow">
+                        <p className="text-slate-500 text-sm md:text-base leading-relaxed">
+                          {service.description}
+                        </p>
+                        <ul className="space-y-3">
+                          {service.features.map((feature, i) => (
+                            <li key={i} className="flex items-start gap-3 text-sm text-slate-600 font-medium">
+                              <Check className="h-4 w-4 text-primary mt-0.5 shrink-0" />
+                              <span>{feature}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </CardContent>
+                    </Card>
+                  </CarouselItem>
+                );
+              })}
+            </CarouselContent>
+            <div className="flex justify-center mt-12 gap-4 md:block">
+              <CarouselPrevious className="static md:absolute md:-left-12 translate-y-0 bg-white border-slate-200 hover:bg-primary hover:text-white h-12 w-12 flex items-center justify-center rounded-full shadow-lg" />
+              <CarouselNext className="static md:absolute md:-right-12 translate-y-0 bg-white border-slate-200 hover:bg-primary hover:text-white h-12 w-12 flex items-center justify-center rounded-full shadow-lg" />
+            </div>
+          </Carousel>
         </div>
       </div>
     </section>
