@@ -27,9 +27,10 @@ export function About() {
                 />
               )}
             </div>
+            {/* Swapped: Name first, then Founder & Director */}
             <div className="absolute -bottom-4 bg-primary p-6 rounded-2xl shadow-xl text-white max-w-[200px] z-20 hidden md:block text-center border-4 border-white">
-              <p className="text-[10px] uppercase tracking-widest font-bold mb-1">Founder & Director</p>
               <p className="text-sm font-bold">Om Prakash Sinha</p>
+              <p className="text-[10px] uppercase tracking-widest font-bold mt-1">Founder & Director</p>
             </div>
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-primary/5 rounded-full blur-3xl -z-10" />
           </div>
@@ -68,7 +69,10 @@ export function About() {
 
             <div className="pt-4">
               <Button 
-                onClick={() => window.location.href = '#contact'}
+                onClick={() => {
+                  const el = document.getElementById('contact');
+                  if (el) el.scrollIntoView({ behavior: 'smooth' });
+                }}
                 size="lg" 
                 className="rounded-xl px-8 h-12 bg-black hover:bg-slate-900 text-white font-bold transition-all shadow-lg hover:shadow-black/20"
               >
