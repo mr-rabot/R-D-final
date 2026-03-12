@@ -28,7 +28,13 @@ import { useToast } from "@/hooks/use-toast";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import Cropper from "react-easy-crop";
-import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { 
+  Dialog, 
+  DialogContent, 
+  DialogHeader, 
+  DialogTitle, 
+  DialogDescription 
+} from "@/components/ui/dialog";
 
 const getCroppedImg = async (imageSrc: string, pixelCrop: any): Promise<string> => {
   const image = new window.Image();
@@ -302,7 +308,7 @@ export default function AdminDashboard() {
             <div className="grid lg:grid-cols-2 gap-8">
               {['founder', 'coFounder'].map((type) => (
                 <Card key={type} className="border-none shadow-xl rounded-[40px] p-10 bg-white">
-                  <h3 className="text-2xl font-headline font-bold mb-6 capitalize">{type} Profile</h3>
+                  <h3 className="text-2xl font-headline font-bold mb-6 capitalize">{type === 'founder' ? 'Founder (Om Prakash Sinha)' : 'Co-Founder'} Profile</h3>
                   <div className="space-y-8">
                     <div className="flex items-center gap-6">
                       <div className="relative h-24 w-24 rounded-full overflow-hidden border-4 border-slate-50 shadow-md bg-slate-100">
@@ -313,12 +319,12 @@ export default function AdminDashboard() {
                         )}
                       </div>
                       <Button variant="outline" size="sm" className="rounded-xl font-bold" onClick={() => { setCurrentEditingPath(`leadership.${type}.image`); fileInputRef.current?.click(); }}>
-                        <Upload className="h-4 w-4 mr-2" /> Upload Pic
+                        <Upload className="h-4 w-4 mr-2" /> Change Photo
                       </Button>
                     </div>
                     <div className="space-y-4">
                       <div className="space-y-2">
-                        <label className="text-[10px] font-bold uppercase text-slate-400">Name</label>
+                        <label className="text-[10px] font-bold uppercase text-slate-400">Full Name</label>
                         <Input value={siteData.leadership[type].name} onChange={(e) => {
                           const newData = {...siteData};
                           newData.leadership[type].name = e.target.value;
@@ -326,7 +332,7 @@ export default function AdminDashboard() {
                         }} className="bg-slate-50 border-none rounded-xl h-12" />
                       </div>
                       <div className="space-y-2">
-                        <label className="text-[10px] font-bold uppercase text-slate-400">Role</label>
+                        <label className="text-[10px] font-bold uppercase text-slate-400">Designation / Role</label>
                         <Input value={siteData.leadership[type].role} onChange={(e) => {
                           const newData = {...siteData};
                           newData.leadership[type].role = e.target.value;
@@ -509,6 +515,12 @@ export default function AdminDashboard() {
 
       <Dialog open={isCropperOpen} onOpenChange={setIsCropperOpen}>
         <DialogContent className="max-w-xl bg-white rounded-3xl p-0 overflow-hidden border-none">
+          <DialogHeader className="sr-only">
+            <DialogTitle>Crop Image</DialogTitle>
+            <DialogDescription>
+              Adjust the crop area for the selected profile image.
+            </DialogDescription>
+          </DialogHeader>
           <div className="relative h-96 bg-black">
             {imageToCrop && <Cropper image={imageToCrop} crop={crop} zoom={zoom} aspect={1} onCropChange={setCrop} onZoomChange={setZoom} onCropComplete={onCropComplete} />}
           </div>
