@@ -1,0 +1,53 @@
+
+{
+  "placeholderImages": [
+    {
+      "id": "hero-bg",
+      "description": "Academic research and collaboration",
+      "imageUrl": "https://picsum.photos/seed/acadeflow1/1200/800",
+      "imageHint": "academic research"
+    },
+    {
+      "id": "service-1",
+      "description": "Data analysis and visualization",
+      "imageUrl": "https://picsum.photos/seed/acadeflow2/600/400",
+      "imageHint": "data analysis"
+    },
+    {
+      "id": "service-2",
+      "description": "Scientific writing and publishing",
+      "imageUrl": "https://picsum.photos/seed/acadeflow3/600/400",
+      "imageHint": "writing desk"
+    },
+    {
+      "id": "service-3",
+      "description": "Thesis and dissertation support",
+      "imageUrl": "https://picsum.photos/seed/acadeflow4/600/400",
+      "imageHint": "library books"
+    },
+    {
+      "id": "blog-1",
+      "description": "Research methodology tips",
+      "imageUrl": "https://picsum.photos/seed/acadeflow5/800/600",
+      "imageHint": "research methods"
+    },
+    {
+      "id": "blog-2",
+      "description": "Academic citation guides",
+      "imageUrl": "https://picsum.photos/seed/acadeflow6/800/600",
+      "imageHint": "citation library"
+    },
+    {
+      "id": "testimonial-1",
+      "description": "Dr. Sarah Johnson",
+      "imageUrl": "https://picsum.photos/seed/face1/100/100",
+      "imageHint": "professional portrait"
+    },
+    {
+      "id": "testimonial-2",
+      "description": "James Miller, PhD Candidate",
+      "imageUrl": "https://picsum.photos/seed/face2/100/100",
+      "imageHint": "smiling person"
+    }
+  ]
+}
