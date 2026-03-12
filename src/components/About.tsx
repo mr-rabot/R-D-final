@@ -14,7 +14,7 @@ export function About() {
     <section id="about" className="py-32 bg-white overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-24 items-center mb-40">
-          <div className="relative flex flex-col items-center justify-center animate-in fade-in slide-in-from-left-8 duration-1000">
+          <div className="relative flex flex-col items-center animate-in fade-in slide-in-from-left-8 duration-1000">
             {/* Perfectly circular headshot with thick professional border */}
             <div className="relative w-72 h-72 sm:w-80 sm:h-80 md:w-[480px] md:h-[480px] z-10 overflow-hidden rounded-full shadow-[0_40px_80px_rgba(0,0,0,0.12)] border-[12px] md:border-[16px] border-white transition-all duration-700 hover:scale-[1.01]">
               {expertImg?.imageUrl && (
@@ -28,20 +28,16 @@ export function About() {
               )}
             </div>
             
-            {/* Redesigned Integrated Name and Designation Badge */}
-            <div className="mt-[-40px] lg:mt-0 lg:absolute lg:bottom-12 lg:-right-4 bg-white/95 backdrop-blur-sm p-6 md:p-10 rounded-[32px] shadow-[0_25px_60px_rgba(0,71,255,0.18)] z-20 text-center lg:text-left border border-slate-100 animate-in zoom-in duration-700 delay-300 max-w-[90%] sm:max-w-xs md:max-w-sm">
-              <div className="space-y-1.5">
-                <h3 className="text-2xl md:text-3xl font-headline font-bold text-slate-900 leading-tight">
-                  Om Prakash Sinha
-                </h3>
-                <p className="text-[10px] md:text-[11px] uppercase tracking-[0.3em] font-bold text-primary">
-                  Founder & Director
-                </p>
-              </div>
-              <div className="mt-6 pt-5 border-t border-slate-100 flex items-center justify-center lg:justify-start gap-2.5">
-                <div className="bg-emerald-500/10 p-1.5 rounded-full">
-                  <CheckCircle2 className="h-4 w-4 text-emerald-600" />
-                </div>
+            {/* Minimalist Name and Designation - No Square Box */}
+            <div className="mt-10 text-center space-y-2 animate-in fade-in zoom-in duration-700 delay-300">
+              <h3 className="text-3xl md:text-5xl font-headline font-bold text-slate-900 leading-tight">
+                Om Prakash Sinha
+              </h3>
+              <p className="text-[12px] md:text-[14px] uppercase tracking-[0.4em] font-bold text-primary">
+                Founder & Director
+              </p>
+              <div className="flex items-center justify-center gap-2 pt-2 opacity-60">
+                <CheckCircle2 className="h-4 w-4 text-emerald-600" />
                 <span className="text-[10px] uppercase font-bold tracking-[0.2em] text-slate-400">Verified Leadership</span>
               </div>
             </div>
