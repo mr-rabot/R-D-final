@@ -1,3 +1,4 @@
+
 "use client";
 
 import Image from "next/image";
@@ -13,26 +14,24 @@ export function About() {
     <section id="about" className="py-24 bg-white overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-16 items-center mb-32">
-          <div className="relative">
-            {/* Focused portrait as requested "add only face" */}
-            <div className="aspect-square relative z-10 overflow-hidden rounded-[40px] shadow-2xl border-[12px] border-slate-50 max-w-md mx-auto">
+          <div className="relative flex justify-center">
+            {/* Focused headshot focused only on the face */}
+            <div className="relative w-64 h-64 md:w-80 md:h-80 z-10 overflow-hidden rounded-full shadow-2xl border-[8px] border-slate-50">
               {expertImg?.imageUrl && (
                 <Image
                   src={expertImg.imageUrl}
                   alt="Om Prakash Sinha"
                   fill
-                  className="object-cover object-top scale-110"
-                  data-ai-hint="professional headshot"
+                  className="object-cover"
+                  data-ai-hint="man face"
                 />
               )}
             </div>
-            <div className="absolute -bottom-6 -right-2 bg-primary p-8 rounded-[32px] shadow-xl text-white max-w-xs z-20 hidden md:block">
-              <Quote className="h-8 w-8 mb-4 opacity-50 fill-current" />
-              <p className="text-sm italic font-medium leading-relaxed">
-                "Our mission is to provide world-class academic support with absolute integrity and research excellence."
-              </p>
+            <div className="absolute -bottom-4 bg-primary p-6 rounded-2xl shadow-xl text-white max-w-[200px] z-20 hidden md:block text-center border-4 border-white">
+              <p className="text-[10px] uppercase tracking-widest font-bold mb-1">Founder & Director</p>
+              <p className="text-sm font-bold">Om Prakash Sinha</p>
             </div>
-            <div className="absolute -top-10 -left-10 w-64 h-64 bg-primary/5 rounded-full blur-3xl -z-10" />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-primary/5 rounded-full blur-3xl -z-10" />
           </div>
 
           <div className="space-y-8 text-center lg:text-left">
@@ -45,7 +44,7 @@ export function About() {
             </div>
 
             <p className="text-slate-600 leading-relaxed text-lg">
-              Under the visionary leadership of Om Prakash Sinha, R & D Services Pvt. Ltd. has grown into a premier destination for academic research and professional publishing support, serving scholars globally with dedicated expertise.
+              Under the visionary leadership of Om Prakash Sinha, R & D Services Pvt. Ltd. has grown into a premier destination for academic research and professional publishing support, serving scholars globally with dedicated expertise and absolute integrity.
             </p>
 
             <div className="grid sm:grid-cols-2 gap-6">
@@ -68,8 +67,12 @@ export function About() {
             </div>
 
             <div className="pt-4">
-              <Button size="lg" className="rounded-xl px-8 h-12 bg-black hover:bg-slate-900 text-white font-bold transition-all shadow-lg hover:shadow-black/20">
-                Contact Founder
+              <Button 
+                onClick={() => window.location.href = '#contact'}
+                size="lg" 
+                className="rounded-xl px-8 h-12 bg-black hover:bg-slate-900 text-white font-bold transition-all shadow-lg hover:shadow-black/20"
+              >
+                Connect with Me
               </Button>
             </div>
           </div>
