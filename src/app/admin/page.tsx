@@ -9,37 +9,26 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { 
   LayoutDashboard, 
-  MessageSquare, 
-  Settings, 
-  LogOut, 
   Users, 
-  Search,
-  GraduationCap,
-  TrendingUp,
-  Clock,
-  CheckCircle2,
-  AlertCircle,
-  Menu,
-  X,
-  UserPlus,
-  Upload,
+  LogOut, 
+  ShieldCheck, 
+  Zap, 
+  Plus, 
+  Trash2, 
+  Upload, 
   UserCircle,
-  ShieldCheck,
-  Zap,
-  Briefcase,
   FileText,
-  Globe,
-  Plus,
-  Trash2
+  CreditCard,
+  MessageSquare,
+  HelpCircle,
+  Save,
+  Rocket
 } from "lucide-react";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Badge } from "@/components/ui/badge";
-import Link from "next/link";
 import { useToast } from "@/hooks/use-toast";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import Cropper from "react-easy-crop";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 
 const getCroppedImg = async (imageSrc: string, pixelCrop: any): Promise<string> => {
   const image = new window.Image();
@@ -48,7 +37,6 @@ const getCroppedImg = async (imageSrc: string, pixelCrop: any): Promise<string> 
 
   const canvas = document.createElement("canvas");
   const ctx = canvas.getContext("2d");
-
   if (!ctx) return "";
 
   const targetSize = 600;
@@ -72,28 +60,34 @@ const getCroppedImg = async (imageSrc: string, pixelCrop: any): Promise<string> 
 
 export default function AdminDashboard() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState("control-center");
+  const [activeTab, setActiveTab] = useState("hero");
   const { toast } = useToast();
 
-  const [founder, setFounder] = useState({ name: "", role: "", image: "" });
-  const [coFounder, setCoFounder] = useState({ name: "", role: "", image: "" });
-  const [firmSummary, setFirmSummary] = useState({ title: "", description: "", stats: [] as { label: string, value: string }[] });
+  const [siteData, setSiteData] = useState<any>(null);
+
+  // Auth Persistence
+  useEffect(() => {
+    const session = localStorage.getItem("rd_admin_session");
+    if (session === "active") {
+      setIsLoggedIn(true);
+    }
+    setIsLoading(false);
+  }, []);
 
   const fetchData = useCallback(async () => {
     try {
       const res = await fetch('/api/leadership');
       if (!res.ok) throw new Error("Failed to fetch");
       const data = await res.json();
-      if (data.founder) setFounder(data.founder);
-      if (data.coFounder) setCoFounder(data.coFounder);
-      if (data.firmSummary) setFirmSummary(data.firmSummary);
+      setSiteData(data);
     } catch (error) {
       console.error("Fetch Error:", error);
+      toast({ variant: "destructive", title: "Error", description: "Failed to load site data." });
     }
-  }, []);
+  }, [toast]);
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -101,25 +95,26 @@ export default function AdminDashboard() {
     }
   }, [isLoggedIn, fetchData]);
 
+  // Image Cropping Logic
   const [imageToCrop, setImageToCrop] = useState<string | null>(null);
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
   const [isCropperOpen, setIsCropperOpen] = useState(false);
-  const [currentEditingType, setCurrentEditingType] = useState<'founder' | 'co-founder' | null>(null);
+  const [currentEditingPath, setCurrentEditingPath] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const onCropComplete = useCallback((_croppedArea: any, croppedAreaPixels: any) => {
     setCroppedAreaPixels(croppedAreaPixels);
   }, []);
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>, type: 'founder' | 'co-founder') => {
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>, path: string) => {
     const file = e.target.files?.[0];
     if (file) {
       const reader = new FileReader();
       reader.onload = () => {
         setImageToCrop(reader.result as string);
-        setCurrentEditingType(type);
+        setCurrentEditingPath(path);
         setIsCropperOpen(true);
       };
       reader.readAsDataURL(file);
@@ -127,39 +122,39 @@ export default function AdminDashboard() {
   };
 
   const saveCroppedImage = async () => {
-    if (imageToCrop && croppedAreaPixels && currentEditingType) {
+    if (imageToCrop && croppedAreaPixels && currentEditingPath) {
       const croppedImage = await getCroppedImg(imageToCrop, croppedAreaPixels);
-      if (currentEditingType === 'founder') {
-        setFounder(prev => ({ ...prev, image: croppedImage }));
-      } else {
-        setCoFounder(prev => ({ ...prev, image: croppedImage }));
+      const newData = { ...siteData };
+      
+      // Handle nested paths like 'leadership.founder.image'
+      const parts = currentEditingPath.split('.');
+      let current = newData;
+      for (let i = 0; i < parts.length - 1; i++) {
+        current = current[parts[i]];
       }
+      current[parts[parts.length - 1]] = croppedImage;
+
+      setSiteData(newData);
       setIsCropperOpen(false);
       setImageToCrop(null);
       if (fileInputRef.current) fileInputRef.current.value = "";
     }
   };
 
-  const syncToWebsite = async () => {
-    const updatedData = {
-      founder,
-      coFounder,
-      firmSummary
-    };
-
+  const saveToSite = async () => {
     try {
       const res = await fetch('/api/leadership', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(updatedData)
+        body: JSON.stringify(siteData)
       });
       if (res.ok) {
         toast({ title: "Sync Successful", description: "Website content updated successfully." });
       } else {
-        throw new Error("API responded with error");
+        throw new Error("Sync Failed");
       }
     } catch (error) {
-      toast({ variant: "destructive", title: "Sync Failed", description: "Failed to push updates to the server." });
+      toast({ variant: "destructive", title: "Error", description: "Failed to sync updates." });
     }
   };
 
@@ -167,19 +162,20 @@ export default function AdminDashboard() {
     e.preventDefault();
     if (email === "prexani.tech@gmail.com" && password === "Admin@9343") {
       setIsLoggedIn(true);
-      toast({ title: "Authenticated", description: "Welcome to R&D OPS Hub." });
+      localStorage.setItem("rd_admin_session", "active");
+      toast({ title: "Authenticated", description: "Welcome back, Om Prakash Sinha." });
     } else {
       toast({ variant: "destructive", title: "Access Denied", description: "Invalid credentials." });
     }
   };
 
-  const addStat = () => setFirmSummary(prev => ({ ...prev, stats: [...prev.stats, { label: "", value: "" }] }));
-  const removeStat = (index: number) => setFirmSummary(prev => ({ ...prev, stats: prev.stats.filter((_, i) => i !== index) }));
-  const updateStat = (index: number, field: 'label' | 'value', value: string) => {
-    const newStats = [...firmSummary.stats];
-    newStats[index] = { ...newStats[index], [field]: value };
-    setFirmSummary(prev => ({ ...prev, stats: newStats }));
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+    localStorage.removeItem("rd_admin_session");
+    toast({ title: "Signed Out", description: "Operations session terminated." });
   };
+
+  if (isLoading) return null;
 
   if (!isLoggedIn) {
     return (
@@ -208,27 +204,41 @@ export default function AdminDashboard() {
     );
   }
 
+  if (!siteData) return <div className="p-20 text-center font-bold">Initializing Data...</div>;
+
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col lg:flex-row">
-      <input type="file" ref={fileInputRef} className="hidden" accept="image/*" onChange={(e) => handleFileChange(e, currentEditingType || 'founder')} />
+      <input type="file" ref={fileInputRef} className="hidden" accept="image/*" onChange={(e) => handleFileChange(e, currentEditingPath || '')} />
       
-      <aside className={cn("fixed inset-y-0 left-0 z-40 w-72 bg-slate-900 text-white flex flex-col lg:relative lg:translate-x-0 transition-transform", isSidebarOpen ? "translate-x-0" : "-translate-x-full")}>
-        <div className="p-10 border-b border-white/5">
-          <h1 className="text-xl font-headline font-bold">R&D OPS</h1>
+      <aside className="w-full lg:w-72 bg-slate-900 text-white flex flex-col">
+        <div className="p-8 border-b border-white/5">
+          <h1 className="text-xl font-headline font-bold">R&D OPS HUB</h1>
+          <p className="text-[9px] text-blue-400 font-bold uppercase tracking-widest mt-1">Management Portal</p>
         </div>
-        <nav className="flex-grow p-8 space-y-4">
-          <div onClick={() => setActiveTab("control-center")} className={cn("p-4 rounded-xl cursor-pointer flex gap-4 items-center", activeTab === "control-center" ? "bg-primary text-white" : "text-slate-400 hover:text-white")}>
-            <LayoutDashboard className="h-5 w-5" /> <span>Dashboard</span>
-          </div>
-          <div onClick={() => setActiveTab("leadership")} className={cn("p-4 rounded-xl cursor-pointer flex gap-4 items-center", activeTab === "leadership" ? "bg-primary text-white" : "text-slate-400 hover:text-white")}>
-            <Users className="h-5 w-5" /> <span>Leadership</span>
-          </div>
-          <div onClick={() => setActiveTab("content")} className={cn("p-4 rounded-xl cursor-pointer flex gap-4 items-center", activeTab === "content" ? "bg-primary text-white" : "text-slate-400 hover:text-white")}>
-            <FileText className="h-5 w-5" /> <span>Firm Summary</span>
-          </div>
+        <nav className="flex-grow p-4 space-y-2">
+          {[
+            { id: "hero", icon: Rocket, label: "Hero & Stats" },
+            { id: "leadership", icon: Users, label: "Leadership" },
+            { id: "summary", icon: FileText, label: "Firm Summary" },
+            { id: "services", icon: Zap, label: "Services" },
+            { id: "pricing", icon: CreditCard, label: "Pricing" },
+            { id: "faq", icon: HelpCircle, label: "FAQ" }
+          ].map((item) => (
+            <div 
+              key={item.id}
+              onClick={() => setActiveTab(item.id)}
+              className={cn(
+                "p-4 rounded-xl cursor-pointer flex gap-4 items-center transition-all",
+                activeTab === item.id ? "bg-primary text-white shadow-lg" : "text-slate-400 hover:text-white hover:bg-white/5"
+              )}
+            >
+              <item.icon className="h-5 w-5" /> 
+              <span className="font-bold text-sm">{item.label}</span>
+            </div>
+          ))}
         </nav>
-        <div className="p-8">
-          <Button variant="ghost" className="w-full justify-start text-slate-500 hover:text-white" onClick={() => setIsLoggedIn(false)}>
+        <div className="p-4 mt-auto">
+          <Button variant="ghost" className="w-full justify-start text-slate-500 hover:text-white hover:bg-destructive/10" onClick={handleLogout}>
             <LogOut className="h-5 w-5 mr-3" /> Sign Out
           </Button>
         </div>
@@ -236,56 +246,92 @@ export default function AdminDashboard() {
 
       <main className="flex-grow p-6 md:p-12 overflow-auto">
         <div className="flex justify-between items-center mb-10">
-          <h2 className="text-3xl font-headline font-bold text-slate-900 uppercase tracking-tight">
-            {activeTab.replace("-", " ")}
-          </h2>
-          <Button onClick={syncToWebsite} className="bg-primary rounded-xl font-bold shadow-lg px-8 h-12 flex gap-2">
-            <Zap className="h-4 w-4" /> Push Updates to Site
+          <div>
+            <h2 className="text-3xl font-headline font-bold text-slate-900 uppercase tracking-tight">
+              {activeTab.replace("-", " ")}
+            </h2>
+            <p className="text-sm text-slate-400">Manage your website content in real-time</p>
+          </div>
+          <Button onClick={saveToSite} className="bg-primary rounded-xl font-bold shadow-xl px-8 h-12 flex gap-2">
+            <Save className="h-4 w-4" /> Push Updates to Site
           </Button>
         </div>
 
-        <Tabs value={activeTab} onValueChange={setActiveTab}>
-          <TabsContent value="control-center">
-             <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
-               {[{ label: "Sync Active", icon: TrendingUp }, { label: "Security", icon: ShieldCheck }].map((item, i) => (
-                 <Card key={i} className="p-8 border-none shadow-sm rounded-3xl bg-white">
-                   <item.icon className="h-8 w-8 text-primary mb-4" />
-                   <p className="text-[10px] font-bold uppercase text-slate-400">{item.label}</p>
-                   <h3 className="text-2xl font-bold">Nominal</h3>
-                 </Card>
-               ))}
-             </div>
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-8">
+          
+          <TabsContent value="hero">
+            <Card className="border-none shadow-xl rounded-[40px] p-10 bg-white space-y-8">
+              <div className="space-y-4">
+                <div className="space-y-2">
+                  <label className="text-[10px] font-bold uppercase text-slate-400">Hero Badge</label>
+                  <Input value={siteData.hero.badge} onChange={(e) => setSiteData({...siteData, hero: {...siteData.hero, badge: e.target.value}})} className="bg-slate-50 border-none rounded-xl h-12" />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-[10px] font-bold uppercase text-slate-400">Hero Title</label>
+                  <Input value={siteData.hero.title} onChange={(e) => setSiteData({...siteData, hero: {...siteData.hero, title: e.target.value}})} className="bg-slate-50 border-none rounded-xl h-12" />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-[10px] font-bold uppercase text-slate-400">Hero Subtitle</label>
+                  <Textarea value={siteData.hero.subtitle} onChange={(e) => setSiteData({...siteData, hero: {...siteData.hero, subtitle: e.target.value}})} className="bg-slate-50 border-none rounded-xl min-h-[100px]" />
+                </div>
+              </div>
+
+              <div className="space-y-4 pt-6 border-t">
+                <label className="text-[10px] font-bold uppercase text-slate-400">Global Stats</label>
+                <div className="grid md:grid-cols-3 gap-6">
+                  {siteData.hero.stats.map((stat: any, i: number) => (
+                    <div key={i} className="bg-slate-50 p-6 rounded-2xl space-y-3">
+                      <Input value={stat.value} onChange={(e) => {
+                        const newStats = [...siteData.hero.stats];
+                        newStats[i].value = e.target.value;
+                        setSiteData({...siteData, hero: {...siteData.hero, stats: newStats}});
+                      }} className="bg-white border-none rounded-lg h-10 font-bold" />
+                      <Input value={stat.label} onChange={(e) => {
+                        const newStats = [...siteData.hero.stats];
+                        newStats[i].label = e.target.value;
+                        setSiteData({...siteData, hero: {...siteData.hero, stats: newStats}});
+                      }} className="bg-white border-none rounded-lg h-8 text-xs" />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </Card>
           </TabsContent>
 
           <TabsContent value="leadership">
             <div className="grid lg:grid-cols-2 gap-8">
-              {[
-                { data: founder, setData: setFounder, type: 'founder', title: "Founder Profile" },
-                { data: coFounder, setData: setCoFounder, type: 'co-founder', title: "Co-Founder Profile" }
-              ].map((profile) => (
-                <Card key={profile.type} className="border-none shadow-xl rounded-[40px] p-10 bg-white">
-                  <h3 className="text-2xl font-headline font-bold mb-6">{profile.title}</h3>
+              {['founder', 'coFounder'].map((type) => (
+                <Card key={type} className="border-none shadow-xl rounded-[40px] p-10 bg-white">
+                  <h3 className="text-2xl font-headline font-bold mb-6 capitalize">{type} Profile</h3>
                   <div className="space-y-8">
                     <div className="flex items-center gap-6">
                       <div className="relative h-24 w-24 rounded-full overflow-hidden border-4 border-slate-50 shadow-md bg-slate-100">
-                        {profile.data.image ? (
-                          <Image src={profile.data.image} alt="Profile" fill className="object-cover" />
+                        {siteData.leadership[type].image ? (
+                          <Image src={siteData.leadership[type].image} alt="Profile" fill className="object-cover" />
                         ) : (
                           <UserCircle className="h-full w-full text-slate-300" />
                         )}
                       </div>
-                      <Button variant="outline" size="sm" className="rounded-xl font-bold" onClick={() => { setCurrentEditingType(profile.type as any); fileInputRef.current?.click(); }}>
+                      <Button variant="outline" size="sm" className="rounded-xl font-bold" onClick={() => { setCurrentEditingPath(`leadership.${type}.image`); fileInputRef.current?.click(); }}>
                         <Upload className="h-4 w-4 mr-2" /> Upload Pic
                       </Button>
                     </div>
                     <div className="space-y-4">
                       <div className="space-y-2">
                         <label className="text-[10px] font-bold uppercase text-slate-400">Name</label>
-                        <Input value={profile.data.name} onChange={(e) => profile.setData({ ...profile.data, name: e.target.value })} className="bg-slate-50 border-none rounded-xl h-12" />
+                        <Input value={siteData.leadership[type].name} onChange={(e) => {
+                          const newData = {...siteData};
+                          newData.leadership[type].name = e.target.value;
+                          setSiteData(newData);
+                        }} className="bg-slate-50 border-none rounded-xl h-12" />
                       </div>
                       <div className="space-y-2">
                         <label className="text-[10px] font-bold uppercase text-slate-400">Role</label>
-                        <Input value={profile.data.role} onChange={(e) => profile.setData({ ...profile.data, role: e.target.value })} className="bg-slate-50 border-none rounded-xl h-12" />
+                        <Input value={siteData.leadership[type].role} onChange={(e) => {
+                          const newData = {...siteData};
+                          newData.leadership[type].role = e.target.value;
+                          setSiteData(newData);
+                        }} className="bg-slate-50 border-none rounded-xl h-12" />
                       </div>
                     </div>
                   </div>
@@ -294,39 +340,170 @@ export default function AdminDashboard() {
             </div>
           </TabsContent>
 
-          <TabsContent value="content">
-            <Card className="border-none shadow-xl rounded-[40px] p-10 bg-white max-w-4xl">
-              <h3 className="text-2xl font-headline font-bold mb-8">Firm Summary & Stats</h3>
-              <div className="space-y-8">
-                <div className="space-y-2">
-                  <label className="text-[10px] font-bold uppercase text-slate-400">Section Title</label>
-                  <Input value={firmSummary.title} onChange={(e) => setFirmSummary({ ...firmSummary, title: e.target.value })} className="bg-slate-50 border-none rounded-xl h-12" />
+          <TabsContent value="summary">
+            <Card className="border-none shadow-xl rounded-[40px] p-10 bg-white space-y-8">
+              <div className="space-y-2">
+                <label className="text-[10px] font-bold uppercase text-slate-400">Section Title</label>
+                <Input value={siteData.firmSummary.title} onChange={(e) => setSiteData({...siteData, firmSummary: {...siteData.firmSummary, title: e.target.value}})} className="bg-slate-50 border-none rounded-xl h-12" />
+              </div>
+              <div className="space-y-2">
+                <label className="text-[10px] font-bold uppercase text-slate-400">Main Description</label>
+                <Textarea value={siteData.firmSummary.description} onChange={(e) => setSiteData({...siteData, firmSummary: {...siteData.firmSummary, description: e.target.value}})} className="bg-slate-50 border-none rounded-xl min-h-[150px]" />
+              </div>
+              
+              <div className="space-y-4 pt-6 border-t">
+                <div className="flex justify-between items-center">
+                  <label className="text-[10px] font-bold uppercase text-slate-400">Impact Metrics</label>
+                  <Button variant="ghost" size="sm" onClick={() => setSiteData({...siteData, firmSummary: {...siteData.firmSummary, stats: [...siteData.firmSummary.stats, {label: "", value: ""}]}})} className="text-primary rounded-lg">
+                    <Plus className="h-4 w-4 mr-2" /> Add Metric
+                  </Button>
                 </div>
-                <div className="space-y-2">
-                  <label className="text-[10px] font-bold uppercase text-slate-400">Description Text</label>
-                  <Textarea value={firmSummary.description} onChange={(e) => setFirmSummary({ ...firmSummary, description: e.target.value })} className="bg-slate-50 border-none rounded-xl min-h-[150px]" />
-                </div>
-                
-                <div className="space-y-4 pt-6">
-                  <div className="flex justify-between items-center">
-                    <label className="text-[10px] font-bold uppercase text-slate-400">Impact Stats</label>
-                    <Button variant="ghost" size="sm" onClick={addStat} className="text-primary hover:bg-primary/5 rounded-lg"><Plus className="h-4 w-4 mr-2" /> Add Stat</Button>
-                  </div>
-                  <div className="grid sm:grid-cols-2 gap-4">
-                    {firmSummary.stats.map((stat, i) => (
-                      <div key={i} className="bg-slate-50 p-6 rounded-2xl relative group">
-                        <Button variant="ghost" size="sm" onClick={() => removeStat(i)} className="absolute top-2 right-2 text-slate-300 hover:text-destructive opacity-0 group-hover:opacity-100 transition-all"><Trash2 className="h-4 w-4" /></Button>
-                        <div className="space-y-3">
-                          <Input value={stat.value} placeholder="e.g. 500+" onChange={(e) => updateStat(i, 'value', e.target.value)} className="bg-white border-none rounded-lg h-10 font-bold text-xl" />
-                          <Input value={stat.label} placeholder="e.g. Papers Published" onChange={(e) => updateStat(i, 'label', e.target.value)} className="bg-white border-none rounded-lg h-8 text-xs uppercase tracking-widest" />
-                        </div>
-                      </div>
-                    ))}
-                  </div>
+                <div className="grid sm:grid-cols-2 gap-4">
+                  {siteData.firmSummary.stats.map((stat: any, i: number) => (
+                    <div key={i} className="bg-slate-50 p-6 rounded-2xl relative group">
+                      <Button variant="ghost" size="sm" onClick={() => {
+                        const newStats = siteData.firmSummary.stats.filter((_: any, idx: number) => idx !== i);
+                        setSiteData({...siteData, firmSummary: {...siteData.firmSummary, stats: newStats}});
+                      }} className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 text-destructive"><Trash2 className="h-4 w-4" /></Button>
+                      <Input value={stat.value} placeholder="Value (e.g. 500+)" onChange={(e) => {
+                        const newStats = [...siteData.firmSummary.stats];
+                        newStats[i].value = e.target.value;
+                        setSiteData({...siteData, firmSummary: {...siteData.firmSummary, stats: newStats}});
+                      }} className="bg-white border-none rounded-lg h-10 font-bold mb-2" />
+                      <Input value={stat.label} placeholder="Label (e.g. Papers)" onChange={(e) => {
+                        const newStats = [...siteData.firmSummary.stats];
+                        newStats[i].label = e.target.value;
+                        setSiteData({...siteData, firmSummary: {...siteData.firmSummary, stats: newStats}});
+                      }} className="bg-white border-none rounded-lg h-8 text-xs" />
+                    </div>
+                  ))}
                 </div>
               </div>
             </Card>
           </TabsContent>
+
+          <TabsContent value="services">
+            <div className="space-y-6">
+              <div className="flex justify-end">
+                <Button onClick={() => setSiteData({...siteData, services: [...siteData.services, {title: "New Service", description: "", features: []}]})} className="bg-primary rounded-xl">
+                  <Plus className="h-4 w-4 mr-2" /> Add New Service
+                </Button>
+              </div>
+              <div className="grid md:grid-cols-2 gap-6">
+                {siteData.services.map((service: any, i: number) => (
+                  <Card key={i} className="p-8 border-none shadow-lg rounded-3xl bg-white relative group">
+                    <Button variant="ghost" onClick={() => {
+                      const newServices = siteData.services.filter((_: any, idx: number) => idx !== i);
+                      setSiteData({...siteData, services: newServices});
+                    }} className="absolute top-4 right-4 text-destructive opacity-0 group-hover:opacity-100"><Trash2 className="h-4 w-4" /></Button>
+                    <div className="space-y-4">
+                      <Input value={service.title} onChange={(e) => {
+                        const newServices = [...siteData.services];
+                        newServices[i].title = e.target.value;
+                        setSiteData({...siteData, services: newServices});
+                      }} className="bg-slate-50 border-none font-bold text-lg" />
+                      <Textarea value={service.description} onChange={(e) => {
+                        const newServices = [...siteData.services];
+                        newServices[i].description = e.target.value;
+                        setSiteData({...siteData, services: newServices});
+                      }} className="bg-slate-50 border-none text-sm h-24" />
+                      <div className="space-y-2">
+                        <label className="text-[9px] font-bold uppercase text-slate-400">Features (one per line)</label>
+                        <Textarea 
+                          value={service.features.join('\n')} 
+                          onChange={(e) => {
+                            const newServices = [...siteData.services];
+                            newServices[i].features = e.target.value.split('\n');
+                            setSiteData({...siteData, services: newServices});
+                          }}
+                          className="bg-slate-50 border-none text-xs h-32" 
+                        />
+                      </div>
+                    </div>
+                  </Card>
+                ))}
+              </div>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="faq">
+            <Card className="p-10 border-none shadow-xl rounded-[40px] bg-white">
+              <div className="flex justify-between items-center mb-8">
+                <h3 className="text-xl font-headline font-bold">Frequently Asked Questions</h3>
+                <Button onClick={() => setSiteData({...siteData, faqs: [...siteData.faqs, {question: "New Question", answer: ""}]})} variant="outline" className="rounded-xl">
+                  <Plus className="h-4 w-4 mr-2" /> Add FAQ
+                </Button>
+              </div>
+              <div className="space-y-6">
+                {siteData.faqs.map((faq: any, i: number) => (
+                  <div key={i} className="p-6 bg-slate-50 rounded-2xl relative group">
+                    <Button variant="ghost" onClick={() => {
+                      const newFaqs = siteData.faqs.filter((_: any, idx: number) => idx !== i);
+                      setSiteData({...siteData, faqs: newFaqs});
+                    }} className="absolute top-4 right-4 text-destructive opacity-0 group-hover:opacity-100"><Trash2 className="h-4 w-4" /></Button>
+                    <div className="space-y-4">
+                      <Input value={faq.question} placeholder="Question" onChange={(e) => {
+                        const newFaqs = [...siteData.faqs];
+                        newFaqs[i].question = e.target.value;
+                        setSiteData({...siteData, faqs: newFaqs});
+                      }} className="bg-white border-none font-bold" />
+                      <Textarea value={faq.answer} placeholder="Answer" onChange={(e) => {
+                        const newFaqs = [...siteData.faqs];
+                        newFaqs[i].answer = e.target.value;
+                        setSiteData({...siteData, faqs: newFaqs});
+                      }} className="bg-white border-none text-sm min-h-[100px]" />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="pricing">
+             <div className="grid lg:grid-cols-3 gap-8">
+               {siteData.pricing.map((plan: any, i: number) => (
+                 <Card key={i} className={cn("p-8 border-none shadow-xl rounded-[40px] bg-white relative", plan.highlight && "ring-4 ring-primary/20")}>
+                    <div className="space-y-4">
+                      <div className="flex justify-between">
+                        <label className="text-[10px] font-bold uppercase text-slate-400">Plan Name</label>
+                        <div className="flex items-center gap-2">
+                           <span className="text-[9px] uppercase font-bold text-slate-400">Highlight</span>
+                           <input type="checkbox" checked={plan.highlight} onChange={(e) => {
+                             const newPricing = [...siteData.pricing];
+                             newPricing[i].highlight = e.target.checked;
+                             setSiteData({...siteData, pricing: newPricing});
+                           }} />
+                        </div>
+                      </div>
+                      <Input value={plan.name} onChange={(e) => {
+                        const newPricing = [...siteData.pricing];
+                        newPricing[i].name = e.target.value;
+                        setSiteData({...siteData, pricing: newPricing});
+                      }} className="bg-slate-50 border-none font-bold" />
+                      
+                      <label className="text-[10px] font-bold uppercase text-slate-400">Description</label>
+                      <Textarea value={plan.description} onChange={(e) => {
+                        const newPricing = [...siteData.pricing];
+                        newPricing[i].description = e.target.value;
+                        setSiteData({...siteData, pricing: newPricing});
+                      }} className="bg-slate-50 border-none h-20 text-sm" />
+                      
+                      <label className="text-[10px] font-bold uppercase text-slate-400">Features</label>
+                      <Textarea 
+                        value={plan.features.join('\n')} 
+                        onChange={(e) => {
+                          const newPricing = [...siteData.pricing];
+                          newPricing[i].features = e.target.value.split('\n');
+                          setSiteData({...siteData, pricing: newPricing});
+                        }}
+                        className="bg-slate-50 border-none h-40 text-xs" 
+                      />
+                    </div>
+                 </Card>
+               ))}
+             </div>
+          </TabsContent>
+
         </Tabs>
       </main>
 

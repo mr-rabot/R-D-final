@@ -1,27 +1,81 @@
 
 {
-  "founder": {
-    "name": "Om Prakash Sinha",
-    "role": "Founder & Director",
-    "image": "https://picsum.photos/seed/opsinha-face/600/600"
+  "hero": {
+    "badge": "Premier Research Excellence",
+    "title": "Scholarly Research Perfected.",
+    "subtitle": "Elite academic support for researchers who demand precision, integrity, and international publishing standards.",
+    "stats": [
+      { "label": "Papers Published", "value": "500+" },
+      { "label": "Acceptance Rate", "value": "98%" },
+      { "label": "Expert Concierge", "value": "24/7" }
+    ]
   },
-  "coFounder": {
-    "name": "Dr. Anjali Sinha",
-    "role": "Co-Founder & Research Head",
-    "image": "https://picsum.photos/seed/cofounder/400/400"
+  "leadership": {
+    "founder": {
+      "name": "Om Prakash Sinha",
+      "role": "Founder & Director",
+      "image": "https://picsum.photos/seed/opsinha-face/600/600"
+    },
+    "coFounder": {
+      "name": "Dr. Anjali Sinha",
+      "role": "Co-Founder & Research Head",
+      "image": "https://picsum.photos/seed/cofounder/400/400"
+    }
   },
   "firmSummary": {
     "title": "R&D Services: A Global Research Legacy",
     "description": "R & D Services Pvt. Ltd. is a premier academic consulting firm dedicated to bridging the gap between innovative research and high-impact publishing. We don't just draft papers; we cultivate scholarly legacies through a systematic, methodology-first approach that ensures rigorous adherence to international standards.",
     "stats": [
-      {
-        "label": "Research Legacy",
-        "value": "500+"
-      },
-      {
-        "label": "Elite Journals",
-        "value": "120+"
-      }
+      { "label": "Research Legacy", "value": "500+" },
+      { "label": "Elite Journals", "value": "120+" }
     ]
-  }
+  },
+  "services": [
+    {
+      "title": "Research Papers",
+      "description": "Well-researched, structured academic papers with proper citations and references.",
+      "features": ["Original content", "Proper formatting", "Literature review", "Timely delivery"]
+    },
+    {
+      "title": "Synopsis Writing",
+      "description": "Structured research outlines essential for project approval and admissions.",
+      "features": ["Clear objectives", "Methodology outline", "Problem statement", "Approval-oriented"]
+    },
+    {
+      "title": "PPT Presentation",
+      "description": "High-quality academic presentations designed for thesis defense or conferences.",
+      "features": ["Visual layout", "Speaker notes", "Professional design", "Summarization"]
+    }
+  ],
+  "pricing": [
+    {
+      "name": "Basic",
+      "description": "Essential support for standard academic reports and research projects.",
+      "features": ["Project Report", "PPT (10-15 Slides)", "Plagiarism Check (Basic)", "Standard Academic Formatting"],
+      "highlight": false
+    },
+    {
+      "name": "Professional",
+      "description": "Comprehensive support for advanced research articles and dissertations.",
+      "features": ["Full Synopsis Writing", "Literature Review Paper", "Research Article Drafting", "Dissertation Formatting"],
+      "highlight": true,
+      "badge": "Most Recommended"
+    },
+    {
+      "name": "Premium",
+      "description": "Elite end-to-end guidance for high-impact thesis and global publishing.",
+      "features": ["Full PhD Thesis Writing", "Research Proposal Design", "Expert Journal Consultation", "Advanced Data Analysis"],
+      "highlight": false
+    }
+  ],
+  "faqs": [
+    {
+      "question": "How do you ensure the work is plagiarism-free?",
+      "answer": "We use advanced plagiarism detection tools (like Turnitin) and provide a free plagiarism report with every project."
+    },
+    {
+      "question": "What is your typical turnaround time?",
+      "answer": "Delivery times depend on project complexity. A standard paper takes 3-5 days, while a thesis takes 2-4 weeks."
+    }
+  ]
 }

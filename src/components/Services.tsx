@@ -1,6 +1,8 @@
+
 "use client";
 
 import * as React from "react";
+import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { 
   GraduationCap, 
@@ -8,11 +10,6 @@ import {
   Zap, 
   Lock, 
   FileText, 
-  BookOpen, 
-  ClipboardCheck, 
-  Book,
-  Presentation,
-  FileCheck,
   ArrowRight
 } from "lucide-react";
 import {
@@ -32,55 +29,18 @@ const trustIndicators = [
   { icon: Lock, label: "Confidential", color: "text-slate-600", bg: "bg-slate-50" },
 ];
 
-const services = [
-  {
-    title: "Research Papers",
-    description: "Well-researched, structured academic papers with proper citations and references.",
-    icon: FileText,
-    features: ["Original content", "Proper formatting", "Literature review", "Timely delivery"]
-  },
-  {
-    title: "Synopsis Writing",
-    description: "Structured research outlines essential for project approval and admissions.",
-    icon: ClipboardCheck,
-    features: ["Clear objectives", "Methodology outline", "Problem statement", "Approval-oriented"]
-  },
-  {
-    title: "PPT Presentation",
-    description: "High-quality academic presentations designed for thesis defense or conferences.",
-    icon: Presentation,
-    features: ["Visual layout", "Speaker notes", "Professional design", "Summarization"]
-  },
-  {
-    title: "Plagiarism Report",
-    description: "Comprehensive similarity checks using premium tools to ensure academic integrity.",
-    icon: FileCheck,
-    features: ["Similarity index", "Source identification", "AI detection", "Premium report"]
-  },
-  {
-    title: "Thesis Writing",
-    description: "Complete thesis writing from proposal to final submission with expert guidance.",
-    icon: GraduationCap,
-    features: ["Methodology", "Interpretation", "Revision support", "Supervisor-ready"]
-  },
-  {
-    title: "Dissertation",
-    description: "Detailed dissertations with thorough research and academic rigor.",
-    icon: BookOpen,
-    features: ["Chapter development", "Statistical analysis", "Synthesis", "Proofreading"]
-  },
-  {
-    title: "Literature Review",
-    description: "Comprehensive literature reviews covering relevant research in your specific field.",
-    icon: Book,
-    features: ["Research synthesis", "Gap identification", "Critical analysis", "Systematic"]
-  }
-];
-
 export function Services() {
+  const [services, setServices] = useState<any[]>([]);
   const plugin = React.useRef(
     Autoplay({ delay: 3000, stopOnInteraction: false })
   );
+
+  useEffect(() => {
+    fetch('/api/leadership')
+      .then(res => res.json())
+      .then(data => setServices(data.services))
+      .catch(err => console.error(err));
+  }, []);
 
   return (
     <section id="services" className="py-32 bg-slate-50/50 overflow-hidden">
@@ -110,7 +70,6 @@ export function Services() {
           </p>
         </div>
 
-        {/* Increased padding-y and padding-x for shadow rendering */}
         <div className="relative px-6 sm:px-12 py-12">
           <Carousel
             plugins={[plugin.current]}
@@ -122,13 +81,12 @@ export function Services() {
           >
             <CarouselContent className="-ml-6 md:-ml-10">
               {services.map((service, index) => {
-                const Icon = service.icon;
                 return (
                   <CarouselItem key={index} className="pl-6 md:pl-10 basis-full md:basis-1/2 lg:basis-1/3 py-8">
                     <Card className="border-none shadow-[0_25px_60px_-15px_rgba(0,0,0,0.08)] hover:shadow-[0_45px_90px_-20px_rgba(0,71,255,0.2)] transition-all duration-700 rounded-[45px] p-10 md:p-12 bg-white flex flex-col h-full group border-b-8 border-transparent hover:border-primary">
                       <CardHeader className="p-0 mb-10">
                         <div className="bg-primary/5 w-18 h-18 rounded-[25px] flex items-center justify-center text-primary mb-10 transition-all duration-500 group-hover:bg-primary group-hover:text-white group-hover:rotate-6 shadow-sm">
-                          <Icon className="h-9 w-9" />
+                          <FileText className="h-9 w-9" />
                         </div>
                         <CardTitle className="font-headline text-3xl text-accent mb-5 group-hover:text-primary transition-colors">{service.title}</CardTitle>
                       </CardHeader>
@@ -137,7 +95,7 @@ export function Services() {
                           {service.description}
                         </p>
                         <div className="space-y-5">
-                          {service.features.map((feature, i) => (
+                          {service.features.map((feature: string, i: number) => (
                             <div key={i} className="flex items-center gap-4 text-sm text-slate-600 font-bold uppercase tracking-wider">
                               <div className="h-2 w-2 rounded-full bg-primary" />
                               <span>{feature}</span>
@@ -156,8 +114,8 @@ export function Services() {
               })}
             </CarouselContent>
             <div className="flex justify-center mt-12 gap-8 md:block">
-              <CarouselPrevious className="static md:absolute md:-left-16 translate-y-0 bg-white border-none hover:bg-primary hover:text-white h-16 w-16 flex items-center justify-center rounded-full shadow-[0_15px_30px_rgba(0,0,0,0.1)] transition-all hover:scale-110 active:scale-90" />
-              <CarouselNext className="static md:absolute md:-right-16 translate-y-0 bg-white border-none hover:bg-primary hover:text-white h-16 w-16 flex items-center justify-center rounded-full shadow-[0_15px_30px_rgba(0,0,0,0.1)] transition-all hover:scale-110 active:scale-90" />
+              <CarouselPrevious className="static md:absolute md:-left-16 translate-y-0 bg-white border-none hover:bg-primary hover:text-white h-16 w-16 flex items-center justify-center rounded-full shadow-[0_15px_30px_rgba(0,0,0,0.1)] transition-all" />
+              <CarouselNext className="static md:absolute md:-right-16 translate-y-0 bg-white border-none hover:bg-primary hover:text-white h-16 w-16 flex items-center justify-center rounded-full shadow-[0_15px_30px_rgba(0,0,0,0.1)] transition-all" />
             </div>
           </Carousel>
         </div>

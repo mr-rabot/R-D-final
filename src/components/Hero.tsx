@@ -1,13 +1,22 @@
+
 "use client";
 
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
-import { Mail, MessageSquare, Sparkles, ArrowRight } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { Mail, MessageSquare, Sparkles } from "lucide-react";
 
 export function Hero() {
+  const [heroData, setHeroData] = useState<any>(null);
   const heroImage = PlaceHolderImages.find((img) => img.id === "hero-bg");
+
+  useEffect(() => {
+    fetch('/api/leadership')
+      .then(res => res.json())
+      .then(data => setHeroData(data.hero))
+      .catch(err => console.error(err));
+  }, []);
 
   const handleWhatsAppQuote = () => {
     const message = encodeURIComponent("Hi R&D Services, I'm interested in your research writing services. Can you help me with a project?");
@@ -17,6 +26,8 @@ export function Hero() {
   const handleEmailQuote = () => {
     window.location.href = "mailto:support.rdservices@gmail.com?subject=Inquiry about Research Services&body=Hi R&D Services team, I would like to inquire about your academic writing services.";
   };
+
+  if (!heroData) return null;
 
   return (
     <section className="hero-gradient text-white pt-32 pb-24 md:pt-48 md:pb-40 overflow-hidden relative">
@@ -30,16 +41,15 @@ export function Hero() {
           <div className="space-y-10 text-center lg:text-left animate-in fade-in slide-in-from-bottom-8 duration-1000">
             <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 px-5 py-2 rounded-full text-white font-bold text-xs uppercase tracking-widest mx-auto lg:mx-0 shadow-xl">
               <Sparkles className="h-4 w-4 text-blue-300" />
-              Premier Research Excellence
+              {heroData.badge}
             </div>
             
             <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-headline font-bold leading-[1.1] tracking-tight">
-              Scholarly <br />
-              Research <span className="text-blue-400">Perfected.</span>
+              {heroData.title.split(' ').slice(0, -1).join(' ')} <span className="text-blue-400">{heroData.title.split(' ').slice(-1)}</span>
             </h1>
             
             <p className="text-xl md:text-2xl text-blue-100/80 max-w-xl leading-relaxed font-light mx-auto lg:mx-0">
-              Elite academic support for researchers who demand precision, integrity, and international publishing standards.
+              {heroData.subtitle}
             </p>
             
             <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-5 pt-4">
@@ -61,14 +71,10 @@ export function Hero() {
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-10 pt-16 border-t border-white/10 text-center sm:text-left">
-              {[
-                { val: "500+", lbl: "Papers Published" },
-                { val: "98%", lbl: "Acceptance Rate" },
-                { val: "24/7", lbl: "Expert Concierge" }
-              ].map((stat, i) => (
+              {heroData.stats.map((stat: any, i: number) => (
                 <div key={i} className="space-y-2 group">
-                  <div className="text-4xl md:text-5xl font-headline font-bold group-hover:text-blue-400 transition-colors">{stat.val}</div>
-                  <div className="text-[10px] text-blue-200/60 uppercase tracking-[0.2em] font-bold">{stat.lbl}</div>
+                  <div className="text-4xl md:text-5xl font-headline font-bold group-hover:text-blue-400 transition-colors">{stat.value}</div>
+                  <div className="text-[10px] text-blue-200/60 uppercase tracking-[0.2em] font-bold">{stat.label}</div>
                 </div>
               ))}
             </div>
@@ -89,19 +95,6 @@ export function Hero() {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 </div>
               ) : null}
-              
-              {/* Floating Achievement Card */}
-              <div className="absolute -bottom-10 -left-10 bg-white p-6 rounded-3xl shadow-2xl hidden md:block animate-bounce duration-[3000ms] border border-blue-50">
-                <div className="flex items-center gap-4">
-                  <div className="bg-primary/10 p-3 rounded-2xl">
-                    <Sparkles className="h-8 w-8 text-primary" />
-                  </div>
-                  <div className="text-accent">
-                    <p className="font-bold text-xl leading-none">Top Rated</p>
-                    <p className="text-xs text-slate-500 font-medium">Academic Writing 2024</p>
-                  </div>
-                </div>
-              </div>
             </div>
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[140%] h-[140%] bg-primary/20 blur-[150px] rounded-full -z-10" />
           </div>
