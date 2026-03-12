@@ -11,9 +11,7 @@ import {
   Settings, 
   LogOut, 
   Users, 
-  Bell,
   Search,
-  Plus,
   GraduationCap,
   TrendingUp,
   Clock,
@@ -23,7 +21,8 @@ import {
   X,
   UserPlus,
   Upload,
-  UserCircle
+  UserCircle,
+  ShieldCheck
 } from "lucide-react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
@@ -38,6 +37,13 @@ export default function AdminDashboard() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("control-center");
   const { toast } = useToast();
+
+  // Founder state simulation
+  const [founder, setFounder] = useState({
+    name: "Om Prakash Sinha",
+    role: "Founder & Director",
+    image: "https://picsum.photos/seed/opsinha-face/600/600"
+  });
 
   // Co-founder state simulation
   const [coFounder, setCoFounder] = useState({
@@ -63,11 +69,10 @@ export default function AdminDashboard() {
     }
   };
 
-  const handleCoFounderUpdate = (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleProfileUpdate = (type: 'founder' | 'co-founder') => {
     toast({
-      title: "Profile Updated",
-      description: "Co-Founder profile has been updated successfully.",
+      title: `${type === 'founder' ? 'Founder' : 'Co-Founder'} Profile Updated`,
+      description: "Changes have been saved to the live platform.",
     });
   };
 
@@ -79,7 +84,7 @@ export default function AdminDashboard() {
             <div className="relative z-10">
               <div className="flex justify-center mb-6">
                  <div className="bg-primary p-3 rounded-2xl shadow-xl shadow-primary/20">
-                  <GraduationCap className="h-8 w-8 text-white" />
+                  <ShieldCheck className="h-8 w-8 text-white" />
                 </div>
               </div>
               <h2 className="text-2xl md:text-3xl font-headline font-bold">Operations Portal</h2>
@@ -194,12 +199,6 @@ export default function AdminDashboard() {
             <h2 className="text-3xl md:text-4xl font-headline font-bold text-accent">Operations Hub</h2>
             <p className="text-slate-500 font-medium text-sm md:text-base">Monitoring global research initiatives and publishing workflows.</p>
           </div>
-          <div className="flex flex-col sm:flex-row items-center gap-4 w-full md:w-auto">
-            <div className="relative w-full sm:w-auto">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
-              <Input placeholder="Search records..." className="pl-12 w-full sm:w-80 bg-white border-none shadow-sm rounded-2xl h-12" />
-            </div>
-          </div>
         </header>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-8">
@@ -226,7 +225,7 @@ export default function AdminDashboard() {
             
             <Card className="border-none shadow-sm rounded-[32px] overflow-hidden bg-white p-8">
               <h3 className="text-xl font-bold text-accent mb-6">Recent Activity</h3>
-              <p className="text-slate-500">System overview and real-time research tracking.</p>
+              <p className="text-slate-500">System is operational. No critical errors detected in the last 24 hours.</p>
             </Card>
           </TabsContent>
 
@@ -272,74 +271,134 @@ export default function AdminDashboard() {
           </TabsContent>
 
           <TabsContent value="team">
-            <div className="grid lg:grid-cols-2 gap-8">
-              <Card className="border-none shadow-sm rounded-[32px] p-8 bg-white">
-                <CardHeader className="px-0 pt-0">
-                  <CardTitle className="text-2xl font-headline font-bold">Manage Co-Founder Profile</CardTitle>
-                  <CardDescription>Update name, role, and profile picture for the co-founder.</CardDescription>
-                </CardHeader>
-                <CardContent className="px-0 pt-6">
-                  <form onSubmit={handleCoFounderUpdate} className="space-y-6">
-                    <div className="space-y-4">
-                      <div className="flex items-center gap-6">
-                        <div className="relative h-24 w-24 rounded-full overflow-hidden border-4 border-slate-50 bg-slate-100 flex items-center justify-center">
-                          {coFounder.image ? (
-                            <Image src={coFounder.image} alt="Co-Founder" fill className="object-cover" />
-                          ) : (
-                            <UserCircle className="h-12 w-12 text-slate-300" />
-                          )}
+            <div className="space-y-8">
+              {/* Founder Section */}
+              <div className="grid lg:grid-cols-2 gap-8">
+                <Card className="border-none shadow-sm rounded-[32px] p-8 bg-white">
+                  <CardHeader className="px-0 pt-0">
+                    <CardTitle className="text-2xl font-headline font-bold">Manage Founder Profile</CardTitle>
+                    <CardDescription>Update name, role, and profile picture for Om Prakash Sinha.</CardDescription>
+                  </CardHeader>
+                  <CardContent className="px-0 pt-6">
+                    <form onSubmit={(e) => { e.preventDefault(); handleProfileUpdate('founder'); }} className="space-y-6">
+                      <div className="space-y-4">
+                        <div className="flex items-center gap-6">
+                          <div className="relative h-24 w-24 rounded-full overflow-hidden border-4 border-slate-50 bg-slate-100 flex items-center justify-center">
+                            {founder.image ? (
+                              <Image src={founder.image} alt="Founder" fill className="object-cover" />
+                            ) : (
+                              <UserCircle className="h-12 w-12 text-slate-300" />
+                            )}
+                          </div>
+                          <div className="space-y-2">
+                            <Button type="button" variant="outline" className="rounded-xl flex gap-2 border-slate-200">
+                              <Upload className="h-4 w-4" /> Change Founder Photo
+                            </Button>
+                            <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">JPG, PNG. Max 5MB.</p>
+                          </div>
                         </div>
+
                         <div className="space-y-2">
-                          <Button type="button" variant="outline" className="rounded-xl flex gap-2 border-slate-200">
-                            <Upload className="h-4 w-4" /> Upload New Pic
-                          </Button>
-                          <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">JPG, PNG or GIF. Max 5MB.</p>
+                          <label className="text-xs font-bold uppercase tracking-widest text-slate-400">Founder Name</label>
+                          <Input 
+                            value={founder.name} 
+                            onChange={(e) => setFounder({...founder, name: e.target.value})}
+                            className="rounded-2xl h-12 bg-slate-50 border-none" 
+                          />
+                        </div>
+
+                        <div className="space-y-2">
+                          <label className="text-xs font-bold uppercase tracking-widest text-slate-400">Founder Role</label>
+                          <Input 
+                            value={founder.role}
+                            onChange={(e) => setFounder({...founder, role: e.target.value})}
+                            className="rounded-2xl h-12 bg-slate-50 border-none" 
+                          />
                         </div>
                       </div>
+                      <Button className="w-full h-12 bg-primary rounded-2xl font-bold shadow-xl shadow-primary/20">
+                        Update Founder Details
+                      </Button>
+                    </form>
+                  </CardContent>
+                </Card>
 
-                      <div className="space-y-2">
-                        <label className="text-xs font-bold uppercase tracking-widest text-slate-400">Full Name</label>
-                        <Input 
-                          value={coFounder.name} 
-                          onChange={(e) => setCoFounder({...coFounder, name: e.target.value})}
-                          className="rounded-2xl h-12 bg-slate-50 border-none" 
-                        />
-                      </div>
-
-                      <div className="space-y-2">
-                        <label className="text-xs font-bold uppercase tracking-widest text-slate-400">Designation / Role</label>
-                        <Input 
-                          value={coFounder.role}
-                          onChange={(e) => setCoFounder({...coFounder, role: e.target.value})}
-                          className="rounded-2xl h-12 bg-slate-50 border-none" 
-                        />
-                      </div>
+                <Card className="border-none shadow-sm rounded-[32px] p-8 bg-accent text-white relative overflow-hidden flex items-center justify-center">
+                  <div className="relative z-10 text-center">
+                    <div className="h-40 w-40 rounded-full overflow-hidden mb-6 border-4 border-white/10 mx-auto">
+                      <Image src={founder.image} alt="Founder Preview" width={160} height={160} className="object-cover" />
                     </div>
-
-                    <Button className="w-full h-12 bg-primary rounded-2xl font-bold shadow-xl shadow-primary/20">
-                      Save Profile Changes
-                    </Button>
-                  </form>
-                </CardContent>
-              </Card>
-
-              <Card className="border-none shadow-sm rounded-[32px] p-8 bg-accent text-white relative overflow-hidden">
-                <div className="relative z-10">
-                  <h3 className="text-2xl font-headline font-bold mb-4">Profile Preview</h3>
-                  <div className="bg-white/5 border border-white/10 p-6 rounded-[24px] flex flex-col items-center text-center">
-                    <div className="h-32 w-32 rounded-full overflow-hidden mb-6 border-4 border-white/10">
-                      <Image src={coFounder.image} alt="Preview" width={128} height={128} className="object-cover" />
-                    </div>
-                    <h4 className="text-xl font-bold">{coFounder.name}</h4>
-                    <p className="text-blue-200 text-sm font-medium">{coFounder.role}</p>
-                    <div className="mt-8 flex gap-2">
-                      <Badge className="bg-primary/20 text-primary border-none text-[10px]">Preview Only</Badge>
-                      <Badge className="bg-white/10 text-white border-none text-[10px]">Active</Badge>
-                    </div>
+                    <h4 className="text-2xl font-headline font-bold">{founder.name}</h4>
+                    <p className="text-blue-200 text-sm font-medium">{founder.role}</p>
+                    <Badge className="mt-4 bg-primary text-white border-none">Live on Site</Badge>
                   </div>
-                </div>
-                <div className="absolute top-0 right-0 w-64 h-64 bg-primary/10 blur-[100px] rounded-full" />
-              </Card>
+                  <div className="absolute -top-10 -right-10 w-64 h-64 bg-primary/10 blur-[100px] rounded-full" />
+                </Card>
+              </div>
+
+              {/* Co-Founder Section */}
+              <div className="grid lg:grid-cols-2 gap-8">
+                <Card className="border-none shadow-sm rounded-[32px] p-8 bg-white">
+                  <CardHeader className="px-0 pt-0">
+                    <CardTitle className="text-2xl font-headline font-bold">Manage Co-Founder Profile</CardTitle>
+                    <CardDescription>Update details for the Research Head.</CardDescription>
+                  </CardHeader>
+                  <CardContent className="px-0 pt-6">
+                    <form onSubmit={(e) => { e.preventDefault(); handleProfileUpdate('co-founder'); }} className="space-y-6">
+                      <div className="space-y-4">
+                        <div className="flex items-center gap-6">
+                          <div className="relative h-24 w-24 rounded-full overflow-hidden border-4 border-slate-50 bg-slate-100 flex items-center justify-center">
+                            {coFounder.image ? (
+                              <Image src={coFounder.image} alt="Co-Founder" fill className="object-cover" />
+                            ) : (
+                              <UserCircle className="h-12 w-12 text-slate-300" />
+                            )}
+                          </div>
+                          <div className="space-y-2">
+                            <Button type="button" variant="outline" className="rounded-xl flex gap-2 border-slate-200">
+                              <Upload className="h-4 w-4" /> Change Co-Founder Photo
+                            </Button>
+                            <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">JPG, PNG. Max 5MB.</p>
+                          </div>
+                        </div>
+
+                        <div className="space-y-2">
+                          <label className="text-xs font-bold uppercase tracking-widest text-slate-400">Co-Founder Name</label>
+                          <Input 
+                            value={coFounder.name} 
+                            onChange={(e) => setCoFounder({...coFounder, name: e.target.value})}
+                            className="rounded-2xl h-12 bg-slate-50 border-none" 
+                          />
+                        </div>
+
+                        <div className="space-y-2">
+                          <label className="text-xs font-bold uppercase tracking-widest text-slate-400">Co-Founder Role</label>
+                          <Input 
+                            value={coFounder.role}
+                            onChange={(e) => setCoFounder({...coFounder, role: e.target.value})}
+                            className="rounded-2xl h-12 bg-slate-50 border-none" 
+                          />
+                        </div>
+                      </div>
+                      <Button className="w-full h-12 bg-primary rounded-2xl font-bold shadow-xl shadow-primary/20">
+                        Update Co-Founder Details
+                      </Button>
+                    </form>
+                  </CardContent>
+                </Card>
+
+                <Card className="border-none shadow-sm rounded-[32px] p-8 bg-slate-900 text-white relative overflow-hidden flex items-center justify-center">
+                  <div className="relative z-10 text-center">
+                    <div className="h-40 w-40 rounded-full overflow-hidden mb-6 border-4 border-white/10 mx-auto">
+                      <Image src={coFounder.image} alt="Co-Founder Preview" width={160} height={160} className="object-cover" />
+                    </div>
+                    <h4 className="text-2xl font-headline font-bold">{coFounder.name}</h4>
+                    <p className="text-blue-200 text-sm font-medium">{coFounder.role}</p>
+                    <Badge className="mt-4 bg-white/10 text-white border-none">Live on Site</Badge>
+                  </div>
+                  <div className="absolute -bottom-10 -left-10 w-64 h-64 bg-primary/10 blur-[100px] rounded-full" />
+                </Card>
+              </div>
             </div>
           </TabsContent>
 
