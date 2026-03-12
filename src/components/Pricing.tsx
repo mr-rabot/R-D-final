@@ -70,15 +70,15 @@ export function Pricing() {
           <div className="inline-block bg-primary/10 text-primary text-[10px] uppercase tracking-widest font-bold px-4 py-1.5 rounded-full mb-2">
             Service Packages
           </div>
-          <h2 className="text-4xl md:text-5xl font-headline font-bold text-accent">Affordable Packages</h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto text-lg">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-headline font-bold text-accent">Affordable Packages</h2>
+          <p className="text-muted-foreground max-w-2xl mx-auto text-base md:text-lg">
             Choose the package that aligns with your research goals and academic requirements.
           </p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8 items-stretch">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch">
           {plans.map((plan, index) => (
-            <Card key={index} className={`relative flex flex-col rounded-[32px] overflow-hidden transition-all duration-300 ${plan.highlight ? 'border-primary border-2 shadow-2xl scale-105 z-10 bg-white' : 'border border-slate-100 shadow-lg bg-white'}`}>
+            <Card key={index} className={`relative flex flex-col rounded-[32px] overflow-hidden transition-all duration-300 ${plan.highlight ? 'border-primary border-2 shadow-2xl md:scale-105 z-10 bg-white' : 'border border-slate-100 shadow-lg bg-white'}`}>
               {plan.highlight && plan.badge && (
                 <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20">
                   <Badge className="bg-primary text-white px-6 py-1.5 rounded-full shadow-lg text-xs font-bold whitespace-nowrap border-none">
@@ -89,7 +89,7 @@ export function Pricing() {
               
               <CardHeader className="text-left pt-12 px-8">
                 <CardTitle className="text-2xl font-headline font-bold text-accent">{plan.name}</CardTitle>
-                <p className="text-sm text-muted-foreground mt-4 h-10">{plan.description}</p>
+                <p className="text-sm text-muted-foreground mt-4 h-auto md:h-10">{plan.description}</p>
               </CardHeader>
               
               <CardContent className="flex-grow px-8 pt-8 border-t border-slate-50">
@@ -109,13 +109,13 @@ export function Pricing() {
                 <Button 
                   onClick={() => handleWhatsAppQuote(plan.name)}
                   variant={plan.highlight ? "default" : "outline"} 
-                  className={`w-full h-14 rounded-xl font-bold transition-all text-lg flex gap-2 ${
+                  className={`w-full h-14 rounded-xl font-bold transition-all text-base md:text-lg flex gap-2 ${
                     plan.highlight 
                       ? 'bg-primary hover:bg-primary/90 text-white shadow-lg shadow-primary/20' 
                       : 'border-slate-200 text-accent hover:bg-slate-50'
                   }`}
                 >
-                  <MessageSquare className="h-5 w-5" /> Get Quote via WhatsApp
+                  <MessageSquare className="h-5 w-5" /> Get WhatsApp Quote
                 </Button>
                 <Button 
                   onClick={() => handleEmailQuote(plan.name)}
