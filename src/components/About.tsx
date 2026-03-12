@@ -103,7 +103,7 @@ export function About() {
                 </div>
                 <h3 className="text-4xl md:text-6xl font-headline font-bold leading-tight">R&amp;D Services: <br />A Global Legacy</h3>
                 <p className="text-blue-100/60 leading-relaxed text-lg md:text-xl font-light">
-                  R & D Services Pvt. Ltd. is a premier academic consulting firm dedicated to bridging the gap between innovative research and high-impact publishing. We don't just draft papers; we cultivate scholarly legacies through a systematic, methodology-first approach.
+                  R & D Services Pvt. Ltd. is a premier academic consulting firm dedicated to bridging the gap between innovative research and high-impact publishing. We don&apos;t just draft papers; we cultivate scholarly legacies through a systematic, methodology-first approach.
                 </p>
                 <p className="text-blue-100/40 leading-relaxed text-base font-light italic">
                   Headquartered in India with a global network of PhD experts, we provide 24/7 strategic support to researchers, students, and institutions worldwide.
