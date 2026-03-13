@@ -250,7 +250,7 @@ export function InquiryForm() {
                             </FormControl>
                             <SelectContent className="rounded-xl border-slate-100">
                               {countryCodes.map((item) => (
-                                <SelectItem key={item.code + item.name} value={item.code}>
+                                <SelectItem key={`${item.code}-${item.name}`} value={item.code}>
                                   <span className="flex items-center gap-2">
                                     <span className="text-lg">{item.flag}</span>
                                     <span>{item.code}</span>
