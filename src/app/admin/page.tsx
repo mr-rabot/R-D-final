@@ -84,7 +84,6 @@ export default function AdminDashboard() {
 
   const [siteData, setSiteData] = useState<any>(null);
 
-  // Auth Persistence
   useEffect(() => {
     const session = localStorage.getItem("rd_admin_session");
     if (session === "active") {
@@ -111,7 +110,6 @@ export default function AdminDashboard() {
     }
   }, [isLoggedIn, fetchData]);
 
-  // Image Cropping & Upload Logic
   const [imageToCrop, setImageToCrop] = useState<string | null>(null);
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
@@ -143,7 +141,6 @@ export default function AdminDashboard() {
       try {
         const croppedBase64 = await getCroppedImg(imageToCrop, croppedAreaPixels);
         
-        // Upload to server
         const uploadRes = await fetch('/api/upload', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -156,7 +153,6 @@ export default function AdminDashboard() {
         if (!uploadRes.ok) throw new Error("Upload failed");
         const { url } = await uploadRes.json();
 
-        // Update local siteData with the new URL
         const newData = { ...siteData };
         const parts = currentEditingPath.split('.');
         let current = newData;
@@ -261,7 +257,6 @@ export default function AdminDashboard() {
     <div className="min-h-screen bg-slate-50 flex flex-col lg:flex-row relative">
       <input type="file" ref={fileInputRef} className="hidden" accept="image/*" onChange={(e) => handleFileChange(e, currentEditingPath || '')} />
       
-      {/* Mobile Header Bar */}
       <header className="lg:hidden h-20 bg-slate-900 text-white flex items-center justify-between px-6 sticky top-0 z-[100] shadow-xl">
         <div className="flex items-center gap-3">
           <div className="bg-primary p-1.5 rounded-lg">
@@ -280,7 +275,6 @@ export default function AdminDashboard() {
         </button>
       </header>
 
-      {/* Navigation Sidebar */}
       <aside className={cn(
         "fixed inset-0 z-[90] bg-slate-900 text-white flex flex-col transition-transform duration-300 lg:relative lg:translate-x-0 lg:w-72 lg:z-auto",
         isMenuOpen ? "translate-x-0" : "-translate-x-full"

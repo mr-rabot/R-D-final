@@ -11,14 +11,14 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
-import { Mail, Phone, Send, User, MessageSquare, Globe } from "lucide-react";
+import { Mail, Phone, User, MessageSquare } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const formSchema = z.object({
   name: z.string().min(2, "Full name is required"),
   email: z.string().email("Please enter a valid email address"),
-  countryCode: z.string().min(1, "Required"), // Stores the country NAME to ensure uniqueness in the Select
-  phone: z.string().optional(),
+  countryCode: z.string().min(1, "Required"),
+  phone: z.string().min(1, "Mobile number is required"),
   service: z.string().min(1, "Please select a service"),
   details: z.string().min(10, "Please provide some project details"),
 });
@@ -47,7 +47,7 @@ export function InquiryForm() {
     defaultValues: {
       name: "",
       email: "",
-      countryCode: "India", // Defaulting to the country name for unique selection
+      countryCode: "India",
       phone: "",
       service: "",
       details: "",
@@ -82,7 +82,7 @@ export function InquiryForm() {
   function onSubmit(values: z.infer<typeof formSchema>) {
     const selectedCountry = countryCodes.find(c => c.name === values.countryCode);
     const code = selectedCountry?.code || "+91";
-    const fullPhone = values.phone ? `${code} ${values.phone}` : 'N/A';
+    const fullPhone = `${code} ${values.phone}`;
     
     const messageText = `*New Inquiry from R&D Services Website*\n\n` +
       `*Name:* ${values.name}\n` +
@@ -122,7 +122,7 @@ export function InquiryForm() {
 
     const selectedCountry = countryCodes.find(c => c.name === values.countryCode);
     const code = selectedCountry?.code || "+91";
-    const fullPhone = values.phone ? `${code} ${values.phone}` : 'N/A';
+    const fullPhone = `${code} ${values.phone}`;
     
     const subject = `Quote Request: ${values.service} - ${values.name}`;
     const body = `Hi R&D Services Team,\n\nI would like to request a quote for the following project:\n\n` +
@@ -240,23 +240,23 @@ export function InquiryForm() {
                 />
 
                 <div className="space-y-2">
-                  <FormLabel className="text-sm font-bold text-accent">Phone Number</FormLabel>
-                  <div className="flex gap-2">
+                  <FormLabel className="text-sm font-bold text-accent">Phone Number *</FormLabel>
+                  <div className="flex items-center gap-0 bg-slate-50 border-none rounded-xl shadow-inner overflow-hidden focus-within:ring-2 focus-within:ring-primary/20">
                     <FormField
                       control={form.control}
                       name="countryCode"
                       render={({ field }) => (
-                        <FormItem className="w-[120px] shrink-0">
+                        <FormItem className="w-[100px] shrink-0 space-y-0">
                           <Select onValueChange={field.onChange} defaultValue={field.value}>
                             <FormControl>
-                              <SelectTrigger className="bg-slate-50 border-none rounded-xl h-12 shadow-inner">
+                              <SelectTrigger className="bg-transparent border-none h-12 shadow-none focus:ring-0">
                                 <SelectValue placeholder="Code">
                                   {(() => {
                                     const selected = countryCodes.find(c => c.name === field.value);
                                     return selected ? (
-                                      <span className="flex items-center gap-2">
-                                        <span className="text-lg">{selected.flag}</span>
-                                        <span>{selected.code}</span>
+                                      <span className="flex items-center gap-1.5 px-1">
+                                        <span className="text-base leading-none">{selected.flag}</span>
+                                        <span className="text-xs font-bold">{selected.code}</span>
                                       </span>
                                     ) : "Code";
                                   })()}
@@ -268,28 +268,36 @@ export function InquiryForm() {
                                 <SelectItem key={`${item.code}-${item.name}`} value={item.name}>
                                   <span className="flex items-center gap-2">
                                     <span className="text-lg">{item.flag}</span>
-                                    <span>{item.code}</span>
+                                    <span className="text-sm">{item.code} {item.name}</span>
                                   </span>
                                 </SelectItem>
                               ))}
                             </SelectContent>
                           </Select>
-                          <FormMessage />
                         </FormItem>
                       )}
                     />
+                    <div className="w-px h-6 bg-slate-200" />
                     <FormField
                       control={form.control}
                       name="phone"
                       render={({ field }) => (
-                        <FormItem className="flex-grow">
+                        <FormItem className="flex-grow space-y-0">
                           <FormControl>
-                            <Input placeholder="Mobile number" {...field} className="bg-slate-50 border-none rounded-xl h-12 shadow-inner" />
+                            <Input 
+                              type="tel"
+                              placeholder="Mobile number" 
+                              {...field} 
+                              className="bg-transparent border-none h-12 shadow-none focus-visible:ring-0" 
+                            />
                           </FormControl>
-                          <FormMessage />
                         </FormItem>
                       )}
                     />
+                  </div>
+                  <div className="flex flex-col gap-1">
+                    <FormMessage />
+                    {form.formState.errors.countryCode && <p className="text-xs text-destructive">{form.formState.errors.countryCode.message}</p>}
                   </div>
                 </div>
 

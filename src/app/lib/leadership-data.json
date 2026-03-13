@@ -214,6 +214,18 @@
     {
       "question": "Can I request revisions after the final draft is delivered?",
       "answer": "Yes, our Basic plan includes 1 revision round, while our Professional and Premium plans offer extended and unlimited revision support to ensure your complete satisfaction."
+    },
+    {
+      "question": "Which subjects do you cover?",
+      "answer": "We cover a vast range of disciplines including Engineering (M.Tech/MCA), Business Management (MBA), Medicine, Humanities, and Social Sciences."
+    },
+    {
+      "question": "How do international students pay?",
+      "answer": "We accept various secure international payment methods. Please contact our support team via WhatsApp for regional payment details."
+    },
+    {
+      "question": "Do you provide support for research proposals and synopses?",
+      "answer": "Yes, we offer specialized drafting for PhD synopses, M.Tech proposals, and ethical clearance documentation to ensure your project gets approved."
     }
   ],
   "integrations": {
