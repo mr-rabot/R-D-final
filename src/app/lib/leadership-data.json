@@ -59,23 +59,53 @@
       ]
     },
     {
-      "title": "Synopsis Writing",
-      "description": "Structured research outlines essential for project approval, funding applications, and higher education admissions.",
+      "title": "Thesis Writing",
+      "description": "Comprehensive guidance and drafting support for undergraduate, postgraduate, and PhD theses across various disciplines.",
       "features": [
-        "Clear objectives",
-        "Methodology outline",
-        "Problem statement",
-        "Approval-oriented"
+        "PhD level expertise",
+        "Methodological rigor",
+        "Formatting excellence",
+        "Unlimited revisions"
       ]
     },
     {
-      "title": "PPT Presentation",
-      "description": "High-quality academic presentations designed for thesis defense, international conferences, or corporate research reviews.",
+      "title": "Dissertation",
+      "description": "Specialized support for long-form academic research projects, focusing on methodology, data analysis, and synthesis.",
       "features": [
-        "Visual layout",
-        "Speaker notes",
-        "Professional design",
-        "Summarization"
+        "In-depth analysis",
+        "Logical flow",
+        "Citation accuracy",
+        "Plagiarism report"
+      ]
+    },
+    {
+      "title": "Project Reports (New)",
+      "description": "Detailed technical and academic reports for institutional projects, internships, and corporate research initiatives.",
+      "features": [
+        "Technical precision",
+        "Data visualization",
+        "Practical insights",
+        "Standardized formatting"
+      ]
+    },
+    {
+      "title": "Literature Review (New)",
+      "description": "Exhaustive synthesis of existing scholarly work to identify research gaps and build a theoretical framework.",
+      "features": [
+        "Critical synthesis",
+        "Identify gaps",
+        "Extensive sources",
+        "Theoretical grounding"
+      ]
+    },
+    {
+      "title": "Research Proposal (New)",
+      "description": "Strategic drafting of research blueprints for ethical clearance, funding applications, and academic admissions.",
+      "features": [
+        "Clear objectives",
+        "Detailed methodology",
+        "Problem statement",
+        "Funding-ready"
       ]
     }
   ],
