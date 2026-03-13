@@ -12,16 +12,29 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
-import { Mail, Phone, Send, User, MessageSquare } from "lucide-react";
+import { Mail, Phone, Send, User, MessageSquare, Globe } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const formSchema = z.object({
   name: z.string().min(2, "Full name is required"),
   email: z.string().email("Please enter a valid email address"),
+  countryCode: z.string().min(1, "Required"),
   phone: z.string().optional(),
   service: z.string().min(1, "Please select a service"),
   details: z.string().min(10, "Please provide some project details"),
 });
+
+const countryCodes = [
+  { code: "+91", flag: "🇮🇳", name: "India" },
+  { code: "+977", flag: "🇳🇵", name: "Nepal" },
+  { code: "+975", flag: "🇧🇹", name: "Bhutan" },
+  { code: "+1", flag: "🇺🇸", name: "USA" },
+  { code: "+44", flag: "🇬🇧", name: "UK" },
+  { code: "+971", flag: "🇦🇪", name: "UAE" },
+  { code: "+61", flag: "🇦🇺", name: "Australia" },
+  { code: "+65", flag: "🇸🇬", name: "Singapore" },
+  { code: "+1", flag: "🇨🇦", name: "Canada" },
+];
 
 export function InquiryForm() {
   const { toast } = useToast();
@@ -35,6 +48,7 @@ export function InquiryForm() {
     defaultValues: {
       name: "",
       email: "",
+      countryCode: "+91",
       phone: "",
       service: "",
       details: "",
@@ -67,10 +81,11 @@ export function InquiryForm() {
   }, []);
 
   function onSubmit(values: z.infer<typeof formSchema>) {
+    const fullPhone = values.phone ? `${values.countryCode} ${values.phone}` : 'N/A';
     const messageText = `*New Inquiry from R&D Services Website*\n\n` +
       `*Name:* ${values.name}\n` +
       `*Email:* ${values.email}\n` +
-      `*Phone:* ${values.phone || 'N/A'}\n` +
+      `*Phone:* ${fullPhone}\n` +
       `*Service:* ${values.service}\n` +
       `*Details:* ${values.details}`;
     
@@ -83,7 +98,13 @@ export function InquiryForm() {
       description: "Redirecting to WhatsApp to finalize your quote request...",
     });
     
-    form.reset();
+    form.reset({
+      ...form.getValues(),
+      name: "",
+      email: "",
+      phone: "",
+      details: "",
+    });
   }
 
   const handleEmailSubmit = () => {
@@ -97,11 +118,12 @@ export function InquiryForm() {
       return;
     }
 
+    const fullPhone = values.phone ? `${values.countryCode} ${values.phone}` : 'N/A';
     const subject = `Quote Request: ${values.service} - ${values.name}`;
     const body = `Hi R&D Services Team,\n\nI would like to request a quote for the following project:\n\n` +
       `Name: ${values.name}\n` +
       `Email: ${values.email}\n` +
-      `Phone: ${values.phone || 'N/A'}\n` +
+      `Phone: ${fullPhone}\n` +
       `Service: ${values.service}\n\n` +
       `Project Details:\n${values.details}`;
     
@@ -198,34 +220,62 @@ export function InquiryForm() {
                   )}
                 />
                 
-                <div className="grid sm:grid-cols-2 gap-4">
-                  <FormField
-                    control={form.control}
-                    name="email"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="text-sm font-bold text-accent">Email *</FormLabel>
-                        <FormControl>
-                          <Input placeholder="email@example.com" {...field} className="bg-slate-50 border-none rounded-xl h-12 shadow-inner" />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-sm font-bold text-accent">Email *</FormLabel>
+                      <FormControl>
+                        <Input placeholder="email@example.com" {...field} className="bg-slate-50 border-none rounded-xl h-12 shadow-inner" />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-                  <FormField
-                    control={form.control}
-                    name="phone"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="text-sm font-bold text-accent">Phone</FormLabel>
-                        <FormControl>
-                          <Input placeholder="+91..." {...field} className="bg-slate-50 border-none rounded-xl h-12 shadow-inner" />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                <div className="space-y-2">
+                  <FormLabel className="text-sm font-bold text-accent">Phone Number</FormLabel>
+                  <div className="flex gap-2">
+                    <FormField
+                      control={form.control}
+                      name="countryCode"
+                      render={({ field }) => (
+                        <FormItem className="w-[120px] shrink-0">
+                          <Select onValueChange={field.onChange} defaultValue={field.value}>
+                            <FormControl>
+                              <SelectTrigger className="bg-slate-50 border-none rounded-xl h-12 shadow-inner">
+                                <SelectValue placeholder="Code" />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent className="rounded-xl border-slate-100">
+                              {countryCodes.map((item) => (
+                                <SelectItem key={item.code + item.name} value={item.code}>
+                                  <span className="flex items-center gap-2">
+                                    <span className="text-lg">{item.flag}</span>
+                                    <span>{item.code}</span>
+                                  </span>
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="phone"
+                      render={({ field }) => (
+                        <FormItem className="flex-grow">
+                          <FormControl>
+                            <Input placeholder="Mobile number" {...field} className="bg-slate-50 border-none rounded-xl h-12 shadow-inner" />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
                 </div>
 
                 <FormField
@@ -240,7 +290,7 @@ export function InquiryForm() {
                             <SelectValue placeholder="Select service type" />
                           </SelectTrigger>
                         </FormControl>
-                        <SelectContent>
+                        <SelectContent className="rounded-xl border-slate-100">
                           <SelectItem value="Research Paper">Research Paper</SelectItem>
                           <SelectItem value="Thesis Writing">Thesis Writing</SelectItem>
                           <SelectItem value="Dissertation">Dissertation</SelectItem>
