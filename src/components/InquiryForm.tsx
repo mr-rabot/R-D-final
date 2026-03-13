@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useEffect, useState, useRef } from "react";
@@ -297,7 +298,6 @@ export function InquiryForm() {
                   </div>
                   <div className="flex flex-col gap-1">
                     <FormMessage />
-                    {form.formState.errors.countryCode && <p className="text-xs text-destructive">{form.formState.errors.countryCode.message}</p>}
                   </div>
                 </div>
 

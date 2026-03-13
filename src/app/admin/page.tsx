@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useCallback, useRef, useEffect } from "react";
@@ -627,7 +628,7 @@ export default function AdminDashboard() {
           </TabsContent>
 
           <TabsContent value="pricing">
-             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                {siteData.pricing.map((plan: any, i: number) => (
                  <Card key={i} className={cn("p-6 md:p-8 border-none shadow-xl rounded-[40px] bg-white relative", plan.highlight && "ring-4 ring-primary/20")}>
                     <div className="space-y-4">
@@ -706,7 +707,7 @@ export default function AdminDashboard() {
                         onChange={(e) => setSiteData({...siteData, integrations: {...siteData.integrations, smtp: {...siteData.integrations.smtp, host: e.target.value}}})} 
                         placeholder="smtp.example.com"
                         className="bg-slate-50 border-none rounded-xl h-12" 
-                      />
+                    />
                     </div>
                     <div className="space-y-2">
                       <label className="text-[10px] font-bold uppercase text-slate-400">SMTP Port</label>

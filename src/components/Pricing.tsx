@@ -81,7 +81,7 @@ export function Pricing() {
           <h2 className="text-5xl md:text-7xl font-headline font-bold text-accent leading-tight">Service Packages</h2>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 lg:gap-16 items-stretch pt-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12 items-stretch pt-12">
           {plans.map((plan, index) => (
             <div 
               key={index} 
@@ -95,7 +95,7 @@ export function Pricing() {
                 className={cn(
                   "relative flex flex-col rounded-[40px] transition-all duration-700 group w-full border-none",
                   plan.highlight 
-                    ? "bg-white premium-shadow z-10 lg:scale-105" 
+                    ? "bg-white premium-shadow z-10 md:scale-105" 
                     : "bg-white shadow-xl hover:-translate-y-2"
                 )}
               >
@@ -112,8 +112,8 @@ export function Pricing() {
                   <p className="text-sm text-slate-500 mt-6 leading-relaxed font-light">{plan.description}</p>
                 </CardHeader>
                 
-                <CardContent className="flex-grow px-10 pt-8">
-                  <ul className="space-y-5">
+                <CardContent className="flex-grow px-8 pt-8">
+                  <ul className="space-y-4">
                     {plan.features.map((feature: string, i: number) => (
                       <li key={i} className="flex items-start gap-4 text-sm text-slate-600 font-medium">
                         <Check className="h-4 w-4 text-primary shrink-0" />
@@ -123,11 +123,11 @@ export function Pricing() {
                   </ul>
                 </CardContent>
                 
-                <CardFooter className="p-10 flex flex-col gap-4">
+                <CardFooter className="p-8 flex flex-col gap-4 mt-auto">
                   <Button 
                     onClick={() => handleQuoteClick(plan.name)}
                     className={cn(
-                      "w-full h-16 rounded-2xl font-bold flex gap-3",
+                      "w-full h-14 rounded-2xl font-bold flex gap-3 transition-all active:scale-95",
                       plan.highlight ? "bg-primary text-white" : "variant-outline"
                     )}
                   >
@@ -140,7 +140,6 @@ export function Pricing() {
         </div>
       </div>
 
-      {/* Quote Dialog */}
       <Dialog open={isQuoteDialogOpen} onOpenChange={setIsQuoteDialogOpen}>
         <DialogContent className="sm:max-w-md rounded-[32px] border-none shadow-2xl p-0 overflow-hidden bg-white">
           <DialogHeader className="p-10 pb-0">
