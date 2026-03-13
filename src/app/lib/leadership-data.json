@@ -195,6 +195,26 @@
     {
       "question": "What is your typical turnaround time?",
       "answer": "Delivery times depend on project complexity. A standard paper takes 3-5 days, while a thesis takes 2-4 weeks."
+    },
+    {
+      "question": "Do you assist with journal selection for publication?",
+      "answer": "Yes, our team provides expert consultation to help you identify high-impact journals (Scopus, Web of Science, etc.) that align with your research scope."
+    },
+    {
+      "question": "Can you handle specific formatting styles like APA, MLA, or IEEE?",
+      "answer": "Absolutely. Our academic experts are proficient in all major scholarly citation and formatting standards required by international universities."
+    },
+    {
+      "question": "Is my research data and identity kept confidential?",
+      "answer": "Yes, we maintain strict non-disclosure protocols. Your intellectual property and personal details are protected by professional academic integrity standards."
+    },
+    {
+      "question": "Do you provide support for statistical data analysis?",
+      "answer": "Our specialized team offers comprehensive technical and statistical analysis using tools like SPSS, R, and Python to strengthen your research findings."
+    },
+    {
+      "question": "Can I request revisions after the final draft is delivered?",
+      "answer": "Yes, our Basic plan includes 1 revision round, while our Professional and Premium plans offer extended and unlimited revision support to ensure your complete satisfaction."
     }
   ],
   "integrations": {
