@@ -2,7 +2,7 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
-import { Check, MessageSquare, Mail, Sparkles, X } from "lucide-react";
+import { Check, MessageSquare, Mail, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -68,20 +68,17 @@ export function Pricing() {
   };
 
   return (
-    <section id="pricing" ref={sectionRef} className="py-32 bg-slate-50/50 relative">
+    <section id="pricing" ref={sectionRef} className="py-32 bg-[#fcfcfc] relative">
       <div className={cn(
         "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 transition-all duration-1000",
         isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
       )}>
-        <div className="text-center mb-24 space-y-6">
-          <div className="inline-flex items-center gap-2 bg-primary/10 text-primary text-[10px] uppercase tracking-[0.3em] font-bold px-6 py-2 rounded-full mb-2">
-            <Sparkles className="h-3 w-3" />
-            Strategic Investment Tiers
-          </div>
-          <h2 className="text-5xl md:text-7xl font-headline font-bold text-accent leading-tight">Service Packages</h2>
+        <div className="text-center mb-24 space-y-4">
+          <h2 className="text-5xl md:text-6xl font-headline font-bold text-accent tracking-tight">Affordable Packages</h2>
+          <p className="text-slate-500 text-lg md:text-xl font-light">Choose the plan that fits your needs and budget</p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12 items-stretch pt-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 items-stretch pt-12">
           {plans.map((plan, index) => (
             <div 
               key={index} 
@@ -93,45 +90,53 @@ export function Pricing() {
             >
               <Card 
                 className={cn(
-                  "relative flex flex-col rounded-[40px] transition-all duration-700 group w-full border-none",
+                  "relative flex flex-col rounded-[32px] transition-all duration-700 w-full border border-slate-100 bg-white",
                   plan.highlight 
-                    ? "bg-white premium-shadow z-10 md:scale-105" 
-                    : "bg-white shadow-xl hover:-translate-y-2"
+                    ? "ring-2 ring-primary shadow-[0_40px_80px_-15px_rgba(0,71,255,0.15)] z-10 md:-translate-y-4" 
+                    : "shadow-xl hover:shadow-2xl hover:-translate-y-2"
                 )}
               >
                 {plan.highlight && plan.badge && (
-                  <div className="absolute -top-5 left-1/2 -translate-x-1/2 z-[40]">
-                    <Badge className="bg-primary text-white px-8 py-2.5 rounded-full shadow-lg text-[10px] font-bold whitespace-nowrap uppercase tracking-widest ring-8 ring-white">
+                  <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-[40]">
+                    <Badge className="bg-primary text-white px-8 py-1.5 rounded-full shadow-lg text-[10px] font-bold whitespace-nowrap uppercase tracking-widest ring-4 ring-white">
                       {plan.badge}
                     </Badge>
                   </div>
                 )}
                 
-                <CardHeader className="text-center pt-14 px-8">
-                  <CardTitle className="text-2xl font-headline font-bold text-accent">{plan.name}</CardTitle>
-                  <p className="text-sm text-slate-500 mt-6 leading-relaxed font-light">{plan.description}</p>
+                <CardHeader className="pt-12 px-8 pb-4">
+                  <CardTitle className="text-3xl font-headline font-bold text-accent">{plan.name}</CardTitle>
+                  <p className="text-sm text-slate-500 mt-4 leading-relaxed font-light min-h-[40px]">{plan.description}</p>
                 </CardHeader>
+
+                <div className="px-8 pb-6">
+                  <div className="flex items-baseline gap-1">
+                    <span className="text-4xl font-headline font-bold text-slate-900">₹{plan.price}</span>
+                    <span className="text-slate-400 font-medium">/ page</span>
+                  </div>
+                </div>
                 
-                <CardContent className="flex-grow px-8 pt-8">
+                <CardContent className="flex-grow px-8 py-4">
                   <ul className="space-y-4">
                     {plan.features.map((feature: string, i: number) => (
                       <li key={i} className="flex items-start gap-4 text-sm text-slate-600 font-medium">
-                        <Check className="h-4 w-4 text-primary shrink-0" />
+                        <Check className="h-4 w-4 text-emerald-500 shrink-0 mt-0.5" />
                         <span>{feature}</span>
                       </li>
                     ))}
                   </ul>
                 </CardContent>
                 
-                <CardFooter className="p-8 flex flex-col gap-4 mt-auto">
+                <CardFooter className="p-8 mt-auto">
                   <Button 
                     onClick={() => handleQuoteClick(plan.name)}
+                    variant={plan.highlight ? "default" : "outline"}
                     className={cn(
-                      "w-full h-14 rounded-2xl font-bold flex gap-3 transition-all active:scale-95",
-                      plan.highlight ? "bg-primary text-white" : "variant-outline"
+                      "w-full h-12 rounded-xl font-bold flex gap-3 transition-all active:scale-95 text-base border-2",
+                      plan.highlight ? "bg-black text-white hover:bg-slate-900 border-black" : "border-slate-100 hover:border-primary hover:text-primary"
                     )}
                   >
-                    <MessageSquare className="h-5 w-5" /> Get Quote
+                    Get Started
                   </Button>
                 </CardFooter>
               </Card>

@@ -1,3 +1,4 @@
+
 {
   "hero": {
     "badge": "Premier Research Excellence",
@@ -111,40 +112,46 @@
   "pricing": [
     {
       "name": "Basic",
-      "description": "Essential support for standard academic reports and research projects.",
+      "price": "500",
+      "description": "Perfect for short assignments and essays",
       "features": [
-        "Project Report Drafting",
-        "Basic Plagiarism Check",
-        "Standard Academic Formatting",
-        "1 Revision Round",
-        "3-5 Days Delivery"
+        "Up to 1000 words",
+        "Basic research",
+        "Standard formatting",
+        "3 days delivery",
+        "1 revision",
+        "Plagiarism report"
       ],
       "highlight": false
     },
     {
       "name": "Professional",
-      "description": "Comprehensive support for advanced research articles and dissertations.",
+      "price": "800",
+      "description": "Ideal for research papers and reports",
       "features": [
-        "Full Synopsis Writing",
-        "Literature Review Paper",
-        "Research Article Drafting",
-        "Dissertation Formatting",
-        "5-8 Days Delivery",
-        "Expert Journal Consultation"
+        "Up to 2500 words",
+        "In-depth research",
+        "Advanced formatting",
+        "5 days delivery",
+        "3 revisions",
+        "Plagiarism report",
+        "Bibliography included"
       ],
       "highlight": true,
-      "badge": "Most Recommended"
+      "badge": "Most Popular"
     },
     {
       "name": "Premium",
-      "description": "Elite end-to-end guidance for high-impact thesis and global publishing.",
+      "price": "1200",
+      "description": "For thesis and dissertations",
       "features": [
-        "Full PhD Thesis Writing",
-        "Research Proposal Design",
-        "Expert Journal Consultation",
-        "Advanced Data Analysis",
-        "Unlimited Revisions",
-        "Priority Support"
+        "Unlimited words",
+        "Comprehensive research",
+        "Expert consultation",
+        "Flexible timeline",
+        "Unlimited revisions",
+        "Plagiarism report",
+        "Priority support"
       ],
       "highlight": false
     }
