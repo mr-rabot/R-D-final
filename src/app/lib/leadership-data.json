@@ -114,10 +114,11 @@
       "name": "Basic",
       "description": "Essential support for standard academic reports and research projects.",
       "features": [
-        "Project Report",
-        "PPT (10-15 Slides)",
-        "Plagiarism Check (Basic)",
-        "Standard Academic Formatting"
+        "Project Report Drafting",
+        "Basic Plagiarism Check",
+        "Standard Academic Formatting",
+        "1 Revision Round",
+        "3-5 Days Delivery"
       ],
       "highlight": false
     },
@@ -128,7 +129,9 @@
         "Full Synopsis Writing",
         "Literature Review Paper",
         "Research Article Drafting",
-        "Dissertation Formatting"
+        "Dissertation Formatting",
+        "5-8 Days Delivery",
+        "Expert Journal Consultation"
       ],
       "highlight": true,
       "badge": "Most Recommended"
@@ -140,7 +143,9 @@
         "Full PhD Thesis Writing",
         "Research Proposal Design",
         "Expert Journal Consultation",
-        "Advanced Data Analysis"
+        "Advanced Data Analysis",
+        "Unlimited Revisions",
+        "Priority Support"
       ],
       "highlight": false
     }
