@@ -2,7 +2,7 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
-import { Check, MessageSquare, Mail, Sparkles } from "lucide-react";
+import { Check, MessageSquare, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -74,8 +74,8 @@ export function Pricing() {
         isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
       )}>
         <div className="text-center mb-24 space-y-4">
-          <h2 className="text-5xl md:text-6xl font-headline font-bold text-accent tracking-tight">Affordable Packages</h2>
-          <p className="text-slate-500 text-lg md:text-xl font-light">Choose the plan that fits your needs and budget</p>
+          <h2 className="text-5xl md:text-6xl font-headline font-bold text-accent tracking-tight">Service Packages</h2>
+          <p className="text-slate-500 text-lg md:text-xl font-light">Choose the plan that fits your research needs</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 items-stretch pt-12">
@@ -109,13 +109,6 @@ export function Pricing() {
                   <p className="text-sm text-slate-500 mt-4 leading-relaxed font-light min-h-[40px]">{plan.description}</p>
                 </CardHeader>
 
-                <div className="px-8 pb-6">
-                  <div className="flex items-baseline gap-1">
-                    <span className="text-4xl font-headline font-bold text-slate-900">₹{plan.price}</span>
-                    <span className="text-slate-400 font-medium">/ page</span>
-                  </div>
-                </div>
-                
                 <CardContent className="flex-grow px-8 py-4">
                   <ul className="space-y-4">
                     {plan.features.map((feature: string, i: number) => (

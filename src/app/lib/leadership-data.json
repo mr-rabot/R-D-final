@@ -112,7 +112,6 @@
   "pricing": [
     {
       "name": "Basic",
-      "price": "500",
       "description": "Perfect for short assignments and essays",
       "features": [
         "Up to 1000 words",
@@ -126,7 +125,6 @@
     },
     {
       "name": "Professional",
-      "price": "800",
       "description": "Ideal for research papers and reports",
       "features": [
         "Up to 2500 words",
@@ -142,7 +140,6 @@
     },
     {
       "name": "Premium",
-      "price": "1200",
       "description": "For thesis and dissertations",
       "features": [
         "Unlimited words",
