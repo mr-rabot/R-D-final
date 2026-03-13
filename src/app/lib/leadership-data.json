@@ -112,43 +112,40 @@
   "pricing": [
     {
       "name": "Basic",
-      "description": "Perfect for short assignments and essays",
+      "description": "Perfect for assignments and project reports",
       "features": [
-        "Up to 1000 words",
-        "Basic research",
-        "Standard formatting",
-        "3 days delivery",
-        "1 revision",
-        "Plagiarism report"
+        "Project Report",
+        "Basic Plagiarism Check",
+        "Standard Research Formatting",
+        "1 Revision Round",
+        "3-5 Days Delivery"
       ],
       "highlight": false
     },
     {
       "name": "Professional",
-      "description": "Ideal for research papers and reports",
+      "description": "Ideal for research papers and advanced reports",
       "features": [
-        "Up to 2500 words",
-        "In-depth research",
-        "Advanced formatting",
-        "5 days delivery",
-        "3 revisions",
-        "Plagiarism report",
-        "Bibliography included"
+        "In-depth Research",
+        "Advanced Formatting",
+        "Full Synopsis Writing",
+        "Literature Review",
+        "Plagiarism Report",
+        "5-8 Days Delivery"
       ],
       "highlight": true,
       "badge": "Most Popular"
     },
     {
       "name": "Premium",
-      "description": "For thesis and dissertations",
+      "description": "For elite thesis and PhD support",
       "features": [
-        "Unlimited words",
-        "Comprehensive research",
-        "Expert consultation",
-        "Flexible timeline",
-        "Unlimited revisions",
-        "Plagiarism report",
-        "Priority support"
+        "PhD Level Expertise",
+        "Unlimited Revisions",
+        "Comprehensive Research",
+        "Expert Consultation",
+        "Priority Support",
+        "Flexible Timeline"
       ],
       "highlight": false
     }

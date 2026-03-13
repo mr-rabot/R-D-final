@@ -105,8 +105,8 @@ export function Pricing() {
                 )}
                 
                 <CardHeader className="pt-12 px-8 pb-4 text-center">
-                  <CardTitle className="text-3xl font-headline font-bold text-accent">{plan.name}</CardTitle>
-                  <p className="text-sm text-slate-500 mt-4 leading-relaxed font-light min-h-[40px]">{plan.description}</p>
+                  <CardTitle className="text-3xl font-headline font-bold text-accent text-center">{plan.name}</CardTitle>
+                  <p className="text-sm text-slate-500 mt-4 leading-relaxed font-light min-h-[40px] text-center">{plan.description}</p>
                 </CardHeader>
 
                 <CardContent className="flex-grow px-8 py-4">
