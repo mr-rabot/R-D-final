@@ -104,7 +104,7 @@ export function Pricing() {
                   </div>
                 )}
                 
-                <CardHeader className="pt-12 px-8 pb-4">
+                <CardHeader className="pt-12 px-8 pb-4 text-center">
                   <CardTitle className="text-3xl font-headline font-bold text-accent">{plan.name}</CardTitle>
                   <p className="text-sm text-slate-500 mt-4 leading-relaxed font-light min-h-[40px]">{plan.description}</p>
                 </CardHeader>
@@ -142,7 +142,7 @@ export function Pricing() {
         <DialogContent className="sm:max-w-md rounded-[32px] border-none shadow-2xl p-0 overflow-hidden bg-white">
           <DialogHeader className="p-10 pb-0">
             <DialogTitle className="text-3xl font-headline font-bold text-accent">Professional Consultation</DialogTitle>
-            <DialogDescription className="text-slate-500 pt-2">
+            <DialogDescription className="text-slate-500 pt-2 text-center">
               Select your preferred channel to receive a custom quote for the <span className="text-primary font-bold">"{selectedPlan}"</span> package.
             </DialogDescription>
           </DialogHeader>
