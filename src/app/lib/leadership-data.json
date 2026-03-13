@@ -152,25 +152,39 @@
   ],
   "testimonials": [
     {
-      "name": "Priya Sharma",
-      "role": "MBA Scholar",
-      "content": "The level of academic rigor and methodological precision provided by R&D Services is unparalleled. My thesis was delivered ahead of schedule with flawless citations.",
+      "name": "Deepak Kumar",
+      "role": "MCA Scholar",
+      "content": "The technical guidance on my MCA project was exceptional. R&D Services provided deep insights into software architecture and precise documentation.",
       "stars": 5,
-      "image": "https://picsum.photos/seed/face1/100/100"
+      "image": "https://picsum.photos/seed/deepak/100/100"
     },
     {
-      "name": "Dr. Rahul Verma",
-      "role": "Post-Doctoral Researcher",
-      "content": "Collaborating with Om Prakash Sinha's team was a turning point for my research paper. Their insights into journal-specific requirements were instrumental in my acceptance.",
+      "name": "Arjun Mehra",
+      "role": "M.Tech Research Student",
+      "content": "Working with the R&D team on my M.Tech thesis was a game changer. Their methodology for data analysis is top-notch and helped me secure high credits.",
       "stars": 5,
-      "image": "https://picsum.photos/seed/face2/100/100"
+      "image": "https://picsum.photos/seed/arjun/100/100"
     },
     {
-      "name": "Preeti Sahani",
-      "role": "Research Candidate",
-      "content": "The technical documentation and literature synthesis were exceptionally deep. They don't just write; they understand the core scientific contribution of your work.",
+      "name": "Samiksha Thapa",
+      "role": "M.Tech Student (Nepal)",
+      "content": "As an international student from Nepal, I found their virtual consultation very professional. They understood the specific publishing standards required for my journal submission.",
       "stars": 5,
-      "image": "https://picsum.photos/seed/face3/100/100"
+      "image": "https://picsum.photos/seed/nepal/100/100"
+    },
+    {
+      "name": "Dorji Wangchuk",
+      "role": "MCA Scholar (Bhutan)",
+      "content": "The support I received for my MCA dissertation in Bhutan was phenomenal. The team ensured every citation followed the required format perfectly and on time.",
+      "stars": 5,
+      "image": "https://picsum.photos/seed/bhutan/100/100"
+    },
+    {
+      "name": "Dr. Sarah Chen",
+      "role": "PhD Researcher",
+      "content": "Excellent service for research proposal drafting. Their feedback on my literature review significantly improved the clarity of my research gap analysis.",
+      "stars": 5,
+      "image": "https://picsum.photos/seed/sarah/100/100"
     }
   ],
   "faqs": [
