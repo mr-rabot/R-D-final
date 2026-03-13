@@ -17,7 +17,7 @@ import { cn } from "@/lib/utils";
 const formSchema = z.object({
   name: z.string().min(2, "Full name is required"),
   email: z.string().email("Please enter a valid email address"),
-  countryCode: z.string().min(1, "Required"),
+  countryCode: z.string().min(1, "Required"), // Stores the country NAME to ensure uniqueness in the Select
   phone: z.string().optional(),
   service: z.string().min(1, "Please select a service"),
   details: z.string().min(10, "Please provide some project details"),
@@ -47,7 +47,7 @@ export function InquiryForm() {
     defaultValues: {
       name: "",
       email: "",
-      countryCode: "+91",
+      countryCode: "India", // Defaulting to the country name for unique selection
       phone: "",
       service: "",
       details: "",
@@ -80,7 +80,10 @@ export function InquiryForm() {
   }, []);
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    const fullPhone = values.phone ? `${values.countryCode} ${values.phone}` : 'N/A';
+    const selectedCountry = countryCodes.find(c => c.name === values.countryCode);
+    const code = selectedCountry?.code || "+91";
+    const fullPhone = values.phone ? `${code} ${values.phone}` : 'N/A';
+    
     const messageText = `*New Inquiry from R&D Services Website*\n\n` +
       `*Name:* ${values.name}\n` +
       `*Email:* ${values.email}\n` +
@@ -117,7 +120,10 @@ export function InquiryForm() {
       return;
     }
 
-    const fullPhone = values.phone ? `${values.countryCode} ${values.phone}` : 'N/A';
+    const selectedCountry = countryCodes.find(c => c.name === values.countryCode);
+    const code = selectedCountry?.code || "+91";
+    const fullPhone = values.phone ? `${code} ${values.phone}` : 'N/A';
+    
     const subject = `Quote Request: ${values.service} - ${values.name}`;
     const body = `Hi R&D Services Team,\n\nI would like to request a quote for the following project:\n\n` +
       `Name: ${values.name}\n` +
@@ -244,12 +250,22 @@ export function InquiryForm() {
                           <Select onValueChange={field.onChange} defaultValue={field.value}>
                             <FormControl>
                               <SelectTrigger className="bg-slate-50 border-none rounded-xl h-12 shadow-inner">
-                                <SelectValue placeholder="Code" />
+                                <SelectValue placeholder="Code">
+                                  {(() => {
+                                    const selected = countryCodes.find(c => c.name === field.value);
+                                    return selected ? (
+                                      <span className="flex items-center gap-2">
+                                        <span className="text-lg">{selected.flag}</span>
+                                        <span>{selected.code}</span>
+                                      </span>
+                                    ) : "Code";
+                                  })()}
+                                </SelectValue>
                               </SelectTrigger>
                             </FormControl>
                             <SelectContent className="rounded-xl border-slate-100">
                               {countryCodes.map((item) => (
-                                <SelectItem key={`${item.code}-${item.name}`} value={item.code}>
+                                <SelectItem key={`${item.code}-${item.name}`} value={item.name}>
                                   <span className="flex items-center gap-2">
                                     <span className="text-lg">{item.flag}</span>
                                     <span>{item.code}</span>
