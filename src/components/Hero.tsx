@@ -9,7 +9,6 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export function Hero() {
   const [heroData, setHeroData] = useState<any>(null);
-  const [whatsapp, setWhatsapp] = useState("916209779365");
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -17,7 +16,6 @@ export function Hero() {
       .then(res => res.json())
       .then(data => {
         setHeroData(data.hero);
-        if (data.integrations?.whatsapp) setWhatsapp(data.integrations.whatsapp);
         setIsLoading(false);
       })
       .catch(err => {
@@ -26,9 +24,9 @@ export function Hero() {
       });
   }, []);
 
-  const handleWhatsAppQuote = () => {
-    const message = encodeURIComponent("Hi R&D Services, I'm interested in your research writing services. Can you help me with a project?");
-    window.open(`https://wa.me/${whatsapp}?text=${message}`, '_blank');
+  const handleGetQuote = () => {
+    const el = document.getElementById('contact');
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
   };
 
   const handleEmailQuote = () => {
@@ -74,7 +72,7 @@ export function Hero() {
               
               <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-5 pt-4">
                 <Button 
-                  onClick={handleWhatsAppQuote}
+                  onClick={handleGetQuote}
                   size="lg" 
                   className="w-full sm:w-auto rounded-2xl px-10 h-16 text-lg bg-white text-primary hover:bg-blue-50 shadow-[0_20px_40px_rgba(255,255,255,0.2)] font-bold flex gap-3 transition-all hover:-translate-y-1 active:scale-95"
                 >

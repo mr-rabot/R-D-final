@@ -10,20 +10,12 @@ import { cn } from "@/lib/utils";
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [whatsapp, setWhatsapp] = useState("916209779365");
 
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
     };
     window.addEventListener("scroll", handleScroll);
-    
-    fetch('/api/leadership')
-      .then(res => res.json())
-      .then(data => {
-        if (data.integrations?.whatsapp) setWhatsapp(data.integrations.whatsapp);
-      });
-
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -35,9 +27,12 @@ export function Navbar() {
     { name: "Contact", href: "#contact" },
   ];
 
-  const handleWhatsAppQuote = () => {
-    const message = encodeURIComponent("Hi R&D Services, I am visiting your website and would like to get a quote for a research project.");
-    window.open(`https://wa.me/${whatsapp}?text=${message}`, '_blank');
+  const handleGetQuote = () => {
+    const el = document.getElementById('contact');
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+      setIsOpen(false);
+    }
   };
 
   return (
@@ -82,7 +77,7 @@ export function Navbar() {
                 {link.name}
               </Link>
             ))}
-            <Button onClick={handleWhatsAppQuote} variant="default" size="lg" className={cn(
+            <Button onClick={handleGetQuote} variant="default" size="lg" className={cn(
               "rounded-full shadow-xl font-bold h-12 px-8 flex gap-2",
               scrolled ? "bg-black hover:bg-black/90 text-white" : "bg-white text-primary hover:bg-blue-50"
             )}>
@@ -122,8 +117,8 @@ export function Navbar() {
               {link.name}
             </Link>
           ))}
-          <Button onClick={() => { handleWhatsAppQuote(); setIsOpen(false); }} variant="default" className="w-full rounded-2xl bg-primary h-14 text-lg font-bold flex gap-3 shadow-lg">
-            Get WhatsApp Quote <MessageSquare className="h-5 w-5" />
+          <Button onClick={handleGetQuote} variant="default" className="w-full rounded-2xl bg-primary h-14 text-lg font-bold flex gap-3 shadow-lg">
+            Get Quote <MessageSquare className="h-5 w-5" />
           </Button>
         </div>
       </div>
