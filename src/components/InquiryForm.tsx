@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useEffect, useState, useRef } from "react";
@@ -139,40 +138,41 @@ export function InquiryForm() {
   return (
     <section id="contact" ref={sectionRef} className="py-24 bg-slate-50/50">
       <div className={cn(
-        "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 transition-all duration-1000",
+        "w-full px-4 sm:px-12 lg:px-20 transition-all duration-1000",
         isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
       )}>
-        <div className="grid lg:grid-cols-2 gap-16 items-start">
+        <div className="grid lg:grid-cols-2 gap-16 lg:gap-32 items-start">
           <div className="space-y-12">
             <div className="space-y-6">
-              <h2 className="text-5xl font-headline font-bold text-accent">Get in Touch</h2>
-              <p className="text-lg text-slate-600 leading-relaxed max-w-md">
+              <h2 className="text-5xl lg:text-7xl font-headline font-bold text-accent">Get in Touch</h2>
+              <p className="text-lg lg:text-2xl text-slate-600 leading-relaxed">
                 Discuss your research project directly with our experts. We guarantee scholarly precision and academic integrity.
               </p>
             </div>
             
-            <div className="space-y-8">
+            <div className="grid sm:grid-cols-2 gap-10">
               <div className="flex items-start gap-6">
-                <div className="bg-white shadow-md p-3 rounded-xl text-primary">
+                <div className="bg-white shadow-md p-3 rounded-xl text-primary shrink-0">
                   <User className="h-6 w-6" />
                 </div>
                 <div>
                   <h4 className="font-bold text-accent text-xl">Om Prakash Sinha</h4>
+                  <p className="text-slate-500 text-sm">Founder & Director</p>
                 </div>
               </div>
 
               <div className="flex items-start gap-6">
-                <div className="bg-white shadow-md p-3 rounded-xl text-primary">
+                <div className="bg-white shadow-md p-3 rounded-xl text-primary shrink-0">
                   <Mail className="h-6 w-6" />
                 </div>
                 <div>
                   <h4 className="font-bold text-accent text-lg">Email Us</h4>
-                  <p className="text-slate-600">support.rdservices@gmail.com</p>
+                  <p className="text-slate-600 break-all">support.rdservices@gmail.com</p>
                 </div>
               </div>
 
               <div className="flex items-start gap-6">
-                <div className="bg-white shadow-md p-3 rounded-xl text-primary">
+                <div className="bg-white shadow-md p-3 rounded-xl text-primary shrink-0">
                   <Phone className="h-6 w-6" />
                 </div>
                 <div>
@@ -186,7 +186,7 @@ export function InquiryForm() {
             <div className="relative pt-8">
               {contactImage ? (
                 <div className={cn(
-                  "relative w-full h-64 lg:h-80 overflow-hidden rounded-[32px] shadow-[0_30px_60px_rgba(0,0,0,0.15)] border border-slate-200 transition-all duration-1000 delay-300",
+                  "relative w-full h-80 lg:h-[500px] overflow-hidden rounded-[32px] shadow-[0_30px_60px_rgba(0,0,0,0.15)] border border-slate-200 transition-all duration-1000 delay-300",
                   isVisible ? "scale-100 opacity-100" : "scale-95 opacity-0"
                 )}>
                   <Image
@@ -194,6 +194,7 @@ export function InquiryForm() {
                     alt="Research Visual"
                     fill
                     className="object-cover"
+                    unoptimized
                   />
                   <div className="absolute inset-0 bg-primary/5 mix-blend-multiply" />
                 </div>
@@ -202,133 +203,135 @@ export function InquiryForm() {
           </div>
 
           <div className={cn(
-            "bg-white p-10 rounded-[32px] shadow-[0_40px_100px_-20px_rgba(0,0,0,0.12)] border border-slate-100 transition-all duration-1000",
+            "bg-white p-10 lg:p-16 rounded-[32px] shadow-[0_40px_100px_-20px_rgba(0,0,0,0.12)] border border-slate-100 transition-all duration-1000",
             isVisible ? "translate-x-0 opacity-100" : "translate-x-12 opacity-0"
           )}>
             <div className="mb-10 space-y-2">
-              <h3 className="text-2xl font-bold text-accent">Get Your Quote</h3>
-              <p className="text-slate-500">Fill out the details and send via your preferred channel</p>
+              <h3 className="text-2xl lg:text-4xl font-bold text-accent">Get Your Quote</h3>
+              <p className="text-slate-500 lg:text-lg">Fill out the details and send via your preferred channel</p>
             </div>
 
             <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                <FormField
-                  control={form.control}
-                  name="name"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="text-sm font-bold text-accent">Full Name *</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Enter your name" {...field} className="bg-slate-50 border-none rounded-xl h-12 shadow-inner" />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                
-                <FormField
-                  control={form.control}
-                  name="email"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="text-sm font-bold text-accent">Email *</FormLabel>
-                      <FormControl>
-                        <Input placeholder="email@example.com" {...field} className="bg-slate-50 border-none rounded-xl h-12 shadow-inner" />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <div className="space-y-2">
-                  <FormLabel className="text-sm font-bold text-accent">Phone Number *</FormLabel>
-                  <div className="flex items-center gap-0 bg-slate-50 border-none rounded-xl shadow-inner overflow-hidden focus-within:ring-2 focus-within:ring-primary/20">
-                    <FormField
-                      control={form.control}
-                      name="countryCode"
-                      render={({ field }) => (
-                        <FormItem className="w-[100px] shrink-0 space-y-0">
-                          <Select onValueChange={field.onChange} defaultValue={field.value}>
-                            <FormControl>
-                              <SelectTrigger className="bg-transparent border-none h-12 shadow-none focus:ring-0">
-                                <SelectValue placeholder="Code">
-                                  {(() => {
-                                    const selected = countryCodes.find(c => c.name === field.value);
-                                    return selected ? (
-                                      <span className="flex items-center gap-1.5 px-1">
-                                        <span className="text-base leading-none">{selected.flag}</span>
-                                        <span className="text-xs font-bold">{selected.code}</span>
-                                      </span>
-                                    ) : "Code";
-                                  })()}
-                                </SelectValue>
-                              </SelectTrigger>
-                            </FormControl>
-                            <SelectContent className="rounded-xl border-slate-100">
-                              {countryCodes.map((item) => (
-                                <SelectItem key={`${item.code}-${item.name}`} value={item.name}>
-                                  <span className="flex items-center gap-2">
-                                    <span className="text-lg">{item.flag}</span>
-                                    <span className="text-sm">{item.code} {item.name}</span>
-                                  </span>
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
-                        </FormItem>
-                      )}
-                    />
-                    <div className="w-px h-6 bg-slate-200" />
-                    <FormField
-                      control={form.control}
-                      name="phone"
-                      render={({ field }) => (
-                        <FormItem className="flex-grow space-y-0">
-                          <FormControl>
-                            <Input 
-                              type="tel"
-                              placeholder="Mobile number" 
-                              {...field} 
-                              className="bg-transparent border-none h-12 shadow-none focus-visible:ring-0" 
-                            />
-                          </FormControl>
-                        </FormItem>
-                      )}
-                    />
-                  </div>
-                  <div className="flex flex-col gap-1">
-                    <FormMessage />
-                  </div>
+              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 lg:space-y-8">
+                <div className="grid md:grid-cols-2 gap-6">
+                  <FormField
+                    control={form.control}
+                    name="name"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-sm font-bold text-accent">Full Name *</FormLabel>
+                        <FormControl>
+                          <Input placeholder="Enter your name" {...field} className="bg-slate-50 border-none rounded-xl h-14 shadow-inner" />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  
+                  <FormField
+                    control={form.control}
+                    name="email"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-sm font-bold text-accent">Email *</FormLabel>
+                        <FormControl>
+                          <Input placeholder="email@example.com" {...field} className="bg-slate-50 border-none rounded-xl h-14 shadow-inner" />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
                 </div>
 
-                <FormField
-                  control={form.control}
-                  name="service"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="text-sm font-bold text-accent">Service Required *</FormLabel>
-                      <Select onValueChange={field.onChange} defaultValue={field.value}>
-                        <FormControl>
-                          <SelectTrigger className="bg-slate-50 border-none rounded-xl h-12 shadow-inner">
-                            <SelectValue placeholder="Select service type" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent className="rounded-xl border-slate-100">
-                          <SelectItem value="Research Paper">Research Paper</SelectItem>
-                          <SelectItem value="Thesis Writing">Thesis Writing</SelectItem>
-                          <SelectItem value="Dissertation">Dissertation</SelectItem>
-                          <SelectItem value="Synopsis Writing">Synopsis Writing</SelectItem>
-                          <SelectItem value="PPT Presentation">PPT Presentation</SelectItem>
-                          <SelectItem value="Plagiarism Report">Plagiarism Report</SelectItem>
-                          <SelectItem value="Project Report">Project Report</SelectItem>
-                          <SelectItem value="Literature Review">Literature Review</SelectItem>
-                          <SelectItem value="Research Proposal">Research Proposal</SelectItem>
-                        </SelectContent>
-                      </Select>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                <div className="grid md:grid-cols-2 gap-6">
+                  <div className="space-y-2">
+                    <FormLabel className="text-sm font-bold text-accent">Phone Number *</FormLabel>
+                    <div className="flex items-center gap-0 bg-slate-50 border-none rounded-xl shadow-inner overflow-hidden focus-within:ring-2 focus-within:ring-primary/20">
+                      <FormField
+                        control={form.control}
+                        name="countryCode"
+                        render={({ field }) => (
+                          <FormItem className="w-[100px] shrink-0 space-y-0">
+                            <Select onValueChange={field.onChange} defaultValue={field.value}>
+                              <FormControl>
+                                <SelectTrigger className="bg-transparent border-none h-14 shadow-none focus:ring-0">
+                                  <SelectValue placeholder="Code">
+                                    {(() => {
+                                      const selected = countryCodes.find(c => c.name === field.value);
+                                      return selected ? (
+                                        <span className="flex items-center gap-1.5 px-1">
+                                          <span className="text-base leading-none">{selected.flag}</span>
+                                          <span className="text-xs font-bold">{selected.code}</span>
+                                        </span>
+                                      ) : "Code";
+                                    })()}
+                                  </SelectValue>
+                                </SelectTrigger>
+                              </FormControl>
+                              <SelectContent className="rounded-xl border-slate-100">
+                                {countryCodes.map((item) => (
+                                  <SelectItem key={`${item.code}-${item.name}`} value={item.name}>
+                                    <span className="flex items-center gap-2">
+                                      <span className="text-lg">{item.flag}</span>
+                                      <span className="text-sm">{item.code} {item.name}</span>
+                                    </span>
+                                  </SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
+                          </FormItem>
+                        )}
+                      />
+                      <div className="w-px h-6 bg-slate-200" />
+                      <FormField
+                        control={form.control}
+                        name="phone"
+                        render={({ field }) => (
+                          <FormItem className="flex-grow space-y-0">
+                            <FormControl>
+                              <Input 
+                                type="tel"
+                                placeholder="Mobile number" 
+                                {...field} 
+                                className="bg-transparent border-none h-14 shadow-none focus-visible:ring-0" 
+                              />
+                            </FormControl>
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+                    <FormMessage />
+                  </div>
+
+                  <FormField
+                    control={form.control}
+                    name="service"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-sm font-bold text-accent">Service Required *</FormLabel>
+                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                          <FormControl>
+                            <SelectTrigger className="bg-slate-50 border-none rounded-xl h-14 shadow-inner">
+                              <SelectValue placeholder="Select service type" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent className="rounded-xl border-slate-100">
+                            <SelectItem value="Research Paper">Research Paper</SelectItem>
+                            <SelectItem value="Thesis Writing">Thesis Writing</SelectItem>
+                            <SelectItem value="Dissertation">Dissertation</SelectItem>
+                            <SelectItem value="Synopsis Writing">Synopsis Writing</SelectItem>
+                            <SelectItem value="PPT Presentation">PPT Presentation</SelectItem>
+                            <SelectItem value="Plagiarism Report">Plagiarism Report</SelectItem>
+                            <SelectItem value="Project Report">Project Report</SelectItem>
+                            <SelectItem value="Literature Review">Literature Review</SelectItem>
+                            <SelectItem value="Research Proposal">Research Proposal</SelectItem>
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
 
                 <FormField
                   control={form.control}
@@ -339,7 +342,7 @@ export function InquiryForm() {
                       <FormControl>
                         <Textarea 
                           placeholder="Tell us about your project requirements, deadline, topic, etc." 
-                          className="bg-slate-50 border-none rounded-xl min-h-[120px] shadow-inner" 
+                          className="bg-slate-50 border-none rounded-xl min-h-[150px] shadow-inner text-base lg:text-lg" 
                           {...field} 
                         />
                       </FormControl>
@@ -348,15 +351,15 @@ export function InquiryForm() {
                   )}
                 />
 
-                <div className="flex flex-col gap-3 pt-4">
-                  <Button type="submit" className="w-full h-14 rounded-xl text-lg bg-primary hover:bg-blue-600 text-white shadow-lg flex gap-3 transition-all active:scale-95">
+                <div className="flex flex-col gap-4 pt-4">
+                  <Button type="submit" className="w-full h-16 rounded-xl text-lg lg:text-xl bg-primary hover:bg-blue-600 text-white shadow-lg flex gap-3 transition-all active:scale-95">
                      <MessageSquare className="h-6 w-6" /> Submit via WhatsApp
                   </Button>
                   <Button 
                     type="button" 
                     onClick={handleEmailSubmit}
                     variant="outline" 
-                    className="w-full h-14 rounded-xl text-lg border-2 border-slate-200 hover:border-primary text-slate-600 hover:text-primary transition-all active:scale-95 flex gap-3 shadow-sm"
+                    className="w-full h-16 rounded-xl text-lg lg:text-xl border-2 border-slate-200 hover:border-primary text-slate-600 hover:text-primary transition-all active:scale-95 flex gap-3 shadow-sm"
                   >
                     <Mail className="h-6 w-6" /> Submit via Email
                   </Button>

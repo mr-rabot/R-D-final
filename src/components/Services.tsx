@@ -1,4 +1,3 @@
-
 "use client";
 
 import * as React from "react";
@@ -67,7 +66,7 @@ export function Services() {
   return (
     <section id="services" ref={sectionRef} className="py-32 bg-slate-50/50 overflow-hidden">
       <div className={cn(
-        "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 transition-all duration-1000",
+        "w-full px-4 sm:px-12 lg:px-20 transition-all duration-1000",
         isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
       )}>
         
@@ -97,12 +96,12 @@ export function Services() {
             Our Expertise
           </div>
           <h2 className="text-5xl md:text-7xl font-headline font-bold text-accent leading-tight">Comprehensive Services</h2>
-          <p className="text-slate-500 max-w-2xl mx-auto text-lg md:text-xl font-light">
+          <p className="text-slate-500 max-w-4xl mx-auto text-lg md:text-xl font-light">
             High-end research writing solutions tailored for global academic success and peer-review publication.
           </p>
         </div>
 
-        <div className="relative px-6 sm:px-12 py-12">
+        <div className="relative px-6 sm:px-12">
           <Carousel
             plugins={[plugin.current]}
             className="w-full"
@@ -118,7 +117,7 @@ export function Services() {
                 const displayImage = service.image || placeholder?.imageUrl;
 
                 return (
-                  <CarouselItem key={index} className="pl-6 md:pl-10 basis-full md:basis-1/2 lg:basis-1/3 py-8">
+                  <CarouselItem key={index} className="pl-6 md:pl-10 basis-full md:basis-1/2 lg:basis-1/3 xl:basis-1/4 py-8">
                     <Card className="border-none shadow-[0_25px_60px_-15px_rgba(0,0,0,0.08)] hover:shadow-[0_45px_90px_-20px_rgba(0,71,255,0.2)] transition-all duration-700 rounded-[45px] bg-white flex flex-col h-full group overflow-hidden border-b-8 border-transparent hover:border-primary">
                       <div className="relative aspect-video w-full overflow-hidden">
                         {displayImage && (
@@ -127,7 +126,7 @@ export function Services() {
                             alt={service.title} 
                             fill 
                             className="object-cover group-hover:scale-110 transition-transform duration-700" 
-                            style={{ objectFit: 'cover' }}
+                            unoptimized
                           />
                         )}
                         <div className="absolute inset-0 bg-gradient-to-t from-white via-white/20 to-transparent" />

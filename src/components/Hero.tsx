@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useEffect, useState } from "react";
@@ -40,7 +39,7 @@ export function Hero() {
         <div className="absolute bottom-[-10%] right-[-10%] w-[30%] h-[30%] bg-blue-400/10 blur-[100px] rounded-full" />
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
+      <div className="w-full px-4 sm:px-12 lg:px-20 relative z-10">
         <div className="lg:grid lg:grid-cols-2 lg:gap-20 items-center">
           {isLoading ? (
             <div className="space-y-10">
@@ -62,11 +61,11 @@ export function Hero() {
                 {heroData?.badge || "Premier Research Excellence"}
               </div>
               
-              <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-headline font-bold leading-[1.1] tracking-tight">
+              <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-headline font-bold leading-[1.1] tracking-tight">
                 {heroData?.title?.split(' ').slice(0, -1).join(' ') || "Scholarly Research"} <span className="text-blue-400">{heroData?.title?.split(' ').slice(-1) || "Perfected."}</span>
               </h1>
               
-              <p className="text-xl md:text-2xl text-blue-100/80 max-w-xl leading-relaxed font-light mx-auto lg:mx-0">
+              <p className="text-xl md:text-2xl text-blue-100/80 max-w-3xl leading-relaxed font-light mx-auto lg:mx-0">
                 {heroData?.subtitle || "Elite academic support for researchers who demand precision, integrity, and international publishing standards."}
               </p>
               
@@ -95,7 +94,7 @@ export function Hero() {
                   { label: "Expert Concierge", value: "24/7" }
                 ]).map((stat: any, i: number) => (
                   <div key={i} className="space-y-2 group">
-                    <div className="text-4xl md:text-5xl font-headline font-bold group-hover:text-blue-400 transition-colors">{stat.value}</div>
+                    <div className="text-4xl md:text-5xl lg:text-6xl font-headline font-bold group-hover:text-blue-400 transition-colors">{stat.value}</div>
                     <div className="text-[10px] text-blue-200/60 uppercase tracking-[0.2em] font-bold">{stat.label}</div>
                   </div>
                 ))}
@@ -104,7 +103,7 @@ export function Hero() {
           )}
 
           <div className="mt-20 lg:mt-0 relative flex justify-center lg:block animate-in fade-in zoom-in duration-1000 delay-300">
-            <div className="relative z-10 w-full max-w-xl lg:max-w-none">
+            <div className="relative z-10 w-full max-w-2xl lg:max-w-none">
               {isLoading ? (
                 <Skeleton className="aspect-[4/5] w-full rounded-[40px] md:rounded-[60px] bg-white/5 border-[12px] md:border-[16px] border-white/5" />
               ) : (
@@ -116,7 +115,7 @@ export function Hero() {
                       fill
                       className="object-cover transition-transform duration-1000 group-hover:scale-105"
                       priority
-                      style={{ objectFit: 'cover' }}
+                      unoptimized
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                   </div>

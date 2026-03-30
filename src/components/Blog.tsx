@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useEffect, useState } from "react";
@@ -41,37 +40,38 @@ export function Blog() {
 
   return (
     <section id="blog" className="py-24 bg-background">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid lg:grid-cols-3 gap-16">
-          <div className="lg:col-span-2 space-y-12">
+      <div className="w-full px-4 sm:px-12 lg:px-20">
+        <div className="grid lg:grid-cols-4 gap-16">
+          <div className="lg:col-span-3 space-y-12">
             <div className="flex justify-between items-end">
               <div className="space-y-4">
                 <div className="inline-flex items-center gap-2 bg-primary/10 text-primary text-[10px] uppercase tracking-widest font-bold px-4 py-1.5 rounded-full">
                   Insights & Knowledge
                 </div>
-                <h2 className="text-5xl font-headline font-bold text-accent">{blogData.title}</h2>
-                <p className="text-muted-foreground text-lg">{blogData.subtitle}</p>
+                <h2 className="text-5xl lg:text-7xl font-headline font-bold text-accent">{blogData.title}</h2>
+                <p className="text-muted-foreground text-lg lg:text-xl">{blogData.subtitle}</p>
               </div>
               <Button variant="link" className="text-primary gap-2 p-0 font-bold hidden sm:flex">
                 View All Posts <ArrowRight className="h-4 w-4" />
               </Button>
             </div>
 
-            <div className="grid md:grid-cols-2 gap-8">
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
               {blogData.posts.map((post, i) => {
                 const placeholderId = `service-${(i % 3) + 1}`;
                 const placeholder = PlaceHolderImages.find(p => p.id === placeholderId);
                 const displayImage = post.image || placeholder?.imageUrl;
 
                 return (
-                  <Card key={i} className="overflow-hidden border-none shadow-xl hover:-translate-y-2 transition-all duration-300 rounded-[32px] group bg-white">
-                    <div className="relative h-64">
+                  <Card key={i} className="overflow-hidden border-none shadow-xl hover:-translate-y-2 transition-all duration-300 rounded-[32px] group bg-white h-full flex flex-col">
+                    <div className="relative h-64 shrink-0">
                       {displayImage && (
                         <Image
                           src={displayImage}
                           alt={post.title}
                           fill
                           className="object-cover group-hover:scale-105 transition-transform duration-700"
+                          unoptimized
                         />
                       )}
                       <div className="absolute top-6 left-6">
@@ -87,8 +87,8 @@ export function Blog() {
                         {post.title}
                       </CardTitle>
                     </CardHeader>
-                    <CardContent className="px-8 pb-8">
-                      <p className="text-slate-500 text-sm line-clamp-2 leading-relaxed">{post.excerpt}</p>
+                    <CardContent className="px-8 pb-8 flex-grow">
+                      <p className="text-slate-500 text-sm line-clamp-3 leading-relaxed">{post.excerpt}</p>
                     </CardContent>
                   </Card>
                 );
@@ -97,7 +97,7 @@ export function Blog() {
           </div>
 
           <div id="resources" className="space-y-8">
-            <div className="bg-accent text-white p-10 rounded-[40px] space-y-10 shadow-2xl relative overflow-hidden">
+            <div className="bg-accent text-white p-10 rounded-[40px] space-y-10 shadow-2xl relative overflow-hidden h-full">
               <div className="relative z-10 space-y-6">
                 <h3 className="text-3xl font-headline font-bold">Resource Library</h3>
                 <p className="text-blue-100/70 text-sm leading-relaxed">Download professional templates and guides to accelerate your research workflow.</p>
@@ -109,12 +109,12 @@ export function Blog() {
                         <div className="bg-primary/20 p-2.5 rounded-xl">
                           <FileType className="h-5 w-5 text-primary" />
                         </div>
-                        <div>
-                          <div className="text-sm font-bold truncate max-w-[140px]">{res.name}</div>
+                        <div className="min-w-0 flex-1">
+                          <div className="text-sm font-bold truncate">{res.name}</div>
                           <div className="text-[10px] text-blue-200/60 uppercase tracking-widest font-bold">{res.type} • {res.size}</div>
                         </div>
                       </div>
-                      <Download className="h-5 w-5 text-blue-200 group-hover:text-white transition-colors" />
+                      <Download className="h-5 w-5 text-blue-200 group-hover:text-white transition-colors shrink-0" />
                     </div>
                   ))}
                 </div>

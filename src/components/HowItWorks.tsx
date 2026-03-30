@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useEffect, useRef, useState } from "react";
@@ -57,7 +56,7 @@ export function HowItWorks() {
   return (
     <section ref={sectionRef} className="py-24 bg-white overflow-hidden">
       <div className={cn(
-        "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 transition-all duration-1000",
+        "w-full px-4 sm:px-12 lg:px-20 transition-all duration-1000",
         isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
       )}>
         <div className="text-center mb-20">
@@ -90,7 +89,7 @@ export function HowItWorks() {
                   </div>
                 </div>
                 <h3 className="text-xl font-bold text-accent mb-3">{step.title}</h3>
-                <p className="text-muted-foreground text-sm leading-relaxed max-w-[200px]">
+                <p className="text-muted-foreground text-sm leading-relaxed max-w-[280px]">
                   {step.description}
                 </p>
               </div>

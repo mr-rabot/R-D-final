@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useEffect, useState, useRef } from "react";
@@ -41,31 +40,31 @@ export function FAQ() {
   return (
     <section id="faq" ref={sectionRef} className="py-24 bg-slate-50/50">
       <div className={cn(
-        "max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 transition-all duration-1000",
+        "w-full px-4 sm:px-12 lg:px-20 transition-all duration-1000",
         isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
       )}>
         <div className="text-center mb-16">
           <div className="inline-block bg-black text-white text-[10px] uppercase tracking-widest font-bold px-4 py-1.5 rounded-full mb-6">
             Have Questions?
           </div>
-          <h2 className="text-5xl font-headline font-bold text-accent mb-4">Frequently Asked Questions</h2>
+          <h2 className="text-5xl lg:text-7xl font-headline font-bold text-accent mb-4">Frequently Asked Questions</h2>
         </div>
 
-        <Accordion type="single" collapsible className="w-full space-y-4">
+        <Accordion type="single" collapsible className="w-full max-w-6xl mx-auto space-y-4">
           {faqs.map((faq, index) => (
             <AccordionItem 
               key={index} 
               value={`item-${index}`}
               className={cn(
-                "bg-white px-6 rounded-2xl border border-slate-100 shadow-sm transition-all duration-500",
+                "bg-white px-6 lg:px-10 rounded-2xl border border-slate-100 shadow-sm transition-all duration-500",
                 isVisible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-4"
               )}
               style={{ transitionDelay: `${index * 100}ms` }}
             >
-              <AccordionTrigger className="text-left font-bold text-accent hover:text-primary transition-colors py-6">
+              <AccordionTrigger className="text-left font-bold text-accent hover:text-primary transition-colors py-6 lg:text-xl">
                 {faq.question}
               </AccordionTrigger>
-              <AccordionContent className="text-slate-600 leading-relaxed pb-6">
+              <AccordionContent className="text-slate-600 leading-relaxed pb-6 lg:text-lg">
                 {faq.answer}
               </AccordionContent>
             </AccordionItem>

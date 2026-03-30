@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useEffect, useState, useRef } from "react";
@@ -70,15 +69,15 @@ export function Pricing() {
   return (
     <section id="pricing" ref={sectionRef} className="py-32 bg-[#fcfcfc] relative">
       <div className={cn(
-        "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 transition-all duration-1000",
+        "w-full px-4 sm:px-12 lg:px-20 relative z-10 transition-all duration-1000",
         isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
       )}>
         <div className="text-center mb-24 space-y-4">
-          <h2 className="text-5xl md:text-6xl font-headline font-bold text-accent tracking-tight">Service Packages</h2>
+          <h2 className="text-5xl md:text-7xl font-headline font-bold text-accent tracking-tight">Service Packages</h2>
           <p className="text-slate-500 text-lg md:text-xl font-light">Choose the plan that fits your research needs</p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 items-stretch pt-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-10 items-stretch pt-12">
           {plans.map((plan, index) => (
             <div 
               key={index} 
@@ -105,14 +104,14 @@ export function Pricing() {
                 )}
                 
                 <CardHeader className="pt-12 px-8 pb-4 text-center">
-                  <CardTitle className="text-3xl font-headline font-bold text-accent text-center">{plan.name}</CardTitle>
+                  <CardTitle className="text-3xl lg:text-4xl font-headline font-bold text-accent text-center">{plan.name}</CardTitle>
                   <p className="text-sm text-slate-500 mt-4 leading-relaxed font-light min-h-[40px] text-center">{plan.description}</p>
                 </CardHeader>
 
                 <CardContent className="flex-grow px-8 py-4">
                   <ul className="space-y-4">
                     {plan.features.map((feature: string, i: number) => (
-                      <li key={i} className="flex items-start gap-4 text-sm text-slate-600 font-medium">
+                      <li key={i} className="flex items-start gap-4 text-sm lg:text-base text-slate-600 font-medium">
                         <Check className="h-4 w-4 text-emerald-500 shrink-0 mt-0.5" />
                         <span>{feature}</span>
                       </li>
@@ -125,7 +124,7 @@ export function Pricing() {
                     onClick={() => handleQuoteClick(plan.name)}
                     variant={plan.highlight ? "default" : "outline"}
                     className={cn(
-                      "w-full h-12 rounded-xl font-bold flex gap-3 transition-all active:scale-95 text-base border-2",
+                      "w-full h-14 rounded-xl font-bold flex gap-3 transition-all active:scale-95 text-lg border-2",
                       plan.highlight ? "bg-black text-white hover:bg-slate-900 border-black" : "border-slate-100 hover:border-primary hover:text-primary"
                     )}
                   >
@@ -140,7 +139,7 @@ export function Pricing() {
 
       <Dialog open={isQuoteDialogOpen} onOpenChange={setIsQuoteDialogOpen}>
         <DialogContent className="sm:max-w-md rounded-[32px] border-none shadow-2xl p-0 overflow-hidden bg-white">
-          <DialogHeader className="p-10 pb-0">
+          <DialogHeader className="p-10 pb-0 text-center">
             <DialogTitle className="text-3xl font-headline font-bold text-accent">Professional Consultation</DialogTitle>
             <DialogDescription className="text-slate-500 pt-2 text-center">
               Select your preferred channel to receive a custom quote for the <span className="text-primary font-bold">"{selectedPlan}"</span> package.

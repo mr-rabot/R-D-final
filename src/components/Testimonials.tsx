@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useEffect, useState, useRef } from "react";
@@ -52,7 +51,7 @@ export function Testimonials() {
       <div className="absolute bottom-0 left-0 w-1/4 h-1/4 bg-blue-400/5 blur-[100px] rounded-full pointer-events-none" />
 
       <div className={cn(
-        "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 transition-all duration-1000",
+        "w-full px-4 sm:px-12 lg:px-20 relative z-10 transition-all duration-1000",
         isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
       )}>
         <div className="flex flex-col items-center mb-24 text-center space-y-6">
@@ -60,9 +59,9 @@ export function Testimonials() {
             <Users className="h-3 w-3" />
             Global Scholarly Impact
           </div>
-          <h2 className="text-5xl md:text-7xl font-headline font-bold text-accent leading-tight">Client Testimonials</h2>
+          <h2 className="text-5xl md:text-7xl lg:text-8xl font-headline font-bold text-accent leading-tight">Client Testimonials</h2>
           <div className="h-1.5 w-24 bg-primary rounded-full mb-4" />
-          <p className="text-slate-500 text-lg md:text-xl max-w-2xl font-light italic">
+          <p className="text-slate-500 text-lg md:text-xl lg:text-2xl max-w-4xl font-light italic">
             Reflections on our commitment to academic excellence from researchers across the globe.
           </p>
         </div>
@@ -81,7 +80,7 @@ export function Testimonials() {
                 const placeholderId = `testimonial-${(index % 6) + 1}`;
                 const img = PlaceHolderImages.find(i => i.id === placeholderId);
                 return (
-                  <CarouselItem key={index} className="pl-6 md:pl-8 basis-full md:basis-1/2 lg:basis-1/3 py-10 overflow-visible">
+                  <CarouselItem key={index} className="pl-6 md:pl-8 basis-full md:basis-1/2 lg:basis-1/3 xl:basis-1/4 py-10 overflow-visible">
                     <div className="bg-white p-10 rounded-[40px] border border-slate-100 shadow-[0_30px_70px_-15px_rgba(0,0,0,0.12)] hover:shadow-[0_45px_100px_-20px_rgba(0,71,255,0.15)] transition-all duration-500 flex flex-col h-full group relative overflow-hidden">
                       <div className="absolute -top-6 -right-6 opacity-[0.03] group-hover:opacity-[0.08] transition-opacity">
                         <Quote className="h-32 w-32 text-accent" />
@@ -95,13 +94,13 @@ export function Testimonials() {
                       
                       <div className="relative mb-10 flex-grow">
                         <Quote className="h-8 w-8 text-primary/20 absolute -top-4 -left-4" />
-                        <p className="text-slate-600 leading-relaxed font-light italic text-lg relative z-10">
+                        <p className="text-slate-600 leading-relaxed font-light italic text-lg lg:text-xl relative z-10">
                           {t.content}
                         </p>
                       </div>
                       
                       <div className="flex items-center gap-5 pt-8 border-t border-slate-50 mt-auto">
-                        <div className="relative h-14 w-14 rounded-full overflow-hidden border-4 border-white shadow-[0_5px_15px_rgba(0,0,0,0.1)]">
+                        <div className="relative h-14 w-14 lg:h-16 lg:w-16 rounded-full overflow-hidden border-4 border-white shadow-[0_5px_15px_rgba(0,0,0,0.1)]">
                           <img 
                             src={t.image || img?.imageUrl} 
                             alt={t.name} 
@@ -109,8 +108,8 @@ export function Testimonials() {
                           />
                         </div>
                         <div className="text-left">
-                          <h4 className="font-headline font-bold text-accent text-xl leading-none mb-2">{t.name}</h4>
-                          <p className="text-[10px] text-primary/80 font-bold uppercase tracking-[0.2em]">{t.role}</p>
+                          <h4 className="font-headline font-bold text-accent text-xl lg:text-2xl leading-none mb-2">{t.name}</h4>
+                          <p className="text-[10px] lg:text-xs text-primary/80 font-bold uppercase tracking-[0.2em]">{t.role}</p>
                         </div>
                       </div>
                     </div>
@@ -141,11 +140,11 @@ export function Testimonials() {
               )}
               style={{ transitionDelay: `${i * 100}ms` }}
             >
-              <div className="bg-white shadow-[0_10px_30px_rgba(0,0,0,0.05)] p-4 rounded-2xl text-primary mb-4 transition-transform group-hover:scale-110 group-hover:shadow-[0_15px_35px_rgba(0,71,255,0.1)]">
-                <badge.icon className="h-6 w-6" />
+              <div className="bg-white shadow-[0_10px_30px_rgba(0,0,0,0.05)] p-4 lg:p-6 rounded-2xl text-primary mb-4 transition-transform group-hover:scale-110 group-hover:shadow-[0_15px_35px_rgba(0,71,255,0.1)]">
+                <badge.icon className="h-6 w-6 lg:h-8 lg:w-8" />
               </div>
-              <div className="text-3xl font-headline font-bold text-accent group-hover:text-primary transition-colors">{badge.label}</div>
-              <div className="text-[10px] text-slate-400 uppercase tracking-[0.3em] mt-2 font-bold">{badge.sub}</div>
+              <div className="text-3xl lg:text-5xl font-headline font-bold text-accent group-hover:text-primary transition-colors">{badge.label}</div>
+              <div className="text-[10px] lg:text-sm text-slate-400 uppercase tracking-[0.3em] mt-2 font-bold">{badge.sub}</div>
             </div>
           ))}
         </div>

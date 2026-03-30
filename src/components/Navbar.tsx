@@ -1,4 +1,3 @@
-
 "use client";
 
 import Link from "next/link";
@@ -68,7 +67,7 @@ export function Navbar() {
         ? "bg-white/95 backdrop-blur-xl shadow-sm border-slate-100" 
         : "bg-white/80 backdrop-blur-md border-slate-100"
     )}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+      <div className="w-full px-4 sm:px-12 lg:px-20">
         <div className="flex justify-between items-center">
           <div className="flex items-center">
             <Link href="/" className="flex items-center group">
@@ -84,7 +83,6 @@ export function Navbar() {
                   />
                 </div>
               ) : (
-                /* Minimal placeholder while logo loads to avoid layout shift, no static branding here */
                 <div className="h-14 w-32 md:w-48 bg-transparent" />
               )}
             </Link>
@@ -116,7 +114,6 @@ export function Navbar() {
         </div>
       </div>
 
-      {/* Mobile Menu */}
       <div
         className={cn(
           "md:hidden fixed top-24 left-0 w-full bg-white border-b shadow-xl transition-all duration-300 ease-in-out overflow-hidden z-[110]",
