@@ -740,7 +740,7 @@ export default function AdminDashboard() {
                 crop={crop} 
                 zoom={zoom} 
                 aspect={
-                  currentEditingPath?.includes('logo') ? 2.4 : 
+                  currentEditingPath?.includes('logo') ? 600/260 : 
                   (currentEditingPath?.includes('hero') ? 4/5 : 
                   (currentEditingPath?.includes('firmSummary') ? 16/10 : 
                   (currentEditingPath?.includes('services') ? 16/9 : 1)))
