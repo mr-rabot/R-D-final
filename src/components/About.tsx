@@ -104,7 +104,7 @@ export function About() {
                   {founder?.role || "Founder & Director"}
                 </p>
                 <p className="text-[11px] md:text-[13px] uppercase tracking-[0.4em] font-bold text-slate-400">
-                  R & D Services Pvt. Ltd.
+                  R & D Services
                 </p>
               </div>
 
@@ -174,7 +174,7 @@ export function About() {
             <div className="space-y-12">
               <div className="flex items-center gap-3 text-primary">
                 <Globe className="h-6 w-6" />
-                <span className="text-[11px] uppercase tracking-[0.5em] font-bold text-blue-400">R & D Services Pvt. Ltd.</span>
+                <span className="text-[11px] uppercase tracking-[0.5em] font-bold text-blue-400">R & D Services</span>
               </div>
               
               <div className="space-y-6">
@@ -186,7 +186,7 @@ export function About() {
               
               <div className="space-y-10">
                 <p className="text-blue-100/80 leading-relaxed text-lg md:text-xl font-light italic border-l-2 border-primary/50 pl-10">
-                  {firmData?.description || "R & D Services Pvt. Ltd. provides a premier academic consulting platform dedicated to bridging the gap between innovative research and high-impact publishing. Our mission is to cultivate scholarly legacies through a methodology-first approach."}
+                  {firmData?.description || "R & D Services provides a premier academic consulting platform dedicated to bridging the gap between innovative research and high-impact publishing. Our mission is to cultivate scholarly legacies through a methodology-first approach."}
                 </p>
                 <div className="grid grid-cols-2 gap-12">
                   {(firmData?.stats || [

@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useEffect, useState } from "react";
@@ -27,12 +28,12 @@ export function Footer() {
                   R & D
                 </span>
                 <span className="text-[10px] text-blue-200 font-bold uppercase tracking-widest mt-1 group-hover:text-primary transition-colors">
-                  Services Pvt. Ltd.
+                  Services
                 </span>
               </div>
             </Link>
             <p className="text-slate-400 leading-relaxed text-sm">
-              Professional research writing and academic consulting services. Led by Om Prakash Sinha, we guarantee quality, originality, and timely delivery for R&D Services Pvt. Ltd.
+              Professional research writing and academic consulting services. Led by Om Prakash Sinha, we guarantee quality, originality, and timely delivery for R&D Services.
             </p>
           </div>
 
@@ -77,7 +78,7 @@ export function Footer() {
         {/* Bottom Bar */}
         <div className="pt-8 border-t border-slate-800 text-center text-sm text-slate-500">
           <p>
-            © 2024 R & D Services Pvt. Ltd. All rights reserved. |{" "}
+            © 2024 R & D Services. All rights reserved. |{" "}
             <Link href="#" className="hover:text-white transition-colors">Privacy Policy</Link> |{" "}
             <Link href="#" className="hover:text-white transition-colors">Terms & Conditions</Link>
           </p>
