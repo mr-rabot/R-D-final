@@ -6,7 +6,7 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
-import { Calendar, User, ArrowRight, Download, FileType, Video } from "lucide-react";
+import { Calendar, User, ArrowRight, Download, FileType } from "lucide-react";
 
 interface BlogPost {
   title: string;
@@ -124,17 +124,6 @@ export function Blog() {
                 </Button>
               </div>
               <div className="absolute -top-10 -right-10 w-40 h-40 bg-primary/20 blur-3xl rounded-full" />
-            </div>
-
-            <div className="bg-white p-10 rounded-[40px] border border-slate-100 shadow-xl space-y-6 relative overflow-hidden group">
-              <div className="flex items-center gap-3 text-primary mb-2">
-                <Video className="h-5 w-5 animate-pulse" />
-                <span className="text-[10px] uppercase tracking-[0.2em] font-bold">Upcoming Session</span>
-              </div>
-              <h4 className="text-2xl font-headline font-bold text-accent">Monthly Webinar</h4>
-              <p className="text-sm text-slate-500 leading-relaxed">Join our experts for: <strong>"Demystifying the Nature Submission Process"</strong></p>
-              <Button variant="outline" className="w-full rounded-2xl border-primary text-primary hover:bg-primary/5 h-12 font-bold group-hover:bg-primary group-hover:text-white transition-all">Register Free</Button>
-              <div className="absolute -bottom-10 -left-10 w-32 h-32 bg-primary/5 blur-2xl rounded-full" />
             </div>
           </div>
         </div>
