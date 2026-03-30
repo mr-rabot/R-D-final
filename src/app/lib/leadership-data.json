@@ -1,4 +1,3 @@
-
 {
   "brand": {
     "logo": ""
@@ -59,7 +58,8 @@
         "Proper formatting",
         "Literature review",
         "Timely delivery"
-      ]
+      ],
+      "image": "/images/service_1_1774841400000.jpg"
     },
     {
       "title": "Thesis Writing",
@@ -69,7 +69,8 @@
         "Methodological rigor",
         "Formatting excellence",
         "Unlimited revisions"
-      ]
+      ],
+      "image": "/images/service_2_1774841400000.jpg"
     },
     {
       "title": "Dissertation",
@@ -79,7 +80,8 @@
         "Logical flow",
         "Citation accuracy",
         "Plagiarism report"
-      ]
+      ],
+      "image": "/images/service_3_1774841400000.jpg"
     },
     {
       "title": "Project Reports (New)",

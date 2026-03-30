@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useCallback, useRef, useEffect } from "react";
@@ -32,7 +31,8 @@ import {
   Lock,
   Loader2,
   Image as ImageIcon,
-  GalleryVertical
+  GalleryVertical,
+  BookOpen
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import Image from "next/image";
@@ -162,10 +162,17 @@ export default function AdminDashboard() {
         const parts = currentEditingPath.split('.');
         let current = newData;
         for (let i = 0; i < parts.length - 1; i++) {
-          if (!current[parts[i]]) current[parts[i]] = {};
-          current = current[parts[i]];
+          const part = parts[i];
+          // Handle array indexing if part is a number
+          const index = parseInt(part);
+          if (!isNaN(index)) {
+             current = (current as any)[index];
+          } else {
+             if (!(current as any)[part]) (current as any)[part] = {};
+             current = (current as any)[part];
+          }
         }
-        current[parts[parts.length - 1]] = url;
+        (current as any)[parts[parts.length - 1]] = url;
 
         setSiteData(newData);
         setIsCropperOpen(false);
@@ -372,7 +379,7 @@ export default function AdminDashboard() {
               <Card className="border-none shadow-xl rounded-[40px] p-6 md:p-10 bg-white space-y-6">
                 <div className="flex items-center gap-3 text-primary mb-2">
                   <Users className="h-6 w-6" />
-                  <h3 className="text-xl font-headline font-bold">Founder (Om Prakash Sinha)</h3>
+                  <h3 className="text-xl font-headline font-bold">Founder Photo</h3>
                 </div>
                 <div className="flex items-center gap-6">
                   <div className="relative h-24 w-24 rounded-full overflow-hidden border-4 border-slate-50 shadow-md bg-slate-100">
@@ -388,32 +395,13 @@ export default function AdminDashboard() {
                 </div>
               </Card>
 
-              <Card className="border-none shadow-xl rounded-[40px] p-6 md:p-10 bg-white space-y-6">
-                <div className="flex items-center gap-3 text-primary mb-2">
-                  <Users className="h-6 w-6" />
-                  <h3 className="text-xl font-headline font-bold">Co-Founder Photo</h3>
-                </div>
-                <div className="flex items-center gap-6">
-                  <div className="relative h-24 w-24 rounded-full overflow-hidden border-4 border-slate-50 shadow-md bg-slate-100">
-                    {siteData.leadership.coFounder.image ? (
-                      <Image src={siteData.leadership.coFounder.image} alt="Co-Founder" fill className="object-cover" />
-                    ) : (
-                      <UserCircle className="h-full w-full text-slate-300" />
-                    )}
-                  </div>
-                  <Button variant="outline" size="sm" className="rounded-xl font-bold" onClick={() => { setCurrentEditingPath(`leadership.coFounder.image`); fileInputRef.current?.click(); }}>
-                    <Upload className="h-4 w-4 mr-2" /> Change Photo
-                  </Button>
-                </div>
-              </Card>
-
               {/* Summary Image */}
-              <Card className="border-none shadow-xl rounded-[40px] p-6 md:p-10 bg-white space-y-6 md:col-span-2">
+              <Card className="border-none shadow-xl rounded-[40px] p-6 md:p-10 bg-white space-y-6">
                 <div className="flex items-center gap-3 text-primary mb-2">
                   <FileText className="h-6 w-6" />
                   <h3 className="text-xl font-headline font-bold">Firm Summary Visual</h3>
                 </div>
-                <div className="relative h-48 w-full rounded-2xl overflow-hidden border-4 border-slate-50 shadow-md bg-slate-100">
+                <div className="relative h-32 w-full rounded-2xl overflow-hidden border-4 border-slate-50 shadow-md bg-slate-100">
                   {siteData.firmSummary.image ? (
                     <Image src={siteData.firmSummary.image} alt="Firm Summary" fill className="object-cover" />
                   ) : (
@@ -424,6 +412,33 @@ export default function AdminDashboard() {
                   <Upload className="h-4 w-4 mr-2" /> Change Summary Image
                 </Button>
               </Card>
+
+              {/* Service Images Section */}
+              <div className="md:col-span-2 pt-10 border-t border-slate-200">
+                <div className="flex items-center gap-3 text-primary mb-8">
+                  <Zap className="h-6 w-6" />
+                  <h3 className="text-2xl font-headline font-bold">Service Specific Images</h3>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {siteData.services.map((service: any, i: number) => (
+                    <Card key={i} className="border-none shadow-md rounded-3xl p-6 bg-white space-y-4">
+                      <h4 className="font-bold text-sm truncate">{service.title}</h4>
+                      <div className="relative h-28 w-full rounded-xl overflow-hidden border-2 border-slate-50 shadow-sm bg-slate-50">
+                        {service.image ? (
+                          <Image src={service.image} alt={service.title} fill className="object-cover" />
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center text-slate-200">
+                             <ImageIcon className="h-8 w-8" />
+                          </div>
+                        )}
+                      </div>
+                      <Button variant="outline" size="sm" className="w-full rounded-lg text-xs" onClick={() => { setCurrentEditingPath(`services.${i}.image`); fileInputRef.current?.click(); }}>
+                        <Upload className="h-3 w-3 mr-2" /> Update Image
+                      </Button>
+                    </Card>
+                  ))}
+                </div>
+              </div>
             </div>
           </TabsContent>
 

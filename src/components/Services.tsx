@@ -1,8 +1,8 @@
-
 "use client";
 
 import * as React from "react";
 import { useEffect, useState, useRef } from "react";
+import Image from "next/image";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { 
   GraduationCap, 
@@ -20,6 +20,7 @@ import {
 } from "@/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
 import { cn } from "@/lib/utils";
+import { PlaceHolderImages } from "@/lib/placeholder-images";
 
 const trustIndicators = [
   { icon: GraduationCap, label: "PhD Experts", color: "text-blue-600", bg: "bg-blue-50" },
@@ -111,23 +112,42 @@ export function Services() {
           >
             <CarouselContent className="-ml-6 md:-ml-10">
               {services.map((service, index) => {
+                const placeholderId = `service-${(index % 3) + 1}`;
+                const placeholder = PlaceHolderImages.find(p => p.id === placeholderId);
+                const displayImage = service.image || placeholder?.imageUrl;
+
                 return (
                   <CarouselItem key={index} className="pl-6 md:pl-10 basis-full md:basis-1/2 lg:basis-1/3 py-8">
-                    <Card className="border-none shadow-[0_25px_60px_-15px_rgba(0,0,0,0.08)] hover:shadow-[0_45px_90px_-20px_rgba(0,71,255,0.2)] transition-all duration-700 rounded-[45px] p-10 md:p-12 bg-white flex flex-col h-full group border-b-8 border-transparent hover:border-primary">
-                      <CardHeader className="p-0 mb-10">
-                        <div className="bg-primary/5 w-18 h-18 rounded-[25px] flex items-center justify-center text-primary mb-10 transition-all duration-500 group-hover:bg-primary group-hover:text-white group-hover:rotate-6 shadow-sm">
-                          <FileText className="h-9 w-9" />
+                    <Card className="border-none shadow-[0_25px_60px_-15px_rgba(0,0,0,0.08)] hover:shadow-[0_45px_90px_-20px_rgba(0,71,255,0.2)] transition-all duration-700 rounded-[45px] bg-white flex flex-col h-full group overflow-hidden border-b-8 border-transparent hover:border-primary">
+                      <div className="relative h-60 w-full overflow-hidden">
+                        {displayImage && (
+                          <Image 
+                            src={displayImage} 
+                            alt={service.title} 
+                            fill 
+                            className="object-cover group-hover:scale-110 transition-transform duration-700" 
+                          />
+                        )}
+                        <div className="absolute inset-0 bg-gradient-to-t from-white via-white/20 to-transparent" />
+                        <div className="absolute bottom-6 left-10">
+                           <div className="bg-primary/90 backdrop-blur-md w-14 h-14 rounded-[18px] flex items-center justify-center text-white shadow-lg">
+                            <FileText className="h-7 w-7" />
+                          </div>
                         </div>
-                        <CardTitle className="font-headline text-3xl text-accent mb-5 group-hover:text-primary transition-colors">{service.title}</CardTitle>
+                      </div>
+                      <CardHeader className="px-10 pt-4 pb-0">
+                        <CardTitle className="font-headline text-3xl text-accent mb-4 group-hover:text-primary transition-colors leading-tight">
+                          {service.title}
+                        </CardTitle>
                       </CardHeader>
-                      <CardContent className="p-0 space-y-10 flex-grow">
-                        <p className="text-slate-500 text-base md:text-lg leading-relaxed font-light">
+                      <CardContent className="px-10 pb-12 space-y-8 flex-grow">
+                        <p className="text-slate-500 text-base leading-relaxed font-light">
                           {service.description}
                         </p>
-                        <div className="space-y-5">
-                          {service.features.map((feature: string, i: number) => (
-                            <div key={i} className="flex items-center gap-4 text-sm text-slate-600 font-bold uppercase tracking-wider">
-                              <div className="h-2 w-2 rounded-full bg-primary" />
+                        <div className="space-y-4">
+                          {service.features.slice(0, 3).map((feature: string, i: number) => (
+                            <div key={i} className="flex items-center gap-3 text-[11px] text-slate-400 font-bold uppercase tracking-wider">
+                              <CheckCircle className="h-3 w-3 text-primary" />
                               <span>{feature}</span>
                             </div>
                           ))}
