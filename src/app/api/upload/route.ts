@@ -14,7 +14,9 @@ export async function POST(request: Request) {
     
     // Create unique filename
     const sanitizedName = (name || 'upload').replace(/[^a-z0-9]/gi, '_').toLowerCase();
-    const fileName = `${sanitizedName}_${Date.now()}.jpg`;
+    
+    // Use .png to preserve transparency (especially critical for the brand logo)
+    const fileName = `${sanitizedName}_${Date.now()}.png`;
     
     // Define upload directory (public/images is accessible via web)
     const uploadDir = path.join(process.cwd(), 'public', 'images');

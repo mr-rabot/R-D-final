@@ -1,4 +1,3 @@
-
 {
   "brand": {
     "logo": "/images/brand_logo_1774843667641.jpg"
@@ -21,7 +20,7 @@
         "value": "24/7"
       }
     ],
-    "image": "/images/hero_image_1774841329810.jpg"
+    "image": "/images/hero_image_1774843949671.jpg"
   },
   "leadership": {
     "founder": {
@@ -48,7 +47,7 @@
         "value": "120+"
       }
     ],
-    "image": "/images/firmsummary_image_1774841376965.jpg"
+    "image": "/images/firmsummary_image_1774843961226.jpg"
   },
   "services": [
     {
@@ -60,7 +59,7 @@
         "Literature review",
         "Timely delivery"
       ],
-      "image": "/images/service_1_1774841400000.jpg"
+      "image": "/images/services_0_image_1774844002846.jpg"
     },
     {
       "title": "Thesis Writing",
@@ -71,7 +70,7 @@
         "Formatting excellence",
         "Unlimited revisions"
       ],
-      "image": "/images/service_2_1774841400000.jpg"
+      "image": "/images/services_1_image_1774844050869.jpg"
     },
     {
       "title": "Dissertation",
@@ -82,7 +81,7 @@
         "Citation accuracy",
         "Plagiarism report"
       ],
-      "image": "/images/service_3_1774841400000.jpg"
+      "image": "/images/services_2_image_1774844066685.jpg"
     },
     {
       "title": "Project Reports (New)",
@@ -92,7 +91,8 @@
         "Data visualization",
         "Practical insights",
         "Standardized formatting"
-      ]
+      ],
+      "image": "/images/services_3_image_1774844167105.jpg"
     },
     {
       "title": "Literature Review (New)",
@@ -102,7 +102,8 @@
         "Identify gaps",
         "Extensive sources",
         "Theoretical grounding"
-      ]
+      ],
+      "image": "/images/services_4_image_1774844185971.jpg"
     },
     {
       "title": "Research Proposal (New)",
@@ -112,7 +113,8 @@
         "Detailed methodology",
         "Problem statement",
         "Funding-ready"
-      ]
+      ],
+      "image": "/images/services_5_image_1774844204829.jpg"
     }
   ],
   "pricing": [

@@ -54,6 +54,9 @@ const getCroppedImg = async (imageSrc: string, pixelCrop: any): Promise<string> 
   canvas.width = targetWidth;
   canvas.height = targetHeight;
 
+  // Ensure transparent background for PNGs
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
   ctx.drawImage(
     image,
     pixelCrop.x,
@@ -66,7 +69,8 @@ const getCroppedImg = async (imageSrc: string, pixelCrop: any): Promise<string> 
     targetHeight
   );
 
-  return canvas.toDataURL("image/jpeg", 0.9);
+  // Return PNG to preserve transparency (especially critical for logos)
+  return canvas.toDataURL("image/png");
 };
 
 export default function AdminDashboard() {
@@ -334,7 +338,8 @@ export default function AdminDashboard() {
                   <ImageIcon className="h-6 w-6" />
                   <h3 className="text-xl font-headline font-bold">Official Brand Logo</h3>
                 </div>
-                <div className="relative h-32 w-full rounded-2xl overflow-hidden border-4 border-slate-50 shadow-md bg-slate-100 flex items-center justify-center p-4">
+                {/* Removed background and border to maintain original upload look */}
+                <div className="relative h-32 w-full rounded-2xl overflow-hidden bg-transparent flex items-center justify-center p-4 border border-slate-100">
                   {siteData.brand?.logo ? (
                     <Image src={siteData.brand.logo} alt="Brand Logo" fill className="object-contain p-4" />
                   ) : (
