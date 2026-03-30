@@ -4,7 +4,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { Mail, MessageSquare, Sparkles, Loader2 } from "lucide-react";
+import { Mail, MessageSquare, Sparkles } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 
 export function Hero() {
@@ -106,16 +106,17 @@ export function Hero() {
           <div className="mt-20 lg:mt-0 relative flex justify-center lg:block animate-in fade-in zoom-in duration-1000 delay-300">
             <div className="relative z-10 w-full max-w-xl lg:max-w-none">
               {isLoading ? (
-                <Skeleton className="aspect-[4/5] sm:aspect-square w-full rounded-[40px] md:rounded-[60px] bg-white/5 border-[12px] md:border-[16px] border-white/5" />
+                <Skeleton className="aspect-[4/5] w-full rounded-[40px] md:rounded-[60px] bg-white/5 border-[12px] md:border-[16px] border-white/5" />
               ) : (
                 heroData?.image && (
-                  <div className="relative aspect-[4/5] sm:aspect-square w-full overflow-hidden rounded-[40px] md:rounded-[60px] border-[12px] md:border-[16px] border-white/5 shadow-[0_40px_80px_rgba(0,0,0,0.5)] group">
+                  <div className="relative aspect-[4/5] w-full overflow-hidden rounded-[40px] md:rounded-[60px] border-[12px] md:border-[16px] border-white/5 shadow-[0_40px_80px_rgba(0,0,0,0.5)] group">
                     <Image
                       src={heroData.image}
                       alt="Hero Visual"
                       fill
                       className="object-cover transition-transform duration-1000 group-hover:scale-105"
                       priority
+                      style={{ objectFit: 'cover' }}
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                   </div>

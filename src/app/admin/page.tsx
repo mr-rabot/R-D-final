@@ -1,14 +1,13 @@
+
 "use client";
 
 import { useState, useCallback, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Card, CardContent } from "@/components/ui/card";
+import { Tabs, TabsContent } from "@/components/ui/tabs";
 import { 
-  LayoutDashboard, 
-  Users, 
   LogOut, 
   ShieldCheck, 
   Zap, 
@@ -17,8 +16,6 @@ import {
   Upload, 
   UserCircle,
   FileText,
-  CreditCard,
-  MessageSquare,
   HelpCircle,
   Save,
   Rocket,
@@ -28,11 +25,10 @@ import {
   Beaker,
   Settings,
   Mail,
-  Lock,
   Loader2,
   Image as ImageIcon,
   GalleryVertical,
-  BookOpen
+  Users
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import Image from "next/image";
@@ -42,8 +38,7 @@ import {
   Dialog, 
   DialogContent, 
   DialogHeader, 
-  DialogTitle, 
-  DialogDescription 
+  DialogTitle 
 } from "@/components/ui/dialog";
 
 const getCroppedImg = async (imageSrc: string, pixelCrop: any): Promise<string> => {
@@ -163,7 +158,6 @@ export default function AdminDashboard() {
         let current = newData;
         for (let i = 0; i < parts.length - 1; i++) {
           const part = parts[i];
-          // Handle array indexing if part is a number
           const index = parseInt(part);
           if (!isNaN(index)) {
              current = (current as any)[index];
@@ -336,7 +330,6 @@ export default function AdminDashboard() {
           
           <TabsContent value="media">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {/* Brand Logo Card */}
               <Card className="border-none shadow-xl rounded-[40px] p-6 md:p-10 bg-white space-y-6">
                 <div className="flex items-center gap-3 text-primary mb-2">
                   <ImageIcon className="h-6 w-6" />
@@ -357,7 +350,6 @@ export default function AdminDashboard() {
                 </Button>
               </Card>
 
-              {/* Hero Image Card */}
               <Card className="border-none shadow-xl rounded-[40px] p-6 md:p-10 bg-white space-y-6">
                 <div className="flex items-center gap-3 text-primary mb-2">
                   <Rocket className="h-6 w-6" />
@@ -375,7 +367,6 @@ export default function AdminDashboard() {
                 </Button>
               </Card>
 
-              {/* Leadership Images */}
               <Card className="border-none shadow-xl rounded-[40px] p-6 md:p-10 bg-white space-y-6">
                 <div className="flex items-center gap-3 text-primary mb-2">
                   <Users className="h-6 w-6" />
@@ -395,7 +386,6 @@ export default function AdminDashboard() {
                 </div>
               </Card>
 
-              {/* Summary Image */}
               <Card className="border-none shadow-xl rounded-[40px] p-6 md:p-10 bg-white space-y-6">
                 <div className="flex items-center gap-3 text-primary mb-2">
                   <FileText className="h-6 w-6" />
@@ -413,7 +403,6 @@ export default function AdminDashboard() {
                 </Button>
               </Card>
 
-              {/* Service Images Section */}
               <div className="md:col-span-2 pt-10 border-t border-slate-200">
                 <div className="flex items-center gap-3 text-primary mb-8">
                   <Zap className="h-6 w-6" />
@@ -692,7 +681,7 @@ export default function AdminDashboard() {
             <div className="grid lg:grid-cols-2 gap-8">
               <Card className="border-none shadow-xl rounded-[40px] p-6 md:p-10 bg-white space-y-8">
                 <div className="flex items-center gap-3 text-primary mb-2">
-                  <MessageSquare className="h-6 w-6" />
+                  <Mail className="h-6 w-6" />
                   <h3 className="text-2xl font-headline font-bold">WhatsApp Settings</h3>
                 </div>
                 <div className="space-y-4">
@@ -742,9 +731,6 @@ export default function AdminDashboard() {
 
       <Dialog open={isCropperOpen} onOpenChange={setIsCropperOpen}>
         <DialogContent className="max-w-xl bg-white rounded-3xl p-0 overflow-hidden border-none">
-          <DialogHeader className="sr-only">
-            <DialogTitle>Crop Media</DialogTitle>
-          </DialogHeader>
           <div className="relative h-96 bg-black">
             {imageToCrop && (
               <Cropper 
@@ -753,8 +739,9 @@ export default function AdminDashboard() {
                 zoom={zoom} 
                 aspect={
                   currentEditingPath?.includes('logo') ? 16/7 : 
-                  (currentEditingPath?.includes('hero') ? 16/9 : 
-                  (currentEditingPath?.includes('firmSummary') ? 16/10 : 1))
+                  (currentEditingPath?.includes('hero') ? 4/5 : 
+                  (currentEditingPath?.includes('firmSummary') ? 16/10 : 
+                  (currentEditingPath?.includes('services') ? 16/9 : 1)))
                 } 
                 onCropChange={setCrop} 
                 onZoomChange={setZoom} 

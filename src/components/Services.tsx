@@ -1,3 +1,4 @@
+
 "use client";
 
 import * as React from "react";
@@ -119,13 +120,14 @@ export function Services() {
                 return (
                   <CarouselItem key={index} className="pl-6 md:pl-10 basis-full md:basis-1/2 lg:basis-1/3 py-8">
                     <Card className="border-none shadow-[0_25px_60px_-15px_rgba(0,0,0,0.08)] hover:shadow-[0_45px_90px_-20px_rgba(0,71,255,0.2)] transition-all duration-700 rounded-[45px] bg-white flex flex-col h-full group overflow-hidden border-b-8 border-transparent hover:border-primary">
-                      <div className="relative h-60 w-full overflow-hidden">
+                      <div className="relative aspect-video w-full overflow-hidden">
                         {displayImage && (
                           <Image 
                             src={displayImage} 
                             alt={service.title} 
                             fill 
                             className="object-cover group-hover:scale-110 transition-transform duration-700" 
+                            style={{ objectFit: 'cover' }}
                           />
                         )}
                         <div className="absolute inset-0 bg-gradient-to-t from-white via-white/20 to-transparent" />
