@@ -1,20 +1,16 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Beaker } from "lucide-react";
 import Link from "next/link";
-import Image from "next/image";
 
 export function Footer() {
   const [whatsapp, setWhatsapp] = useState("916209779365");
-  const [logo, setLogo] = useState<string | null>(null);
 
   useEffect(() => {
     fetch('/api/leadership')
       .then(res => res.json())
       .then(data => {
         if (data.integrations?.whatsapp) setWhatsapp(data.integrations.whatsapp);
-        if (data.brand?.logo) setLogo(data.brand.logo);
       })
       .catch(err => console.error("Error fetching footer data:", err));
   }, []);
@@ -25,31 +21,15 @@ export function Footer() {
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
           {/* Brand Column */}
           <div className="space-y-6">
-            <Link href="/" className="flex items-center gap-3">
-              {logo ? (
-                <div className="relative h-16 w-44">
-                  <Image 
-                    src={logo} 
-                    alt="Logo" 
-                    fill 
-                    className="object-contain object-left" 
-                  />
-                </div>
-              ) : (
-                <>
-                  <div className="bg-[#2563eb] p-2 rounded-lg">
-                    <Beaker className="h-6 w-6 text-white" />
-                  </div>
-                  <div className="flex flex-col">
-                    <span className="font-headline text-2xl font-bold text-white tracking-tight leading-none uppercase">
-                      R & D
-                    </span>
-                    <span className="text-[10px] text-blue-200 font-medium">
-                      Services Pvt. Ltd.
-                    </span>
-                  </div>
-                </>
-              )}
+            <Link href="/" className="group inline-block">
+              <div className="flex flex-col">
+                <span className="font-headline text-3xl font-bold text-white tracking-tight leading-none uppercase">
+                  R & D
+                </span>
+                <span className="text-[10px] text-blue-200 font-bold uppercase tracking-widest mt-1 group-hover:text-primary transition-colors">
+                  Services Pvt. Ltd.
+                </span>
+              </div>
             </Link>
             <p className="text-slate-400 leading-relaxed text-sm">
               Professional research writing and academic consulting services. Led by Om Prakash Sinha, we guarantee quality, originality, and timely delivery for R&D Services Pvt. Ltd.
