@@ -46,7 +46,7 @@ export function Testimonials() {
   }, []);
 
   return (
-    <section id="testimonials" ref={sectionRef} className="py-32 bg-white overflow-hidden relative">
+    <section id="testimonials" ref={sectionRef} className="py-32 bg-white overflow-hidden relative w-full">
       <div className="absolute top-0 right-0 w-1/3 h-1/3 bg-primary/5 blur-[120px] rounded-full pointer-events-none" />
       <div className="absolute bottom-0 left-0 w-1/4 h-1/4 bg-blue-400/5 blur-[100px] rounded-full pointer-events-none" />
 
@@ -66,21 +66,21 @@ export function Testimonials() {
           </p>
         </div>
 
-        <div className="relative px-8 sm:px-16 lg:px-20 py-12 overflow-visible">
+        <div className="relative px-8 sm:px-16 lg:px-20 py-12 overflow-hidden">
           <Carousel
             plugins={[plugin.current]}
-            className="w-full overflow-visible"
+            className="w-full"
             opts={{
               align: "start",
               loop: true,
             }}
           >
-            <CarouselContent className="-ml-6 md:-ml-8 overflow-visible">
+            <CarouselContent className="-ml-6 md:-ml-8">
               {testimonials.map((t, index) => {
                 const placeholderId = `testimonial-${(index % 6) + 1}`;
                 const img = PlaceHolderImages.find(i => i.id === placeholderId);
                 return (
-                  <CarouselItem key={index} className="pl-6 md:pl-8 basis-full md:basis-1/2 lg:basis-1/3 xl:basis-1/4 py-10 overflow-visible">
+                  <CarouselItem key={index} className="pl-6 md:pl-8 basis-full md:basis-1/2 lg:basis-1/3 xl:basis-1/4 py-10">
                     <div className="bg-white p-10 rounded-[40px] border border-slate-100 shadow-[0_30px_70px_-15px_rgba(0,0,0,0.12)] hover:shadow-[0_45px_100px_-20px_rgba(0,71,255,0.15)] transition-all duration-500 flex flex-col h-full group relative overflow-hidden">
                       <div className="absolute -top-6 -right-6 opacity-[0.03] group-hover:opacity-[0.08] transition-opacity">
                         <Quote className="h-32 w-32 text-accent" />

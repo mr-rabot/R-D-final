@@ -64,7 +64,7 @@ export function Services() {
   }, []);
 
   return (
-    <section id="services" ref={sectionRef} className="py-32 bg-slate-50/50 overflow-hidden">
+    <section id="services" ref={sectionRef} className="py-32 bg-slate-50/50 overflow-hidden w-full">
       <div className={cn(
         "w-full px-4 sm:px-12 lg:px-20 transition-all duration-1000",
         isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
@@ -101,7 +101,7 @@ export function Services() {
           </p>
         </div>
 
-        <div className="relative px-6 sm:px-12">
+        <div className="relative px-6 sm:px-12 overflow-hidden">
           <Carousel
             plugins={[plugin.current]}
             className="w-full"

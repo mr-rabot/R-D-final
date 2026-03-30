@@ -33,7 +33,7 @@ export function Hero() {
   };
 
   return (
-    <section className="hero-gradient text-white pt-32 pb-24 md:pt-48 md:pb-40 overflow-hidden relative min-h-[80vh] flex items-center">
+    <section className="hero-gradient text-white pt-32 pb-24 md:pt-48 md:pb-40 overflow-hidden relative min-h-[80vh] flex items-center w-full">
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
         <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/20 blur-[120px] rounded-full animate-pulse" />
         <div className="absolute bottom-[-10%] right-[-10%] w-[30%] h-[30%] bg-blue-400/10 blur-[100px] rounded-full" />
