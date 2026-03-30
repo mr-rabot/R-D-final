@@ -730,6 +730,9 @@ export default function AdminDashboard() {
 
       <Dialog open={isCropperOpen} onOpenChange={setIsCropperOpen}>
         <DialogContent className="max-w-xl bg-white rounded-3xl p-0 overflow-hidden border-none">
+          <DialogHeader className="p-8 pb-0">
+            <DialogTitle className="text-2xl font-headline font-bold text-slate-900 uppercase tracking-tight">Adjust Image</DialogTitle>
+          </DialogHeader>
           <div className="relative h-96 bg-black">
             {imageToCrop && (
               <Cropper 
