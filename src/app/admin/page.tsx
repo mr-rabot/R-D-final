@@ -30,7 +30,8 @@ import {
   Settings,
   Mail,
   Lock,
-  Loader2
+  Loader2,
+  Image as ImageIcon
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import Image from "next/image";
@@ -53,6 +54,7 @@ const getCroppedImg = async (imageSrc: string, pixelCrop: any): Promise<string> 
   const ctx = canvas.getContext("2d");
   if (!ctx) return "";
 
+  // For logo, we might want higher resolution or different aspect
   const targetSize = 800;
   canvas.width = targetSize;
   canvas.height = targetSize;
@@ -98,6 +100,8 @@ export default function AdminDashboard() {
       const res = await fetch('/api/leadership', { cache: 'no-store' });
       if (!res.ok) throw new Error("Failed to fetch");
       const data = await res.json();
+      // Ensure brand object exists
+      if (!data.brand) data.brand = { logo: "" };
       setSiteData(data);
     } catch (error) {
       console.error("Fetch Error:", error);
@@ -158,6 +162,7 @@ export default function AdminDashboard() {
         const parts = currentEditingPath.split('.');
         let current = newData;
         for (let i = 0; i < parts.length - 1; i++) {
+          if (!current[parts[i]]) current[parts[i]] = {};
           current = current[parts[i]];
         }
         current[parts[parts.length - 1]] = url;
@@ -251,7 +256,7 @@ export default function AdminDashboard() {
     { id: "pricing", icon: CreditCard, label: "Pricing" },
     { id: "testimonials", icon: Star, label: "Testimonials" },
     { id: "faq", icon: HelpCircle, label: "FAQ" },
-    { id: "integrations", icon: Settings, label: "Integrations" }
+    { id: "integrations", icon: Settings, label: "Integrations & Brand" }
   ];
 
   return (
@@ -673,76 +678,108 @@ export default function AdminDashboard() {
           </TabsContent>
 
           <TabsContent value="integrations">
-            <div className="grid lg:grid-cols-2 gap-8">
+            <div className="space-y-8">
+              {/* Brand Logo Section */}
               <Card className="border-none shadow-xl rounded-[40px] p-6 md:p-10 bg-white space-y-8">
                 <div className="flex items-center gap-3 text-primary mb-2">
-                  <MessageSquare className="h-6 w-6" />
-                  <h3 className="text-2xl font-headline font-bold">WhatsApp Settings</h3>
+                  <ImageIcon className="h-6 w-6" />
+                  <h3 className="text-2xl font-headline font-bold">Brand Identity</h3>
                 </div>
-                <div className="space-y-4">
-                  <div className="space-y-2">
-                    <label className="text-[10px] font-bold uppercase text-slate-400">WhatsApp Number (with country code)</label>
-                    <Input 
-                      value={siteData.integrations?.whatsapp || ""} 
-                      onChange={(e) => setSiteData({...siteData, integrations: {...siteData.integrations, whatsapp: e.target.value}})} 
-                      placeholder="e.g. 916209779365"
-                      className="bg-slate-50 border-none rounded-xl h-12" 
-                    />
-                    <p className="text-[10px] text-slate-400 mt-1 italic">This number will be used for all WhatsApp call-to-action buttons across the site.</p>
+                <div className="space-y-6">
+                  <div className="flex flex-col md:flex-row items-center gap-8">
+                    <div className="relative h-24 w-56 rounded-2xl overflow-hidden border-4 border-slate-50 shadow-md bg-slate-100 flex items-center justify-center p-4">
+                      {siteData.brand?.logo ? (
+                        <Image src={siteData.brand.logo} alt="Brand Logo" fill className="object-contain p-2" />
+                      ) : (
+                        <div className="text-center text-slate-300">
+                          <Beaker className="h-10 w-10 mx-auto mb-1" />
+                          <p className="text-[10px] font-bold uppercase">No Logo</p>
+                        </div>
+                      )}
+                    </div>
+                    <div className="flex-grow space-y-4">
+                      <p className="text-xs text-slate-500 max-w-sm">
+                        Upload your official brand logo. This will replace the text and icon logo in the Header and Footer.
+                      </p>
+                      <Button variant="outline" size="sm" className="rounded-xl font-bold" onClick={() => { setCurrentEditingPath(`brand.logo`); fileInputRef.current?.click(); }}>
+                        <Upload className="h-4 w-4 mr-2" /> Upload Brand Logo
+                      </Button>
+                    </div>
                   </div>
                 </div>
               </Card>
 
-              <Card className="border-none shadow-xl rounded-[40px] p-6 md:p-10 bg-white space-y-8">
-                <div className="flex items-center gap-3 text-primary mb-2">
-                  <Mail className="h-6 w-6" />
-                  <h3 className="text-2xl font-headline font-bold">SMTP Integration</h3>
-                </div>
-                <div className="space-y-4">
-                  <div className="grid sm:grid-cols-2 gap-4">
+              <div className="grid lg:grid-cols-2 gap-8">
+                <Card className="border-none shadow-xl rounded-[40px] p-6 md:p-10 bg-white space-y-8">
+                  <div className="flex items-center gap-3 text-primary mb-2">
+                    <MessageSquare className="h-6 w-6" />
+                    <h3 className="text-2xl font-headline font-bold">WhatsApp Settings</h3>
+                  </div>
+                  <div className="space-y-4">
                     <div className="space-y-2">
-                      <label className="text-[10px] font-bold uppercase text-slate-400">SMTP Host</label>
+                      <label className="text-[10px] font-bold uppercase text-slate-400">WhatsApp Number (with country code)</label>
                       <Input 
-                        value={siteData.integrations?.smtp?.host || ""} 
-                        onChange={(e) => setSiteData({...siteData, integrations: {...siteData.integrations, smtp: {...siteData.integrations.smtp, host: e.target.value}}})} 
-                        placeholder="smtp.example.com"
+                        value={siteData.integrations?.whatsapp || ""} 
+                        onChange={(e) => setSiteData({...siteData, integrations: {...siteData.integrations, whatsapp: e.target.value}})} 
+                        placeholder="e.g. 916209779365"
                         className="bg-slate-50 border-none rounded-xl h-12" 
-                    />
+                      />
+                      <p className="text-[10px] text-slate-400 mt-1 italic">This number will be used for all WhatsApp call-to-action buttons across the site.</p>
+                    </div>
+                  </div>
+                </Card>
+
+                <Card className="border-none shadow-xl rounded-[40px] p-6 md:p-10 bg-white space-y-8">
+                  <div className="flex items-center gap-3 text-primary mb-2">
+                    <Mail className="h-6 w-6" />
+                    <h3 className="text-2xl font-headline font-bold">SMTP Integration</h3>
+                  </div>
+                  <div className="space-y-4">
+                    <div className="grid sm:grid-cols-2 gap-4">
+                      <div className="space-y-2">
+                        <label className="text-[10px] font-bold uppercase text-slate-400">SMTP Host</label>
+                        <Input 
+                          value={siteData.integrations?.smtp?.host || ""} 
+                          onChange={(e) => setSiteData({...siteData, integrations: {...siteData.integrations, smtp: {...siteData.integrations.smtp, host: e.target.value}}})} 
+                          placeholder="smtp.example.com"
+                          className="bg-slate-50 border-none rounded-xl h-12" 
+                      />
+                      </div>
+                      <div className="space-y-2">
+                        <label className="text-[10px] font-bold uppercase text-slate-400">SMTP Port</label>
+                        <Input 
+                          value={siteData.integrations?.smtp?.port || ""} 
+                          onChange={(e) => setSiteData({...siteData, integrations: {...siteData.integrations, smtp: {...siteData.integrations.smtp, port: e.target.value}}})} 
+                          placeholder="587"
+                          className="bg-slate-50 border-none rounded-xl h-12" 
+                        />
+                      </div>
                     </div>
                     <div className="space-y-2">
-                      <label className="text-[10px] font-bold uppercase text-slate-400">SMTP Port</label>
+                      <label className="text-[10px] font-bold uppercase text-slate-400">SMTP User</label>
                       <Input 
-                        value={siteData.integrations?.smtp?.port || ""} 
-                        onChange={(e) => setSiteData({...siteData, integrations: {...siteData.integrations, smtp: {...siteData.integrations.smtp, port: e.target.value}}})} 
-                        placeholder="587"
+                        value={siteData.integrations?.smtp?.user || ""} 
+                        onChange={(e) => setSiteData({...siteData, integrations: {...siteData.integrations, smtp: {...siteData.integrations.smtp, user: e.target.value}}})} 
+                        placeholder="user@example.com"
                         className="bg-slate-50 border-none rounded-xl h-12" 
                       />
                     </div>
-                  </div>
-                  <div className="space-y-2">
-                    <label className="text-[10px] font-bold uppercase text-slate-400">SMTP User</label>
-                    <Input 
-                      value={siteData.integrations?.smtp?.user || ""} 
-                      onChange={(e) => setSiteData({...siteData, integrations: {...siteData.integrations, smtp: {...siteData.integrations.smtp, user: e.target.value}}})} 
-                      placeholder="user@example.com"
-                      className="bg-slate-50 border-none rounded-xl h-12" 
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <label className="text-[10px] font-bold uppercase text-slate-400">SMTP Password (Stored Encrypted)</label>
-                    <div className="relative">
-                      <Input 
-                        type="password"
-                        value={siteData.integrations?.smtp?.password || ""} 
-                        onChange={(e) => setSiteData({...siteData, integrations: {...siteData.integrations, smtp: {...siteData.integrations.smtp, password: e.target.value}}})} 
-                        className="bg-slate-50 border-none rounded-xl h-12 pl-10" 
-                      />
-                      <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-bold uppercase text-slate-400">SMTP Password (Stored Encrypted)</label>
+                      <div className="relative">
+                        <Input 
+                          type="password"
+                          value={siteData.integrations?.smtp?.password || ""} 
+                          onChange={(e) => setSiteData({...siteData, integrations: {...siteData.integrations, smtp: {...siteData.integrations.smtp, password: e.target.value}}})} 
+                          className="bg-slate-50 border-none rounded-xl h-12 pl-10" 
+                        />
+                        <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+                      </div>
+                      <p className="text-[10px] text-slate-400 mt-1 italic">Note: For Gmail, use an "App Password". SMTP data is stored in the site configuration for automated mail responses.</p>
                     </div>
-                    <p className="text-[10px] text-slate-400 mt-1 italic">Note: For Gmail, use an "App Password". SMTP data is stored in the site configuration for automated mail responses.</p>
                   </div>
-                </div>
-              </Card>
+                </Card>
+              </div>
             </div>
           </TabsContent>
 
@@ -758,7 +795,7 @@ export default function AdminDashboard() {
             </DialogDescription>
           </DialogHeader>
           <div className="relative h-96 bg-black">
-            {imageToCrop && <Cropper image={imageToCrop} crop={crop} zoom={zoom} aspect={currentEditingPath?.includes('hero') ? 16/9 : (currentEditingPath?.includes('firmSummary') ? 16/12 : 1)} onCropChange={setCrop} onZoomChange={setZoom} onCropComplete={onCropComplete} />}
+            {imageToCrop && <Cropper image={imageToCrop} crop={crop} zoom={zoom} aspect={currentEditingPath?.includes('logo') ? 16/7 : (currentEditingPath?.includes('hero') ? 16/9 : (currentEditingPath?.includes('firmSummary') ? 16/12 : 1))} onCropChange={setCrop} onZoomChange={setZoom} onCropComplete={onCropComplete} />}
           </div>
           <div className="p-8">
             <Button disabled={isUploading} className="w-full h-14 bg-primary rounded-xl font-bold" onClick={saveCroppedImage}>

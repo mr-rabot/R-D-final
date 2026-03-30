@@ -1,5 +1,8 @@
 
 {
+  "brand": {
+    "logo": ""
+  },
   "hero": {
     "badge": "Premier Research Excellence",
     "title": "Scholarly Research Perfected.",
@@ -18,7 +21,7 @@
         "value": "24/7"
       }
     ],
-    "image": "/images/hero_image_1773330358980.jpg"
+    "image": "/images/hero_image_1774841329810.jpg"
   },
   "leadership": {
     "founder": {
@@ -45,7 +48,7 @@
         "value": "120+"
       }
     ],
-    "image": "/images/firmsummary_image_1773330381812.jpg"
+    "image": "/images/firmsummary_image_1774841376965.jpg"
   },
   "services": [
     {

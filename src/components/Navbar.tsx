@@ -2,6 +2,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { Beaker, Menu, X, MessageSquare } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState, useEffect } from "react";
@@ -10,12 +11,22 @@ import { cn } from "@/lib/utils";
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [logo, setLogo] = useState<string | null>(null);
 
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
     };
     window.addEventListener("scroll", handleScroll);
+    
+    // Fetch brand logo
+    fetch('/api/leadership', { cache: 'no-store' })
+      .then(res => res.json())
+      .then(data => {
+        if (data.brand?.logo) setLogo(data.brand.logo);
+      })
+      .catch(err => console.error("Error fetching navbar logo:", err));
+
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -44,23 +55,37 @@ export function Navbar() {
         <div className="flex justify-between items-center">
           <div className="flex items-center">
             <Link href="/" className="flex items-center gap-3 md:gap-4 group">
-              <div className="bg-primary p-2 md:p-2.5 rounded-xl transition-transform group-hover:scale-105 shadow-lg shadow-primary/20">
-                <Beaker className="h-5 w-5 md:h-6 md:w-6 text-white" />
-              </div>
-              <div className="flex flex-col">
-                <span className={cn(
-                  "font-headline text-xl md:text-2xl font-bold tracking-tight leading-none",
-                  scrolled ? "text-primary" : "text-primary md:text-white"
-                )}>
-                  R&D
-                </span>
-                <span className={cn(
-                  "text-[8px] md:text-[9px] uppercase tracking-wider font-semibold mt-1",
-                  scrolled ? "text-muted-foreground" : "text-muted-foreground md:text-blue-100/70"
-                )}>
-                  Research & Development Services
-                </span>
-              </div>
+              {logo ? (
+                <div className="relative h-12 w-32">
+                  <Image 
+                    src={logo} 
+                    alt="Logo" 
+                    fill 
+                    className="object-contain" 
+                    priority
+                  />
+                </div>
+              ) : (
+                <div className="bg-primary p-2 md:p-2.5 rounded-xl transition-transform group-hover:scale-105 shadow-lg shadow-primary/20">
+                  <Beaker className="h-5 w-5 md:h-6 md:w-6 text-white" />
+                </div>
+              )}
+              {!logo && (
+                <div className="flex flex-col">
+                  <span className={cn(
+                    "font-headline text-xl md:text-2xl font-bold tracking-tight leading-none",
+                    scrolled ? "text-primary" : "text-primary md:text-white"
+                  )}>
+                    R&D
+                  </span>
+                  <span className={cn(
+                    "text-[8px] md:text-[9px] uppercase tracking-wider font-semibold mt-1",
+                    scrolled ? "text-muted-foreground" : "text-muted-foreground md:text-blue-100/70"
+                  )}>
+                    Research & Development Services
+                  </span>
+                </div>
+              )}
             </Link>
           </div>
 
