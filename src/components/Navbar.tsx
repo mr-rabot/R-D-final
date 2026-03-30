@@ -18,8 +18,8 @@ export function Navbar() {
     };
     window.addEventListener("scroll", handleScroll);
     
-    // Fetch brand logo
-    fetch('/api/leadership', { cache: 'no-store' })
+    // Fetch brand logo with cache busting
+    fetch(`/api/leadership?t=${Date.now()}`, { cache: 'no-store' })
       .then(res => res.json())
       .then(data => {
         if (data.brand?.logo) setLogo(data.brand.logo);
@@ -50,7 +50,7 @@ export function Navbar() {
       "fixed top-0 z-[100] w-full transition-all duration-500 h-24 flex items-center border-b",
       scrolled 
         ? "bg-white/95 backdrop-blur-xl shadow-sm border-slate-100" 
-        : "bg-white/90 backdrop-blur-md md:bg-white/80 md:border-white/20 border-slate-100"
+        : "bg-white/80 backdrop-blur-md border-slate-100"
     )}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
         <div className="flex justify-between items-center">

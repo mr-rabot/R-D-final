@@ -1,4 +1,3 @@
-
 {
   "brand": {
     "logo": "/images/brand_logo_1774844652195.png"
@@ -127,7 +126,7 @@
         "excerpt": "Discover the critical framework used by top researchers to synthesize existing knowledge and identify research gaps effectively.",
         "author": "Academic Team",
         "date": "May 12, 2024",
-        "image": "",
+        "image": "/images/blog_posts_0_image_1774845264422.png",
         "category": "Methodology"
       },
       {
@@ -135,7 +134,7 @@
         "excerpt": "A deep dive into P-values, effect sizes, and why modern science is moving beyond binary testing for more robust findings.",
         "author": "Expert Review",
         "date": "May 10, 2024",
-        "image": "",
+        "image": "/images/blog_posts_1_image_1774845284713.png",
         "category": "Statistics"
       }
     ]
