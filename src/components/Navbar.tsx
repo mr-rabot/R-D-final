@@ -3,7 +3,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { Beaker, Menu, X, MessageSquare } from "lucide-react";
+import { Menu, X, MessageSquare } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
@@ -32,7 +32,7 @@ export function Navbar() {
         if (!res.ok) throw new Error("Logo fetch failed");
         const data = await res.json();
         if (data.brand?.logo) {
-          // Append a timestamp to the URL to force browser re-download if the path is the same
+          // Append a timestamp to the URL to force browser re-download
           setLogo(`${data.brand.logo}?v=${Date.now()}`);
         }
       } catch (err) {
@@ -71,32 +71,21 @@ export function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
         <div className="flex justify-between items-center">
           <div className="flex items-center">
-            <Link href="/" className="flex items-center gap-3 md:gap-4 group">
+            <Link href="/" className="flex items-center group">
               {logo ? (
-                <div className="relative h-14 w-32 md:w-40 lg:w-48">
+                <div className="relative h-14 w-32 md:w-40 lg:w-48 transition-opacity duration-300">
                   <Image 
                     src={logo} 
-                    alt="Logo" 
+                    alt="R & D Services Logo" 
                     fill 
                     className="object-contain object-left" 
                     priority
-                    unoptimized // Prevents stale cached optimized versions
+                    unoptimized
                   />
                 </div>
               ) : (
-                <div className="flex items-center gap-3">
-                  <div className="bg-primary p-2 md:p-2.5 rounded-xl transition-transform group-hover:scale-105 shadow-lg shadow-primary/20">
-                    <Beaker className="h-5 w-5 md:h-6 md:w-6 text-white" />
-                  </div>
-                  <div className="flex flex-col">
-                    <span className="font-headline text-xl md:text-2xl font-bold tracking-tight leading-none text-primary">
-                      R&D
-                    </span>
-                    <span className="text-[8px] md:text-[9px] uppercase tracking-wider font-semibold mt-1 text-muted-foreground">
-                      Research & Development Services
-                    </span>
-                  </div>
-                </div>
+                /* Minimal placeholder while logo loads to avoid layout shift, no static branding here */
+                <div className="h-14 w-32 md:w-48 bg-transparent" />
               )}
             </Link>
           </div>
