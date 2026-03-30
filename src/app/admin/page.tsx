@@ -751,9 +751,23 @@ export default function AdminDashboard() {
               />
             )}
           </div>
-          <div className="p-8">
-            <Button disabled={isUploading} className="w-full h-14 bg-primary rounded-xl font-bold" onClick={saveCroppedImage}>
-              {isUploading ? <Loader2 className="h-5 w-5 animate-spin mr-2" /> : "Apply & Update Gallery"}
+          <div className="p-8 grid grid-cols-2 gap-4">
+            <Button 
+              variant="outline" 
+              className="h-14 rounded-xl font-bold border-slate-200" 
+              onClick={() => {
+                setIsCropperOpen(false);
+                setImageToCrop(null);
+              }}
+            >
+              Cancel
+            </Button>
+            <Button 
+              disabled={isUploading} 
+              className="h-14 bg-primary rounded-xl font-bold" 
+              onClick={saveCroppedImage}
+            >
+              {isUploading ? <Loader2 className="h-5 w-5 animate-spin mr-2" /> : "Apply & Update"}
             </Button>
           </div>
         </DialogContent>
