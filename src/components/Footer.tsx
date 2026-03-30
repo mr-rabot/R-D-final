@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useEffect, useState } from "react";
@@ -28,12 +27,12 @@ export function Footer() {
           <div className="space-y-6">
             <Link href="/" className="flex items-center gap-3">
               {logo ? (
-                <div className="relative h-10 w-28">
+                <div className="relative h-12 w-40">
                   <Image 
                     src={logo} 
                     alt="Logo" 
                     fill 
-                    className="object-contain" 
+                    className="object-contain object-left" 
                   />
                 </div>
               ) : (
@@ -63,7 +62,7 @@ export function Footer() {
             <ul className="space-y-3 text-slate-400 text-sm">
               <li><Link href="#services" className="hover:text-white transition-colors">Our Services</Link></li>
               <li><Link href="#pricing" className="hover:text-white transition-colors">Pricing</Link></li>
-              <li><Link href="#testimonials" className="hover:text-white transition-colors">Testimonials</Link></li>
+              <li><Link href="#about" className="hover:text-white transition-colors">About Us</Link></li>
               <li><Link href="#contact" className="hover:text-white transition-colors">Contact Us</Link></li>
             </ul>
           </div>

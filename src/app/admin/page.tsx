@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useCallback, useRef, useEffect } from "react";
@@ -738,7 +737,7 @@ export default function AdminDashboard() {
                 crop={crop} 
                 zoom={zoom} 
                 aspect={
-                  currentEditingPath?.includes('logo') ? 16/7 : 
+                  currentEditingPath?.includes('logo') ? 2.4 : 
                   (currentEditingPath?.includes('hero') ? 4/5 : 
                   (currentEditingPath?.includes('firmSummary') ? 16/10 : 
                   (currentEditingPath?.includes('services') ? 16/9 : 1)))

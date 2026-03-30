@@ -1,4 +1,3 @@
-
 "use client";
 
 import Link from "next/link";
@@ -56,12 +55,12 @@ export function Navbar() {
           <div className="flex items-center">
             <Link href="/" className="flex items-center gap-3 md:gap-4 group">
               {logo ? (
-                <div className="relative h-12 w-32">
+                <div className="relative h-12 w-32 md:w-40 lg:w-44">
                   <Image 
                     src={logo} 
                     alt="Logo" 
                     fill 
-                    className="object-contain" 
+                    className="object-contain object-left" 
                     priority
                   />
                 </div>
