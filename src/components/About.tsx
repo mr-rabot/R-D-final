@@ -34,6 +34,7 @@ export function About() {
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
   const placeholderSummary = PlaceHolderImages.find(img => img.id === "summary-img");
+  const placeholderFounder = PlaceHolderImages.find(img => img.id === "lead-expert");
 
   useEffect(() => {
     fetch('/api/leadership', { cache: 'no-store' })
@@ -62,6 +63,7 @@ export function About() {
   }, []);
 
   const displaySummaryImage = firmData?.image || placeholderSummary?.imageUrl;
+  const displayFounderImage = founder?.image || placeholderFounder?.imageUrl;
 
   return (
     <section id="about" ref={sectionRef} className="py-32 bg-white overflow-hidden">
@@ -78,10 +80,10 @@ export function About() {
               "relative w-72 h-72 sm:w-80 sm:h-80 md:w-[450px] md:h-[450px] z-10 overflow-hidden rounded-full shadow-[0_40px_100px_rgba(0,71,255,0.15)] border-[12px] md:border-[16px] border-white transition-all duration-700 hover:scale-[1.02] bg-slate-50",
               isVisible ? "scale-100 opacity-100" : "scale-90 opacity-0"
             )}>
-              {founder?.image ? (
+              {displayFounderImage ? (
                 <Image
-                  src={founder.image}
-                  alt={founder.name}
+                  src={displayFounderImage}
+                  alt={founder?.name || "Om Prakash Sinha"}
                   fill
                   className="object-cover"
                 />
@@ -202,17 +204,11 @@ export function About() {
                   ))}
                 </div>
               </div>
-
-              <div className="pt-12 flex items-center gap-6 border-t border-white/10">
-                <div className="text-xs uppercase tracking-widest font-bold text-blue-200/50">
-                  Global Academic Reach & Impact
-                </div>
-              </div>
             </div>
 
             <div className="relative mt-24 lg:mt-0">
               {displaySummaryImage && (
-                <div className="relative aspect-[16/12] w-full overflow-hidden rounded-[50px] shadow-[0_40px_80px_rgba(0,0,0,0.6)] border border-white/10 group bg-slate-800">
+                <div className="relative aspect-[16/10] w-full overflow-hidden rounded-[50px] shadow-[0_40px_80px_rgba(0,0,0,0.6)] border border-white/10 group bg-slate-800">
                   <Image
                     src={displaySummaryImage}
                     alt="Research and Development Overview"

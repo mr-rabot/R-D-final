@@ -31,7 +31,8 @@ import {
   Mail,
   Lock,
   Loader2,
-  Image as ImageIcon
+  Image as ImageIcon,
+  GalleryVertical
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import Image from "next/image";
@@ -54,10 +55,10 @@ const getCroppedImg = async (imageSrc: string, pixelCrop: any): Promise<string> 
   const ctx = canvas.getContext("2d");
   if (!ctx) return "";
 
-  // For logo, we might want higher resolution or different aspect
-  const targetSize = 800;
-  canvas.width = targetSize;
-  canvas.height = targetSize;
+  const targetWidth = pixelCrop.width;
+  const targetHeight = pixelCrop.height;
+  canvas.width = targetWidth;
+  canvas.height = targetHeight;
 
   ctx.drawImage(
     image,
@@ -67,11 +68,11 @@ const getCroppedImg = async (imageSrc: string, pixelCrop: any): Promise<string> 
     pixelCrop.height,
     0,
     0,
-    targetSize,
-    targetSize
+    targetWidth,
+    targetHeight
   );
 
-  return canvas.toDataURL("image/jpeg", 0.8);
+  return canvas.toDataURL("image/jpeg", 0.9);
 };
 
 export default function AdminDashboard() {
@@ -82,7 +83,7 @@ export default function AdminDashboard() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [activeTab, setActiveTab] = useState("hero");
+  const [activeTab, setActiveTab] = useState("media");
   const { toast } = useToast();
 
   const [siteData, setSiteData] = useState<any>(null);
@@ -100,7 +101,6 @@ export default function AdminDashboard() {
       const res = await fetch('/api/leadership', { cache: 'no-store' });
       if (!res.ok) throw new Error("Failed to fetch");
       const data = await res.json();
-      // Ensure brand object exists
       if (!data.brand) data.brand = { logo: "" };
       setSiteData(data);
     } catch (error) {
@@ -170,9 +170,9 @@ export default function AdminDashboard() {
         setSiteData(newData);
         setIsCropperOpen(false);
         setImageToCrop(null);
-        toast({ title: "Upload Success", description: "Image saved to project directory." });
+        toast({ title: "Asset Updated", description: "Image saved to site gallery." });
       } catch (err) {
-        toast({ variant: "destructive", title: "Upload Error", description: "Failed to save image to server folder." });
+        toast({ variant: "destructive", title: "Upload Error", description: "Failed to save image." });
       } finally {
         setIsUploading(false);
         if (fileInputRef.current) fileInputRef.current.value = "";
@@ -189,7 +189,7 @@ export default function AdminDashboard() {
         body: JSON.stringify(siteData)
       });
       if (res.ok) {
-        toast({ title: "Sync Successful", description: "Website configuration updated." });
+        toast({ title: "Sync Successful", description: "Website assets updated." });
       } else {
         throw new Error("Sync Failed");
       }
@@ -249,14 +249,14 @@ export default function AdminDashboard() {
   if (!siteData) return <div className="p-20 text-center font-bold">Initializing Data...</div>;
 
   const navigationItems = [
+    { id: "media", icon: GalleryVertical, label: "Media Hub" },
     { id: "hero", icon: Rocket, label: "Hero & Stats" },
     { id: "leadership", icon: Users, label: "Leadership" },
     { id: "summary", icon: FileText, label: "Firm Summary" },
     { id: "services", icon: Zap, label: "Services" },
-    { id: "pricing", icon: CreditCard, label: "Pricing" },
     { id: "testimonials", icon: Star, label: "Testimonials" },
     { id: "faq", icon: HelpCircle, label: "FAQ" },
-    { id: "integrations", icon: Settings, label: "Integrations & Brand" }
+    { id: "settings", icon: Settings, label: "Integrations" }
   ];
 
   return (
@@ -268,15 +268,9 @@ export default function AdminDashboard() {
           <div className="bg-primary p-1.5 rounded-lg">
             <Beaker className="h-5 w-5 text-white" />
           </div>
-          <div>
-            <h1 className="text-lg font-headline font-bold leading-none">R&D OPS</h1>
-            <p className="text-[8px] text-blue-400 font-bold uppercase tracking-widest mt-1">Management</p>
-          </div>
+          <h1 className="text-lg font-headline font-bold leading-none">R&D OPS</h1>
         </div>
-        <button 
-          onClick={() => setIsMenuOpen(!isMenuOpen)}
-          className="p-2 hover:bg-white/10 rounded-xl transition-colors"
-        >
+        <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="p-2 hover:bg-white/10 rounded-xl">
           {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
         </button>
       </header>
@@ -294,10 +288,7 @@ export default function AdminDashboard() {
           {navigationItems.map((item) => (
             <div 
               key={item.id}
-              onClick={() => {
-                setActiveTab(item.id);
-                setIsMenuOpen(false);
-              }}
+              onClick={() => { setActiveTab(item.id); setIsMenuOpen(false); }}
               className={cn(
                 "p-4 rounded-xl cursor-pointer flex gap-4 items-center transition-all",
                 activeTab === item.id ? "bg-primary text-white shadow-lg" : "text-slate-400 hover:text-white hover:bg-white/5"
@@ -310,11 +301,7 @@ export default function AdminDashboard() {
         </nav>
 
         <div className="p-6 lg:p-4 mt-auto border-t border-white/5 lg:border-none">
-          <Button 
-            variant="ghost" 
-            className="w-full justify-start text-slate-500 hover:text-white hover:bg-destructive/10 h-12 rounded-xl" 
-            onClick={handleLogout}
-          >
+          <Button variant="ghost" className="w-full justify-start text-slate-500 hover:text-white h-12 rounded-xl" onClick={handleLogout}>
             <LogOut className="h-5 w-5 mr-3" /> Sign Out
           </Button>
         </div>
@@ -324,9 +311,9 @@ export default function AdminDashboard() {
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-10">
           <div>
             <h2 className="text-3xl font-headline font-bold text-slate-900 uppercase tracking-tight">
-              {activeTab.replace("-", " ")}
+              {activeTab === 'media' ? 'Media Hub' : activeTab.replace("-", " ")}
             </h2>
-            <p className="text-sm text-slate-400">Manage your website content securely</p>
+            <p className="text-sm text-slate-400">Manage all site-wide images and branding</p>
           </div>
           <Button 
             disabled={isSyncing}
@@ -334,27 +321,115 @@ export default function AdminDashboard() {
             className="w-full md:w-auto bg-primary rounded-xl font-bold shadow-xl px-8 h-12 flex gap-2"
           >
             {isSyncing ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
-            {isSyncing ? "Syncing..." : "Push Updates to Site"}
+            {isSyncing ? "Syncing..." : "Push Changes Live"}
           </Button>
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-8">
           
+          <TabsContent value="media">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              {/* Brand Logo Card */}
+              <Card className="border-none shadow-xl rounded-[40px] p-6 md:p-10 bg-white space-y-6">
+                <div className="flex items-center gap-3 text-primary mb-2">
+                  <ImageIcon className="h-6 w-6" />
+                  <h3 className="text-xl font-headline font-bold">Official Brand Logo</h3>
+                </div>
+                <div className="relative h-32 w-full rounded-2xl overflow-hidden border-4 border-slate-50 shadow-md bg-slate-100 flex items-center justify-center p-4">
+                  {siteData.brand?.logo ? (
+                    <Image src={siteData.brand.logo} alt="Brand Logo" fill className="object-contain p-4" />
+                  ) : (
+                    <div className="text-center text-slate-300">
+                      <Beaker className="h-10 w-10 mx-auto mb-1" />
+                      <p className="text-[10px] font-bold uppercase">No Logo</p>
+                    </div>
+                  )}
+                </div>
+                <Button variant="outline" className="w-full rounded-xl font-bold" onClick={() => { setCurrentEditingPath(`brand.logo`); fileInputRef.current?.click(); }}>
+                  <Upload className="h-4 w-4 mr-2" /> Replace Logo
+                </Button>
+              </Card>
+
+              {/* Hero Image Card */}
+              <Card className="border-none shadow-xl rounded-[40px] p-6 md:p-10 bg-white space-y-6">
+                <div className="flex items-center gap-3 text-primary mb-2">
+                  <Rocket className="h-6 w-6" />
+                  <h3 className="text-xl font-headline font-bold">Hero Banner</h3>
+                </div>
+                <div className="relative h-32 w-full rounded-2xl overflow-hidden border-4 border-slate-50 shadow-md bg-slate-100">
+                  {siteData.hero.image ? (
+                    <Image src={siteData.hero.image} alt="Hero" fill className="object-cover" />
+                  ) : (
+                    <Rocket className="h-full w-full text-slate-300 p-8" />
+                  )}
+                </div>
+                <Button variant="outline" className="w-full rounded-xl font-bold" onClick={() => { setCurrentEditingPath(`hero.image`); fileInputRef.current?.click(); }}>
+                  <Upload className="h-4 w-4 mr-2" /> Change Hero Image
+                </Button>
+              </Card>
+
+              {/* Leadership Images */}
+              <Card className="border-none shadow-xl rounded-[40px] p-6 md:p-10 bg-white space-y-6">
+                <div className="flex items-center gap-3 text-primary mb-2">
+                  <Users className="h-6 w-6" />
+                  <h3 className="text-xl font-headline font-bold">Founder (Om Prakash Sinha)</h3>
+                </div>
+                <div className="flex items-center gap-6">
+                  <div className="relative h-24 w-24 rounded-full overflow-hidden border-4 border-slate-50 shadow-md bg-slate-100">
+                    {siteData.leadership.founder.image ? (
+                      <Image src={siteData.leadership.founder.image} alt="Founder" fill className="object-cover" />
+                    ) : (
+                      <UserCircle className="h-full w-full text-slate-300" />
+                    )}
+                  </div>
+                  <Button variant="outline" size="sm" className="rounded-xl font-bold" onClick={() => { setCurrentEditingPath(`leadership.founder.image`); fileInputRef.current?.click(); }}>
+                    <Upload className="h-4 w-4 mr-2" /> Change Photo
+                  </Button>
+                </div>
+              </Card>
+
+              <Card className="border-none shadow-xl rounded-[40px] p-6 md:p-10 bg-white space-y-6">
+                <div className="flex items-center gap-3 text-primary mb-2">
+                  <Users className="h-6 w-6" />
+                  <h3 className="text-xl font-headline font-bold">Co-Founder Photo</h3>
+                </div>
+                <div className="flex items-center gap-6">
+                  <div className="relative h-24 w-24 rounded-full overflow-hidden border-4 border-slate-50 shadow-md bg-slate-100">
+                    {siteData.leadership.coFounder.image ? (
+                      <Image src={siteData.leadership.coFounder.image} alt="Co-Founder" fill className="object-cover" />
+                    ) : (
+                      <UserCircle className="h-full w-full text-slate-300" />
+                    )}
+                  </div>
+                  <Button variant="outline" size="sm" className="rounded-xl font-bold" onClick={() => { setCurrentEditingPath(`leadership.coFounder.image`); fileInputRef.current?.click(); }}>
+                    <Upload className="h-4 w-4 mr-2" /> Change Photo
+                  </Button>
+                </div>
+              </Card>
+
+              {/* Summary Image */}
+              <Card className="border-none shadow-xl rounded-[40px] p-6 md:p-10 bg-white space-y-6 md:col-span-2">
+                <div className="flex items-center gap-3 text-primary mb-2">
+                  <FileText className="h-6 w-6" />
+                  <h3 className="text-xl font-headline font-bold">Firm Summary Visual</h3>
+                </div>
+                <div className="relative h-48 w-full rounded-2xl overflow-hidden border-4 border-slate-50 shadow-md bg-slate-100">
+                  {siteData.firmSummary.image ? (
+                    <Image src={siteData.firmSummary.image} alt="Firm Summary" fill className="object-cover" />
+                  ) : (
+                    <FileText className="h-full w-full text-slate-300 p-8" />
+                  )}
+                </div>
+                <Button variant="outline" className="w-full rounded-xl font-bold" onClick={() => { setCurrentEditingPath(`firmSummary.image`); fileInputRef.current?.click(); }}>
+                  <Upload className="h-4 w-4 mr-2" /> Change Summary Image
+                </Button>
+              </Card>
+            </div>
+          </TabsContent>
+
           <TabsContent value="hero">
             <Card className="border-none shadow-xl rounded-[40px] p-6 md:p-10 bg-white space-y-8">
               <div className="space-y-4">
-                <div className="flex items-center gap-6 mb-6">
-                  <div className="relative h-32 w-56 rounded-2xl overflow-hidden border-4 border-slate-50 shadow-md bg-slate-100">
-                    {siteData.hero.image ? (
-                      <Image src={siteData.hero.image} alt="Hero" fill className="object-cover" />
-                    ) : (
-                      <Rocket className="h-full w-full text-slate-300 p-8" />
-                    )}
-                  </div>
-                  <Button variant="outline" size="sm" className="rounded-xl font-bold" onClick={() => { setCurrentEditingPath(`hero.image`); fileInputRef.current?.click(); }}>
-                    <Upload className="h-4 w-4 mr-2" /> Change Hero Image
-                  </Button>
-                </div>
                 <div className="space-y-2">
                   <label className="text-[10px] font-bold uppercase text-slate-400">Hero Badge</label>
                   <Input value={siteData.hero.badge} onChange={(e) => setSiteData({...siteData, hero: {...siteData.hero, badge: e.target.value}})} className="bg-slate-50 border-none rounded-xl h-12" />
@@ -395,37 +470,23 @@ export default function AdminDashboard() {
             <div className="grid lg:grid-cols-2 gap-8">
               {['founder', 'coFounder'].map((type) => (
                 <Card key={type} className="border-none shadow-xl rounded-[40px] p-6 md:p-10 bg-white">
-                  <h3 className="text-2xl font-headline font-bold mb-6 capitalize">{type === 'founder' ? 'Founder (Om Prakash Sinha)' : 'Co-Founder'} Profile</h3>
-                  <div className="space-y-8">
-                    <div className="flex items-center gap-6">
-                      <div className="relative h-24 w-24 rounded-full overflow-hidden border-4 border-slate-50 shadow-md bg-slate-100">
-                        {siteData.leadership[type].image ? (
-                          <Image src={siteData.leadership[type].image} alt="Profile" fill className="object-cover" />
-                        ) : (
-                          <UserCircle className="h-full w-full text-slate-300" />
-                        )}
-                      </div>
-                      <Button variant="outline" size="sm" className="rounded-xl font-bold" onClick={() => { setCurrentEditingPath(`leadership.${type}.image`); fileInputRef.current?.click(); }}>
-                        <Upload className="h-4 w-4 mr-2" /> Change Photo
-                      </Button>
+                  <h3 className="text-2xl font-headline font-bold mb-6 capitalize">{type === 'founder' ? 'Founder' : 'Co-Founder'} Profile</h3>
+                  <div className="space-y-4">
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-bold uppercase text-slate-400">Full Name</label>
+                      <Input value={siteData.leadership[type].name} onChange={(e) => {
+                        const newData = {...siteData};
+                        newData.leadership[type].name = e.target.value;
+                        setSiteData(newData);
+                      }} className="bg-slate-50 border-none rounded-xl h-12" />
                     </div>
-                    <div className="space-y-4">
-                      <div className="space-y-2">
-                        <label className="text-[10px] font-bold uppercase text-slate-400">Full Name</label>
-                        <Input value={siteData.leadership[type].name} onChange={(e) => {
-                          const newData = {...siteData};
-                          newData.leadership[type].name = e.target.value;
-                          setSiteData(newData);
-                        }} className="bg-slate-50 border-none rounded-xl h-12" />
-                      </div>
-                      <div className="space-y-2">
-                        <label className="text-[10px] font-bold uppercase text-slate-400">Designation / Role</label>
-                        <Input value={siteData.leadership[type].role} onChange={(e) => {
-                          const newData = {...siteData};
-                          newData.leadership[type].role = e.target.value;
-                          setSiteData(newData);
-                        }} className="bg-slate-50 border-none rounded-xl h-12" />
-                      </div>
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-bold uppercase text-slate-400">Designation / Role</label>
+                      <Input value={siteData.leadership[type].role} onChange={(e) => {
+                        const newData = {...siteData};
+                        newData.leadership[type].role = e.target.value;
+                        setSiteData(newData);
+                      }} className="bg-slate-50 border-none rounded-xl h-12" />
                     </div>
                   </div>
                 </Card>
@@ -435,18 +496,6 @@ export default function AdminDashboard() {
 
           <TabsContent value="summary">
             <Card className="border-none shadow-xl rounded-[40px] p-6 md:p-10 bg-white space-y-8">
-              <div className="flex items-center gap-6 mb-6">
-                <div className="relative h-32 w-56 rounded-2xl overflow-hidden border-4 border-slate-50 shadow-md bg-slate-100">
-                  {siteData.firmSummary.image ? (
-                    <Image src={siteData.firmSummary.image} alt="Firm Summary" fill className="object-cover" />
-                  ) : (
-                    <FileText className="h-full w-full text-slate-300 p-8" />
-                  )}
-                </div>
-                <Button variant="outline" size="sm" className="rounded-xl font-bold" onClick={() => { setCurrentEditingPath(`firmSummary.image`); fileInputRef.current?.click(); }}>
-                  <Upload className="h-4 w-4 mr-2" /> Change Summary Image
-                </Button>
-              </div>
               <div className="space-y-2">
                 <label className="text-[10px] font-bold uppercase text-slate-400">Section Title</label>
                 <Input value={siteData.firmSummary.title} onChange={(e) => setSiteData({...siteData, firmSummary: {...siteData.firmSummary, title: e.target.value}})} className="bg-slate-50 border-none rounded-xl h-12" />
@@ -470,12 +519,12 @@ export default function AdminDashboard() {
                         const newStats = siteData.firmSummary.stats.filter((_: any, idx: number) => idx !== i);
                         setSiteData({...siteData, firmSummary: {...siteData.firmSummary, stats: newStats}});
                       }} className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 text-destructive"><Trash2 className="h-4 w-4" /></Button>
-                      <Input value={stat.value} placeholder="Value (e.g. 500+)" onChange={(e) => {
+                      <Input value={stat.value} placeholder="Value" onChange={(e) => {
                         const newStats = [...siteData.firmSummary.stats];
                         newStats[i].value = e.target.value;
                         setSiteData({...siteData, firmSummary: {...siteData.firmSummary, stats: newStats}});
                       }} className="bg-white border-none rounded-lg h-10 font-bold mb-2" />
-                      <Input value={stat.label} placeholder="Label (e.g. Papers)" onChange={(e) => {
+                      <Input value={stat.label} placeholder="Label" onChange={(e) => {
                         const newStats = [...siteData.firmSummary.stats];
                         newStats[i].label = e.target.value;
                         setSiteData({...siteData, firmSummary: {...siteData.firmSummary, stats: newStats}});
@@ -555,7 +604,7 @@ export default function AdminDashboard() {
                           )}
                         </div>
                         <Button variant="outline" size="sm" className="rounded-xl font-bold h-8 text-[10px]" onClick={() => { setCurrentEditingPath(`testimonials.${i}.image`); fileInputRef.current?.click(); }}>
-                          <Upload className="h-3 w-3 mr-2" /> Change Photo
+                          <Upload className="h-3 w-3 mr-2" /> Update Photo
                         </Button>
                       </div>
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -583,14 +632,6 @@ export default function AdminDashboard() {
                           newT[i].content = e.target.value;
                           setSiteData({...siteData, testimonials: newT});
                         }} className="bg-slate-50 border-none text-sm h-32" />
-                      </div>
-                      <div className="flex items-center gap-4">
-                        <label className="text-[10px] font-bold uppercase text-slate-400">Stars (1-5)</label>
-                        <Input type="number" min="1" max="5" value={t.stars} onChange={(e) => {
-                          const newT = [...siteData.testimonials];
-                          newT[i].stars = parseInt(e.target.value);
-                          setSiteData({...siteData, testimonials: newT});
-                        }} className="bg-slate-50 border-none w-20" />
                       </div>
                     </div>
                   </Card>
@@ -632,154 +673,52 @@ export default function AdminDashboard() {
             </Card>
           </TabsContent>
 
-          <TabsContent value="pricing">
-             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-               {siteData.pricing.map((plan: any, i: number) => (
-                 <Card key={i} className={cn("p-6 md:p-8 border-none shadow-xl rounded-[40px] bg-white relative", plan.highlight && "ring-4 ring-primary/20")}>
-                    <div className="space-y-4">
-                      <div className="flex justify-between">
-                        <label className="text-[10px] font-bold uppercase text-slate-400">Plan Name</label>
-                        <div className="flex items-center gap-2">
-                           <span className="text-[9px] uppercase font-bold text-slate-400">Highlight</span>
-                           <input type="checkbox" checked={plan.highlight} onChange={(e) => {
-                             const newPricing = [...siteData.pricing];
-                             newPricing[i].highlight = e.target.checked;
-                             setSiteData({...siteData, pricing: newPricing});
-                           }} />
-                        </div>
-                      </div>
-                      <Input value={plan.name} onChange={(e) => {
-                        const newPricing = [...siteData.pricing];
-                        newPricing[i].name = e.target.value;
-                        setSiteData({...siteData, pricing: newPricing});
-                      }} className="bg-slate-50 border-none font-bold" />
-                      
-                      <label className="text-[10px] font-bold uppercase text-slate-400">Description</label>
-                      <Textarea value={plan.description} onChange={(e) => {
-                        const newPricing = [...siteData.pricing];
-                        newPricing[i].description = e.target.value;
-                        setSiteData({...siteData, pricing: newPricing});
-                      }} className="bg-slate-50 border-none h-20 text-sm" />
-                      
-                      <label className="text-[10px] font-bold uppercase text-slate-400">Features</label>
-                      <Textarea 
-                        value={plan.features.join('\n')} 
-                        onChange={(e) => {
-                          const newPricing = [...siteData.pricing];
-                          newPricing[i].features = e.target.value.split('\n');
-                          setSiteData({...siteData, pricing: newPricing});
-                        }}
-                        className="bg-slate-50 border-none h-40 text-xs" 
-                      />
-                    </div>
-                 </Card>
-               ))}
-             </div>
-          </TabsContent>
-
-          <TabsContent value="integrations">
-            <div className="space-y-8">
-              {/* Brand Logo Section */}
+          <TabsContent value="settings">
+            <div className="grid lg:grid-cols-2 gap-8">
               <Card className="border-none shadow-xl rounded-[40px] p-6 md:p-10 bg-white space-y-8">
                 <div className="flex items-center gap-3 text-primary mb-2">
-                  <ImageIcon className="h-6 w-6" />
-                  <h3 className="text-2xl font-headline font-bold">Brand Identity</h3>
+                  <MessageSquare className="h-6 w-6" />
+                  <h3 className="text-2xl font-headline font-bold">WhatsApp Settings</h3>
                 </div>
-                <div className="space-y-6">
-                  <div className="flex flex-col md:flex-row items-center gap-8">
-                    <div className="relative h-24 w-56 rounded-2xl overflow-hidden border-4 border-slate-50 shadow-md bg-slate-100 flex items-center justify-center p-4">
-                      {siteData.brand?.logo ? (
-                        <Image src={siteData.brand.logo} alt="Brand Logo" fill className="object-contain p-2" />
-                      ) : (
-                        <div className="text-center text-slate-300">
-                          <Beaker className="h-10 w-10 mx-auto mb-1" />
-                          <p className="text-[10px] font-bold uppercase">No Logo</p>
-                        </div>
-                      )}
-                    </div>
-                    <div className="flex-grow space-y-4">
-                      <p className="text-xs text-slate-500 max-w-sm">
-                        Upload your official brand logo. This will replace the text and icon logo in the Header and Footer.
-                      </p>
-                      <Button variant="outline" size="sm" className="rounded-xl font-bold" onClick={() => { setCurrentEditingPath(`brand.logo`); fileInputRef.current?.click(); }}>
-                        <Upload className="h-4 w-4 mr-2" /> Upload Brand Logo
-                      </Button>
-                    </div>
+                <div className="space-y-4">
+                  <div className="space-y-2">
+                    <label className="text-[10px] font-bold uppercase text-slate-400">WhatsApp Number</label>
+                    <Input 
+                      value={siteData.integrations?.whatsapp || ""} 
+                      onChange={(e) => setSiteData({...siteData, integrations: {...siteData.integrations, whatsapp: e.target.value}})} 
+                      placeholder="e.g. 916209779365"
+                      className="bg-slate-50 border-none rounded-xl h-12" 
+                    />
                   </div>
                 </div>
               </Card>
 
-              <div className="grid lg:grid-cols-2 gap-8">
-                <Card className="border-none shadow-xl rounded-[40px] p-6 md:p-10 bg-white space-y-8">
-                  <div className="flex items-center gap-3 text-primary mb-2">
-                    <MessageSquare className="h-6 w-6" />
-                    <h3 className="text-2xl font-headline font-bold">WhatsApp Settings</h3>
+              <Card className="border-none shadow-xl rounded-[40px] p-6 md:p-10 bg-white space-y-8">
+                <div className="flex items-center gap-3 text-primary mb-2">
+                  <Mail className="h-6 w-6" />
+                  <h3 className="text-2xl font-headline font-bold">SMTP Settings</h3>
+                </div>
+                <div className="space-y-4">
+                  <div className="space-y-2">
+                    <label className="text-[10px] font-bold uppercase text-slate-400">SMTP User</label>
+                    <Input 
+                      value={siteData.integrations?.smtp?.user || ""} 
+                      onChange={(e) => setSiteData({...siteData, integrations: {...siteData.integrations, smtp: {...siteData.integrations.smtp, user: e.target.value}}})} 
+                      placeholder="user@example.com"
+                      className="bg-slate-50 border-none rounded-xl h-12" 
+                    />
                   </div>
-                  <div className="space-y-4">
-                    <div className="space-y-2">
-                      <label className="text-[10px] font-bold uppercase text-slate-400">WhatsApp Number (with country code)</label>
-                      <Input 
-                        value={siteData.integrations?.whatsapp || ""} 
-                        onChange={(e) => setSiteData({...siteData, integrations: {...siteData.integrations, whatsapp: e.target.value}})} 
-                        placeholder="e.g. 916209779365"
-                        className="bg-slate-50 border-none rounded-xl h-12" 
-                      />
-                      <p className="text-[10px] text-slate-400 mt-1 italic">This number will be used for all WhatsApp call-to-action buttons across the site.</p>
-                    </div>
+                  <div className="space-y-2">
+                    <label className="text-[10px] font-bold uppercase text-slate-400">SMTP Password</label>
+                    <Input 
+                      type="password"
+                      value={siteData.integrations?.smtp?.password || ""} 
+                      onChange={(e) => setSiteData({...siteData, integrations: {...siteData.integrations, smtp: {...siteData.integrations.smtp, password: e.target.value}}})} 
+                      className="bg-slate-50 border-none rounded-xl h-12" 
+                    />
                   </div>
-                </Card>
-
-                <Card className="border-none shadow-xl rounded-[40px] p-6 md:p-10 bg-white space-y-8">
-                  <div className="flex items-center gap-3 text-primary mb-2">
-                    <Mail className="h-6 w-6" />
-                    <h3 className="text-2xl font-headline font-bold">SMTP Integration</h3>
-                  </div>
-                  <div className="space-y-4">
-                    <div className="grid sm:grid-cols-2 gap-4">
-                      <div className="space-y-2">
-                        <label className="text-[10px] font-bold uppercase text-slate-400">SMTP Host</label>
-                        <Input 
-                          value={siteData.integrations?.smtp?.host || ""} 
-                          onChange={(e) => setSiteData({...siteData, integrations: {...siteData.integrations, smtp: {...siteData.integrations.smtp, host: e.target.value}}})} 
-                          placeholder="smtp.example.com"
-                          className="bg-slate-50 border-none rounded-xl h-12" 
-                      />
-                      </div>
-                      <div className="space-y-2">
-                        <label className="text-[10px] font-bold uppercase text-slate-400">SMTP Port</label>
-                        <Input 
-                          value={siteData.integrations?.smtp?.port || ""} 
-                          onChange={(e) => setSiteData({...siteData, integrations: {...siteData.integrations, smtp: {...siteData.integrations.smtp, port: e.target.value}}})} 
-                          placeholder="587"
-                          className="bg-slate-50 border-none rounded-xl h-12" 
-                        />
-                      </div>
-                    </div>
-                    <div className="space-y-2">
-                      <label className="text-[10px] font-bold uppercase text-slate-400">SMTP User</label>
-                      <Input 
-                        value={siteData.integrations?.smtp?.user || ""} 
-                        onChange={(e) => setSiteData({...siteData, integrations: {...siteData.integrations, smtp: {...siteData.integrations.smtp, user: e.target.value}}})} 
-                        placeholder="user@example.com"
-                        className="bg-slate-50 border-none rounded-xl h-12" 
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <label className="text-[10px] font-bold uppercase text-slate-400">SMTP Password (Stored Encrypted)</label>
-                      <div className="relative">
-                        <Input 
-                          type="password"
-                          value={siteData.integrations?.smtp?.password || ""} 
-                          onChange={(e) => setSiteData({...siteData, integrations: {...siteData.integrations, smtp: {...siteData.integrations.smtp, password: e.target.value}}})} 
-                          className="bg-slate-50 border-none rounded-xl h-12 pl-10" 
-                        />
-                        <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
-                      </div>
-                      <p className="text-[10px] text-slate-400 mt-1 italic">Note: For Gmail, use an "App Password". SMTP data is stored in the site configuration for automated mail responses.</p>
-                    </div>
-                  </div>
-                </Card>
-              </div>
+                </div>
+              </Card>
             </div>
           </TabsContent>
 
@@ -789,18 +728,28 @@ export default function AdminDashboard() {
       <Dialog open={isCropperOpen} onOpenChange={setIsCropperOpen}>
         <DialogContent className="max-w-xl bg-white rounded-3xl p-0 overflow-hidden border-none">
           <DialogHeader className="sr-only">
-            <DialogTitle>Crop Image</DialogTitle>
-            <DialogDescription>
-              Adjust the crop area for the selected image.
-            </DialogDescription>
+            <DialogTitle>Crop Media</DialogTitle>
           </DialogHeader>
           <div className="relative h-96 bg-black">
-            {imageToCrop && <Cropper image={imageToCrop} crop={crop} zoom={zoom} aspect={currentEditingPath?.includes('logo') ? 16/7 : (currentEditingPath?.includes('hero') ? 16/9 : (currentEditingPath?.includes('firmSummary') ? 16/12 : 1))} onCropChange={setCrop} onZoomChange={setZoom} onCropComplete={onCropComplete} />}
+            {imageToCrop && (
+              <Cropper 
+                image={imageToCrop} 
+                crop={crop} 
+                zoom={zoom} 
+                aspect={
+                  currentEditingPath?.includes('logo') ? 16/7 : 
+                  (currentEditingPath?.includes('hero') ? 16/9 : 
+                  (currentEditingPath?.includes('firmSummary') ? 16/10 : 1))
+                } 
+                onCropChange={setCrop} 
+                onZoomChange={setZoom} 
+                onCropComplete={onCropComplete} 
+              />
+            )}
           </div>
           <div className="p-8">
             <Button disabled={isUploading} className="w-full h-14 bg-primary rounded-xl font-bold" onClick={saveCroppedImage}>
-              {isUploading ? <Loader2 className="h-5 w-5 animate-spin mr-2" /> : null}
-              {isUploading ? "Uploading to Server..." : "Apply Crop & Upload"}
+              {isUploading ? <Loader2 className="h-5 w-5 animate-spin mr-2" /> : "Apply & Update Gallery"}
             </Button>
           </div>
         </DialogContent>
