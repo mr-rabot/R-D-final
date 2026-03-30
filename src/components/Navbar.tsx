@@ -47,8 +47,10 @@ export function Navbar() {
 
   return (
     <nav className={cn(
-      "fixed top-0 z-[100] w-full transition-all duration-300 h-24 flex items-center",
-      scrolled ? "bg-white shadow-md" : "bg-white md:bg-transparent"
+      "fixed top-0 z-[100] w-full transition-all duration-500 h-24 flex items-center border-b",
+      scrolled 
+        ? "bg-white/90 backdrop-blur-xl shadow-sm border-slate-100" 
+        : "bg-white/70 backdrop-blur-md md:bg-white/10 md:border-white/10 border-slate-100"
     )}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
         <div className="flex justify-between items-center">
@@ -94,16 +96,20 @@ export function Navbar() {
                 key={link.name}
                 href={link.href}
                 className={cn(
-                  "transition-colors font-medium text-sm",
-                  scrolled ? "text-muted-foreground hover:text-primary" : "text-white/80 hover:text-white"
+                  "transition-colors font-bold text-sm uppercase tracking-widest",
+                  scrolled 
+                    ? "text-slate-600 hover:text-primary" 
+                    : "text-slate-800 md:text-white/80 hover:text-primary md:hover:text-white"
                 )}
               >
                 {link.name}
               </Link>
             ))}
             <Button onClick={handleGetQuote} variant="default" size="lg" className={cn(
-              "rounded-full shadow-xl font-bold h-12 px-8 flex gap-2",
-              scrolled ? "bg-black hover:bg-black/90 text-white" : "bg-white text-primary hover:bg-blue-50"
+              "rounded-full shadow-xl font-bold h-12 px-8 flex gap-2 transition-all hover:scale-105 active:scale-95",
+              scrolled 
+                ? "bg-primary text-white hover:bg-primary/90" 
+                : "bg-white text-primary hover:bg-blue-50"
             )}>
               Get Quote <MessageSquare className="h-4 w-4" />
             </Button>
@@ -114,7 +120,7 @@ export function Navbar() {
               onClick={() => setIsOpen(!isOpen)}
               className={cn(
                 "p-2 rounded-lg transition-colors",
-                scrolled ? "text-muted-foreground hover:text-primary" : "text-primary md:text-white"
+                scrolled ? "text-slate-600 hover:text-primary" : "text-primary"
               )}
             >
               {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
