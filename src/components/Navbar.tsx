@@ -1,3 +1,4 @@
+
 "use client";
 
 import Link from "next/link";
@@ -18,13 +19,28 @@ export function Navbar() {
     };
     window.addEventListener("scroll", handleScroll);
     
-    // Fetch brand logo with cache busting
-    fetch(`/api/leadership?t=${Date.now()}`, { cache: 'no-store' })
-      .then(res => res.json())
-      .then(data => {
-        if (data.brand?.logo) setLogo(data.brand.logo);
-      })
-      .catch(err => console.error("Error fetching navbar logo:", err));
+    // Fetch brand logo with aggressive cache busting
+    const fetchLogo = async () => {
+      try {
+        const res = await fetch(`/api/leadership?t=${Date.now()}`, { 
+          cache: 'no-store',
+          headers: {
+            'Cache-Control': 'no-cache',
+            'Pragma': 'no-cache'
+          }
+        });
+        if (!res.ok) throw new Error("Logo fetch failed");
+        const data = await res.json();
+        if (data.brand?.logo) {
+          // Append a timestamp to the URL to force browser re-download if the path is the same
+          setLogo(`${data.brand.logo}?v=${Date.now()}`);
+        }
+      } catch (err) {
+        console.error("Error fetching navbar logo:", err);
+      }
+    };
+
+    fetchLogo();
 
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
@@ -64,21 +80,22 @@ export function Navbar() {
                     fill 
                     className="object-contain object-left" 
                     priority
+                    unoptimized // Prevents stale cached optimized versions
                   />
                 </div>
               ) : (
-                <div className="bg-primary p-2 md:p-2.5 rounded-xl transition-transform group-hover:scale-105 shadow-lg shadow-primary/20">
-                  <Beaker className="h-5 w-5 md:h-6 md:w-6 text-white" />
-                </div>
-              )}
-              {!logo && (
-                <div className="flex flex-col">
-                  <span className="font-headline text-xl md:text-2xl font-bold tracking-tight leading-none text-primary">
-                    R&D
-                  </span>
-                  <span className="text-[8px] md:text-[9px] uppercase tracking-wider font-semibold mt-1 text-muted-foreground">
-                    Research & Development Services
-                  </span>
+                <div className="flex items-center gap-3">
+                  <div className="bg-primary p-2 md:p-2.5 rounded-xl transition-transform group-hover:scale-105 shadow-lg shadow-primary/20">
+                    <Beaker className="h-5 w-5 md:h-6 md:w-6 text-white" />
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="font-headline text-xl md:text-2xl font-bold tracking-tight leading-none text-primary">
+                      R&D
+                    </span>
+                    <span className="text-[8px] md:text-[9px] uppercase tracking-wider font-semibold mt-1 text-muted-foreground">
+                      Research & Development Services
+                    </span>
+                  </div>
                 </div>
               )}
             </Link>

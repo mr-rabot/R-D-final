@@ -56,7 +56,8 @@ const getCroppedImg = async (imageSrc: string, pixelCrop: any): Promise<string> 
   canvas.width = targetWidth;
   canvas.height = targetHeight;
 
-  // Ensure transparent background for PNGs
+  // CRITICAL: Clear the canvas to ensure PNG transparency is preserved 
+  // and no background color is added.
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   ctx.drawImage(
@@ -98,7 +99,7 @@ export default function AdminDashboard() {
 
   const fetchData = useCallback(async () => {
     try {
-      const res = await fetch('/api/leadership', { cache: 'no-store' });
+      const res = await fetch(`/api/leadership?t=${Date.now()}`, { cache: 'no-store' });
       if (!res.ok) throw new Error("Failed to fetch");
       const data = await res.json();
       if (!data.brand) data.brand = { logo: "" };
@@ -159,6 +160,7 @@ export default function AdminDashboard() {
         if (!uploadRes.ok) throw new Error("Upload failed");
         const { url } = await uploadRes.json();
 
+        // Update local state immediately with a cache-busting URL for the preview
         const newData = { ...siteData };
         const parts = currentEditingPath.split('.');
         let current = newData;
@@ -177,7 +179,7 @@ export default function AdminDashboard() {
         setSiteData(newData);
         setIsCropperOpen(false);
         setImageToCrop(null);
-        toast({ title: "Asset Updated", description: "Image saved to site gallery." });
+        toast({ title: "Asset Prepared", description: "Image adjusted. Click 'Push Changes Live' to finalize." });
       } catch (err) {
         toast({ variant: "destructive", title: "Upload Error", description: "Failed to save image." });
       } finally {
@@ -196,7 +198,9 @@ export default function AdminDashboard() {
         body: JSON.stringify(siteData)
       });
       if (res.ok) {
-        toast({ title: "Sync Successful", description: "Website assets updated." });
+        toast({ title: "Sync Successful", description: "Website assets updated across the live site." });
+        // Refresh local data to ensure everything is perfectly synced
+        fetchData();
       } else {
         throw new Error("Sync Failed");
       }
@@ -342,9 +346,10 @@ export default function AdminDashboard() {
                   <ImageIcon className="h-6 w-6" />
                   <h3 className="text-xl font-headline font-bold">Official Brand Logo</h3>
                 </div>
-                <div className="relative h-32 w-full rounded-2xl overflow-hidden bg-transparent flex items-center justify-center p-4 border border-slate-100">
+                {/* Logo container with transparency-friendly grid background for visual confirmation */}
+                <div className="relative h-32 w-full rounded-2xl overflow-hidden bg-transparent flex items-center justify-center p-4 border border-slate-100" style={{ backgroundImage: 'linear-gradient(45deg, #f8fafc 25%, transparent 25%), linear-gradient(-45deg, #f8fafc 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #f8fafc 75%), linear-gradient(-45deg, transparent 75%, #f8fafc 75%)', backgroundSize: '20px 20px', backgroundPosition: '0 0, 0 10px, 10px -10px, -10px 0px' }}>
                   {siteData.brand?.logo ? (
-                    <Image src={siteData.brand.logo} alt="Brand Logo" fill className="object-contain p-4" />
+                    <Image src={`${siteData.brand.logo}?t=${Date.now()}`} alt="Brand Logo" fill className="object-contain p-4" unoptimized />
                   ) : (
                     <div className="text-center text-slate-300">
                       <Beaker className="h-10 w-10 mx-auto mb-1" />
@@ -364,7 +369,7 @@ export default function AdminDashboard() {
                 </div>
                 <div className="relative h-32 w-full rounded-2xl overflow-hidden border-4 border-slate-50 shadow-md bg-slate-100">
                   {siteData.hero.image ? (
-                    <Image src={siteData.hero.image} alt="Hero" fill className="object-cover" />
+                    <Image src={`${siteData.hero.image}?t=${Date.now()}`} alt="Hero" fill className="object-cover" unoptimized />
                   ) : (
                     <Rocket className="h-full w-full text-slate-300 p-8" />
                   )}
@@ -382,7 +387,7 @@ export default function AdminDashboard() {
                 <div className="flex items-center gap-6">
                   <div className="relative h-24 w-24 rounded-full overflow-hidden border-4 border-slate-50 shadow-md bg-slate-100">
                     {siteData.leadership.founder.image ? (
-                      <Image src={siteData.leadership.founder.image} alt="Founder" fill className="object-cover" />
+                      <Image src={`${siteData.leadership.founder.image}?t=${Date.now()}`} alt="Founder" fill className="object-cover" unoptimized />
                     ) : (
                       <UserCircle className="h-full w-full text-slate-300" />
                     )}
@@ -400,7 +405,7 @@ export default function AdminDashboard() {
                 </div>
                 <div className="relative h-32 w-full rounded-2xl overflow-hidden border-4 border-slate-50 shadow-md bg-slate-100">
                   {siteData.firmSummary.image ? (
-                    <Image src={siteData.firmSummary.image} alt="Firm Summary" fill className="object-cover" />
+                    <Image src={`${siteData.firmSummary.image}?t=${Date.now()}`} alt="Firm Summary" fill className="object-cover" unoptimized />
                   ) : (
                     <FileText className="h-full w-full text-slate-300 p-8" />
                   )}
@@ -421,7 +426,7 @@ export default function AdminDashboard() {
                       <h4 className="font-bold text-sm truncate">{service.title}</h4>
                       <div className="relative h-28 w-full rounded-xl overflow-hidden border-2 border-slate-50 shadow-sm bg-slate-50">
                         {service.image ? (
-                          <Image src={service.image} alt={service.title} fill className="object-cover" />
+                          <Image src={`${service.image}?t=${Date.now()}`} alt={service.title} fill className="object-cover" unoptimized />
                         ) : (
                           <div className="w-full h-full flex items-center justify-center text-slate-200">
                              <ImageIcon className="h-8 w-8" />
@@ -447,7 +452,7 @@ export default function AdminDashboard() {
                       <h4 className="font-bold text-sm truncate">{post.title}</h4>
                       <div className="relative h-32 w-full rounded-xl overflow-hidden border-2 border-slate-50 shadow-sm bg-slate-50">
                         {post.image ? (
-                          <Image src={post.image} alt={post.title} fill className="object-cover" />
+                          <Image src={`${post.image}?t=${Date.now()}`} alt={post.title} fill className="object-cover" unoptimized />
                         ) : (
                           <div className="w-full h-full flex items-center justify-center text-slate-200">
                              <ImageIcon className="h-8 w-8" />
@@ -715,7 +720,7 @@ export default function AdminDashboard() {
                       <div className="flex items-center gap-6">
                         <div className="relative h-16 w-16 rounded-full overflow-hidden border-2 border-slate-50 shadow-md bg-slate-100">
                           {t.image ? (
-                            <Image src={t.image} alt="Client" fill className="object-cover" />
+                            <Image src={`${t.image}?t=${Date.now()}`} alt="Client" fill className="object-cover" unoptimized />
                           ) : (
                             <UserCircle className="h-full w-full text-slate-300" />
                           )}
@@ -843,9 +848,9 @@ export default function AdminDashboard() {
       </main>
 
       <Dialog open={isCropperOpen} onOpenChange={setIsCropperOpen}>
-        <DialogContent className="max-w-xl bg-white rounded-3xl p-0 overflow-hidden border-none">
+        <DialogContent className="max-w-xl bg-white rounded-3xl p-0 overflow-hidden border-none shadow-2xl">
           <DialogHeader className="p-8 pb-0">
-            <DialogTitle className="text-2xl font-headline font-bold text-slate-900 uppercase tracking-tight">Adjust Image</DialogTitle>
+            <DialogTitle className="text-2xl font-headline font-bold text-slate-900 uppercase tracking-tight">Adjust Visual</DialogTitle>
           </DialogHeader>
           <div className="relative h-96 bg-black">
             {imageToCrop && (
@@ -872,13 +877,14 @@ export default function AdminDashboard() {
               onClick={() => {
                 setIsCropperOpen(false);
                 setImageToCrop(null);
+                if (fileInputRef.current) fileInputRef.current.value = "";
               }}
             >
               Cancel
             </Button>
             <Button 
               disabled={isUploading} 
-              className="h-14 bg-primary rounded-xl font-bold" 
+              className="h-14 bg-primary rounded-xl font-bold text-white shadow-lg" 
               onClick={saveCroppedImage}
             >
               {isUploading ? <Loader2 className="h-5 w-5 animate-spin mr-2" /> : "Apply & Update"}
