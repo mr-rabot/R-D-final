@@ -1,30 +1,21 @@
 
 "use client";
 
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { Calendar, User, ArrowRight, Download, FileType, Video } from "lucide-react";
 
-const posts = [
-  {
-    title: "How to Structure a High-Impact Literature Review",
-    excerpt: "Discover the critical framework used by top researchers to synthesize existing knowledge and identify research gaps effectively.",
-    author: "Academic Team",
-    date: "May 12, 2024",
-    image: "service-1",
-    category: "Methodology"
-  },
-  {
-    title: "Understanding Statistical Significance in Clinical Trials",
-    excerpt: "A deep dive into P-values, effect sizes, and why modern science is moving beyond binary testing for more robust findings.",
-    author: "Expert Review",
-    date: "May 10, 2024",
-    image: "service-2",
-    category: "Statistics"
-  }
-];
+interface BlogPost {
+  title: string;
+  excerpt: string;
+  author: string;
+  date: string;
+  image: string;
+  category: string;
+}
 
 const resources = [
   { name: "Thesis Template (LaTeX)", type: "ZIP", size: "2.4 MB" },
@@ -33,6 +24,21 @@ const resources = [
 ];
 
 export function Blog() {
+  const [blogData, setBlogData] = useState<{title: string, subtitle: string, posts: BlogPost[]}>({
+    title: "Academic Hub",
+    subtitle: "Expert advice on academic writing and research methodology.",
+    posts: []
+  });
+
+  useEffect(() => {
+    fetch('/api/leadership', { cache: 'no-store' })
+      .then(res => res.json())
+      .then(data => {
+        if (data.blog) setBlogData(data.blog);
+      })
+      .catch(err => console.error("Error fetching blog data:", err));
+  }, []);
+
   return (
     <section id="blog" className="py-24 bg-background">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -43,8 +49,8 @@ export function Blog() {
                 <div className="inline-flex items-center gap-2 bg-primary/10 text-primary text-[10px] uppercase tracking-widest font-bold px-4 py-1.5 rounded-full">
                   Insights & Knowledge
                 </div>
-                <h2 className="text-5xl font-headline font-bold text-accent">Academic Hub</h2>
-                <p className="text-muted-foreground text-lg">Expert advice on academic writing and research methodology.</p>
+                <h2 className="text-5xl font-headline font-bold text-accent">{blogData.title}</h2>
+                <p className="text-muted-foreground text-lg">{blogData.subtitle}</p>
               </div>
               <Button variant="link" className="text-primary gap-2 p-0 font-bold hidden sm:flex">
                 View All Posts <ArrowRight className="h-4 w-4" />
@@ -52,18 +58,20 @@ export function Blog() {
             </div>
 
             <div className="grid md:grid-cols-2 gap-8">
-              {posts.map((post, i) => {
-                const img = PlaceHolderImages.find(p => p.id === post.image);
+              {blogData.posts.map((post, i) => {
+                const placeholderId = `service-${(i % 3) + 1}`;
+                const placeholder = PlaceHolderImages.find(p => p.id === placeholderId);
+                const displayImage = post.image || placeholder?.imageUrl;
+
                 return (
                   <Card key={i} className="overflow-hidden border-none shadow-xl hover:-translate-y-2 transition-all duration-300 rounded-[32px] group bg-white">
                     <div className="relative h-64">
-                      {img?.imageUrl && (
+                      {displayImage && (
                         <Image
-                          src={img.imageUrl}
+                          src={displayImage}
                           alt={post.title}
                           fill
                           className="object-cover group-hover:scale-105 transition-transform duration-700"
-                          data-ai-hint={img.imageHint}
                         />
                       )}
                       <div className="absolute top-6 left-6">

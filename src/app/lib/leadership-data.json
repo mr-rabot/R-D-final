@@ -1,3 +1,4 @@
+
 {
   "brand": {
     "logo": "/images/brand_logo_1774844652195.png"
@@ -84,7 +85,7 @@
       "image": "/images/services_2_image_1774844066685.jpg"
     },
     {
-      "title": "Project Reports (New)",
+      "title": "Project Reports",
       "description": "Detailed technical and academic reports for institutional projects, internships, and corporate research initiatives.",
       "features": [
         "Technical precision",
@@ -95,7 +96,7 @@
       "image": "/images/services_3_image_1774844167105.jpg"
     },
     {
-      "title": "Literature Review (New)",
+      "title": "Literature Review",
       "description": "Exhaustive synthesis of existing scholarly work to identify research gaps and build a theoretical framework.",
       "features": [
         "Critical synthesis",
@@ -106,7 +107,7 @@
       "image": "/images/services_4_image_1774844185971.jpg"
     },
     {
-      "title": "Research Proposal (New)",
+      "title": "Research Proposal",
       "description": "Strategic drafting of research blueprints for ethical clearance, funding applications, and academic admissions.",
       "features": [
         "Clear objectives",
@@ -117,6 +118,28 @@
       "image": "/images/services_5_image_1774844204829.jpg"
     }
   ],
+  "blog": {
+    "title": "Academic Hub",
+    "subtitle": "Expert advice on academic writing and research methodology.",
+    "posts": [
+      {
+        "title": "How to Structure a High-Impact Literature Review",
+        "excerpt": "Discover the critical framework used by top researchers to synthesize existing knowledge and identify research gaps effectively.",
+        "author": "Academic Team",
+        "date": "May 12, 2024",
+        "image": "",
+        "category": "Methodology"
+      },
+      {
+        "title": "Understanding Statistical Significance in Clinical Trials",
+        "excerpt": "A deep dive into P-values, effect sizes, and why modern science is moving beyond binary testing for more robust findings.",
+        "author": "Expert Review",
+        "date": "May 10, 2024",
+        "image": "",
+        "category": "Statistics"
+      }
+    ]
+  },
   "pricing": [
     {
       "name": "Basic",

@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useCallback, useRef, useEffect } from "react";
@@ -27,7 +28,8 @@ import {
   Loader2,
   Image as ImageIcon,
   GalleryVertical,
-  Users
+  Users,
+  BookOpen
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import Image from "next/image";
@@ -100,6 +102,7 @@ export default function AdminDashboard() {
       if (!res.ok) throw new Error("Failed to fetch");
       const data = await res.json();
       if (!data.brand) data.brand = { logo: "" };
+      if (!data.blog) data.blog = { title: "Academic Hub", subtitle: "", posts: [] };
       setSiteData(data);
     } catch (error) {
       console.error("Fetch Error:", error);
@@ -258,6 +261,7 @@ export default function AdminDashboard() {
     { id: "leadership", icon: Users, label: "Leadership" },
     { id: "summary", icon: FileText, label: "Firm Summary" },
     { id: "services", icon: Zap, label: "Services" },
+    { id: "academic", icon: BookOpen, label: "Academic Hub" },
     { id: "testimonials", icon: Star, label: "Testimonials" },
     { id: "faq", icon: HelpCircle, label: "FAQ" },
     { id: "settings", icon: Settings, label: "Integrations" }
@@ -338,7 +342,6 @@ export default function AdminDashboard() {
                   <ImageIcon className="h-6 w-6" />
                   <h3 className="text-xl font-headline font-bold">Official Brand Logo</h3>
                 </div>
-                {/* Removed background and border to maintain original upload look */}
                 <div className="relative h-32 w-full rounded-2xl overflow-hidden bg-transparent flex items-center justify-center p-4 border border-slate-100">
                   {siteData.brand?.logo ? (
                     <Image src={siteData.brand.logo} alt="Brand Logo" fill className="object-contain p-4" />
@@ -426,6 +429,32 @@ export default function AdminDashboard() {
                         )}
                       </div>
                       <Button variant="outline" size="sm" className="w-full rounded-lg text-xs" onClick={() => { setCurrentEditingPath(`services.${i}.image`); fileInputRef.current?.click(); }}>
+                        <Upload className="h-3 w-3 mr-2" /> Update Image
+                      </Button>
+                    </Card>
+                  ))}
+                </div>
+              </div>
+
+              <div className="md:col-span-2 pt-10 border-t border-slate-200">
+                <div className="flex items-center gap-3 text-primary mb-8">
+                  <BookOpen className="h-6 w-6" />
+                  <h3 className="text-2xl font-headline font-bold">Academic Hub Images</h3>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                  {siteData.blog.posts.map((post: any, i: number) => (
+                    <Card key={i} className="border-none shadow-md rounded-3xl p-6 bg-white space-y-4">
+                      <h4 className="font-bold text-sm truncate">{post.title}</h4>
+                      <div className="relative h-32 w-full rounded-xl overflow-hidden border-2 border-slate-50 shadow-sm bg-slate-50">
+                        {post.image ? (
+                          <Image src={post.image} alt={post.title} fill className="object-cover" />
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center text-slate-200">
+                             <ImageIcon className="h-8 w-8" />
+                          </div>
+                        )}
+                      </div>
+                      <Button variant="outline" size="sm" className="w-full rounded-lg text-xs" onClick={() => { setCurrentEditingPath(`blog.posts.${i}.image`); fileInputRef.current?.click(); }}>
                         <Upload className="h-3 w-3 mr-2" /> Update Image
                       </Button>
                     </Card>
@@ -588,6 +617,86 @@ export default function AdminDashboard() {
             </div>
           </TabsContent>
 
+          <TabsContent value="academic">
+            <Card className="border-none shadow-xl rounded-[40px] p-6 md:p-10 bg-white space-y-8">
+              <div className="space-y-4">
+                <div className="space-y-2">
+                  <label className="text-[10px] font-bold uppercase text-slate-400">Section Title</label>
+                  <Input value={siteData.blog.title} onChange={(e) => setSiteData({...siteData, blog: {...siteData.blog, title: e.target.value}})} className="bg-slate-50 border-none rounded-xl h-12" />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-[10px] font-bold uppercase text-slate-400">Section Subtitle</label>
+                  <Input value={siteData.blog.subtitle} onChange={(e) => setSiteData({...siteData, blog: {...siteData.blog, subtitle: e.target.value}})} className="bg-slate-50 border-none rounded-xl h-12" />
+                </div>
+              </div>
+
+              <div className="space-y-6 pt-10 border-t">
+                <div className="flex justify-between items-center">
+                  <h3 className="text-xl font-bold">Academic Posts</h3>
+                  <Button onClick={() => setSiteData({...siteData, blog: {...siteData.blog, posts: [...siteData.blog.posts, {title: "New Post", excerpt: "", author: "Academic Team", date: new Date().toLocaleDateString(), category: "Methodology", image: ""}]}})} variant="outline" className="rounded-xl">
+                    <Plus className="h-4 w-4 mr-2" /> Add Post
+                  </Button>
+                </div>
+                <div className="grid gap-6">
+                  {siteData.blog.posts.map((post: any, i: number) => (
+                    <div key={i} className="bg-slate-50 p-6 rounded-2xl relative group grid md:grid-cols-2 gap-6">
+                      <Button variant="ghost" onClick={() => {
+                        const newPosts = siteData.blog.posts.filter((_: any, idx: number) => idx !== i);
+                        setSiteData({...siteData, blog: {...siteData.blog, posts: newPosts}});
+                      }} className="absolute top-2 right-2 text-destructive opacity-0 group-hover:opacity-100"><Trash2 className="h-4 w-4" /></Button>
+                      <div className="space-y-4">
+                        <div className="space-y-2">
+                          <label className="text-[9px] font-bold uppercase text-slate-400">Title</label>
+                          <Input value={post.title} onChange={(e) => {
+                            const newPosts = [...siteData.blog.posts];
+                            newPosts[i].title = e.target.value;
+                            setSiteData({...siteData, blog: {...siteData.blog, posts: newPosts}});
+                          }} className="bg-white border-none font-bold" />
+                        </div>
+                        <div className="space-y-2">
+                          <label className="text-[9px] font-bold uppercase text-slate-400">Excerpt</label>
+                          <Textarea value={post.excerpt} onChange={(e) => {
+                            const newPosts = [...siteData.blog.posts];
+                            newPosts[i].excerpt = e.target.value;
+                            setSiteData({...siteData, blog: {...siteData.blog, posts: newPosts}});
+                          }} className="bg-white border-none text-sm h-24" />
+                        </div>
+                      </div>
+                      <div className="space-y-4">
+                        <div className="grid grid-cols-2 gap-4">
+                          <div className="space-y-2">
+                            <label className="text-[9px] font-bold uppercase text-slate-400">Author</label>
+                            <Input value={post.author} onChange={(e) => {
+                              const newPosts = [...siteData.blog.posts];
+                              newPosts[i].author = e.target.value;
+                              setSiteData({...siteData, blog: {...siteData.blog, posts: newPosts}});
+                            }} className="bg-white border-none text-xs" />
+                          </div>
+                          <div className="space-y-2">
+                            <label className="text-[9px] font-bold uppercase text-slate-400">Category</label>
+                            <Input value={post.category} onChange={(e) => {
+                              const newPosts = [...siteData.blog.posts];
+                              newPosts[i].category = e.target.value;
+                              setSiteData({...siteData, blog: {...siteData.blog, posts: newPosts}});
+                            }} className="bg-white border-none text-xs" />
+                          </div>
+                        </div>
+                        <div className="space-y-2">
+                          <label className="text-[9px] font-bold uppercase text-slate-400">Date</label>
+                          <Input value={post.date} onChange={(e) => {
+                            const newPosts = [...siteData.blog.posts];
+                            newPosts[i].date = e.target.value;
+                            setSiteData({...siteData, blog: {...siteData.blog, posts: newPosts}});
+                          }} className="bg-white border-none text-xs" />
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </Card>
+          </TabsContent>
+
           <TabsContent value="testimonials">
             <div className="space-y-6">
               <div className="flex justify-end">
@@ -748,7 +857,7 @@ export default function AdminDashboard() {
                   currentEditingPath?.includes('logo') ? 600/260 : 
                   (currentEditingPath?.includes('hero') ? 4/5 : 
                   (currentEditingPath?.includes('firmSummary') ? 16/10 : 
-                  (currentEditingPath?.includes('services') ? 16/9 : 1)))
+                  (currentEditingPath?.includes('services') || currentEditingPath?.includes('blog') ? 16/9 : 1)))
                 } 
                 onCropChange={setCrop} 
                 onZoomChange={setZoom} 
