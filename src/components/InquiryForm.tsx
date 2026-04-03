@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useEffect, useState, useRef } from "react";
@@ -11,7 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
-import { Mail, Phone, User, MessageSquare, Send } from "lucide-react";
+import { Mail, Phone, User, MessageSquare, Send, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const formSchema = z.object({
@@ -40,6 +41,7 @@ export function InquiryForm() {
   const [contactImage, setContactImage] = useState<string | null>(null);
   const [whatsapp, setWhatsapp] = useState("916209779365");
   const [isVisible, setIsVisible] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
   
   const form = useForm<z.infer<typeof formSchema>>({
@@ -55,12 +57,13 @@ export function InquiryForm() {
   });
 
   useEffect(() => {
-    fetch('/api/leadership')
+    fetch('/api/leadership', { cache: 'no-store' })
       .then(res => res.json())
       .then(data => {
         if (data.firmSummary?.image) setContactImage(data.firmSummary.image);
         if (data.integrations?.whatsapp) setWhatsapp(data.integrations.whatsapp);
-      });
+      })
+      .catch(err => console.error("Error fetching leadership data:", err));
 
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -79,40 +82,59 @@ export function InquiryForm() {
     return () => observer.disconnect();
   }, []);
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    const selectedCountry = countryCodes.find(c => c.name === values.countryCode);
-    const code = selectedCountry?.code || "+91";
-    const fullPhone = `${code} ${values.phone}`;
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    setIsSubmitting(true);
     
-    const subject = `Quote Request: ${values.service} - ${values.name}`;
-    const body = `Hi R&D Services Team,\n\nI would like to request a professional quote for the following project:\n\n` +
-      `Name: ${values.name}\n` +
-      `Email: ${values.email}\n` +
-      `Phone: ${fullPhone}\n` +
-      `Service: ${values.service}\n\n` +
-      `Project Details:\n${values.details}\n\n` +
-      `Best regards,\n${values.name}`;
-    
-    window.location.href = `mailto:support.rdservices@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    try {
+      // Using FormSubmit.co AJAX endpoint for a better SPA experience
+      const response = await fetch("https://formsubmit.co/ajax/support.rdservices@gmail.com", {
+        method: "POST",
+        headers: { 
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          name: values.name,
+          email: values.email,
+          phone: `${values.countryCode} ${values.phone}`,
+          service: values.service,
+          message: values.details,
+          _subject: `New Research Inquiry: ${values.service} from ${values.name}`,
+          _template: "table"
+        }),
+      });
 
-    toast({
-      title: "Opening Email Client",
-      description: "Redirecting to your mail application to send the inquiry...",
-    });
-    
-    form.reset({
-      ...form.getValues(),
-      name: "",
-      email: "",
-      phone: "",
-      details: "",
-    });
+      if (response.ok) {
+        toast({
+          title: "Inquiry Sent Successfully",
+          description: "Our academic team has received your message and will contact you shortly.",
+        });
+        form.reset({
+          name: "",
+          email: "",
+          phone: "",
+          details: "",
+          service: "",
+          countryCode: "India"
+        });
+      } else {
+        throw new Error("Submission failed");
+      }
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Submission Error",
+        description: "We couldn't process your inquiry at this moment. Please try again or use WhatsApp.",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   const handleWhatsAppQuickAction = () => {
     const values = form.getValues();
     if (!values.name || !values.service) {
-      const quickMessage = encodeURIComponent("Hi R&D Services, I am interested in your academic consulting services.");
+      const quickMessage = encodeURIComponent("Hi R & D Services, I am interested in your academic consulting services.");
       window.open(`https://wa.me/${whatsapp}?text=${quickMessage}`, '_blank');
       return;
     }
@@ -305,7 +327,7 @@ export function InquiryForm() {
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel className="text-sm font-bold text-accent uppercase tracking-wider">Service Type *</FormLabel>
-                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <Select onValueChange={field.onChange} value={field.value}>
                           <FormControl>
                             <SelectTrigger className="bg-slate-50 border-none rounded-2xl h-14 shadow-inner">
                               <SelectValue placeholder="Select service type" />
@@ -348,8 +370,13 @@ export function InquiryForm() {
                 />
 
                 <div className="flex flex-col gap-5 pt-4">
-                  <Button type="submit" className="w-full h-18 rounded-2xl text-xl bg-primary hover:bg-blue-600 text-white shadow-xl shadow-primary/20 flex gap-4 transition-all hover:-translate-y-1 active:scale-95 py-8 font-bold">
-                     <Send className="h-6 w-6" /> Submit Inquiry via Email
+                  <Button 
+                    type="submit" 
+                    disabled={isSubmitting}
+                    className="w-full h-18 rounded-2xl text-xl bg-primary hover:bg-blue-600 text-white shadow-xl shadow-primary/20 flex gap-4 transition-all hover:-translate-y-1 active:scale-95 py-8 font-bold"
+                  >
+                     {isSubmitting ? <Loader2 className="h-6 w-6 animate-spin" /> : <Send className="h-6 w-6" />}
+                     {isSubmitting ? "Submitting..." : "Submit Inquiry"}
                   </Button>
                   <Button 
                     type="button" 
