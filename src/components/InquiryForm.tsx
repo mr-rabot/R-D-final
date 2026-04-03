@@ -11,7 +11,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
-import { Mail, Phone, User, MessageSquare } from "lucide-react";
+import { Mail, Phone, User, MessageSquare, Send } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const formSchema = z.object({
@@ -84,20 +84,20 @@ export function InquiryForm() {
     const code = selectedCountry?.code || "+91";
     const fullPhone = `${code} ${values.phone}`;
     
-    const messageText = `*New Inquiry from R&D Services Website*\n\n` +
-      `*Name:* ${values.name}\n` +
-      `*Email:* ${values.email}\n` +
-      `*Phone:* ${fullPhone}\n` +
-      `*Service:* ${values.service}\n` +
-      `*Details:* ${values.details}`;
+    const subject = `Quote Request: ${values.service} - ${values.name}`;
+    const body = `Hi R&D Services Team,\n\nI would like to request a professional quote for the following project:\n\n` +
+      `Name: ${values.name}\n` +
+      `Email: ${values.email}\n` +
+      `Phone: ${fullPhone}\n` +
+      `Service: ${values.service}\n\n` +
+      `Project Details:\n${values.details}\n\n` +
+      `Best regards,\n${values.name}`;
     
-    const whatsappUrl = `https://wa.me/${whatsapp}?text=${encodeURIComponent(messageText)}`;
-    
-    window.open(whatsappUrl, '_blank');
+    window.location.href = `mailto:support.rdservices@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 
     toast({
-      title: "Inquiry Sent",
-      description: "Redirecting to WhatsApp to finalize your quote request...",
+      title: "Opening Email Client",
+      description: "Redirecting to your mail application to send the inquiry...",
     });
     
     form.reset({
@@ -109,14 +109,11 @@ export function InquiryForm() {
     });
   }
 
-  const handleEmailSubmit = () => {
+  const handleWhatsAppQuickAction = () => {
     const values = form.getValues();
-    if (!values.name || !values.email || !values.service || !values.details) {
-      toast({
-        variant: "destructive",
-        title: "Incomplete Form",
-        description: "Please fill out the required fields before sending an email.",
-      });
+    if (!values.name || !values.service) {
+      const quickMessage = encodeURIComponent("Hi R&D Services, I am interested in your academic consulting services.");
+      window.open(`https://wa.me/${whatsapp}?text=${quickMessage}`, '_blank');
       return;
     }
 
@@ -124,19 +121,18 @@ export function InquiryForm() {
     const code = selectedCountry?.code || "+91";
     const fullPhone = `${code} ${values.phone}`;
     
-    const subject = `Quote Request: ${values.service} - ${values.name}`;
-    const body = `Hi R&D Services Team,\n\nI would like to request a quote for the following project:\n\n` +
-      `Name: ${values.name}\n` +
-      `Email: ${values.email}\n` +
-      `Phone: ${fullPhone}\n` +
-      `Service: ${values.service}\n\n` +
-      `Project Details:\n${values.details}`;
+    const messageText = `*New Quote Request from Website*\n\n` +
+      `*Name:* ${values.name}\n` +
+      `*Email:* ${values.email}\n` +
+      `*Phone:* ${fullPhone}\n` +
+      `*Service:* ${values.service}\n` +
+      `*Details:* ${values.details}`;
     
-    window.location.href = `mailto:support.rdservices@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    window.open(`https://wa.me/${whatsapp}?text=${encodeURIComponent(messageText)}`, '_blank');
   };
 
   return (
-    <section id="contact" ref={sectionRef} className="py-24 bg-slate-50/50">
+    <section id="contact" ref={sectionRef} className="py-24 bg-slate-50/50 w-full overflow-hidden">
       <div className={cn(
         "w-full px-4 sm:px-12 lg:px-20 transition-all duration-1000",
         isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
@@ -145,7 +141,7 @@ export function InquiryForm() {
           <div className="space-y-12">
             <div className="space-y-6">
               <h2 className="text-5xl lg:text-7xl font-headline font-bold text-accent">Get in Touch</h2>
-              <p className="text-lg lg:text-2xl text-slate-600 leading-relaxed">
+              <p className="text-lg lg:text-2xl text-slate-600 leading-relaxed font-light">
                 Discuss your research project directly with our experts. We guarantee scholarly precision and academic integrity.
               </p>
             </div>
@@ -167,7 +163,7 @@ export function InquiryForm() {
                 </div>
                 <div>
                   <h4 className="font-bold text-accent text-lg">Email Us</h4>
-                  <p className="text-slate-600 break-all">support.rdservices@gmail.com</p>
+                  <p className="text-slate-600 break-all font-medium">support.rdservices@gmail.com</p>
                 </div>
               </div>
 
@@ -177,8 +173,8 @@ export function InquiryForm() {
                 </div>
                 <div>
                   <h4 className="font-bold text-accent text-lg">Call Us</h4>
-                  <p className="text-slate-600">+{whatsapp}</p>
-                  <p className="text-slate-600">Available 24/7</p>
+                  <p className="text-slate-600 font-medium">+{whatsapp}</p>
+                  <p className="text-slate-400 text-xs font-bold uppercase tracking-widest mt-1">Available 24/7</p>
                 </div>
               </div>
             </div>
@@ -186,14 +182,14 @@ export function InquiryForm() {
             <div className="relative pt-8">
               {contactImage ? (
                 <div className={cn(
-                  "relative w-full h-80 lg:h-[500px] overflow-hidden rounded-[32px] shadow-[0_30px_60px_rgba(0,0,0,0.15)] border border-slate-200 transition-all duration-1000 delay-300",
+                  "relative w-full h-80 lg:h-[500px] overflow-hidden rounded-[32px] shadow-[0_30px_60px_rgba(0,0,0,0.15)] border border-slate-200 transition-all duration-1000 delay-300 bg-slate-100",
                   isVisible ? "scale-100 opacity-100" : "scale-95 opacity-0"
                 )}>
                   <Image
                     src={contactImage}
                     alt="Research Visual"
                     fill
-                    className="object-cover"
+                    className="object-cover grayscale hover:grayscale-0 transition-all duration-1000"
                     unoptimized
                   />
                   <div className="absolute inset-0 bg-primary/5 mix-blend-multiply" />
@@ -203,12 +199,12 @@ export function InquiryForm() {
           </div>
 
           <div className={cn(
-            "bg-white p-10 lg:p-16 rounded-[32px] shadow-[0_40px_100px_-20px_rgba(0,0,0,0.12)] border border-slate-100 transition-all duration-1000",
+            "bg-white p-10 lg:p-16 rounded-[45px] shadow-[0_40px_100px_-20px_rgba(0,0,0,0.12)] border border-slate-100 transition-all duration-1000",
             isVisible ? "translate-x-0 opacity-100" : "translate-x-12 opacity-0"
           )}>
-            <div className="mb-10 space-y-2">
-              <h3 className="text-2xl lg:text-4xl font-bold text-accent">Get Your Quote</h3>
-              <p className="text-slate-500 lg:text-lg">Fill out the details and send via your preferred channel</p>
+            <div className="mb-10 space-y-3 text-center lg:text-left">
+              <h3 className="text-3xl lg:text-5xl font-headline font-bold text-accent tracking-tight">Request Quote</h3>
+              <p className="text-slate-500 lg:text-lg font-light">Secure scholarly support for your research project.</p>
             </div>
 
             <Form {...form}>
@@ -219,9 +215,9 @@ export function InquiryForm() {
                     name="name"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-sm font-bold text-accent">Full Name *</FormLabel>
+                        <FormLabel className="text-sm font-bold text-accent uppercase tracking-wider">Full Name *</FormLabel>
                         <FormControl>
-                          <Input placeholder="Enter your name" {...field} className="bg-slate-50 border-none rounded-xl h-14 shadow-inner" />
+                          <Input placeholder="Enter your name" {...field} className="bg-slate-50 border-none rounded-2xl h-14 shadow-inner" />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -233,9 +229,9 @@ export function InquiryForm() {
                     name="email"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-sm font-bold text-accent">Email *</FormLabel>
+                        <FormLabel className="text-sm font-bold text-accent uppercase tracking-wider">Email Address *</FormLabel>
                         <FormControl>
-                          <Input placeholder="email@example.com" {...field} className="bg-slate-50 border-none rounded-xl h-14 shadow-inner" />
+                          <Input placeholder="email@example.com" {...field} className="bg-slate-50 border-none rounded-2xl h-14 shadow-inner" />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -245,8 +241,8 @@ export function InquiryForm() {
 
                 <div className="grid md:grid-cols-2 gap-6">
                   <div className="space-y-2">
-                    <FormLabel className="text-sm font-bold text-accent">Phone Number *</FormLabel>
-                    <div className="flex items-center gap-0 bg-slate-50 border-none rounded-xl shadow-inner overflow-hidden focus-within:ring-2 focus-within:ring-primary/20">
+                    <FormLabel className="text-sm font-bold text-accent uppercase tracking-wider">Contact Number *</FormLabel>
+                    <div className="flex items-center gap-0 bg-slate-50 border-none rounded-2xl shadow-inner overflow-hidden focus-within:ring-2 focus-within:ring-primary/20">
                       <FormField
                         control={form.control}
                         name="countryCode"
@@ -268,7 +264,7 @@ export function InquiryForm() {
                                   </SelectValue>
                                 </SelectTrigger>
                               </FormControl>
-                              <SelectContent className="rounded-xl border-slate-100">
+                              <SelectContent className="rounded-2xl border-slate-100">
                                 {countryCodes.map((item) => (
                                   <SelectItem key={`${item.code}-${item.name}`} value={item.name}>
                                     <span className="flex items-center gap-2">
@@ -308,14 +304,14 @@ export function InquiryForm() {
                     name="service"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-sm font-bold text-accent">Service Required *</FormLabel>
+                        <FormLabel className="text-sm font-bold text-accent uppercase tracking-wider">Service Type *</FormLabel>
                         <Select onValueChange={field.onChange} defaultValue={field.value}>
                           <FormControl>
-                            <SelectTrigger className="bg-slate-50 border-none rounded-xl h-14 shadow-inner">
+                            <SelectTrigger className="bg-slate-50 border-none rounded-2xl h-14 shadow-inner">
                               <SelectValue placeholder="Select service type" />
                             </SelectTrigger>
                           </FormControl>
-                          <SelectContent className="rounded-xl border-slate-100">
+                          <SelectContent className="rounded-2xl border-slate-100">
                             <SelectItem value="Research Paper">Research Paper</SelectItem>
                             <SelectItem value="Thesis Writing">Thesis Writing</SelectItem>
                             <SelectItem value="Dissertation">Dissertation</SelectItem>
@@ -338,11 +334,11 @@ export function InquiryForm() {
                   name="details"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-sm font-bold text-accent">Project Details *</FormLabel>
+                      <FormLabel className="text-sm font-bold text-accent uppercase tracking-wider">Research Details *</FormLabel>
                       <FormControl>
                         <Textarea 
-                          placeholder="Tell us about your project requirements, deadline, topic, etc." 
-                          className="bg-slate-50 border-none rounded-xl min-h-[150px] shadow-inner text-base lg:text-lg" 
+                          placeholder="Please provide topic details, desired timeline, and specific requirements..." 
+                          className="bg-slate-50 border-none rounded-2xl min-h-[160px] shadow-inner text-base lg:text-lg p-6" 
                           {...field} 
                         />
                       </FormControl>
@@ -351,17 +347,17 @@ export function InquiryForm() {
                   )}
                 />
 
-                <div className="flex flex-col gap-4 pt-4">
-                  <Button type="submit" className="w-full h-16 rounded-xl text-lg lg:text-xl bg-primary hover:bg-blue-600 text-white shadow-lg flex gap-3 transition-all active:scale-95">
-                     <MessageSquare className="h-6 w-6" /> Submit via WhatsApp
+                <div className="flex flex-col gap-5 pt-4">
+                  <Button type="submit" className="w-full h-18 rounded-2xl text-xl bg-primary hover:bg-blue-600 text-white shadow-xl shadow-primary/20 flex gap-4 transition-all hover:-translate-y-1 active:scale-95 py-8 font-bold">
+                     <Send className="h-6 w-6" /> Submit Inquiry via Email
                   </Button>
                   <Button 
                     type="button" 
-                    onClick={handleEmailSubmit}
+                    onClick={handleWhatsAppQuickAction}
                     variant="outline" 
-                    className="w-full h-16 rounded-xl text-lg lg:text-xl border-2 border-slate-200 hover:border-primary text-slate-600 hover:text-primary transition-all active:scale-95 flex gap-3 shadow-sm"
+                    className="w-full h-18 rounded-2xl text-lg border-2 border-slate-100 hover:border-[#25D366] hover:text-[#25D366] transition-all active:scale-95 flex gap-4 shadow-sm bg-transparent text-slate-500 py-8 font-bold"
                   >
-                    <Mail className="h-6 w-6" /> Submit via Email
+                    <MessageSquare className="h-6 w-6" /> Chat on WhatsApp
                   </Button>
                 </div>
               </form>

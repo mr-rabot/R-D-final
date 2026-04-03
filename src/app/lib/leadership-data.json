@@ -260,12 +260,6 @@
     }
   ],
   "integrations": {
-    "whatsapp": "916209779365",
-    "smtp": {
-      "host": "",
-      "port": "587",
-      "user": "",
-      "password": ""
-    }
+    "whatsapp": "916209779365"
   }
 }

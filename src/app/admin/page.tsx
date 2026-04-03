@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useCallback, useRef, useEffect } from "react";
@@ -691,7 +690,7 @@ export default function AdminDashboard() {
                           <Input value={post.date} onChange={(e) => {
                             const newPosts = [...siteData.blog.posts];
                             newPosts[i].date = e.target.value;
-                            setSiteData({...siteData, blog: {...siteData.blog, posts: newPosts}});
+                            setSiteData({...siteData, blog: {...siteData.blog, posts: newStats}});
                           }} className="bg-white border-none text-xs" />
                         </div>
                       </div>
@@ -796,52 +795,24 @@ export default function AdminDashboard() {
           </TabsContent>
 
           <TabsContent value="settings">
-            <div className="grid lg:grid-cols-2 gap-8">
-              <Card className="border-none shadow-xl rounded-[40px] p-6 md:p-10 bg-white space-y-8">
-                <div className="flex items-center gap-3 text-primary mb-2">
-                  <Mail className="h-6 w-6" />
-                  <h3 className="text-2xl font-headline font-bold">WhatsApp Settings</h3>
+            <Card className="border-none shadow-xl rounded-[40px] p-6 md:p-10 bg-white space-y-8 max-w-2xl">
+              <div className="flex items-center gap-3 text-primary mb-2">
+                <MessageSquare className="h-6 w-6" />
+                <h3 className="text-2xl font-headline font-bold">WhatsApp Settings</h3>
+              </div>
+              <div className="space-y-4">
+                <div className="space-y-2">
+                  <label className="text-[10px] font-bold uppercase text-slate-400">WhatsApp Number (with country code)</label>
+                  <Input 
+                    value={siteData.integrations?.whatsapp || ""} 
+                    onChange={(e) => setSiteData({...siteData, integrations: {...siteData.integrations, whatsapp: e.target.value}})} 
+                    placeholder="e.g. 916209779365"
+                    className="bg-slate-50 border-none rounded-xl h-12" 
+                  />
+                  <p className="text-[10px] text-slate-400">Note: Email is now the primary submission method. WhatsApp is used for quick chat actions.</p>
                 </div>
-                <div className="space-y-4">
-                  <div className="space-y-2">
-                    <label className="text-[10px] font-bold uppercase text-slate-400">WhatsApp Number</label>
-                    <Input 
-                      value={siteData.integrations?.whatsapp || ""} 
-                      onChange={(e) => setSiteData({...siteData, integrations: {...siteData.integrations, whatsapp: e.target.value}})} 
-                      placeholder="e.g. 916209779365"
-                      className="bg-slate-50 border-none rounded-xl h-12" 
-                    />
-                  </div>
-                </div>
-              </Card>
-
-              <Card className="border-none shadow-xl rounded-[40px] p-6 md:p-10 bg-white space-y-8">
-                <div className="flex items-center gap-3 text-primary mb-2">
-                  <Mail className="h-6 w-6" />
-                  <h3 className="text-2xl font-headline font-bold">SMTP Settings</h3>
-                </div>
-                <div className="space-y-4">
-                  <div className="space-y-2">
-                    <label className="text-[10px] font-bold uppercase text-slate-400">SMTP User</label>
-                    <Input 
-                      value={siteData.integrations?.smtp?.user || ""} 
-                      onChange={(e) => setSiteData({...siteData, integrations: {...siteData.integrations, smtp: {...siteData.integrations.smtp, user: e.target.value}}})} 
-                      placeholder="user@example.com"
-                      className="bg-slate-50 border-none rounded-xl h-12" 
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <label className="text-[10px] font-bold uppercase text-slate-400">SMTP Password</label>
-                    <Input 
-                      type="password"
-                      value={siteData.integrations?.smtp?.password || ""} 
-                      onChange={(e) => setSiteData({...siteData, integrations: {...siteData.integrations, smtp: {...siteData.integrations.smtp, password: e.target.value}}})} 
-                      className="bg-slate-50 border-none rounded-xl h-12" 
-                    />
-                  </div>
-                </div>
-              </Card>
-            </div>
+              </div>
+            </Card>
           </TabsContent>
 
         </Tabs>
