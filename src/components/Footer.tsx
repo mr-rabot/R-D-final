@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useEffect, useState } from "react";
@@ -24,7 +25,7 @@ export function Footer() {
             <Link href="/" className="group inline-block">
               <div className="flex flex-col">
                 <span className="font-headline text-3xl lg:text-4xl font-bold text-white tracking-tight leading-none uppercase">
-                  R & D
+                  R&D
                 </span>
                 <span className="text-[10px] lg:text-xs text-blue-200 font-bold uppercase tracking-widest mt-1 group-hover:text-primary transition-colors">
                   Services
@@ -77,7 +78,7 @@ export function Footer() {
         {/* Bottom Bar */}
         <div className="pt-8 border-t border-slate-800 text-center text-sm lg:text-base text-slate-500">
           <p>
-            © 2024 R & D Services. All rights reserved. |{" "}
+            © 2024 R&D Services. All rights reserved. |{" "}
             <Link href="#" className="hover:text-white transition-colors">Privacy Policy</Link> |{" "}
             <Link href="#" className="hover:text-white transition-colors">Terms & Conditions</Link>
           </p>

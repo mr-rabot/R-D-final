@@ -134,7 +134,7 @@ export function InquiryForm() {
   const handleWhatsAppQuickAction = () => {
     const values = form.getValues();
     if (!values.name || !values.service) {
-      const quickMessage = encodeURIComponent("Hi R & D Services, I am interested in your academic consulting services.");
+      const quickMessage = encodeURIComponent("Hi R&D Services, I am interested in your academic consulting services.");
       window.open(`https://wa.me/${whatsapp}?text=${quickMessage}`, '_blank');
       return;
     }

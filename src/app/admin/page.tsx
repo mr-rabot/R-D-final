@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useCallback, useRef, useEffect } from "react";
@@ -28,7 +29,8 @@ import {
   Image as ImageIcon,
   GalleryVertical,
   Users,
-  BookOpen
+  BookOpen,
+  MessageSquare
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import Image from "next/image";
@@ -690,7 +692,7 @@ export default function AdminDashboard() {
                           <Input value={post.date} onChange={(e) => {
                             const newPosts = [...siteData.blog.posts];
                             newPosts[i].date = e.target.value;
-                            setSiteData({...siteData, blog: {...siteData.blog, posts: newStats}});
+                            setSiteData({...siteData, blog: {...siteData.blog, posts: newPosts}});
                           }} className="bg-white border-none text-xs" />
                         </div>
                       </div>
