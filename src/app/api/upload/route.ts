@@ -1,12 +1,24 @@
-
 import { NextResponse } from 'next/server';
 import fs from 'fs/promises';
 import path from 'path';
 
 export async function POST(request: Request) {
   try {
-    const { image, name } = await request.json();
+    const { image, name, oldUrl } = await request.json();
     if (!image) return NextResponse.json({ error: 'No image data provided' }, { status: 400 });
+
+    // Handle deletion of the old image if it exists and is a local file
+    if (oldUrl && typeof oldUrl === 'string' && oldUrl.startsWith('/images/')) {
+      const oldFileName = oldUrl.split('?')[0].split('/').pop();
+      if (oldFileName) {
+        const oldFilePath = path.join(process.cwd(), 'public', 'images', oldFileName);
+        try {
+          await fs.unlink(oldFilePath);
+        } catch (err) {
+          // File might already be deleted or doesn't exist, which is fine
+        }
+      }
+    }
 
     // Extract base64 data
     const base64Data = image.replace(/^data:image\/\w+;base64,/, "");
@@ -15,10 +27,10 @@ export async function POST(request: Request) {
     // Create unique filename
     const sanitizedName = (name || 'upload').replace(/[^a-z0-9]/gi, '_').toLowerCase();
     
-    // Use .png to preserve transparency (especially critical for the brand logo)
+    // Use .png to preserve transparency
     const fileName = `${sanitizedName}_${Date.now()}.png`;
     
-    // Define upload directory (public/images is accessible via web)
+    // Define upload directory
     const uploadDir = path.join(process.cwd(), 'public', 'images');
     
     // Ensure directory exists
