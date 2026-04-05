@@ -42,7 +42,9 @@ export function Services() {
     fetch('/api/leadership', { cache: 'no-store' })
       .then(res => res.json())
       .then(data => {
-        setServices(data.services || []);
+        if (data && Array.isArray(data.services)) {
+          setServices(data.services);
+        }
       })
       .catch(err => console.error("Error fetching services:", err));
 
@@ -102,68 +104,72 @@ export function Services() {
         </div>
 
         <div className="relative px-6 sm:px-12 overflow-hidden">
-          <Carousel
-            plugins={[plugin.current]}
-            className="w-full"
-            opts={{
-              align: "start",
-              loop: true,
-            }}
-          >
-            <CarouselContent className="-ml-6 md:-ml-10">
-              {services.map((service, index) => {
-                const placeholderId = `service-${(index % 3) + 1}`;
-                const placeholder = PlaceHolderImages.find(p => p.id === placeholderId);
-                const displayImage = service.image || placeholder?.imageUrl;
+          {services && services.length > 0 ? (
+            <Carousel
+              plugins={[plugin.current]}
+              className="w-full"
+              opts={{
+                align: "start",
+                loop: true,
+              }}
+            >
+              <CarouselContent className="-ml-6 md:-ml-10">
+                {services.map((service, index) => {
+                  const placeholderId = `service-${(index % 3) + 1}`;
+                  const placeholder = PlaceHolderImages.find(p => p.id === placeholderId);
+                  const displayImage = service.image || placeholder?.imageUrl;
 
-                return (
-                  <CarouselItem key={index} className="pl-6 md:pl-10 basis-full md:basis-1/2 lg:basis-1/3 xl:basis-1/4 py-8">
-                    <Card className="border-none shadow-[0_25px_60px_-15px_rgba(0,0,0,0.08)] hover:shadow-[0_45px_90px_-20px_rgba(0,71,255,0.2)] transition-all duration-700 rounded-[45px] bg-white flex flex-col h-full group overflow-hidden border-b-8 border-transparent hover:border-primary">
-                      <div className="relative aspect-video w-full overflow-hidden">
-                        {displayImage && (
-                          <Image 
-                            src={displayImage} 
-                            alt={service.title} 
-                            fill 
-                            className="object-cover group-hover:scale-110 transition-transform duration-700" 
-                            unoptimized
-                          />
-                        )}
-                        <div className="absolute inset-0 bg-gradient-to-t from-white via-white/20 to-transparent" />
-                        <div className="absolute bottom-6 left-10">
-                           <div className="bg-primary/90 backdrop-blur-md w-14 h-14 rounded-[18px] flex items-center justify-center text-white shadow-lg">
-                            <FileText className="h-7 w-7" />
+                  return (
+                    <CarouselItem key={index} className="pl-6 md:pl-10 basis-full md:basis-1/2 lg:basis-1/3 xl:basis-1/4 py-8">
+                      <Card className="border-none shadow-[0_25px_60px_-15px_rgba(0,0,0,0.08)] hover:shadow-[0_45px_90px_-20px_rgba(0,71,255,0.2)] transition-all duration-700 rounded-[45px] bg-white flex flex-col h-full group overflow-hidden border-b-8 border-transparent hover:border-primary">
+                        <div className="relative aspect-video w-full overflow-hidden">
+                          {displayImage && (
+                            <Image 
+                              src={displayImage} 
+                              alt={service.title} 
+                              fill 
+                              className="object-cover group-hover:scale-110 transition-transform duration-700" 
+                              unoptimized
+                            />
+                          )}
+                          <div className="absolute inset-0 bg-gradient-to-t from-white via-white/20 to-transparent" />
+                          <div className="absolute bottom-6 left-10">
+                             <div className="bg-primary/90 backdrop-blur-md w-14 h-14 rounded-[18px] flex items-center justify-center text-white shadow-lg">
+                              <FileText className="h-7 w-7" />
+                            </div>
                           </div>
                         </div>
-                      </div>
-                      <CardHeader className="px-10 pt-4 pb-0">
-                        <CardTitle className="font-headline text-3xl text-accent mb-4 group-hover:text-primary transition-colors leading-tight">
-                          {service.title}
-                        </CardTitle>
-                      </CardHeader>
-                      <CardContent className="px-10 pb-12 space-y-8 flex-grow">
-                        <p className="text-slate-500 text-base leading-relaxed font-light">
-                          {service.description}
-                        </p>
-                        <div className="space-y-4">
-                          {service.features.slice(0, 3).map((feature: string, i: number) => (
-                            <div key={i} className="flex items-center gap-3 text-[11px] text-slate-400 font-bold uppercase tracking-wider">
-                              <CheckCircle className="h-3 w-3 text-primary" />
-                              <span>{feature}</span>
-                            </div>
-                          ))}
-                        </div>
-                      </CardContent>
-                    </Card>
-                  </CarouselItem>
-                );
-              })}
-            </CarouselContent>
-            <div className="flex justify-center mt-12 gap-8 md:block">
-              <CarouselPrevious className="static md:absolute md:-left-16 translate-y-0 bg-white border-none hover:bg-primary hover:text-white h-16 w-16 flex items-center justify-center rounded-full shadow-[0_15px_30px_rgba(0,0,0,0.1)] transition-all" />
-              <CarouselNext className="static md:absolute md:-right-16 translate-y-0 bg-white border-none hover:bg-primary hover:text-white h-16 w-16 flex items-center justify-center rounded-full shadow-[0_15px_30px_rgba(0,0,0,0.1)] transition-all" />
-            </div>
-          </Carousel>
+                        <CardHeader className="px-10 pt-4 pb-0">
+                          <CardTitle className="font-headline text-3xl text-accent mb-4 group-hover:text-primary transition-colors leading-tight">
+                            {service.title}
+                          </CardTitle>
+                        </CardHeader>
+                        <CardContent className="px-10 pb-12 space-y-8 flex-grow">
+                          <p className="text-slate-500 text-base leading-relaxed font-light">
+                            {service.description}
+                          </p>
+                          <div className="space-y-4">
+                            {service.features && Array.isArray(service.features) && service.features.slice(0, 3).map((feature: string, i: number) => (
+                              <div key={i} className="flex items-center gap-3 text-[11px] text-slate-400 font-bold uppercase tracking-wider">
+                                <CheckCircle className="h-3 w-3 text-primary" />
+                                <span>{feature}</span>
+                              </div>
+                            ))}
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </CarouselItem>
+                  );
+                })}
+              </CarouselContent>
+              <div className="flex justify-center mt-12 gap-8 md:block">
+                <CarouselPrevious className="static md:absolute md:-left-16 translate-y-0 bg-white border-none hover:bg-primary hover:text-white h-16 w-16 flex items-center justify-center rounded-full shadow-[0_15px_30px_rgba(0,0,0,0.1)] transition-all" />
+                <CarouselNext className="static md:absolute md:-right-16 translate-y-0 bg-white border-none hover:bg-primary hover:text-white h-16 w-16 flex items-center justify-center rounded-full shadow-[0_15px_30px_rgba(0,0,0,0.1)] transition-all" />
+              </div>
+            </Carousel>
+          ) : (
+            <div className="text-center py-20 text-slate-400">Syncing services from cloud...</div>
+          )}
         </div>
       </div>
     </section>

@@ -17,8 +17,12 @@ export function FAQ() {
   useEffect(() => {
     fetch('/api/leadership')
       .then(res => res.json())
-      .then(data => setFaqs(data.faqs))
-      .catch(err => console.error(err));
+      .then(data => {
+        if (data && Array.isArray(data.faqs)) {
+          setFaqs(data.faqs);
+        }
+      })
+      .catch(err => console.error("FAQ Fetch Error:", err));
 
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -51,24 +55,28 @@ export function FAQ() {
         </div>
 
         <Accordion type="single" collapsible className="w-full max-w-6xl mx-auto space-y-4">
-          {faqs.map((faq, index) => (
-            <AccordionItem 
-              key={index} 
-              value={`item-${index}`}
-              className={cn(
-                "bg-white px-6 lg:px-10 rounded-2xl border border-slate-100 shadow-sm transition-all duration-500",
-                isVisible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-4"
-              )}
-              style={{ transitionDelay: `${index * 100}ms` }}
-            >
-              <AccordionTrigger className="text-left font-bold text-accent hover:text-primary transition-colors py-6 lg:text-xl">
-                {faq.question}
-              </AccordionTrigger>
-              <AccordionContent className="text-slate-600 leading-relaxed pb-6 lg:text-lg">
-                {faq.answer}
-              </AccordionContent>
-            </AccordionItem>
-          ))}
+          {faqs && faqs.length > 0 ? (
+            faqs.map((faq, index) => (
+              <AccordionItem 
+                key={index} 
+                value={`item-${index}`}
+                className={cn(
+                  "bg-white px-6 lg:px-10 rounded-2xl border border-slate-100 shadow-sm transition-all duration-500",
+                  isVisible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-4"
+                )}
+                style={{ transitionDelay: `${index * 100}ms` }}
+              >
+                <AccordionTrigger className="text-left font-bold text-accent hover:text-primary transition-colors py-6 lg:text-xl">
+                  {faq.question}
+                </AccordionTrigger>
+                <AccordionContent className="text-slate-600 leading-relaxed pb-6 lg:text-lg">
+                  {faq.answer}
+                </AccordionContent>
+              </AccordionItem>
+            ))
+          ) : (
+            <div className="text-center py-10 text-slate-400">Loading resources...</div>
+          )}
         </Accordion>
       </div>
     </section>

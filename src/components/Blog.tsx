@@ -33,7 +33,12 @@ export function Blog() {
     fetch('/api/leadership', { cache: 'no-store' })
       .then(res => res.json())
       .then(data => {
-        if (data.blog) setBlogData(data.blog);
+        if (data && data.blog) {
+          setBlogData({
+            ...data.blog,
+            posts: Array.isArray(data.blog.posts) ? data.blog.posts : []
+          });
+        }
       })
       .catch(err => console.error("Error fetching blog data:", err));
   }, []);
@@ -57,42 +62,46 @@ export function Blog() {
             </div>
 
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {blogData.posts.map((post, i) => {
-                const placeholderId = `service-${(i % 3) + 1}`;
-                const placeholder = PlaceHolderImages.find(p => p.id === placeholderId);
-                const displayImage = post.image || placeholder?.imageUrl;
+              {blogData.posts && blogData.posts.length > 0 ? (
+                blogData.posts.map((post, i) => {
+                  const placeholderId = `service-${(i % 3) + 1}`;
+                  const placeholder = PlaceHolderImages.find(p => p.id === placeholderId);
+                  const displayImage = post.image || placeholder?.imageUrl;
 
-                return (
-                  <Card key={i} className="overflow-hidden border-none shadow-xl hover:-translate-y-2 transition-all duration-300 rounded-[32px] group bg-white h-full flex flex-col">
-                    <div className="relative h-64 shrink-0">
-                      {displayImage && (
-                        <Image
-                          src={displayImage}
-                          alt={post.title}
-                          fill
-                          className="object-cover group-hover:scale-105 transition-transform duration-700"
-                          unoptimized
-                        />
-                      )}
-                      <div className="absolute top-6 left-6">
-                        <span className="bg-primary text-white text-[10px] uppercase tracking-wider font-bold px-4 py-1.5 rounded-full shadow-lg">{post.category}</span>
+                  return (
+                    <Card key={i} className="overflow-hidden border-none shadow-xl hover:-translate-y-2 transition-all duration-300 rounded-[32px] group bg-white h-full flex flex-col">
+                      <div className="relative h-64 shrink-0">
+                        {displayImage && (
+                          <Image
+                            src={displayImage}
+                            alt={post.title}
+                            fill
+                            className="object-cover group-hover:scale-105 transition-transform duration-700"
+                            unoptimized
+                          />
+                        )}
+                        <div className="absolute top-6 left-6">
+                          <span className="bg-primary text-white text-[10px] uppercase tracking-wider font-bold px-4 py-1.5 rounded-full shadow-lg">{post.category}</span>
+                        </div>
                       </div>
-                    </div>
-                    <CardHeader className="pt-8 px-8">
-                      <div className="flex gap-4 text-[10px] uppercase tracking-widest font-bold text-muted-foreground mb-4">
-                        <span className="flex items-center gap-2"><Calendar className="h-3 w-3 text-primary" /> {post.date}</span>
-                        <span className="flex items-center gap-2"><User className="h-3 w-3 text-primary" /> {post.author}</span>
-                      </div>
-                      <CardTitle className="font-headline text-2xl text-accent group-hover:text-primary transition-colors leading-tight">
-                        {post.title}
-                      </CardTitle>
-                    </CardHeader>
-                    <CardContent className="px-8 pb-8 flex-grow">
-                      <p className="text-slate-500 text-sm line-clamp-3 leading-relaxed">{post.excerpt}</p>
-                    </CardContent>
-                  </Card>
-                );
-              })}
+                      <CardHeader className="pt-8 px-8">
+                        <div className="flex gap-4 text-[10px] uppercase tracking-widest font-bold text-muted-foreground mb-4">
+                          <span className="flex items-center gap-2"><Calendar className="h-3 w-3 text-primary" /> {post.date}</span>
+                          <span className="flex items-center gap-2"><User className="h-3 w-3 text-primary" /> {post.author}</span>
+                        </div>
+                        <CardTitle className="font-headline text-2xl text-accent group-hover:text-primary transition-colors leading-tight">
+                          {post.title}
+                        </CardTitle>
+                      </CardHeader>
+                      <CardContent className="px-8 pb-8 flex-grow">
+                        <p className="text-slate-500 text-sm line-clamp-3 leading-relaxed">{post.excerpt}</p>
+                      </CardContent>
+                    </Card>
+                  );
+                })
+              ) : (
+                <div className="col-span-full py-20 text-center text-slate-300">Loading academic insights...</div>
+              )}
             </div>
           </div>
 
