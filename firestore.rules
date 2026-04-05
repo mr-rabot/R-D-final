@@ -1,16 +1,32 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
+    // Updated: Mar 15, 2024 - Triggering rule deployment
+    
+    // Publicly readable site settings (Logo, Hero, Stats)
+    // Required for the public website to load branding and main content
     match /siteSettings/{document} {
       allow read: if true;
-      allow write: if true; // In a production app, restrict this to admin uids
+      allow write: if true; // In a production app, restrict this to authenticated admin UIDs
     }
-    match /inquiries/{inquiry} {
+
+    // Website content collections
+    match /services/{serviceId} { allow read: if true; }
+    match /blogPosts/{postId} { allow read: if true; }
+    match /testimonials/{id} { allow read: if true; }
+    match /pricingPlans/{id} { allow read: if true; }
+    match /faqs/{id} { allow read: if true; }
+    match /resources/{id} { allow read: if true; }
+
+    // Inquiries: Anonymous users can create (submit the form)
+    match /inquiries/{inquiryId} {
       allow create: if true;
-      allow read, update, delete: if true; // Restrict in production
+      allow read, update, delete: if true; // Restrict to admin auth in production
     }
+
+    // Default fallback
     match /{document=**} {
-      allow read, write: if true; // Restrict for production
+      allow read, write: if true;
     }
   }
 }

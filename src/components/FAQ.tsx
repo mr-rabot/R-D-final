@@ -55,7 +55,7 @@ export function FAQ() {
         </div>
 
         <Accordion type="single" collapsible className="w-full max-w-6xl mx-auto space-y-4">
-          {faqs && faqs.length > 0 ? (
+          {faqs && Array.isArray(faqs) && faqs.length > 0 ? (
             faqs.map((faq, index) => (
               <AccordionItem 
                 key={index} 
@@ -67,15 +67,17 @@ export function FAQ() {
                 style={{ transitionDelay: `${index * 100}ms` }}
               >
                 <AccordionTrigger className="text-left font-bold text-accent hover:text-primary transition-colors py-6 lg:text-xl">
-                  {faq.question}
+                  {faq?.question}
                 </AccordionTrigger>
                 <AccordionContent className="text-slate-600 leading-relaxed pb-6 lg:text-lg">
-                  {faq.answer}
+                  {faq?.answer}
                 </AccordionContent>
               </AccordionItem>
             ))
           ) : (
-            <div className="text-center py-10 text-slate-400">Loading resources...</div>
+            <div className="text-center py-10 text-slate-400 font-bold uppercase tracking-widest text-xs">
+              Loading Scholarly Resources...
+            </div>
           )}
         </Accordion>
       </div>
