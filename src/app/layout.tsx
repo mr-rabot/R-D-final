@@ -4,7 +4,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { FirebaseClientProvider } from "@/firebase/client-provider";
 
 export const metadata: Metadata = {
-  title: 'R&DResearch & Paper Publishing | Academic Manuscript Solutions',
+  title: 'R&DServices Research & Paper Publishing | Academic Manuscript Solutions',
   description: 'Expert support for scholarly publishing, research paper drafting, and peer-review success. Elevate your academic impact.',
 };
 

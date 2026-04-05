@@ -215,7 +215,7 @@ export default function AdminDashboard() {
     toast({ title: "Signed Out", description: "Session ended." });
   };
 
-  if (isLoadingData) return <div className="min-h-screen flex items-center justify-center font-headline font-bold text-2xl">LoadingR&DOPS...</div>;
+  if (isLoadingData) return <div className="min-h-screen flex items-center justify-center font-headline font-bold text-2xl">Loading R&DOPS...</div>;
 
   if (!isLoggedIn) {
     return (
@@ -227,8 +227,8 @@ export default function AdminDashboard() {
           </div>
           <CardContent className="p-6">
             <form onSubmit={handleLogin} className="space-y-6">
-              <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" className="rounded-xl h-12" />
-              <Input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" className="rounded-xl h-12" />
+              <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" className="w-full border p-3 rounded-xl h-12" />
+              <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" className="w-full border p-3 rounded-xl h-12" />
               <Button type="submit" className="w-full h-14 rounded-xl font-bold shadow-lg">Authenticate</Button>
             </form>
           </CardContent>
