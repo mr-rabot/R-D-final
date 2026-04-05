@@ -9,19 +9,29 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { cn } from "@/lib/utils";
-import { useFirebase, useDoc, useMemoFirebase } from "@/firebase";
-import { doc } from "firebase/firestore";
+
+interface FAQItem {
+  question: string;
+  answer: string;
+}
 
 export function FAQ() {
-  const { firestore } = useFirebase();
+  const [faqs, setFaqs] = useState<FAQItem[]>([]);
   const [isVisible, setIsVisible] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const sectionRef = useRef<HTMLElement>(null);
 
-  const siteSettingsRef = useMemoFirebase(() => doc(firestore, 'siteSettings', 'leadership'), [firestore]);
-  const { data: siteData } = useDoc(siteSettingsRef);
-  const faqs = siteData?.faqs || [];
-
   useEffect(() => {
+    fetch('/api/leadership', { cache: 'no-store' })
+      .then(res => res.json())
+      .then(data => {
+        if (data && Array.isArray(data.faqs)) {
+          setFaqs(data.faqs);
+        }
+      })
+      .catch(err => console.error("Error fetching FAQs:", err))
+      .finally(() => setIsLoading(false));
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -53,7 +63,7 @@ export function FAQ() {
         </div>
 
         <Accordion type="single" collapsible className="w-full max-w-6xl mx-auto space-y-4">
-          {faqs && Array.isArray(faqs) && faqs.length > 0 ? (
+          {!isLoading && faqs && Array.isArray(faqs) && faqs.length > 0 ? (
             faqs.map((faq, index) => (
               <AccordionItem 
                 key={index} 
@@ -72,9 +82,13 @@ export function FAQ() {
                 </AccordionContent>
               </AccordionItem>
             ))
-          ) : (
+          ) : isLoading ? (
             <div className="text-center py-10 text-slate-400 font-bold uppercase tracking-widest text-xs">
               Loading Scholarly Resources...
+            </div>
+          ) : (
+            <div className="text-center py-10 text-slate-400 text-sm">
+              No questions found at this time.
             </div>
           )}
         </Accordion>

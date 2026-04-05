@@ -2,29 +2,8 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    // R&D Services Security Policy - Updated for Public Access
-    
-    // Allow anyone to read site settings so the logo and hero load correctly
-    match /siteSettings/{document} {
-      allow read: if true;
-      allow write: if true; 
-    }
-
-    // Publicly readable content collections
-    match /services/{id} { allow read: if true; }
-    match /blogPosts/{id} { allow read: if true; }
-    match /testimonials/{id} { allow read: if true; }
-    match /pricingPlans/{id} { allow read: if true; }
-    match /faqs/{id} { allow read: if true; }
-    match /resources/{id} { allow read: if true; }
-
-    // Inquiries: Anonymous users can create
-    match /inquiries/{id} {
-      allow create: if true;
-      allow read, update, delete: if true; 
-    }
-
-    // Default fallback - keeping open for development simplicity
+    // Completely open rules for development and to resolve permission blockers
+    // Note: Since we are moving to root folder logic for data, these are fallbacks.
     match /{document=**} {
       allow read, write: if true;
     }
