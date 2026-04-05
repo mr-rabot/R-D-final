@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useCallback, useRef, useEffect } from "react";
@@ -216,7 +215,7 @@ export default function AdminDashboard() {
     toast({ title: "Signed Out", description: "Session ended." });
   };
 
-  if (isLoadingData) return <div className="min-h-screen flex items-center justify-center font-headline font-bold text-2xl">Loading R&D OPS...</div>;
+  if (isLoadingData) return <div className="min-h-screen flex items-center justify-center font-headline font-bold text-2xl">LoadingR&DOPS...</div>;
 
   if (!isLoggedIn) {
     return (
@@ -224,7 +223,7 @@ export default function AdminDashboard() {
         <Card className="w-full max-w-md border-none shadow-2xl rounded-[30px] overflow-hidden bg-white">
           <div className="bg-primary p-8 text-center text-white">
             <ShieldCheck className="h-10 w-10 mx-auto mb-4" />
-            <h2 className="text-xl font-headline font-bold uppercase tracking-tight">R&D OPS</h2>
+            <h2 className="text-xl font-headline font-bold uppercase tracking-tight">R&DOPS</h2>
           </div>
           <CardContent className="p-6">
             <form onSubmit={handleLogin} className="space-y-6">
@@ -255,7 +254,7 @@ export default function AdminDashboard() {
         isMenuOpen ? "translate-x-0" : "-translate-x-full"
       )}>
         <div className="p-8 border-b border-white/5">
-          <h1 className="text-xl font-headline font-bold">R&D OPS</h1>
+          <h1 className="text-xl font-headline font-bold">R&DOPS</h1>
         </div>
         <nav className="flex-grow p-4 space-y-2">
           {navigationItems.map((item) => (

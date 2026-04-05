@@ -140,7 +140,7 @@ export function Testimonials() {
               )}
               style={{ transitionDelay: `${i * 100}ms` }}
             >
-              <div className="bg-white shadow-[0_10px_30px_rgba(0,0,0,0.05)] p-4 lg:p-6 rounded-2xl text-primary mb-4 transition-transform group-hover:scale-110 group-hover:shadow-[0_15px_35px_rgba(0,71,255,0.1)]">
+              <div className="bg-white shadow-[0_10px_30px_rgba(0,0,0,0.05)] p-4 lg:p-6 rounded-2xl text-primary mb-4 transition-transform group-hover:scale-110 group-hover:shadow-[0_15px_35px_rgba(0,71,255,0.1) uppercase tracking-[0.2em]">
                 <badge.icon className="h-6 w-6 lg:h-8 lg:w-8" />
               </div>
               <div className="text-3xl lg:text-5xl font-headline font-bold text-accent group-hover:text-primary transition-colors">{badge.label}</div>

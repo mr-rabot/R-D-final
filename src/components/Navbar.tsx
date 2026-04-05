@@ -1,4 +1,3 @@
-
 "use client";
 
 import Link from "next/link";
@@ -58,7 +57,7 @@ export function Navbar() {
                 <div className="relative h-14 w-32 md:w-40 lg:w-48 transition-opacity duration-300">
                   <Image 
                     src={siteData.brand.logo} 
-                    alt="R&D Services Logo" 
+                    alt="R&DServices Logo" 
                     fill 
                     className="object-contain object-left" 
                     priority

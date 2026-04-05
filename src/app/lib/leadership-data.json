@@ -1,4 +1,3 @@
-
 {
   "brand": {
     "logo": "/images/brand_logo_1775302470865.png"
@@ -36,8 +35,8 @@
     }
   },
   "firmSummary": {
-    "title": "R&D Services: A Global Research Legacy",
-    "description": "R&D Services is a premier academic consulting firm dedicated to bridging the gap between innovative research and high-impact publishing. We don't just draft papers; we cultivate scholarly legacies through a systematic, methodology-first approach that ensures rigorous adherence to international standards.",
+    "title": "R&DServices: A Global Research Legacy",
+    "description": "R&DServices is a premier academic consulting firm dedicated to bridging the gap between innovative research and high-impact publishing. We don't just draft papers; we cultivate scholarly legacies through a systematic, methodology-first approach that ensures rigorous adherence to international standards.",
     "stats": [
       {
         "label": "Research Legacy",
@@ -218,7 +217,7 @@
     {
       "name": "Deepak Kumar",
       "role": "MCA Scholar",
-      "content": "The technical guidance on my MCA project was exceptional. R&D Services provided deep insights into software architecture and precise documentation.",
+      "content": "The technical guidance on my MCA project was exceptional. R&DServices provided deep insights into software architecture and precise documentation.",
       "stars": 5,
       "image": "https://picsum.photos/seed/deepak/100/100"
     },
