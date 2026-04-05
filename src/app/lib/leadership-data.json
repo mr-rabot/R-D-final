@@ -1,3 +1,4 @@
+
 {
   "brand": {
     "logo": "/images/brand_logo_1775302470865.png"
@@ -248,6 +249,41 @@
       "content": "Excellent service for research proposal drafting. Their feedback on my literature review significantly improved the clarity of my research gap analysis.",
       "stars": 5,
       "image": "https://picsum.photos/seed/sarah/100/100"
+    },
+    {
+      "name": "Sandip Dingore",
+      "role": "Research Scholar",
+      "content": "The precision in methodology provided by R&DServices was instrumental in my paper's acceptance in a high-impact Scopus journal. Highly recommended.",
+      "stars": 5,
+      "image": "https://picsum.photos/seed/sandip/100/100"
+    },
+    {
+      "name": "Anamika Patil",
+      "role": "PhD Candidate",
+      "content": "Professional, timely, and academically rigorous. The team helped me refine my research gap analysis for my PhD synopsis perfectly.",
+      "stars": 5,
+      "image": "https://picsum.photos/seed/anamika/100/100"
+    },
+    {
+      "name": "Tenzin Gyeltshen",
+      "role": "Postgraduate Scholar (Bhutan)",
+      "content": "Reliable support for Bhutanese scholars. Their understanding of international APA standards and attention to detail in formatting is exceptional.",
+      "stars": 5,
+      "image": "https://picsum.photos/seed/tenzin/100/100"
+    },
+    {
+      "name": "Prakash Shrestha",
+      "role": "M.Tech Student (Nepal)",
+      "content": "Excellent virtual consultation. They helped me structure my M.Tech thesis results and technical discussions with great academic depth and clarity.",
+      "stars": 5,
+      "image": "https://picsum.photos/seed/prakash/100/100"
+    },
+    {
+      "name": "Rafiqul Islam",
+      "role": "Academic Researcher (Bangladesh)",
+      "content": "A great resource for researchers in Bangladesh. The plagiarism-free guarantee and detailed methodology reports build immense trust in their services.",
+      "stars": 5,
+      "image": "https://picsum.photos/seed/rafiqul/100/100"
     }
   ],
   "faqs": [
