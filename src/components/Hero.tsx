@@ -5,23 +5,15 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Mail, MessageSquare, Sparkles } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useFirebase, useDoc, useMemoFirebase } from "@/firebase";
+import { doc } from "firebase/firestore";
 
 export function Hero() {
-  const [heroData, setHeroData] = useState<any>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const { firestore } = useFirebase();
+  const siteSettingsRef = useMemoFirebase(() => doc(firestore, 'siteSettings', 'leadership'), [firestore]);
+  const { data: siteData, isLoading } = useDoc(siteSettingsRef);
 
-  useEffect(() => {
-    fetch('/api/leadership', { cache: 'no-store' })
-      .then(res => res.json())
-      .then(data => {
-        setHeroData(data.hero);
-        setIsLoading(false);
-      })
-      .catch(err => {
-        console.error(err);
-        setIsLoading(false);
-      });
-  }, []);
+  const heroData = siteData?.hero;
 
   const handleGetQuote = () => {
     const el = document.getElementById('contact');
@@ -117,7 +109,6 @@ export function Hero() {
                       priority
                       unoptimized
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                   </div>
                 )
               )}

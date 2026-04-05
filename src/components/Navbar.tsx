@@ -1,4 +1,3 @@
-
 "use client";
 
 import Link from "next/link";
@@ -7,41 +6,22 @@ import { Menu, X, MessageSquare } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
+import { useFirebase, useDoc, useMemoFirebase } from "@/firebase";
+import { doc } from "firebase/firestore";
 
 export function Navbar() {
+  const { firestore } = useFirebase();
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [logo, setLogo] = useState<string | null>(null);
+
+  const siteSettingsRef = useMemoFirebase(() => doc(firestore, 'siteSettings', 'leadership'), [firestore]);
+  const { data: siteData } = useDoc(siteSettingsRef);
 
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
     };
     window.addEventListener("scroll", handleScroll);
-    
-    // Fetch brand logo with aggressive cache busting
-    const fetchLogo = async () => {
-      try {
-        const res = await fetch(`/api/leadership?t=${Date.now()}`, { 
-          cache: 'no-store',
-          headers: {
-            'Cache-Control': 'no-cache',
-            'Pragma': 'no-cache'
-          }
-        });
-        if (!res.ok) throw new Error("Logo fetch failed");
-        const data = await res.json();
-        if (data.brand?.logo) {
-          // Append a timestamp to the URL to force browser re-download
-          setLogo(`${data.brand.logo}?v=${Date.now()}`);
-        }
-      } catch (err) {
-        console.error("Error fetching navbar logo:", err);
-      }
-    };
-
-    fetchLogo();
-
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -72,10 +52,10 @@ export function Navbar() {
         <div className="flex justify-between items-center">
           <div className="flex items-center">
             <Link href="/" className="flex items-center group">
-              {logo ? (
+              {siteData?.brand?.logo ? (
                 <div className="relative h-14 w-32 md:w-40 lg:w-48 transition-opacity duration-300">
                   <Image 
-                    src={logo} 
+                    src={siteData.brand.logo} 
                     alt="R&D Services Logo" 
                     fill 
                     className="object-contain object-left" 
@@ -84,7 +64,7 @@ export function Navbar() {
                   />
                 </div>
               ) : (
-                <div className="h-14 w-32 md:w-48 bg-transparent" />
+                <span className="font-headline text-2xl font-bold text-accent">R&D <span className="text-primary">Services</span></span>
               )}
             </Link>
           </div>
