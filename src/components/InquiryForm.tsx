@@ -342,6 +342,7 @@ export function InquiryForm() {
                             <SelectItem value="Dissertation - II">Dissertation - II</SelectItem>
                             <SelectItem value="PPT">PPT</SelectItem>
                             <SelectItem value="Project Report">Project Report</SelectItem>
+                            <SelectItem value="Others">Others</SelectItem>
                           </SelectContent>
                         </Select>
                         <FormMessage />
