@@ -1,3 +1,4 @@
+
 "use client";
 
 import Link from "next/link";
@@ -6,22 +7,23 @@ import { Menu, X, MessageSquare } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
-import { useFirebase, useDoc, useMemoFirebase } from "@/firebase";
-import { doc } from "firebase/firestore";
 
 export function Navbar() {
-  const { firestore } = useFirebase();
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-
-  const siteSettingsRef = useMemoFirebase(() => doc(firestore, 'siteSettings', 'leadership'), [firestore]);
-  const { data: siteData } = useDoc(siteSettingsRef);
+  const [siteData, setSiteData] = useState<any>(null);
 
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
     };
     window.addEventListener("scroll", handleScroll);
+
+    fetch('/api/leadership', { cache: 'no-store' })
+      .then(res => res.json())
+      .then(data => setSiteData(data))
+      .catch(err => console.error("Navbar data error:", err));
+
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 

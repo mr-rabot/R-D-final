@@ -1,19 +1,30 @@
+
 "use client";
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { Mail, MessageSquare, Sparkles } from "lucide-react";
+import { Mail, MessageSquare, Sparkles, Loader2 } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useFirebase, useDoc, useMemoFirebase } from "@/firebase";
-import { doc } from "firebase/firestore";
 
 export function Hero() {
-  const { firestore } = useFirebase();
-  const siteSettingsRef = useMemoFirebase(() => doc(firestore, 'siteSettings', 'leadership'), [firestore]);
-  const { data: siteData, isLoading } = useDoc(siteSettingsRef);
+  const [heroData, setHeroData] = useState<any>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const heroData = siteData?.hero;
+  useEffect(() => {
+    fetch('/api/leadership', { cache: 'no-store' })
+      .then(res => res.json())
+      .then(data => {
+        if (data && data.hero) {
+          setHeroData(data.hero);
+        }
+        setIsLoading(false);
+      })
+      .catch(err => {
+        console.error("Hero data fetch error:", err);
+        setIsLoading(false);
+      });
+  }, []);
 
   const handleGetQuote = () => {
     const el = document.getElementById('contact');
