@@ -78,7 +78,7 @@ export function Footer() {
         {/* Bottom Bar */}
         <div className="pt-8 border-t border-slate-800 text-center text-sm lg:text-base text-slate-500">
           <p>
-            © 2024 R&D Services. All rights reserved. |{" "}
+            © 2025 R&D Services. All rights reserved. |{" "}
             <Link href="#" className="hover:text-white transition-colors">Privacy Policy</Link> |{" "}
             <Link href="#" className="hover:text-white transition-colors">Terms & Conditions</Link>
           </p>
