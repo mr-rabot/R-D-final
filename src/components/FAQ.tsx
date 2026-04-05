@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useEffect, useState, useRef } from "react";
@@ -8,22 +9,19 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { cn } from "@/lib/utils";
+import { useFirebase, useDoc, useMemoFirebase } from "@/firebase";
+import { doc } from "firebase/firestore";
 
 export function FAQ() {
-  const [faqs, setFaqs] = useState<any[]>([]);
+  const { firestore } = useFirebase();
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
 
-  useEffect(() => {
-    fetch('/api/leadership')
-      .then(res => res.json())
-      .then(data => {
-        if (data && Array.isArray(data.faqs)) {
-          setFaqs(data.faqs);
-        }
-      })
-      .catch(err => console.error("FAQ Fetch Error:", err));
+  const siteSettingsRef = useMemoFirebase(() => doc(firestore, 'siteSettings', 'leadership'), [firestore]);
+  const { data: siteData } = useDoc(siteSettingsRef);
+  const faqs = siteData?.faqs || [];
 
+  useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
