@@ -1,3 +1,4 @@
+
 {
   "brand": {
     "logo": "/images/brand_logo_1775302470865.png"
@@ -51,17 +52,6 @@
   },
   "services": [
     {
-      "title": "Research Papers",
-      "description": "Well-researched, structured academic papers with proper citations and references, adhering to international scholarly standards.",
-      "features": [
-        "Original content",
-        "Proper formatting",
-        "Literature review",
-        "Timely delivery"
-      ],
-      "image": "/images/services_0_image_1774844002846.jpg"
-    },
-    {
       "title": "Thesis Writing",
       "description": "Comprehensive guidance and drafting support for undergraduate, postgraduate, and PhD theses across various disciplines.",
       "features": [
@@ -73,18 +63,84 @@
       "image": "/images/services_1_image_1774844050869.jpg"
     },
     {
-      "title": "Dissertation",
-      "description": "Specialized support for long-form academic research projects, focusing on methodology, data analysis, and synthesis.",
+      "title": "Research Title",
+      "description": "Expert assistance in identifying and refining high-impact research titles and topics aligned with current scholarly trends.",
       "features": [
-        "In-depth analysis",
-        "Logical flow",
-        "Citation accuracy",
-        "Plagiarism report"
+        "Keyword optimization",
+        "Academic relevance",
+        "Novelty assessment",
+        "Strategic positioning"
+      ],
+      "image": "https://picsum.photos/seed/title/600/400"
+    },
+    {
+      "title": "Research Paper",
+      "description": "Well-researched, structured academic papers with proper citations and references, adhering to international scholarly standards.",
+      "features": [
+        "Original content",
+        "Proper formatting",
+        "Literature review",
+        "Timely delivery"
+      ],
+      "image": "/images/services_0_image_1774844002846.jpg"
+    },
+    {
+      "title": "Review Paper",
+      "description": "Comprehensive literature synthesis and critical analysis for high-quality review article publishing in indexed journals.",
+      "features": [
+        "Systematic review",
+        "Meta-analysis support",
+        "Gap identification",
+        "Extensive bibliography"
+      ],
+      "image": "https://picsum.photos/seed/review/600/400"
+    },
+    {
+      "title": "Synopsis",
+      "description": "Strategic drafting of research blueprints and synopses for academic approvals, funding, and ethical clearance.",
+      "features": [
+        "Clear objectives",
+        "Detailed methodology",
+        "Problem statement",
+        "Approval-ready"
+      ],
+      "image": "/images/services_5_image_1774844204829.jpg"
+    },
+    {
+      "title": "Dissertation - I",
+      "description": "Foundational support for initial dissertation phases, including proposal development and early conceptual chapters.",
+      "features": [
+        "Proposal drafting",
+        "Initial research",
+        "Framework design",
+        "Structural planning"
       ],
       "image": "/images/services_2_image_1774844066685.jpg"
     },
     {
-      "title": "Project Reports",
+      "title": "Dissertation - II",
+      "description": "Advanced assistance for final dissertation stages, including complex data analysis, results, and concluding arguments.",
+      "features": [
+        "Data interpretation",
+        "Result synthesis",
+        "Conclusion mastery",
+        "Final proofreading"
+      ],
+      "image": "https://picsum.photos/seed/dissertation2/600/400"
+    },
+    {
+      "title": "PPT",
+      "description": "Professional academic presentations and slide decks designed for thesis defense, vivas, and international conferences.",
+      "features": [
+        "Visual storytelling",
+        "Technical precision",
+        "Speaker notes",
+        "Impactful design"
+      ],
+      "image": "https://picsum.photos/seed/ppt/600/400"
+    },
+    {
+      "title": "Project Report",
       "description": "Detailed technical and academic reports for institutional projects, internships, and corporate research initiatives.",
       "features": [
         "Technical precision",
@@ -93,28 +149,6 @@
         "Standardized formatting"
       ],
       "image": "/images/services_3_image_1774844167105.jpg"
-    },
-    {
-      "title": "Literature Review",
-      "description": "Exhaustive synthesis of existing scholarly work to identify research gaps and build a theoretical framework.",
-      "features": [
-        "Critical synthesis",
-        "Identify gaps",
-        "Extensive sources",
-        "Theoretical grounding"
-      ],
-      "image": "/images/services_4_image_1774844185971.jpg"
-    },
-    {
-      "title": "Research Proposal",
-      "description": "Strategic drafting of research blueprints for ethical clearance, funding applications, and academic admissions.",
-      "features": [
-        "Clear objectives",
-        "Detailed methodology",
-        "Problem statement",
-        "Funding-ready"
-      ],
-      "image": "/images/services_5_image_1774844204829.jpg"
     }
   ],
   "blog": {

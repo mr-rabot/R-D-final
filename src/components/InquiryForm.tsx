@@ -334,15 +334,15 @@ export function InquiryForm() {
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent className="rounded-2xl border-slate-100">
-                            <SelectItem value="Research Paper">Research Paper</SelectItem>
                             <SelectItem value="Thesis Writing">Thesis Writing</SelectItem>
-                            <SelectItem value="Dissertation">Dissertation</SelectItem>
-                            <SelectItem value="Synopsis Writing">Synopsis Writing</SelectItem>
-                            <SelectItem value="PPT Presentation">PPT Presentation</SelectItem>
-                            <SelectItem value="Plagiarism Report">Plagiarism Report</SelectItem>
+                            <SelectItem value="Research Title">Research Title</SelectItem>
+                            <SelectItem value="Research Paper">Research Paper</SelectItem>
+                            <SelectItem value="Review Paper">Review Paper</SelectItem>
+                            <SelectItem value="Synopsis">Synopsis</SelectItem>
+                            <SelectItem value="Dissertation - I">Dissertation - I</SelectItem>
+                            <SelectItem value="Dissertation - II">Dissertation - II</SelectItem>
+                            <SelectItem value="PPT">PPT</SelectItem>
                             <SelectItem value="Project Report">Project Report</SelectItem>
-                            <SelectItem value="Literature Review">Literature Review</SelectItem>
-                            <SelectItem value="Research Proposal">Research Proposal</SelectItem>
                           </SelectContent>
                         </Select>
                         <FormMessage />
