@@ -7,10 +7,14 @@ import { Button } from "@/components/ui/button";
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 
-export function Navbar() {
+interface NavbarProps {
+  initialData?: any;
+}
+
+export function Navbar({ initialData }: NavbarProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [siteData, setSiteData] = useState<any>(null);
+  const [siteData, setSiteData] = useState<any>(initialData);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -18,13 +22,16 @@ export function Navbar() {
     };
     window.addEventListener("scroll", handleScroll);
 
-    fetch('/api/leadership', { cache: 'no-store' })
-      .then(res => res.json())
-      .then(data => setSiteData(data))
-      .catch(err => console.error("Navbar data error:", err));
+    // Refresh data on client if not provided, though page.tsx should pass it
+    if (!initialData) {
+      fetch('/api/leadership', { cache: 'no-store' })
+        .then(res => res.json())
+        .then(data => setSiteData(data))
+        .catch(err => console.error("Navbar data error:", err));
+    }
 
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [initialData]);
 
   const navLinks = [
     { name: "Services", href: "#services" },
@@ -42,6 +49,8 @@ export function Navbar() {
     }
   };
 
+  const logoUrl = siteData?.brand?.logo;
+
   return (
     <nav className={cn(
       "fixed top-0 z-[100] w-full transition-all duration-500 h-24 flex items-center border-b",
@@ -53,10 +62,10 @@ export function Navbar() {
         <div className="flex justify-between items-center">
           <div className="flex items-center">
             <Link href="/" className="flex items-center group">
-              {siteData?.brand?.logo ? (
+              {logoUrl ? (
                 <div className="relative h-14 w-32 md:w-40 lg:w-48 transition-opacity duration-300">
                   <Image 
-                    src={siteData.brand.logo} 
+                    src={logoUrl} 
                     alt="R&DServices Logo" 
                     fill 
                     className="object-contain object-left" 
@@ -65,7 +74,8 @@ export function Navbar() {
                   />
                 </div>
               ) : (
-                <span className="font-headline text-2xl font-bold text-accent">R&D <span className="text-primary">Services</span></span>
+                /* Fallback empty space to prevent static text showing as per request */
+                <div className="h-14 w-32 md:w-48" />
               )}
             </Link>
           </div>
