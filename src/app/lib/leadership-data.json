@@ -157,19 +157,27 @@
     "subtitle": "Expert advice on academic writing and research methodology.",
     "posts": [
       {
-        "title": "How to Structure a High-Impact Literature Review",
-        "excerpt": "Discover the critical framework used by top researchers to synthesize existing knowledge and identify research gaps effectively.",
-        "author": "Academic Team",
-        "date": "May 12, 2025",
-        "image": "/images/blog_posts_0_image_1774845264422.png",
+        "title": "Systematic Literature Review: A Step-by-Step Guide",
+        "excerpt": "Learn how to conduct a rigorous systematic review that meets the standards of high-impact indexed journals.",
+        "author": "Dr. Sarah Chen",
+        "date": "May 20, 2025",
+        "image": "https://picsum.photos/seed/blog1/800/600",
         "category": "Methodology"
       },
       {
-        "title": "Understanding Statistical Significance in Clinical Trials",
-        "excerpt": "A deep dive into P-values, effect sizes, and why modern science is moving beyond binary testing for more robust findings.",
+        "title": "Navigating the Peer-Review Process in STEM",
+        "excerpt": "Insights into responding to reviewer comments and increasing your chances of acceptance in Scopus-indexed journals.",
+        "author": "Academic Team",
+        "date": "May 18, 2025",
+        "image": "https://picsum.photos/seed/blog2/800/600",
+        "category": "Publishing"
+      },
+      {
+        "title": "Statistical Power and Sample Size Calculation",
+        "excerpt": "A comprehensive overview of ensuring your research findings are statistically robust and reproducible.",
         "author": "Expert Review",
-        "date": "May 10, 2025",
-        "image": "/images/blog_posts_1_image_1774845284713.png",
+        "date": "May 15, 2025",
+        "image": "https://picsum.photos/seed/blog3/800/600",
         "category": "Statistics"
       }
     ]
