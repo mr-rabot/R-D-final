@@ -46,7 +46,7 @@ export function Testimonials() {
   }, []);
 
   return (
-    <section id="testimonials" ref={sectionRef} className="py-32 bg-white overflow-hidden relative w-full">
+    <section id="testimonials" ref={sectionRef} className="py-32 bg-slate-50/50 overflow-hidden relative w-full border-y border-slate-100">
       <div className="absolute top-0 right-0 w-1/3 h-1/3 bg-primary/5 blur-[120px] rounded-full pointer-events-none" />
       <div className="absolute bottom-0 left-0 w-1/4 h-1/4 bg-blue-400/5 blur-[100px] rounded-full pointer-events-none" />
 
@@ -66,7 +66,7 @@ export function Testimonials() {
           </p>
         </div>
 
-        <div className="relative px-4 sm:px-8 lg:px-0">
+        <div className="relative">
           <Carousel
             plugins={[plugin.current]}
             className="w-full"
@@ -81,27 +81,27 @@ export function Testimonials() {
                 const img = PlaceHolderImages.find(i => i.id === placeholderId);
                 return (
                   <CarouselItem key={index} className="pl-4 md:pl-6 basis-full md:basis-1/2 lg:basis-1/3 xl:basis-1/4">
-                    <div className="h-full py-6">
-                      <div className="bg-white p-8 lg:p-10 rounded-[40px] border border-slate-100 shadow-[0_20px_50px_-12px_rgba(0,0,0,0.08)] hover:shadow-[0_45px_100px_-20px_rgba(0,71,255,0.15)] transition-all duration-500 flex flex-col h-full group relative overflow-hidden">
+                    <div className="h-full py-4">
+                      <div className="bg-white p-8 lg:p-10 rounded-[40px] border border-slate-100 shadow-[0_20px_50px_-12px_rgba(0,0,0,0.06)] hover:shadow-[0_45px_100px_-20px_rgba(0,71,255,0.12)] transition-all duration-500 flex flex-col h-full group relative overflow-hidden">
                         <div className="absolute -top-6 -right-6 opacity-[0.03] group-hover:opacity-[0.08] transition-opacity">
                           <Quote className="h-32 w-32 text-accent" />
                         </div>
                         
                         <div className="flex gap-1 mb-6">
                           {[...Array(t.stars)].map((_, i) => (
-                            <Star key={i} className="h-3.5 w-3.5 fill-primary text-primary drop-shadow-sm" />
+                            <Star key={i} className="h-3 w-3 fill-primary text-primary" />
                           ))}
                         </div>
                         
                         <div className="relative mb-8 flex-grow">
-                          <Quote className="h-6 w-6 text-primary/20 absolute -top-3 -left-3" />
-                          <p className="text-slate-600 leading-relaxed font-light italic text-base lg:text-lg relative z-10">
+                          <Quote className="h-5 w-5 text-primary/20 absolute -top-2 -left-2" />
+                          <p className="text-slate-600 leading-relaxed font-light italic text-sm lg:text-base relative z-10">
                             {t.content}
                           </p>
                         </div>
                         
                         <div className="flex items-center gap-4 pt-6 border-t border-slate-50 mt-auto">
-                          <div className="relative h-12 w-12 lg:h-14 lg:w-14 rounded-full overflow-hidden border-2 border-white shadow-sm shrink-0">
+                          <div className="relative h-12 w-12 rounded-full overflow-hidden border-2 border-white shadow-sm shrink-0">
                             <img 
                               src={t.image || img?.imageUrl} 
                               alt={t.name} 
@@ -109,8 +109,8 @@ export function Testimonials() {
                             />
                           </div>
                           <div className="text-left overflow-hidden">
-                            <h4 className="font-headline font-bold text-accent text-lg lg:text-xl leading-tight mb-1 truncate">{t.name}</h4>
-                            <p className="text-[10px] text-primary/80 font-bold uppercase tracking-[0.1em] truncate">{t.role}</p>
+                            <h4 className="font-headline font-bold text-accent text-lg leading-tight mb-1 truncate">{t.name}</h4>
+                            <p className="text-[9px] text-primary/80 font-bold uppercase tracking-[0.1em] truncate">{t.role}</p>
                           </div>
                         </div>
                       </div>
@@ -120,9 +120,9 @@ export function Testimonials() {
               })}
             </CarouselContent>
             
-            <div className="flex justify-center mt-8 gap-4 md:block">
-              <CarouselPrevious className="static md:absolute md:-left-16 lg:-left-20 translate-y-0 bg-white border-slate-100 hover:bg-primary hover:text-white h-12 w-12 flex items-center justify-center rounded-full shadow-md transition-all hover:scale-110 active:scale-90" />
-              <CarouselNext className="static md:absolute md:-right-16 lg:-right-20 translate-y-0 bg-white border-slate-100 hover:bg-primary hover:text-white h-12 w-12 flex items-center justify-center rounded-full shadow-md transition-all hover:scale-110 active:scale-90" />
+            <div className="flex justify-center mt-12 gap-6 md:block">
+              <CarouselPrevious className="static md:absolute md:-left-16 lg:-left-20 translate-y-0 bg-white border-slate-100 hover:bg-primary hover:text-white h-14 w-14 flex items-center justify-center rounded-full shadow-lg transition-all hover:scale-110 active:scale-90" />
+              <CarouselNext className="static md:absolute md:-right-16 lg:-right-20 translate-y-0 bg-white border-slate-100 hover:bg-primary hover:text-white h-14 w-14 flex items-center justify-center rounded-full shadow-lg transition-all hover:scale-110 active:scale-90" />
             </div>
           </Carousel>
         </div>
