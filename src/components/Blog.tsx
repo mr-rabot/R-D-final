@@ -18,9 +18,9 @@ interface BlogPost {
 }
 
 const resources = [
-  { name: "Thesis Template (LaTeX)", type: "ZIP", size: "2.4 MB" },
-  { name: "APA 7th Edition Guide", type: "PDF", size: "1.1 MB" },
-  { name: "Grant Writing Checklist", type: "DOCX", size: "450 KB" }
+  { name: "Thesis Template (LaTeX)", type: "ZIP", size: "2.4 MB", url: "/resources/thesis-template.zip" },
+  { name: "APA 7th Edition Guide", type: "PDF", size: "1.1 MB", url: "/resources/apa-guide.pdf" },
+  { name: "Grant Writing Checklist", type: "DOCX", size: "450 KB", url: "/resources/grant-checklist.docx" }
 ];
 
 interface BlogProps {
@@ -144,9 +144,10 @@ export function Blog({ initialData, isFullPage = false }: BlogProps) {
                 
                 <div className="space-y-4">
                   {resources.map((res, i) => (
-                    <div 
+                    <a 
                       key={i} 
-                      onClick={scrollToContact}
+                      href={res.url}
+                      download
                       className="flex items-center justify-between p-4 bg-white/5 border border-white/10 rounded-2xl hover:bg-white/10 transition-all cursor-pointer group"
                     >
                       <div className="flex items-center gap-4">
@@ -159,7 +160,7 @@ export function Blog({ initialData, isFullPage = false }: BlogProps) {
                         </div>
                       </div>
                       <Download className="h-5 w-5 text-blue-200 group-hover:text-white transition-colors shrink-0" />
-                    </div>
+                    </a>
                   ))}
                 </div>
 
