@@ -1,3 +1,4 @@
+
 "use client";
 
 import Link from "next/link";
@@ -34,19 +35,22 @@ export function Navbar({ initialData }: NavbarProps) {
   }, [initialData]);
 
   const navLinks = [
-    { name: "Services", href: "#services" },
-    { name: "Pricing", href: "#pricing" },
-    { name: "About", href: "#about" },
-    { name: "Testimonials", href: "#testimonials" },
-    { name: "Contact", href: "#contact" },
+    { name: "Services", href: "/#services" },
+    { name: "Pricing", href: "/#pricing" },
+    { name: "About", href: "/#about" },
+    { name: "Resources", href: "/#resources" },
+    { name: "Testimonials", href: "/#testimonials" },
+    { name: "Contact", href: "/#contact" },
   ];
 
   const handleGetQuote = () => {
     const el = document.getElementById('contact');
     if (el) {
       el.scrollIntoView({ behavior: 'smooth' });
-      setIsOpen(false);
+    } else {
+      window.location.href = "/#contact";
     }
+    setIsOpen(false);
   };
 
   const logoUrl = siteData?.brand?.logo;
@@ -80,17 +84,17 @@ export function Navbar({ initialData }: NavbarProps) {
             </Link>
           </div>
 
-          <div className="hidden md:flex items-center space-x-8 lg:space-x-10">
+          <div className="hidden md:flex items-center space-x-5 lg:space-x-8">
             {navLinks.map((link) => (
               <Link
                 key={link.name}
                 href={link.href}
-                className="transition-colors font-bold text-sm uppercase tracking-widest text-slate-600 hover:text-primary"
+                className="transition-colors font-bold text-[10px] lg:text-xs uppercase tracking-widest text-slate-600 hover:text-primary"
               >
                 {link.name}
               </Link>
             ))}
-            <Button onClick={handleGetQuote} variant="default" size="lg" className="rounded-full shadow-xl font-bold h-12 px-8 flex gap-2 transition-all hover:scale-105 active:scale-95 bg-primary text-white hover:bg-primary/90">
+            <Button onClick={handleGetQuote} variant="default" size="lg" className="rounded-full shadow-xl font-bold h-10 px-6 lg:h-12 lg:px-8 flex gap-2 transition-all hover:scale-105 active:scale-95 bg-primary text-white hover:bg-primary/90 text-[10px]">
               Get Quote <MessageSquare className="h-4 w-4" />
             </Button>
           </div>
@@ -109,16 +113,16 @@ export function Navbar({ initialData }: NavbarProps) {
       <div
         className={cn(
           "md:hidden fixed top-24 left-0 w-full bg-white border-b shadow-xl transition-all duration-300 ease-in-out overflow-hidden z-[110]",
-          isOpen ? "max-h-[500px] opacity-100 py-8" : "max-h-0 opacity-0"
+          isOpen ? "max-h-[600px] opacity-100 py-8" : "max-h-0 opacity-0"
         )}
       >
-        <div className="px-6 space-y-6">
+        <div className="px-6 space-y-4">
           {navLinks.map((link) => (
             <Link
               key={link.name}
               href={link.href}
               onClick={() => setIsOpen(false)}
-              className="block text-xl font-bold text-accent hover:text-primary transition-colors"
+              className="block text-lg font-bold text-accent hover:text-primary transition-colors"
             >
               {link.name}
             </Link>
