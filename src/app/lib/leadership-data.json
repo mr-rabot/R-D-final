@@ -1,7 +1,8 @@
 
 {
   "brand": {
-    "logo": "/images/brand_logo_1775302470865.png"
+    "logo": "/images/brand_logo_1775302470865.png",
+    "name": "R&D Services"
   },
   "hero": {
     "badge": "Premier Research Excellence",
@@ -36,8 +37,8 @@
     }
   },
   "firmSummary": {
-    "title": "R&DServices: A Global Research Legacy",
-    "description": "R&DServices is a premier academic consulting firm dedicated to bridging the gap between innovative research and high-impact publishing. We don't just draft papers; we cultivate scholarly legacies through a systematic, methodology-first approach that ensures rigorous adherence to international standards.",
+    "title": "R&D Services : A Global Research Legacy",
+    "description": "R&D Services is a premier academic consulting firm dedicated to bridging the gap between innovative research and high-impact publishing. We don't just draft papers; we cultivate scholarly legacies through a systematic, methodology-first approach that ensures rigorous adherence to international standards.",
     "stats": [
       {
         "label": "Research Legacy",
@@ -179,6 +180,8 @@
       "description": "Perfect for assignments and project reports",
       "features": [
         "Project Report",
+        "PPT",
+        "Internship",
         "Basic Plagiarism Check",
         "Standard Research Formatting",
         "1 Revision Round",
@@ -190,10 +193,15 @@
       "name": "Professional",
       "description": "Ideal for research papers and advanced reports",
       "features": [
-        "In-depth Research",
-        "Advanced Formatting",
-        "Full Synopsis Writing",
-        "Literature Review",
+        "Thesis Writing",
+        "Research Title",
+        "Research Paper",
+        "Review Paper",
+        "Synopsis",
+        "Dissertation-I",
+        "Dissertation-II",
+        "PPT",
+        "Project Report",
         "Plagiarism Report",
         "5-8 Days Delivery"
       ],
