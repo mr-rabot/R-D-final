@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useEffect, useState } from "react";
@@ -17,11 +18,12 @@ interface BlogPost {
   category: string;
 }
 
-const resources = [
-  { name: "Thesis Template (LaTeX)", type: "ZIP", size: "2.4 MB", url: "/resources/thesis-template.zip" },
-  { name: "APA 7th Edition Guide", type: "PDF", size: "1.1 MB", url: "/resources/apa-guide.pdf" },
-  { name: "Grant Writing Checklist", type: "DOCX", size: "450 KB", url: "/resources/grant-checklist.docx" }
-];
+interface Resource {
+  name: string;
+  type: string;
+  size: string;
+  url: string;
+}
 
 interface BlogProps {
   initialData?: any;
@@ -30,10 +32,12 @@ interface BlogProps {
 
 export function Blog({ initialData, isFullPage = false }: BlogProps) {
   const [blogData, setBlogData] = useState<{title: string, subtitle: string, posts: BlogPost[]}>({
-    title: initialData?.title || "Academic Hub",
-    subtitle: initialData?.subtitle || "Expert advice on academic writing and research methodology.",
-    posts: initialData?.posts || []
+    title: initialData?.blog?.title || "Academic Hub",
+    subtitle: initialData?.blog?.subtitle || "Expert advice on academic writing and research methodology.",
+    posts: initialData?.blog?.posts || []
   });
+
+  const [resources, setResources] = useState<Resource[]>(initialData?.resources || []);
 
   useEffect(() => {
     if (!initialData) {
@@ -46,13 +50,21 @@ export function Blog({ initialData, isFullPage = false }: BlogProps) {
               posts: Array.isArray(data.blog.posts) ? data.blog.posts : []
             });
           }
+          if (data && data.resources) {
+            setResources(data.resources);
+          }
         })
         .catch(err => console.error("Error fetching blog data:", err));
     } else {
-      setBlogData({
-        ...initialData,
-        posts: Array.isArray(initialData.posts) ? initialData.posts : []
-      });
+      if (initialData.blog) {
+        setBlogData({
+          ...initialData.blog,
+          posts: Array.isArray(initialData.blog.posts) ? initialData.blog.posts : []
+        });
+      }
+      if (initialData.resources) {
+        setResources(initialData.resources);
+      }
     }
   }, [initialData]);
 
@@ -67,7 +79,7 @@ export function Blog({ initialData, isFullPage = false }: BlogProps) {
 
   const displayLimit = isFullPage ? blogData.posts.length : 3;
   const postsToDisplay = blogData.posts.slice(0, displayLimit);
-  const showViewAll = !isFullPage && blogData.posts.length > 2;
+  const showViewAll = !isFullPage && blogData.posts.length > 3;
 
   return (
     <section id="blog" className="py-24 bg-background">
@@ -130,7 +142,7 @@ export function Blog({ initialData, isFullPage = false }: BlogProps) {
                   );
                 })
               ) : (
-                <div className="col-span-full py-20 text-center text-slate-300">No scholarly publications found.</div>
+                <div className="col-span-full py-20 text-center text-slate-300 font-bold uppercase tracking-widest text-xs">No scholarly publications found.</div>
               )}
             </div>
           </div>
@@ -142,7 +154,7 @@ export function Blog({ initialData, isFullPage = false }: BlogProps) {
                 <p className="text-blue-100/70 text-sm leading-relaxed">Download professional templates and guides to accelerate your research workflow.</p>
                 
                 <div className="space-y-4">
-                  {resources.map((res, i) => (
+                  {resources.length > 0 ? resources.map((res, i) => (
                     <a 
                       key={i} 
                       href={res.url}
@@ -160,14 +172,16 @@ export function Blog({ initialData, isFullPage = false }: BlogProps) {
                       </div>
                       <Download className="h-5 w-5 text-blue-200 group-hover:text-white transition-colors shrink-0" />
                     </a>
-                  ))}
+                  )) : (
+                    <div className="text-center py-4 text-blue-200/40 text-[10px] uppercase font-bold tracking-widest">No Templates Registered</div>
+                  )}
                 </div>
 
                 <Button 
                   onClick={scrollToContact}
                   className="w-full bg-primary hover:bg-primary/90 text-white rounded-2xl h-14 font-bold shadow-xl shadow-primary/20"
                 >
-                  Access Full Library Templates
+                  Access Full Templates
                 </Button>
               </div>
               <div className="absolute -top-10 -right-10 w-40 h-40 bg-primary/20 blur-3xl rounded-full" />

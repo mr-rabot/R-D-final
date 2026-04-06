@@ -174,6 +174,26 @@
       }
     ]
   },
+  "resources": [
+    {
+      "name": "Thesis Template (LaTeX)",
+      "type": "ZIP",
+      "size": "2.4 MB",
+      "url": "/resources/thesis-template.zip"
+    },
+    {
+      "name": "APA 7th Edition Guide",
+      "type": "PDF",
+      "size": "1.1 MB",
+      "url": "/resources/apa-guide.pdf"
+    },
+    {
+      "name": "Grant Writing Checklist",
+      "type": "DOCX",
+      "size": "450 KB",
+      "url": "/resources/grant-checklist.docx"
+    }
+  ],
   "pricing": [
     {
       "name": "Basic",
@@ -269,7 +289,7 @@
       "role": "PhD Candidate",
       "content": "Professional, timely, and academically rigorous. The team helped me refine my research gap analysis for my PhD synopsis perfectly.",
       "stars": 5,
-      "image": "https://picsum.photos/seed/anamika/100/100"
+      "image": "https://picsum.photos/seed/custom-face/100/100"
     },
     {
       "name": "Tenzin Gyeltshen",

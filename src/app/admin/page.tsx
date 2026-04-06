@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useCallback, useRef, useEffect } from "react";
@@ -34,7 +35,9 @@ import {
   ChevronRight,
   AlertCircle,
   Globe,
-  Settings2
+  Settings2,
+  FileType,
+  Download
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import Image from "next/image";
@@ -334,6 +337,7 @@ export default function AdminDashboard() {
     { id: "testimonials", icon: Star, label: "Social Proof" },
     { id: "faqs", icon: HelpCircle, label: "Support Desk" },
     { id: "blog", icon: Newspaper, label: "Academic Hub" },
+    { id: "resources", icon: Download, label: "Resources Hub" },
     { id: "control", icon: Settings, label: "Control Center" }
   ];
 
@@ -763,6 +767,40 @@ export default function AdminDashboard() {
                  <span className="font-bold uppercase tracking-widest text-[9px]">New Publication</span>
                </Button>
              </div>
+          </TabsContent>
+
+          {/* Resources Hub */}
+          <TabsContent value="resources">
+            <div className="space-y-4">
+              {localSiteData?.resources?.map((r: any, i: number) => (
+                <Card key={i} className="p-4 border-none shadow-sm rounded-2xl bg-white flex items-center gap-4 group">
+                  <div className="bg-primary/5 p-3 rounded-xl text-primary">
+                    <FileType className="h-5 w-5" />
+                  </div>
+                  <div className="flex-grow grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div className="space-y-1">
+                      <label className="text-[8px] uppercase font-bold text-slate-300">File Name</label>
+                      <Input value={r.name} onChange={(e) => updateListItem('resources', i, 'name', e.target.value)} className="h-8 text-xs font-bold border-none bg-slate-50" />
+                    </div>
+                    <div className="space-y-1">
+                      <label className="text-[8px] uppercase font-bold text-slate-300">Format (e.g. PDF)</label>
+                      <Input value={r.type} onChange={(e) => updateListItem('resources', i, 'type', e.target.value)} className="h-8 text-[10px] border-none bg-slate-50" />
+                    </div>
+                    <div className="space-y-1">
+                      <label className="text-[8px] uppercase font-bold text-slate-300">File Size</label>
+                      <Input value={r.size} onChange={(e) => updateListItem('resources', i, 'size', e.target.value)} className="h-8 text-[10px] border-none bg-slate-50" />
+                    </div>
+                  </div>
+                  <Button variant="ghost" size="icon" className="text-red-400 hover:bg-red-50 h-8 w-8 rounded-lg" onClick={() => setDeleteConfirm({path: 'resources', index: i})}>
+                    <Trash2 className="h-4 w-4" />
+                  </Button>
+                </Card>
+              ))}
+              <Button variant="outline" className="w-full py-8 border-2 border-dashed border-slate-100 rounded-2xl text-slate-300 hover:text-primary transition-all flex flex-col gap-2" onClick={() => addItem('resources', { name: "New Resource", type: "PDF", size: "1.0 MB", url: "/resources/sample.pdf" })}>
+                 <Plus className="h-6 w-6" />
+                 <span className="font-bold uppercase tracking-widest text-[9px]">Add Scholarly Resource</span>
+              </Button>
+            </div>
           </TabsContent>
 
           {/* Control Center */}
