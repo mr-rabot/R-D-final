@@ -9,21 +9,36 @@ import { Testimonials } from "@/components/Testimonials";
 import { FAQ } from "@/components/FAQ";
 import { InquiryForm } from "@/components/InquiryForm";
 import { Footer } from "@/components/Footer";
+import fs from 'fs/promises';
+import path from 'path';
 
-export default function Home() {
+async function getSiteData() {
+  const DATA_PATH = path.join(process.cwd(), 'src/app/lib/leadership-data.json');
+  try {
+    const fileContent = await fs.readFile(DATA_PATH, 'utf-8');
+    return JSON.parse(fileContent);
+  } catch (error) {
+    console.error("Failed to load site data on server:", error);
+    return null;
+  }
+}
+
+export default async function Home() {
+  const data = await getSiteData();
+
   return (
     <main className="min-h-screen">
-      <Navbar />
-      <Hero />
+      <Navbar initialData={data} />
+      <Hero initialData={data?.hero} />
       <HowItWorks />
-      <Services />
-      <Pricing />
-      <About />
-      <Blog />
-      <Testimonials />
-      <FAQ />
-      <InquiryForm />
-      <Footer />
+      <Services initialData={data?.services} />
+      <Pricing initialData={data} />
+      <About initialData={data} />
+      <Blog initialData={data?.blog} />
+      <Testimonials initialData={data?.testimonials} />
+      <FAQ initialData={data?.faqs} />
+      <InquiryForm initialData={data} />
+      <Footer initialData={data} />
     </main>
   );
 }

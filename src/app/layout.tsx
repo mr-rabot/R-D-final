@@ -1,7 +1,20 @@
-import type {Metadata} from 'next';
+import type { Metadata } from 'next';
 import './globals.css';
 import { Toaster } from "@/components/ui/toaster";
 import { FirebaseClientProvider } from "@/firebase/client-provider";
+import { Inter, Alegreya } from 'next/font/google';
+
+const inter = Inter({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-inter',
+});
+
+const alegreya = Alegreya({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-alegreya',
+});
 
 export const metadata: Metadata = {
   title: 'R&DServices Research & Paper Publishing | Academic Manuscript Solutions',
@@ -14,12 +27,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="w-full overflow-x-hidden">
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Alegreya:wght@400;500;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
-      </head>
+    <html lang="en" className={`${inter.variable} ${alegreya.variable} w-full overflow-x-hidden`}>
       <body className="font-body antialiased selection:bg-primary/20 w-full overflow-x-hidden">
         <FirebaseClientProvider>
           {children}

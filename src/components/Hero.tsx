@@ -1,30 +1,35 @@
-
 "use client";
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { Mail, MessageSquare, Sparkles, Loader2 } from "lucide-react";
+import { Mail, MessageSquare, Sparkles } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 
-export function Hero() {
-  const [heroData, setHeroData] = useState<any>(null);
-  const [isLoading, setIsLoading] = useState(true);
+interface HeroProps {
+  initialData?: any;
+}
+
+export function Hero({ initialData }: HeroProps) {
+  const [heroData, setHeroData] = useState<any>(initialData);
+  const [isLoading, setIsLoading] = useState(!initialData);
 
   useEffect(() => {
-    fetch('/api/leadership', { cache: 'no-store' })
-      .then(res => res.json())
-      .then(data => {
-        if (data && data.hero) {
-          setHeroData(data.hero);
-        }
-        setIsLoading(false);
-      })
-      .catch(err => {
-        console.error("Hero data fetch error:", err);
-        setIsLoading(false);
-      });
-  }, []);
+    if (!initialData) {
+      fetch('/api/leadership', { cache: 'no-store' })
+        .then(res => res.json())
+        .then(data => {
+          if (data && data.hero) {
+            setHeroData(data.hero);
+          }
+          setIsLoading(false);
+        })
+        .catch(err => {
+          console.error("Hero data fetch error:", err);
+          setIsLoading(false);
+        });
+    }
+  }, [initialData]);
 
   const handleGetQuote = () => {
     const el = document.getElementById('contact');
