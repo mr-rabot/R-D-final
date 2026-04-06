@@ -30,6 +30,27 @@ interface BlogProps {
   isFullPage?: boolean;
 }
 
+const DUMMY_TEMPLATES: Resource[] = [
+  {
+    name: "Dissertation Structural Framework",
+    type: "PDF",
+    size: "1.2 MB",
+    url: "#"
+  },
+  {
+    name: "Journal Submission Checklist",
+    type: "PDF",
+    size: "850 KB",
+    url: "#"
+  },
+  {
+    name: "APA 7th Edition Style Guide",
+    type: "PDF",
+    size: "2.1 MB",
+    url: "#"
+  }
+];
+
 export function Blog({ initialData, isFullPage = false }: BlogProps) {
   const [blogData, setBlogData] = useState<{title: string, subtitle: string, posts: BlogPost[]}>({
     title: initialData?.blog?.title || "Academic Hub",
@@ -50,7 +71,7 @@ export function Blog({ initialData, isFullPage = false }: BlogProps) {
               posts: Array.isArray(data.blog.posts) ? data.blog.posts : []
             });
           }
-          if (data && data.resources) {
+          if (data && data.resources && data.resources.length > 0) {
             setResources(data.resources);
           }
         })
@@ -62,7 +83,7 @@ export function Blog({ initialData, isFullPage = false }: BlogProps) {
           posts: Array.isArray(initialData.blog.posts) ? initialData.blog.posts : []
         });
       }
-      if (initialData.resources) {
+      if (initialData.resources && initialData.resources.length > 0) {
         setResources(initialData.resources);
       }
     }
@@ -80,6 +101,9 @@ export function Blog({ initialData, isFullPage = false }: BlogProps) {
   const displayLimit = isFullPage ? blogData.posts.length : 3;
   const postsToDisplay = blogData.posts.slice(0, displayLimit);
   const showViewAll = !isFullPage && blogData.posts.length > 3;
+
+  // Use dummy templates if no resources are registered
+  const displayResources = resources.length > 0 ? resources : DUMMY_TEMPLATES;
 
   return (
     <section id="blog" className="py-24 bg-background">
@@ -157,11 +181,17 @@ export function Blog({ initialData, isFullPage = false }: BlogProps) {
                 <p className="text-blue-100/70 text-sm leading-relaxed">Download precision-engineered templates and framework guides to accelerate your research publishing workflow.</p>
                 
                 <div className="space-y-4">
-                  {resources.length > 0 ? resources.map((res, i) => (
+                  {displayResources.map((res, i) => (
                     <a 
                       key={i} 
-                      href={res.url}
-                      download
+                      href={res.url === "#" ? "javascript:void(0)" : res.url}
+                      onClick={(e) => {
+                        if (res.url === "#") {
+                          e.preventDefault();
+                          scrollToContact();
+                        }
+                      }}
+                      download={res.url !== "#"}
                       className="flex items-center justify-between p-4 bg-white/5 border border-white/10 rounded-2xl hover:bg-white/10 transition-all cursor-pointer group"
                     >
                       <div className="flex items-center gap-4">
@@ -175,16 +205,14 @@ export function Blog({ initialData, isFullPage = false }: BlogProps) {
                       </div>
                       <Download className="h-5 w-5 text-blue-200 group-hover:text-white transition-colors shrink-0" />
                     </a>
-                  )) : (
-                    <div className="text-center py-4 text-blue-200/40 text-[10px] uppercase font-bold tracking-widest">No Templates Registered</div>
-                  )}
+                  ))}
                 </div>
 
                 <Button 
                   onClick={scrollToContact}
                   className="w-full bg-primary hover:bg-primary/90 text-white rounded-2xl h-14 font-bold shadow-xl shadow-primary/20"
                 >
-                  Request Custom Templates
+                  Access Full Library
                 </Button>
               </div>
               <div className="absolute -top-10 -right-10 w-40 h-40 bg-primary/20 blur-3xl rounded-full" />
