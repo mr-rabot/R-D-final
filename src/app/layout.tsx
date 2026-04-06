@@ -27,8 +27,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${alegreya.variable} w-full overflow-x-hidden`}>
-      <body className="font-body antialiased selection:bg-primary/20 w-full overflow-x-hidden">
+    <html lang="en" className={`${inter.variable} ${alegreya.variable} w-full overflow-x-hidden scroll-smooth`}>
+      <body className="font-body antialiased selection:bg-primary/20 w-full overflow-x-hidden bg-background">
         <FirebaseClientProvider>
           {children}
           <Toaster />

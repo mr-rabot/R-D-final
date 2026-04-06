@@ -1,4 +1,3 @@
-
 "use client";
 
 import Link from "next/link";
@@ -23,7 +22,6 @@ export function Navbar({ initialData }: NavbarProps) {
     };
     window.addEventListener("scroll", handleScroll);
 
-    // Refresh data on client if not provided, though page.tsx should pass it
     if (!initialData) {
       fetch('/api/leadership', { cache: 'no-store' })
         .then(res => res.json())
@@ -57,17 +55,17 @@ export function Navbar({ initialData }: NavbarProps) {
 
   return (
     <nav className={cn(
-      "fixed top-0 z-[100] w-full transition-all duration-500 h-24 flex items-center border-b",
+      "fixed top-0 z-[100] w-full transition-all duration-500 h-20 md:h-24 flex items-center border-b",
       scrolled 
         ? "bg-white/95 backdrop-blur-xl shadow-sm border-slate-100" 
         : "bg-white/80 backdrop-blur-md border-slate-100"
     )}>
-      <div className="w-full px-4 sm:px-12 lg:px-20">
+      <div className="w-full max-w-[1440px] mx-auto px-6 md:px-12 lg:px-24">
         <div className="flex justify-between items-center">
           <div className="flex items-center">
             <Link href="/" className="flex items-center group">
               {logoUrl ? (
-                <div className="relative h-14 w-32 md:w-40 lg:w-48 transition-opacity duration-300">
+                <div className="relative h-12 w-28 md:h-16 md:w-48 transition-opacity duration-300">
                   <Image 
                     src={logoUrl} 
                     alt="R&DServices Logo" 
@@ -78,31 +76,31 @@ export function Navbar({ initialData }: NavbarProps) {
                   />
                 </div>
               ) : (
-                /* Fallback empty space to prevent static text showing as per request */
-                <div className="h-14 w-32 md:w-48" />
+                <div className="h-12 w-28 md:h-16 md:w-48" />
               )}
             </Link>
           </div>
 
-          <div className="hidden md:flex items-center space-x-5 lg:space-x-8">
+          <div className="hidden lg:flex items-center space-x-6 xl:space-x-10">
             {navLinks.map((link) => (
               <Link
                 key={link.name}
                 href={link.href}
-                className="transition-colors font-bold text-[10px] lg:text-xs uppercase tracking-widest text-slate-600 hover:text-primary"
+                className="transition-colors font-bold text-[10px] xl:text-xs uppercase tracking-widest text-slate-600 hover:text-primary"
               >
                 {link.name}
               </Link>
             ))}
-            <Button onClick={handleGetQuote} variant="default" size="lg" className="rounded-full shadow-xl font-bold h-10 px-6 lg:h-12 lg:px-8 flex gap-2 transition-all hover:scale-105 active:scale-95 bg-primary text-white hover:bg-primary/90 text-[10px]">
+            <Button onClick={handleGetQuote} variant="default" size="lg" className="rounded-full shadow-xl font-bold h-10 px-6 xl:h-12 xl:px-8 flex gap-2 transition-all hover:scale-105 active:scale-95 bg-primary text-white hover:bg-primary/90 text-[10px]">
               Get Quote <MessageSquare className="h-4 w-4" />
             </Button>
           </div>
 
-          <div className="md:hidden">
+          <div className="lg:hidden">
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="p-2 rounded-lg transition-colors text-slate-600 hover:text-primary"
+              className="p-2 rounded-lg transition-colors text-slate-600 hover:text-primary outline-none"
+              aria-label="Toggle Navigation"
             >
               {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
             </button>
@@ -112,22 +110,22 @@ export function Navbar({ initialData }: NavbarProps) {
 
       <div
         className={cn(
-          "md:hidden fixed top-24 left-0 w-full bg-white border-b shadow-xl transition-all duration-300 ease-in-out overflow-hidden z-[110]",
-          isOpen ? "max-h-[600px] opacity-100 py-8" : "max-h-0 opacity-0"
+          "lg:hidden fixed top-20 md:top-24 left-0 w-full bg-white border-b shadow-2xl transition-all duration-300 ease-in-out overflow-hidden z-[110]",
+          isOpen ? "max-h-screen opacity-100 py-10" : "max-h-0 opacity-0"
         )}
       >
-        <div className="px-6 space-y-4">
+        <div className="px-8 space-y-6">
           {navLinks.map((link) => (
             <Link
               key={link.name}
               href={link.href}
               onClick={() => setIsOpen(false)}
-              className="block text-lg font-bold text-accent hover:text-primary transition-colors"
+              className="block text-xl font-bold text-accent hover:text-primary transition-colors uppercase tracking-wider"
             >
               {link.name}
             </Link>
           ))}
-          <Button onClick={handleGetQuote} variant="default" className="w-full rounded-2xl bg-primary h-14 text-lg font-bold flex gap-3 shadow-lg">
+          <Button onClick={handleGetQuote} variant="default" className="w-full rounded-2xl bg-primary h-16 text-lg font-bold flex gap-3 shadow-lg">
             Get Quote <MessageSquare className="h-5 w-5" />
           </Button>
         </div>
