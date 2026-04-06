@@ -51,7 +51,7 @@ export function Testimonials() {
       <div className="absolute bottom-0 left-0 w-1/4 h-1/4 bg-blue-400/5 blur-[100px] rounded-full pointer-events-none" />
 
       <div className={cn(
-        "w-full px-4 sm:px-12 lg:px-20 relative z-10 transition-all duration-1000",
+        "w-full px-4 sm:px-12 lg:px-32 xl:px-48 relative z-10 transition-all duration-1000",
         isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
       )}>
         <div className="flex flex-col items-center mb-24 text-center space-y-6">
@@ -59,14 +59,14 @@ export function Testimonials() {
             <Users className="h-3 w-3" />
             Global Scholarly Impact
           </div>
-          <h2 className="text-5xl md:text-7xl lg:text-8xl font-headline font-bold text-accent leading-tight">Client Testimonials</h2>
-          <div className="h-1.5 w-24 bg-primary rounded-full mb-4" />
-          <p className="text-slate-500 text-lg md:text-xl lg:text-2xl max-w-4xl font-light italic">
+          <h2 className="text-5xl md:text-7xl lg:text-8xl font-headline font-bold text-accent leading-tight text-center">Client Testimonials</h2>
+          <div className="h-1.5 w-24 bg-primary rounded-full mb-4 mx-auto" />
+          <p className="text-slate-500 text-lg md:text-xl lg:text-2xl max-w-4xl font-light italic mx-auto">
             Reflections on our commitment to academic excellence from researchers across the globe.
           </p>
         </div>
 
-        <div className="relative">
+        <div className="relative px-2">
           <Carousel
             plugins={[plugin.current]}
             className="w-full"
@@ -88,7 +88,7 @@ export function Testimonials() {
                         </div>
                         
                         <div className="flex gap-1 mb-6">
-                          {[...Array(t.stars)].map((_, i) => (
+                          {[...Array(t.stars || 5)].map((_, i) => (
                             <Star key={i} className="h-3 w-3 fill-primary text-primary" />
                           ))}
                         </div>
