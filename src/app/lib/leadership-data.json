@@ -200,8 +200,6 @@
         "Synopsis",
         "Dissertation-I",
         "Dissertation-II",
-        "PPT",
-        "Project Report",
         "Plagiarism Report",
         "5-8 Days Delivery"
       ],
@@ -212,6 +210,7 @@
       "name": "Premium",
       "description": "For elite thesis and PhD support",
       "features": [
+        "All (Basic + Professional)",
         "PhD Level Expertise",
         "Unlimited Revisions",
         "Comprehensive Research",
