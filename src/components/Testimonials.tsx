@@ -66,7 +66,7 @@ export function Testimonials() {
           </p>
         </div>
 
-        <div className="relative px-8 sm:px-16 lg:px-20 py-12 overflow-hidden">
+        <div className="relative px-4 sm:px-8 lg:px-0">
           <Carousel
             plugins={[plugin.current]}
             className="w-full"
@@ -75,41 +75,43 @@ export function Testimonials() {
               loop: true,
             }}
           >
-            <CarouselContent className="-ml-6 md:-ml-8">
+            <CarouselContent className="-ml-4 md:-ml-6">
               {testimonials.map((t, index) => {
                 const placeholderId = `testimonial-${(index % 6) + 1}`;
                 const img = PlaceHolderImages.find(i => i.id === placeholderId);
                 return (
-                  <CarouselItem key={index} className="pl-6 md:pl-8 basis-full md:basis-1/2 lg:basis-1/3 xl:basis-1/4 py-10">
-                    <div className="bg-white p-10 rounded-[40px] border border-slate-100 shadow-[0_30px_70px_-15px_rgba(0,0,0,0.12)] hover:shadow-[0_45px_100px_-20px_rgba(0,71,255,0.15)] transition-all duration-500 flex flex-col h-full group relative overflow-hidden">
-                      <div className="absolute -top-6 -right-6 opacity-[0.03] group-hover:opacity-[0.08] transition-opacity">
-                        <Quote className="h-32 w-32 text-accent" />
-                      </div>
-                      
-                      <div className="flex gap-1 mb-8">
-                        {[...Array(t.stars)].map((_, i) => (
-                          <Star key={i} className="h-4 w-4 fill-primary text-primary drop-shadow-sm" />
-                        ))}
-                      </div>
-                      
-                      <div className="relative mb-10 flex-grow">
-                        <Quote className="h-8 w-8 text-primary/20 absolute -top-4 -left-4" />
-                        <p className="text-slate-600 leading-relaxed font-light italic text-lg lg:text-xl relative z-10">
-                          {t.content}
-                        </p>
-                      </div>
-                      
-                      <div className="flex items-center gap-5 pt-8 border-t border-slate-50 mt-auto">
-                        <div className="relative h-14 w-14 lg:h-16 lg:w-16 rounded-full overflow-hidden border-4 border-white shadow-[0_5px_15px_rgba(0,0,0,0.1)]">
-                          <img 
-                            src={t.image || img?.imageUrl} 
-                            alt={t.name} 
-                            className="h-full w-full object-cover" 
-                          />
+                  <CarouselItem key={index} className="pl-4 md:pl-6 basis-full md:basis-1/2 lg:basis-1/3 xl:basis-1/4">
+                    <div className="h-full py-6">
+                      <div className="bg-white p-8 lg:p-10 rounded-[40px] border border-slate-100 shadow-[0_20px_50px_-12px_rgba(0,0,0,0.08)] hover:shadow-[0_45px_100px_-20px_rgba(0,71,255,0.15)] transition-all duration-500 flex flex-col h-full group relative overflow-hidden">
+                        <div className="absolute -top-6 -right-6 opacity-[0.03] group-hover:opacity-[0.08] transition-opacity">
+                          <Quote className="h-32 w-32 text-accent" />
                         </div>
-                        <div className="text-left">
-                          <h4 className="font-headline font-bold text-accent text-xl lg:text-2xl leading-none mb-2">{t.name}</h4>
-                          <p className="text-[10px] lg:text-xs text-primary/80 font-bold uppercase tracking-[0.2em]">{t.role}</p>
+                        
+                        <div className="flex gap-1 mb-6">
+                          {[...Array(t.stars)].map((_, i) => (
+                            <Star key={i} className="h-3.5 w-3.5 fill-primary text-primary drop-shadow-sm" />
+                          ))}
+                        </div>
+                        
+                        <div className="relative mb-8 flex-grow">
+                          <Quote className="h-6 w-6 text-primary/20 absolute -top-3 -left-3" />
+                          <p className="text-slate-600 leading-relaxed font-light italic text-base lg:text-lg relative z-10">
+                            {t.content}
+                          </p>
+                        </div>
+                        
+                        <div className="flex items-center gap-4 pt-6 border-t border-slate-50 mt-auto">
+                          <div className="relative h-12 w-12 lg:h-14 lg:w-14 rounded-full overflow-hidden border-2 border-white shadow-sm shrink-0">
+                            <img 
+                              src={t.image || img?.imageUrl} 
+                              alt={t.name} 
+                              className="h-full w-full object-cover" 
+                            />
+                          </div>
+                          <div className="text-left overflow-hidden">
+                            <h4 className="font-headline font-bold text-accent text-lg lg:text-xl leading-tight mb-1 truncate">{t.name}</h4>
+                            <p className="text-[10px] text-primary/80 font-bold uppercase tracking-[0.1em] truncate">{t.role}</p>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -118,14 +120,14 @@ export function Testimonials() {
               })}
             </CarouselContent>
             
-            <div className="flex justify-center mt-12 gap-6 md:block">
-              <CarouselPrevious className="static md:absolute md:-left-16 translate-y-0 bg-white border-slate-100 hover:bg-primary hover:text-white h-14 w-14 flex items-center justify-center rounded-full shadow-[0_10px_25px_rgba(0,0,0,0.1)] transition-all hover:scale-110 active:scale-90" />
-              <CarouselNext className="static md:absolute md:-right-16 translate-y-0 bg-white border-slate-100 hover:bg-primary hover:text-white h-14 w-14 flex items-center justify-center rounded-full shadow-[0_10px_25px_rgba(0,0,0,0.1)] transition-all hover:scale-110 active:scale-90" />
+            <div className="flex justify-center mt-8 gap-4 md:block">
+              <CarouselPrevious className="static md:absolute md:-left-16 lg:-left-20 translate-y-0 bg-white border-slate-100 hover:bg-primary hover:text-white h-12 w-12 flex items-center justify-center rounded-full shadow-md transition-all hover:scale-110 active:scale-90" />
+              <CarouselNext className="static md:absolute md:-right-16 lg:-right-20 translate-y-0 bg-white border-slate-100 hover:bg-primary hover:text-white h-12 w-12 flex items-center justify-center rounded-full shadow-md transition-all hover:scale-110 active:scale-90" />
             </div>
           </Carousel>
         </div>
 
-        <div className="mt-32 grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 border-t border-slate-100 pt-20">
+        <div className="mt-32 grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-12 border-t border-slate-100 pt-20">
           {[
             { icon: ShieldCheck, label: "100%", sub: "Academic Integrity" },
             { icon: Award, label: "Top Rated", sub: "Expert Consultation" },
@@ -140,11 +142,11 @@ export function Testimonials() {
               )}
               style={{ transitionDelay: `${i * 100}ms` }}
             >
-              <div className="bg-white shadow-[0_10px_30px_rgba(0,0,0,0.05)] p-4 lg:p-6 rounded-2xl text-primary mb-4 transition-transform group-hover:scale-110 group-hover:shadow-[0_15px_35px_rgba(0,71,255,0.1) uppercase tracking-[0.2em]">
-                <badge.icon className="h-6 w-6 lg:h-8 lg:w-8" />
+              <div className="bg-white shadow-sm p-4 lg:p-5 rounded-2xl text-primary mb-4 transition-transform group-hover:scale-110 group-hover:shadow-md">
+                <badge.icon className="h-6 w-6 lg:h-7 lg:w-7" />
               </div>
-              <div className="text-3xl lg:text-5xl font-headline font-bold text-accent group-hover:text-primary transition-colors">{badge.label}</div>
-              <div className="text-[10px] lg:text-sm text-slate-400 uppercase tracking-[0.3em] mt-2 font-bold">{badge.sub}</div>
+              <div className="text-2xl lg:text-4xl font-headline font-bold text-accent group-hover:text-primary transition-colors">{badge.label}</div>
+              <div className="text-[9px] lg:text-xs text-slate-400 uppercase tracking-[0.2em] mt-1.5 font-bold">{badge.sub}</div>
             </div>
           ))}
         </div>
