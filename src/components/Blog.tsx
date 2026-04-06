@@ -7,7 +7,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
-import { Calendar, User, ArrowRight, Download, FileType } from "lucide-react";
+import { Calendar, User, ArrowRight, Download, FileType, Sparkles } from "lucide-react";
 
 interface BlogPost {
   title: string;
@@ -150,8 +150,11 @@ export function Blog({ initialData, isFullPage = false }: BlogProps) {
           <div id="resources" className="space-y-8">
             <div className="bg-accent text-white p-10 rounded-[40px] space-y-10 shadow-2xl relative overflow-hidden h-full">
               <div className="relative z-10 space-y-6">
-                <h3 className="text-3xl font-headline font-bold">Resource Library</h3>
-                <p className="text-blue-100/70 text-sm leading-relaxed">Download professional templates and guides to accelerate your research workflow.</p>
+                <div className="flex items-center gap-2 text-primary font-bold uppercase tracking-widest text-[10px]">
+                  <Sparkles className="h-4 w-4" /> Scholarly Assets
+                </div>
+                <h3 className="text-3xl font-headline font-bold">Sample Templates Hub</h3>
+                <p className="text-blue-100/70 text-sm leading-relaxed">Download precision-engineered templates and framework guides to accelerate your research publishing workflow.</p>
                 
                 <div className="space-y-4">
                   {resources.length > 0 ? resources.map((res, i) => (
@@ -181,7 +184,7 @@ export function Blog({ initialData, isFullPage = false }: BlogProps) {
                   onClick={scrollToContact}
                   className="w-full bg-primary hover:bg-primary/90 text-white rounded-2xl h-14 font-bold shadow-xl shadow-primary/20"
                 >
-                  Access Full Templates
+                  Request Custom Templates
                 </Button>
               </div>
               <div className="absolute -top-10 -right-10 w-40 h-40 bg-primary/20 blur-3xl rounded-full" />

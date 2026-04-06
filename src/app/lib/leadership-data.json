@@ -176,22 +176,28 @@
   },
   "resources": [
     {
-      "name": "Thesis Template (LaTeX)",
-      "type": "ZIP",
-      "size": "2.4 MB",
-      "url": "/resources/thesis-template.zip"
-    },
-    {
-      "name": "APA 7th Edition Guide",
-      "type": "PDF",
-      "size": "1.1 MB",
-      "url": "/resources/apa-guide.pdf"
-    },
-    {
-      "name": "Grant Writing Checklist",
+      "name": "Dissertation Structural Template",
       "type": "DOCX",
-      "size": "450 KB",
-      "url": "/resources/grant-checklist.docx"
+      "size": "1.2 MB",
+      "url": "/resources/dissertation-template.docx"
+    },
+    {
+      "name": "Scholarly Proposal Blueprint",
+      "type": "PDF",
+      "size": "850 KB",
+      "url": "/resources/proposal-blueprint.pdf"
+    },
+    {
+      "name": "APA 7th Formatting Guide",
+      "type": "PDF",
+      "size": "2.1 MB",
+      "url": "/resources/apa-formatting-guide.pdf"
+    },
+    {
+      "name": "Literature Review Matrix",
+      "type": "XLSX",
+      "size": "420 KB",
+      "url": "/resources/lit-review-matrix.xlsx"
     }
   ],
   "pricing": [
