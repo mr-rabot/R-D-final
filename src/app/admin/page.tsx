@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useCallback, useRef, useEffect } from "react";
@@ -37,7 +36,8 @@ import {
   Globe,
   Settings2,
   FileType,
-  Download
+  Download,
+  FileUp
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import Image from "next/image";
@@ -82,6 +82,15 @@ const getCroppedImg = async (imageSrc: string, pixelCrop: any): Promise<string> 
   return canvas.toDataURL("image/png");
 };
 
+const formatBytes = (bytes: number, decimals = 2) => {
+  if (bytes === 0) return '0 Bytes';
+  const k = 1024;
+  const dm = decimals < 0 ? 0 : decimals;
+  const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+  const i = Math.floor(Math.log(bytes) / Math.log(k));
+  return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+};
+
 export default function AdminDashboard() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isLoadingData, setIsLoadingData] = useState(true);
@@ -104,6 +113,7 @@ export default function AdminDashboard() {
   const [deleteConfirm, setDeleteConfirm] = useState<{path: string, index: number} | null>(null);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const resourceFileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     const session = localStorage.getItem("rd_admin_session");
@@ -137,6 +147,47 @@ export default function AdminDashboard() {
         setIsCropperOpen(true);
       };
       reader.readAsDataURL(file);
+    }
+  };
+
+  const handleResourceFileChange = async (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
+    const file = e.target.files?.[0];
+    if (file && localSiteData) {
+      setIsUploading(true);
+      try {
+        const reader = new FileReader();
+        reader.onload = async () => {
+          const fileData = reader.result as string;
+          const oldUrl = localSiteData.resources[index].url;
+          
+          const response = await fetch('/api/upload-resource', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              fileData,
+              fileName: file.name,
+              oldUrl
+            })
+          });
+
+          const result = await response.json();
+          if (result.url) {
+            const newData = JSON.parse(JSON.stringify(localSiteData));
+            newData.resources[index].url = result.url;
+            newData.resources[index].size = formatBytes(file.size);
+            newData.resources[index].type = file.name.split('.').pop()?.toUpperCase() || 'PDF';
+            
+            setLocalSiteData(newData);
+            toast({ title: "Resource Uploaded", description: `File linked and size calculated: ${formatBytes(file.size)}` });
+          }
+        };
+        reader.readAsDataURL(file);
+      } catch (err) {
+        toast({ variant: "destructive", title: "Upload Failed", description: "Could not process file." });
+      } finally {
+        setIsUploading(false);
+        if (resourceFileInputRef.current) resourceFileInputRef.current.value = "";
+      }
     }
   };
 
@@ -344,6 +395,7 @@ export default function AdminDashboard() {
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col lg:flex-row relative">
       <input type="file" ref={fileInputRef} className="hidden" accept="image/*" onChange={(e) => handleFileChange(e, currentEditingPath || '')} />
+      <input type="file" ref={resourceFileInputRef} className="hidden" onChange={(e) => handleResourceFileChange(e, parseInt(currentEditingPath || '0'))} />
       
       {/* Sidebar Responsive */}
       <aside className={cn(
@@ -773,22 +825,35 @@ export default function AdminDashboard() {
           <TabsContent value="resources">
             <div className="space-y-4">
               {localSiteData?.resources?.map((r: any, i: number) => (
-                <Card key={i} className="p-4 border-none shadow-sm rounded-2xl bg-white flex items-center gap-4 group">
-                  <div className="bg-primary/5 p-3 rounded-xl text-primary">
+                <Card key={i} className="p-4 border-none shadow-sm rounded-2xl bg-white flex flex-col md:flex-row items-center gap-4 group">
+                  <div className="bg-primary/5 p-3 rounded-xl text-primary shrink-0">
                     <FileType className="h-5 w-5" />
                   </div>
-                  <div className="flex-grow grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div className="flex-grow grid grid-cols-1 md:grid-cols-4 gap-4 w-full">
                     <div className="space-y-1">
-                      <label className="text-[8px] uppercase font-bold text-slate-300">File Name</label>
+                      <label className="text-[8px] uppercase font-bold text-slate-300">Display Name</label>
                       <Input value={r.name} onChange={(e) => updateListItem('resources', i, 'name', e.target.value)} className="h-8 text-xs font-bold border-none bg-slate-50" />
                     </div>
                     <div className="space-y-1">
-                      <label className="text-[8px] uppercase font-bold text-slate-300">Format (e.g. PDF)</label>
-                      <Input value={r.type} onChange={(e) => updateListItem('resources', i, 'type', e.target.value)} className="h-8 text-[10px] border-none bg-slate-50" />
+                      <label className="text-[8px] uppercase font-bold text-slate-300">Detected Format</label>
+                      <Input value={r.type} readOnly className="h-8 text-[10px] border-none bg-slate-100 cursor-not-allowed text-slate-400" />
                     </div>
                     <div className="space-y-1">
                       <label className="text-[8px] uppercase font-bold text-slate-300">File Size</label>
-                      <Input value={r.size} onChange={(e) => updateListItem('resources', i, 'size', e.target.value)} className="h-8 text-[10px] border-none bg-slate-50" />
+                      <Input value={r.size} readOnly className="h-8 text-[10px] border-none bg-slate-100 cursor-not-allowed text-slate-400" />
+                    </div>
+                    <div className="flex items-end pb-0.5">
+                      <Button 
+                        variant="outline" 
+                        size="sm" 
+                        className="w-full h-8 text-[10px] font-bold border-dashed border-slate-200 hover:border-primary hover:text-primary flex gap-2"
+                        onClick={() => {
+                          setCurrentEditingPath(i.toString());
+                          resourceFileInputRef.current?.click();
+                        }}
+                      >
+                        <FileUp className="h-3.5 w-3.5" /> {r.url ? "Replace File" : "Upload File"}
+                      </Button>
                     </div>
                   </div>
                   <Button variant="ghost" size="icon" className="text-red-400 hover:bg-red-50 h-8 w-8 rounded-lg" onClick={() => setDeleteConfirm({path: 'resources', index: i})}>
@@ -796,7 +861,7 @@ export default function AdminDashboard() {
                   </Button>
                 </Card>
               ))}
-              <Button variant="outline" className="w-full py-8 border-2 border-dashed border-slate-100 rounded-2xl text-slate-300 hover:text-primary transition-all flex flex-col gap-2" onClick={() => addItem('resources', { name: "New Resource", type: "PDF", size: "1.0 MB", url: "/resources/sample.pdf" })}>
+              <Button variant="outline" className="w-full py-8 border-2 border-dashed border-slate-100 rounded-2xl text-slate-300 hover:text-primary transition-all flex flex-col gap-2" onClick={() => addItem('resources', { name: "New Resource", type: "PDF", size: "0 KB", url: "" })}>
                  <Plus className="h-6 w-6" />
                  <span className="font-bold uppercase tracking-widest text-[9px]">Add Scholarly Resource</span>
               </Button>
