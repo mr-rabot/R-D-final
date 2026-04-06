@@ -215,7 +215,7 @@ export default function AdminDashboard() {
     toast({ title: "Signed Out", description: "Session ended." });
   };
 
-  if (isLoadingData) return <div className="min-h-screen flex items-center justify-center font-headline font-bold text-2xl">Loading R&DOPS...</div>;
+  if (isLoadingData) return <div className="min-h-screen flex items-center justify-center font-headline font-bold text-2xl text-primary">Loading R&DServices Ops...</div>;
 
   if (!isLoggedIn) {
     return (
@@ -223,7 +223,7 @@ export default function AdminDashboard() {
         <Card className="w-full max-w-md border-none shadow-2xl rounded-[30px] overflow-hidden bg-white">
           <div className="bg-primary p-8 text-center text-white">
             <ShieldCheck className="h-10 w-10 mx-auto mb-4" />
-            <h2 className="text-xl font-headline font-bold uppercase tracking-tight">R&DOPS</h2>
+            <h2 className="text-xl font-headline font-bold uppercase tracking-tight">R&DServices Ops</h2>
           </div>
           <CardContent className="p-6">
             <form onSubmit={handleLogin} className="space-y-6">
@@ -254,7 +254,7 @@ export default function AdminDashboard() {
         isMenuOpen ? "translate-x-0" : "-translate-x-full"
       )}>
         <div className="p-8 border-b border-white/5">
-          <h1 className="text-xl font-headline font-bold">R&DOPS</h1>
+          <h1 className="text-xl font-headline font-bold">R&DServices Ops</h1>
         </div>
         <nav className="flex-grow p-4 space-y-2">
           {navigationItems.map((item) => (
@@ -290,56 +290,94 @@ export default function AdminDashboard() {
         <Tabs value={activeTab} className="space-y-8">
           <TabsContent value="media">
              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <Card className="p-8 space-y-4">
+              <Card className="p-8 space-y-4 border-none shadow-xl rounded-3xl bg-white">
                 <h3 className="text-xl font-bold">Brand Logo</h3>
-                <div className="relative h-32 w-full bg-slate-100 rounded-xl flex items-center justify-center">
-                  {localSiteData?.brand?.logo && <Image src={localSiteData.brand.logo} alt="Logo" fill className="object-contain p-4" unoptimized />}
+                <div className="relative h-32 w-full bg-slate-50 rounded-2xl flex items-center justify-center border border-dashed border-slate-200">
+                  {localSiteData?.brand?.logo ? (
+                    <Image src={localSiteData.brand.logo} alt="Logo" fill className="object-contain p-4" unoptimized />
+                  ) : (
+                    <ImageIcon className="h-8 w-8 text-slate-300" />
+                  )}
                 </div>
-                <Button variant="outline" className="w-full" onClick={() => { setCurrentEditingPath(`brand.logo`); fileInputRef.current?.click(); }}>Replace Logo</Button>
+                <Button variant="outline" className="w-full rounded-xl" onClick={() => { setCurrentEditingPath(`brand.logo`); fileInputRef.current?.click(); }}>Replace Logo</Button>
               </Card>
-              <Card className="p-8 space-y-4">
+              <Card className="p-8 space-y-4 border-none shadow-xl rounded-3xl bg-white">
                 <h3 className="text-xl font-bold">Hero Image</h3>
-                <div className="relative h-32 w-full bg-slate-100 rounded-xl">
-                  {localSiteData?.hero?.image && <Image src={localSiteData.hero.image} alt="Hero" fill className="object-cover rounded-xl" unoptimized />}
+                <div className="relative h-32 w-full bg-slate-50 rounded-2xl overflow-hidden border border-dashed border-slate-200">
+                  {localSiteData?.hero?.image ? (
+                    <Image src={localSiteData.hero.image} alt="Hero" fill className="object-cover" unoptimized />
+                  ) : (
+                    <div className="flex items-center justify-center h-full"><ImageIcon className="h-8 w-8 text-slate-300" /></div>
+                  )}
                 </div>
-                <Button variant="outline" className="w-full" onClick={() => { setCurrentEditingPath(`hero.image`); fileInputRef.current?.click(); }}>Change Hero</Button>
+                <Button variant="outline" className="w-full rounded-xl" onClick={() => { setCurrentEditingPath(`hero.image`); fileInputRef.current?.click(); }}>Change Hero</Button>
               </Card>
              </div>
           </TabsContent>
 
           <TabsContent value="hero">
-            <Card className="p-8 space-y-6">
-              <Input value={localSiteData?.hero?.title} onChange={(e) => setLocalSiteData({...localSiteData, hero: {...localSiteData.hero, title: e.target.value}})} placeholder="Hero Title" />
-              <Textarea value={localSiteData?.hero?.subtitle} onChange={(e) => setLocalSiteData({...localSiteData, hero: {...localSiteData.hero, subtitle: e.target.value}})} placeholder="Hero Subtitle" />
+            <Card className="p-8 space-y-6 border-none shadow-xl rounded-3xl bg-white">
+              <div className="space-y-2">
+                <label className="text-sm font-bold text-slate-500 uppercase tracking-wider">Hero Badge</label>
+                <Input value={localSiteData?.hero?.badge} onChange={(e) => setLocalSiteData({...localSiteData, hero: {...localSiteData.hero, badge: e.target.value}})} placeholder="Hero Badge" className="rounded-xl h-12" />
+              </div>
+              <div className="space-y-2">
+                <label className="text-sm font-bold text-slate-500 uppercase tracking-wider">Hero Title</label>
+                <Input value={localSiteData?.hero?.title} onChange={(e) => setLocalSiteData({...localSiteData, hero: {...localSiteData.hero, title: e.target.value}})} placeholder="Hero Title" className="rounded-xl h-12" />
+              </div>
+              <div className="space-y-2">
+                <label className="text-sm font-bold text-slate-500 uppercase tracking-wider">Hero Subtitle</label>
+                <Textarea value={localSiteData?.hero?.subtitle} onChange={(e) => setLocalSiteData({...localSiteData, hero: {...localSiteData.hero, subtitle: e.target.value}})} placeholder="Hero Subtitle" className="rounded-xl min-h-[120px]" />
+              </div>
             </Card>
+          </TabsContent>
+
+          <TabsContent value="leadership">
+            <div className="grid md:grid-cols-2 gap-8">
+              <Card className="p-8 space-y-6 border-none shadow-xl rounded-3xl bg-white">
+                <h3 className="text-xl font-bold">Founder Details</h3>
+                <div className="relative h-48 w-48 mx-auto bg-slate-50 rounded-full overflow-hidden border-4 border-white shadow-lg">
+                  {localSiteData?.leadership?.founder?.image && <Image src={localSiteData.leadership.founder.image} alt="Founder" fill className="object-cover" unoptimized />}
+                </div>
+                <Button variant="outline" className="w-full rounded-xl" onClick={() => { setCurrentEditingPath(`leadership.founder.image`); fileInputRef.current?.click(); }}>Replace Photo</Button>
+                <Input value={localSiteData?.leadership?.founder?.name} onChange={(e) => setLocalSiteData({...localSiteData, leadership: {...localSiteData.leadership, founder: {...localSiteData.leadership.founder, name: e.target.value}}})} placeholder="Founder Name" className="rounded-xl h-12" />
+                <Input value={localSiteData?.leadership?.founder?.role} onChange={(e) => setLocalSiteData({...localSiteData, leadership: {...localSiteData.leadership, founder: {...localSiteData.leadership.founder, role: e.target.value}}})} placeholder="Founder Role" className="rounded-xl h-12" />
+              </Card>
+            </div>
           </TabsContent>
 
           <TabsContent value="services">
             <div className="grid md:grid-cols-2 gap-6">
               {localSiteData?.services?.map((s: any, i: number) => (
-                <Card key={i} className="p-6 space-y-4">
+                <Card key={i} className="p-6 space-y-4 border-none shadow-lg rounded-3xl bg-white">
+                   <div className="relative h-32 w-full bg-slate-50 rounded-xl overflow-hidden mb-2">
+                    {s.image ? <Image src={s.image} alt={s.title} fill className="object-cover" unoptimized /> : <ImageIcon className="m-auto h-8 w-8 text-slate-200" />}
+                  </div>
+                  <Button variant="ghost" size="sm" className="w-full text-primary" onClick={() => { setCurrentEditingPath(`services.${i}.image`); fileInputRef.current?.click(); }}>Change Service Image</Button>
                   <Input value={s.title} onChange={(e) => {
                     const newServices = [...localSiteData.services];
                     newServices[i].title = e.target.value;
                     setLocalSiteData({...localSiteData, services: newServices});
-                  }} />
+                  }} className="rounded-xl font-bold" />
                   <Textarea value={s.description} onChange={(e) => {
                     const newServices = [...localSiteData.services];
                     newServices[i].description = e.target.value;
                     setLocalSiteData({...localSiteData, services: newServices});
-                  }} />
+                  }} className="rounded-xl text-sm" />
                 </Card>
               ))}
             </div>
           </TabsContent>
 
           <TabsContent value="settings">
-            <Card className="p-8 space-y-4">
-              <h3 className="text-xl font-bold">WhatsApp</h3>
+            <Card className="p-8 space-y-4 border-none shadow-xl rounded-3xl bg-white">
+              <h3 className="text-xl font-bold flex items-center gap-2"><MessageSquare className="h-5 w-5 text-[#25D366]" /> WhatsApp Integration</h3>
+              <p className="text-sm text-slate-500">Enter the phone number (with country code, e.g., 916209779365) for direct client inquiries.</p>
               <Input 
                 value={localSiteData?.integrations?.whatsapp || ""} 
                 onChange={(e) => setLocalSiteData({...localSiteData, integrations: {...localSiteData.integrations, whatsapp: e.target.value}})} 
                 placeholder="WhatsApp Number" 
+                className="rounded-xl h-12"
               />
             </Card>
           </TabsContent>
@@ -347,24 +385,27 @@ export default function AdminDashboard() {
       </main>
 
       <Dialog open={isCropperOpen} onOpenChange={setIsCropperOpen}>
-        <DialogContent className="max-w-xl p-0 overflow-hidden">
+        <DialogContent className="max-w-xl p-0 overflow-hidden border-none rounded-[40px]">
+          <DialogHeader className="p-6 bg-slate-900 text-white">
+            <DialogTitle>Perfect Crop</DialogTitle>
+          </DialogHeader>
           <div className="relative h-96 bg-black">
             {imageToCrop && (
               <Cropper 
                 image={imageToCrop} 
                 crop={crop} 
                 zoom={zoom} 
-                aspect={currentEditingPath?.includes('logo') ? 600/260 : (currentEditingPath?.includes('hero') ? 4/5 : 16/9)} 
+                aspect={currentEditingPath?.includes('logo') ? 600/260 : (currentEditingPath?.includes('founder') ? 1 : (currentEditingPath?.includes('hero') ? 4/5 : 16/9))} 
                 onCropChange={setCrop} 
                 onZoomChange={setZoom} 
                 onCropComplete={onCropComplete} 
               />
             )}
           </div>
-          <div className="p-8 grid grid-cols-2 gap-4">
-            <Button variant="outline" onClick={() => setIsCropperOpen(false)}>Cancel</Button>
-            <Button disabled={isUploading} onClick={saveCroppedImage}>
-              {isUploading ? <Loader2 className="h-5 w-5 animate-spin mr-2" /> : "Save to Server"}
+          <div className="p-8 grid grid-cols-2 gap-4 bg-white">
+            <Button variant="outline" className="rounded-xl" onClick={() => setIsCropperOpen(false)}>Cancel</Button>
+            <Button disabled={isUploading} className="rounded-xl font-bold" onClick={saveCroppedImage}>
+              {isUploading ? <Loader2 className="h-5 w-5 animate-spin mr-2" /> : "Save Asset"}
             </Button>
           </div>
         </DialogContent>
