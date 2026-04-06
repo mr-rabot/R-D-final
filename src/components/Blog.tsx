@@ -52,7 +52,11 @@ export function Blog({ initialData }: BlogProps) {
 
   const scrollToContact = () => {
     const el = document.getElementById('contact');
-    if (el) el.scrollIntoView({ behavior: 'smooth' });
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      window.location.href = "/#contact";
+    }
   };
 
   return (
@@ -68,7 +72,7 @@ export function Blog({ initialData }: BlogProps) {
                 <h2 className="text-5xl lg:text-7xl font-headline font-bold text-accent">{blogData.title}</h2>
                 <p className="text-muted-foreground text-lg lg:text-xl">{blogData.subtitle}</p>
               </div>
-              <Link href="#blog">
+              <Link href="/blog">
                 <Button variant="link" className="text-primary gap-2 p-0 font-bold flex">
                   View All Posts <ArrowRight className="h-4 w-4" />
                 </Button>
