@@ -68,70 +68,70 @@ export function Pricing() {
   };
 
   return (
-    <section id="pricing" ref={sectionRef} className="py-24 md:py-40 lg:py-56 bg-[#fcfcfc] relative overflow-hidden">
+    <section id="pricing" ref={sectionRef} className="py-24 md:py-32 bg-[#fcfcfc] relative overflow-hidden">
       <div className={cn(
-        "w-full max-w-[1600px] mx-auto px-6 md:px-12 lg:px-24 relative z-10 transition-all duration-1000",
+        "w-full max-w-[1440px] mx-auto px-6 md:px-12 relative z-10 transition-all duration-1000",
         isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
       )}>
-        <div className="text-center mb-24 md:mb-32 space-y-6">
-          <div className="inline-block bg-primary text-white text-[10px] md:text-xs uppercase tracking-[0.3em] font-bold px-6 py-2 rounded-full mb-4 shadow-xl shadow-primary/20">
+        <div className="text-center mb-16 md:mb-24 space-y-4">
+          <div className="inline-block bg-primary text-white text-[10px] uppercase tracking-[0.2em] font-bold px-5 py-2 rounded-full mb-2 shadow-lg shadow-primary/20">
             Investment Structure
           </div>
-          <h2 className="text-5xl md:text-8xl lg:text-9xl font-headline font-bold text-accent tracking-tight leading-none">Service Packages</h2>
-          <p className="text-slate-500 text-lg md:text-2xl lg:text-3xl font-light italic max-w-4xl mx-auto">
+          <h2 className="text-4xl md:text-6xl lg:text-7xl font-headline font-bold text-accent tracking-tight leading-none">Service Packages</h2>
+          <p className="text-slate-500 text-lg md:text-xl lg:text-2xl font-light italic max-w-3xl mx-auto">
             Elite academic support tiers designed for international publishing standards.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 lg:gap-14 items-stretch">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch">
           {plans.map((plan, index) => (
             <div 
               key={index} 
               className={cn(
-                "relative flex h-full transition-all duration-1000",
+                "relative flex h-full transition-all duration-700",
                 isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
               )}
-              style={{ transitionDelay: `${index * 200}ms` }}
+              style={{ transitionDelay: `${index * 150}ms` }}
             >
               <Card 
                 className={cn(
-                  "relative flex flex-col rounded-[40px] md:rounded-[50px] transition-all duration-700 w-full border border-slate-100 bg-white group",
+                  "relative flex flex-col rounded-[32px] md:rounded-[40px] transition-all duration-500 w-full border border-slate-100 bg-white group",
                   plan.highlight 
-                    ? "ring-2 ring-primary shadow-[0_50px_100px_-15px_rgba(0,71,255,0.18)] z-10 lg:-translate-y-6" 
-                    : "shadow-2xl hover:shadow-primary/5 hover:-translate-y-3"
+                    ? "ring-2 ring-primary shadow-2xl z-10 lg:-translate-y-4" 
+                    : "shadow-xl hover:-translate-y-2"
                 )}
               >
                 {plan.highlight && plan.badge && (
-                  <div className="absolute -top-6 left-1/2 -translate-x-1/2 z-[40]">
-                    <Badge className="bg-primary text-white px-10 py-2.5 rounded-full shadow-2xl text-[10px] md:text-xs font-bold whitespace-nowrap uppercase tracking-[0.3em] ring-8 ring-white">
+                  <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-[40]">
+                    <Badge className="bg-primary text-white px-8 py-2 rounded-full shadow-xl text-[10px] font-bold uppercase tracking-widest ring-4 ring-white">
                       {plan.badge}
                     </Badge>
                   </div>
                 )}
                 
-                <CardHeader className="pt-16 md:pt-20 px-8 md:px-12 pb-8 text-center space-y-4">
-                  <CardTitle className="text-3xl md:text-5xl font-headline font-bold text-accent group-hover:text-primary transition-colors">{plan.name}</CardTitle>
-                  <p className="text-base md:text-lg text-slate-500 leading-relaxed font-light italic min-h-[60px] border-b border-slate-50 pb-6">{plan.description}</p>
+                <CardHeader className="pt-12 px-8 pb-6 text-center space-y-3">
+                  <CardTitle className="text-2xl md:text-3xl font-headline font-bold text-accent group-hover:text-primary transition-colors">{plan.name}</CardTitle>
+                  <p className="text-sm md:text-base text-slate-500 leading-relaxed font-light italic border-b border-slate-50 pb-4">{plan.description}</p>
                 </CardHeader>
 
-                <CardContent className="flex-grow px-8 md:px-12 py-6">
-                  <ul className="space-y-6">
+                <CardContent className="flex-grow px-8 py-4">
+                  <ul className="space-y-4">
                     {plan.features.map((feature: string, i: number) => (
-                      <li key={i} className="flex items-start gap-4 text-base md:text-lg text-slate-600 font-medium group/feat">
-                        <Check className="h-5 w-5 text-emerald-500 shrink-0 mt-1 transition-transform group-hover/feat:scale-125" />
+                      <li key={i} className="flex items-start gap-3 text-sm md:text-base text-slate-600 font-medium group/feat">
+                        <Check className="h-4 w-4 text-emerald-500 shrink-0 mt-1 transition-transform group-hover/feat:scale-110" />
                         <span>{feature}</span>
                       </li>
                     ))}
                   </ul>
                 </CardContent>
                 
-                <CardFooter className="p-10 md:p-14 mt-auto">
+                <CardFooter className="p-8 mt-auto">
                   <Button 
                     onClick={() => handleQuoteClick(plan.name)}
                     variant={plan.highlight ? "default" : "outline"}
                     className={cn(
-                      "w-full h-18 md:h-22 rounded-2xl font-bold flex gap-4 transition-all active:scale-95 text-xl border-2",
-                      plan.highlight ? "bg-black text-white hover:bg-slate-900 border-black shadow-2xl shadow-black/20" : "border-slate-100 hover:border-primary hover:text-primary"
+                      "w-full h-14 rounded-2xl font-bold flex gap-3 transition-all active:scale-95 text-lg border-2",
+                      plan.highlight ? "bg-black text-white hover:bg-slate-900 border-black shadow-lg" : "border-slate-100 hover:border-primary hover:text-primary"
                     )}
                   >
                     Select Plan
@@ -144,29 +144,29 @@ export function Pricing() {
       </div>
 
       <Dialog open={isQuoteDialogOpen} onOpenChange={setIsQuoteDialogOpen}>
-        <DialogContent className="w-[95vw] sm:max-w-xl rounded-[40px] border-none shadow-2xl p-0 overflow-hidden bg-white mx-auto">
-          <DialogHeader className="p-10 md:p-14 pb-0 text-center">
-            <DialogTitle className="text-3xl md:text-5xl font-headline font-bold text-accent leading-tight">Elite Consultation</DialogTitle>
-            <DialogDescription className="text-slate-500 pt-6 text-lg md:text-xl font-light italic">
+        <DialogContent className="w-[90vw] sm:max-w-md rounded-[32px] border-none shadow-2xl p-0 overflow-hidden bg-white mx-auto">
+          <DialogHeader className="p-8 pb-0 text-center">
+            <DialogTitle className="text-3xl font-headline font-bold text-accent">Elite Consultation</DialogTitle>
+            <DialogDescription className="text-slate-500 pt-4 text-base font-light italic">
               Secure a professional quote for the <span className="text-primary font-bold">"{selectedPlan}"</span> package from our academic board.
             </DialogDescription>
           </DialogHeader>
-          <div className="p-10 md:p-14 space-y-6">
+          <div className="p-8 space-y-4">
             <Button 
               onClick={handleWhatsAppAction}
-              className="w-full h-18 md:h-22 rounded-[24px] bg-[#25D366] hover:bg-[#22c35e] text-white font-bold text-xl flex gap-4 shadow-2xl shadow-emerald-500/20"
+              className="w-full h-16 rounded-[20px] bg-[#25D366] hover:bg-[#22c35e] text-white font-bold text-lg flex gap-3"
             >
-              <MessageSquare className="h-7 w-7" /> WhatsApp Protocol
+              <MessageSquare className="h-6 w-6" /> WhatsApp Protocol
             </Button>
             <Button 
               onClick={handleEmailAction}
               variant="outline"
-              className="w-full h-18 md:h-22 rounded-[24px] border-2 border-slate-100 hover:border-primary text-slate-600 hover:text-primary font-bold text-xl flex gap-4 shadow-md"
+              className="w-full h-16 rounded-[20px] border-2 border-slate-100 hover:border-primary text-slate-600 hover:text-primary font-bold text-lg flex gap-3"
             >
-              <Mail className="h-7 w-7" /> Email Submission
+              <Mail className="h-6 w-6" /> Email Submission
             </Button>
           </div>
-          <div className="p-6 md:p-8 bg-slate-50 text-center text-xs text-slate-400 uppercase tracking-[0.4em] font-bold border-t">
+          <div className="p-6 bg-slate-50 text-center text-[10px] text-slate-400 uppercase tracking-widest font-bold border-t">
             Guaranteed Scholarly Integrity • 24/7 Global Desk
           </div>
         </DialogContent>
