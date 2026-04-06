@@ -25,9 +25,10 @@ const resources = [
 
 interface BlogProps {
   initialData?: any;
+  isFullPage?: boolean;
 }
 
-export function Blog({ initialData }: BlogProps) {
+export function Blog({ initialData, isFullPage = false }: BlogProps) {
   const [blogData, setBlogData] = useState<{title: string, subtitle: string, posts: BlogPost[]}>({
     title: initialData?.title || "Academic Hub",
     subtitle: initialData?.subtitle || "Expert advice on academic writing and research methodology.",
@@ -47,6 +48,11 @@ export function Blog({ initialData }: BlogProps) {
           }
         })
         .catch(err => console.error("Error fetching blog data:", err));
+    } else {
+      setBlogData({
+        ...initialData,
+        posts: Array.isArray(initialData.posts) ? initialData.posts : []
+      });
     }
   }, [initialData]);
 
@@ -58,6 +64,11 @@ export function Blog({ initialData }: BlogProps) {
       window.location.href = "/#contact";
     }
   };
+
+  // On home page, show up to 3 posts. On full page, show all.
+  const displayLimit = isFullPage ? blogData.posts.length : 3;
+  const postsToDisplay = blogData.posts.slice(0, displayLimit);
+  const showViewAll = !isFullPage && blogData.posts.length > 2;
 
   return (
     <section id="blog" className="py-24 bg-background">
@@ -72,16 +83,18 @@ export function Blog({ initialData }: BlogProps) {
                 <h2 className="text-5xl lg:text-7xl font-headline font-bold text-accent">{blogData.title}</h2>
                 <p className="text-muted-foreground text-lg lg:text-xl">{blogData.subtitle}</p>
               </div>
-              <Link href="/blog">
-                <Button variant="link" className="text-primary gap-2 p-0 font-bold flex">
-                  View All Posts <ArrowRight className="h-4 w-4" />
-                </Button>
-              </Link>
+              {showViewAll && (
+                <Link href="/blog">
+                  <Button variant="link" className="text-primary gap-2 p-0 font-bold flex">
+                    View All Posts <ArrowRight className="h-4 w-4" />
+                  </Button>
+                </Link>
+              )}
             </div>
 
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {blogData.posts && blogData.posts.length > 0 ? (
-                blogData.posts.map((post, i) => {
+              {postsToDisplay && postsToDisplay.length > 0 ? (
+                postsToDisplay.map((post, i) => {
                   const placeholderId = `service-${(i % 3) + 1}`;
                   const placeholder = PlaceHolderImages.find(p => p.id === placeholderId);
                   const displayImage = post.image || placeholder?.imageUrl;
@@ -118,7 +131,7 @@ export function Blog({ initialData }: BlogProps) {
                   );
                 })
               ) : (
-                <div className="col-span-full py-20 text-center text-slate-300">Loading academic insights...</div>
+                <div className="col-span-full py-20 text-center text-slate-300">No scholarly publications found.</div>
               )}
             </div>
           </div>

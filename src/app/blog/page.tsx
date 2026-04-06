@@ -22,7 +22,7 @@ export default async function BlogPage() {
     <main className="min-h-screen bg-slate-50">
       <Navbar initialData={data} />
       <div className="pt-24">
-        <Blog initialData={data?.blog} />
+        <Blog initialData={data?.blog} isFullPage={true} />
       </div>
       <Footer initialData={data} />
     </main>

@@ -34,7 +34,7 @@ export default async function Home() {
       <Services initialData={data?.services} />
       <Pricing initialData={data} />
       <About initialData={data} />
-      <Blog initialData={data?.blog} />
+      <Blog initialData={data?.blog} isFullPage={false} />
       <Testimonials initialData={data?.testimonials} />
       <FAQ initialData={data?.faqs} />
       <InquiryForm initialData={data} />
