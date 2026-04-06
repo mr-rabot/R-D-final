@@ -65,7 +65,6 @@ export function Blog({ initialData, isFullPage = false }: BlogProps) {
     }
   };
 
-  // On home page, show up to 3 posts. On full page, show all.
   const displayLimit = isFullPage ? blogData.posts.length : 3;
   const postsToDisplay = blogData.posts.slice(0, displayLimit);
   const showViewAll = !isFullPage && blogData.posts.length > 2;
@@ -168,7 +167,7 @@ export function Blog({ initialData, isFullPage = false }: BlogProps) {
                   onClick={scrollToContact}
                   className="w-full bg-primary hover:bg-primary/90 text-white rounded-2xl h-14 font-bold shadow-xl shadow-primary/20"
                 >
-                  Access Full Library
+                  Access Full Library Templates
                 </Button>
               </div>
               <div className="absolute -top-10 -right-10 w-40 h-40 bg-primary/20 blur-3xl rounded-full" />
