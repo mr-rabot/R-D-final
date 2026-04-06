@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
@@ -22,33 +23,44 @@ const resources = [
   { name: "Grant Writing Checklist", type: "DOCX", size: "450 KB" }
 ];
 
-export function Blog() {
+interface BlogProps {
+  initialData?: any;
+}
+
+export function Blog({ initialData }: BlogProps) {
   const [blogData, setBlogData] = useState<{title: string, subtitle: string, posts: BlogPost[]}>({
-    title: "Academic Hub",
-    subtitle: "Expert advice on academic writing and research methodology.",
-    posts: []
+    title: initialData?.title || "Academic Hub",
+    subtitle: initialData?.subtitle || "Expert advice on academic writing and research methodology.",
+    posts: initialData?.posts || []
   });
 
   useEffect(() => {
-    fetch('/api/leadership', { cache: 'no-store' })
-      .then(res => res.json())
-      .then(data => {
-        if (data && data.blog) {
-          setBlogData({
-            ...data.blog,
-            posts: Array.isArray(data.blog.posts) ? data.blog.posts : []
-          });
-        }
-      })
-      .catch(err => console.error("Error fetching blog data:", err));
-  }, []);
+    if (!initialData) {
+      fetch('/api/leadership', { cache: 'no-store' })
+        .then(res => res.json())
+        .then(data => {
+          if (data && data.blog) {
+            setBlogData({
+              ...data.blog,
+              posts: Array.isArray(data.blog.posts) ? data.blog.posts : []
+            });
+          }
+        })
+        .catch(err => console.error("Error fetching blog data:", err));
+    }
+  }, [initialData]);
+
+  const scrollToContact = () => {
+    const el = document.getElementById('contact');
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
+  };
 
   return (
     <section id="blog" className="py-24 bg-background">
       <div className="w-full px-4 sm:px-12 lg:px-20">
         <div className="grid lg:grid-cols-4 gap-16">
           <div className="lg:col-span-3 space-y-12">
-            <div className="flex justify-between items-end">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-6">
               <div className="space-y-4">
                 <div className="inline-flex items-center gap-2 bg-primary/10 text-primary text-[10px] uppercase tracking-widest font-bold px-4 py-1.5 rounded-full">
                   Insights & Knowledge
@@ -56,9 +68,11 @@ export function Blog() {
                 <h2 className="text-5xl lg:text-7xl font-headline font-bold text-accent">{blogData.title}</h2>
                 <p className="text-muted-foreground text-lg lg:text-xl">{blogData.subtitle}</p>
               </div>
-              <Button variant="link" className="text-primary gap-2 p-0 font-bold hidden sm:flex">
-                View All Posts <ArrowRight className="h-4 w-4" />
-              </Button>
+              <Link href="#blog">
+                <Button variant="link" className="text-primary gap-2 p-0 font-bold flex">
+                  View All Posts <ArrowRight className="h-4 w-4" />
+                </Button>
+              </Link>
             </div>
 
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -113,7 +127,11 @@ export function Blog() {
                 
                 <div className="space-y-4">
                   {resources.map((res, i) => (
-                    <div key={i} className="flex items-center justify-between p-4 bg-white/5 border border-white/10 rounded-2xl hover:bg-white/10 transition-all cursor-pointer group">
+                    <div 
+                      key={i} 
+                      onClick={scrollToContact}
+                      className="flex items-center justify-between p-4 bg-white/5 border border-white/10 rounded-2xl hover:bg-white/10 transition-all cursor-pointer group"
+                    >
                       <div className="flex items-center gap-4">
                         <div className="bg-primary/20 p-2.5 rounded-xl">
                           <FileType className="h-5 w-5 text-primary" />
@@ -128,7 +146,10 @@ export function Blog() {
                   ))}
                 </div>
 
-                <Button className="w-full bg-primary hover:bg-primary/90 text-white rounded-2xl h-14 font-bold shadow-xl shadow-primary/20">
+                <Button 
+                  onClick={scrollToContact}
+                  className="w-full bg-primary hover:bg-primary/90 text-white rounded-2xl h-14 font-bold shadow-xl shadow-primary/20"
+                >
                   Access Full Library
                 </Button>
               </div>
