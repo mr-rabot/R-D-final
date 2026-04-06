@@ -32,7 +32,9 @@ import {
   Layout,
   ExternalLink,
   ChevronRight,
-  AlertCircle
+  AlertCircle,
+  Globe,
+  Settings2
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import Image from "next/image";
@@ -284,8 +286,8 @@ export default function AdminDashboard() {
 
   if (isLoadingData) return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-slate-50 gap-4">
-      <Loader2 className="h-10 w-10 animate-spin text-primary" />
-      <div className="font-headline font-bold text-xl text-slate-900 tracking-tight uppercase">Initializing R&DServices Ops...</div>
+      <Loader2 className="h-8 w-8 animate-spin text-primary" />
+      <div className="font-headline font-bold text-lg text-slate-900 tracking-tight uppercase">Initializing R&DServices Ops...</div>
     </div>
   );
 
@@ -297,23 +299,23 @@ export default function AdminDashboard() {
           <div className="absolute bottom-[-10%] right-[-10%] w-[30%] h-[30%] bg-blue-400 blur-[100px] rounded-full" />
         </div>
         
-        <Card className="w-full max-w-md border-none shadow-2xl rounded-[40px] overflow-hidden bg-white z-10">
-          <div className="bg-primary p-12 text-center text-white relative">
-            <ShieldCheck className="h-12 w-12 mx-auto mb-4" />
-            <h2 className="text-2xl font-headline font-bold uppercase tracking-tight">R&DServices Ops</h2>
-            <p className="text-blue-100/60 text-[10px] uppercase tracking-widest font-bold mt-2">Central Authority System</p>
+        <Card className="w-full max-w-sm border-none shadow-2xl rounded-[32px] overflow-hidden bg-white z-10">
+          <div className="bg-primary p-8 text-center text-white relative">
+            <ShieldCheck className="h-10 w-10 mx-auto mb-3" />
+            <h2 className="text-xl font-headline font-bold uppercase tracking-tight">R&DServices Ops</h2>
+            <p className="text-blue-100/60 text-[9px] uppercase tracking-widest font-bold mt-1">Central Authority System</p>
           </div>
-          <CardContent className="p-8 lg:p-10">
-            <form onSubmit={handleLogin} className="space-y-6">
-              <div className="space-y-1.5">
-                <label className="text-[10px] uppercase font-bold text-slate-400 tracking-widest ml-1">Admin Email</label>
-                <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" className="rounded-2xl h-14 bg-slate-50 border-none shadow-inner" />
+          <CardContent className="p-6 lg:p-8">
+            <form onSubmit={handleLogin} className="space-y-4">
+              <div className="space-y-1">
+                <label className="text-[9px] uppercase font-bold text-slate-400 tracking-widest ml-1">Admin Email</label>
+                <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" className="rounded-xl h-12 bg-slate-50 border-none shadow-inner" />
               </div>
-              <div className="space-y-1.5">
-                <label className="text-[10px] uppercase font-bold text-slate-400 tracking-widest ml-1">Key Password</label>
-                <Input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" className="rounded-2xl h-14 bg-slate-50 border-none shadow-inner" />
+              <div className="space-y-1">
+                <label className="text-[9px] uppercase font-bold text-slate-400 tracking-widest ml-1">Key Password</label>
+                <Input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" className="rounded-xl h-12 bg-slate-50 border-none shadow-inner" />
               </div>
-              <Button type="submit" className="w-full h-16 rounded-2xl font-bold shadow-xl shadow-primary/20 text-lg transition-all active:scale-95">Authenticate</Button>
+              <Button type="submit" className="w-full h-14 rounded-xl font-bold shadow-xl shadow-primary/20 text-md transition-all active:scale-95">Authenticate</Button>
             </form>
           </CardContent>
         </Card>
@@ -323,167 +325,204 @@ export default function AdminDashboard() {
 
   const navigationItems = [
     { id: "media", icon: GalleryVertical, label: "Brand Assets" },
+    { id: "settings", icon: Settings2, label: "Firm Architecture" },
     { id: "hero", icon: Rocket, label: "Landing Experience" },
-    { id: "summary", icon: Layout, label: "Firm Architecture" },
+    { id: "summary", icon: Layout, label: "Firm Summary" },
     { id: "leadership", icon: Users, label: "Authority Profiles" },
     { id: "services", icon: Zap, label: "Service Hub" },
     { id: "pricing", icon: DollarSign, label: "Revenue Plans" },
     { id: "testimonials", icon: Star, label: "Social Proof" },
     { id: "faqs", icon: HelpCircle, label: "Support Desk" },
     { id: "blog", icon: Newspaper, label: "Academic Hub" },
-    { id: "settings", icon: Settings, label: "Control Center" }
+    { id: "control", icon: Settings, label: "Control Center" }
   ];
 
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col lg:flex-row relative">
       <input type="file" ref={fileInputRef} className="hidden" accept="image/*" onChange={(e) => handleFileChange(e, currentEditingPath || '')} />
       
-      {/* Improved Sidebar */}
+      {/* Sidebar Responsive */}
       <aside className={cn(
-        "fixed inset-0 z-[100] bg-[#0a0f1c] text-white flex flex-col transition-transform duration-500 lg:relative lg:translate-x-0 lg:w-80 border-r border-white/5",
+        "fixed inset-0 z-[100] bg-[#0a0f1c] text-white flex flex-col transition-transform duration-500 lg:relative lg:translate-x-0 lg:w-64 border-r border-white/5",
         isMenuOpen ? "translate-x-0" : "-translate-x-full"
       )}>
-        <div className="p-10 border-b border-white/5">
-          <div className="flex justify-between items-center mb-6">
-            <h1 className="text-2xl font-headline font-bold tracking-tight">R&DServices</h1>
+        <div className="p-6 border-b border-white/5">
+          <div className="flex justify-between items-center mb-4">
+            <h1 className="text-lg font-headline font-bold tracking-tight">R&DServices</h1>
             <Button variant="ghost" size="icon" className="lg:hidden text-slate-400" onClick={() => setIsMenuOpen(false)}>
-              <X className="h-6 w-6" />
+              <X className="h-5 w-5" />
             </Button>
           </div>
-          <div className="text-[10px] uppercase tracking-[0.3em] font-bold text-primary/80">Operations Dashboard</div>
+          <div className="text-[9px] uppercase tracking-[0.2em] font-bold text-primary/80">Operations Dashboard</div>
         </div>
         
-        <div className="flex-grow overflow-y-auto p-6 space-y-1.5 custom-scrollbar">
+        <div className="flex-grow overflow-y-auto p-4 space-y-1 custom-scrollbar">
           {navigationItems.map((item) => (
             <div 
               key={item.id}
               onClick={() => { setActiveTab(item.id); setIsMenuOpen(false); }}
               className={cn(
-                "p-4 rounded-2xl cursor-pointer flex gap-4 items-center transition-all group",
+                "p-3 rounded-xl cursor-pointer flex gap-3 items-center transition-all group",
                 activeTab === item.id 
-                  ? "bg-primary text-white shadow-xl shadow-primary/10" 
+                  ? "bg-primary text-white shadow-lg shadow-primary/10" 
                   : "text-slate-400 hover:text-white hover:bg-white/5"
               )}
             >
-              <item.icon className={cn("h-5 w-5 transition-transform group-hover:scale-110", activeTab === item.id ? "text-white" : "text-slate-500")} /> 
-              <span className="font-bold text-sm tracking-tight">{item.label}</span>
-              {activeTab === item.id && <ChevronRight className="h-4 w-4 ml-auto opacity-40" />}
+              <item.icon className={cn("h-4 w-4 transition-transform group-hover:scale-110", activeTab === item.id ? "text-white" : "text-slate-500")} /> 
+              <span className="font-bold text-xs tracking-tight">{item.label}</span>
+              {activeTab === item.id && <ChevronRight className="h-3 w-3 ml-auto opacity-40" />}
             </div>
           ))}
         </div>
 
-        <div className="p-6 mt-auto space-y-4">
-          <Link href="/" target="_blank" className="flex items-center gap-3 p-4 rounded-2xl bg-white/5 text-slate-300 hover:text-white transition-colors">
-            <ExternalLink className="h-4 w-4" />
-            <span className="text-xs font-bold">View Live Site</span>
+        <div className="p-4 mt-auto space-y-2">
+          <Link href="/" target="_blank" className="flex items-center gap-2 p-3 rounded-xl bg-white/5 text-slate-300 hover:text-white transition-colors">
+            <ExternalLink className="h-3 w-3" />
+            <span className="text-[10px] font-bold">View Live Site</span>
           </Link>
-          <div className="pt-6 border-t border-white/5">
-            <Button variant="ghost" className="w-full justify-start text-slate-500 hover:text-white hover:bg-red-500/10 hover:text-red-400 rounded-2xl p-4" onClick={handleLogout}>
-              <LogOut className="h-5 w-5 mr-3" /> <span className="font-bold text-sm">Sign Out</span>
+          <div className="pt-4 border-t border-white/5">
+            <Button variant="ghost" className="w-full justify-start text-slate-500 hover:text-white hover:bg-red-500/10 hover:text-red-400 rounded-xl p-3" onClick={handleLogout}>
+              <LogOut className="h-4 w-4 mr-2" /> <span className="font-bold text-xs">Sign Out</span>
             </Button>
           </div>
         </div>
       </aside>
 
       {/* Main Content Area */}
-      <main className="flex-grow p-6 md:p-12 lg:p-16 overflow-auto relative">
-        <header className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-12 gap-6">
-          <div className="flex items-center gap-4">
+      <main className="flex-grow p-4 md:p-8 lg:p-12 overflow-auto relative">
+        <header className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
+          <div className="flex items-center gap-3">
             <Button variant="ghost" size="icon" className="lg:hidden bg-white shadow-sm" onClick={() => setIsMenuOpen(true)}>
-              <Menu className="h-6 w-6" />
+              <Menu className="h-5 w-5" />
             </Button>
-            <div className="space-y-1">
-              <h2 className="text-3xl lg:text-4xl font-headline font-bold text-slate-900 uppercase tracking-tight">
+            <div className="space-y-0.5">
+              <h2 className="text-xl lg:text-2xl font-headline font-bold text-slate-900 uppercase tracking-tight">
                 {activeTab.replace(/([A-Z])/g, ' $1').trim()}
               </h2>
-              <p className="text-sm text-slate-400 font-medium italic">Managing Scholarly Content Resources</p>
+              <p className="text-[10px] text-slate-400 font-medium italic">Scholarly Content Management</p>
             </div>
           </div>
-          <Button disabled={isSyncing} onClick={saveToSite} className="bg-primary hover:bg-blue-600 rounded-2xl font-bold shadow-2xl shadow-primary/20 px-10 h-16 flex gap-3 w-full sm:w-auto text-lg transition-all active:scale-95">
-            {isSyncing ? <Loader2 className="h-5 w-5 animate-spin" /> : <Save className="h-5 w-5" />}
-            {isSyncing ? "Saving Changes..." : "Push Live"}
+          <Button disabled={isSyncing} onClick={saveToSite} className="bg-primary hover:bg-blue-600 rounded-xl font-bold shadow-xl shadow-primary/20 px-6 h-12 flex gap-2 w-full sm:w-auto text-sm transition-all active:scale-95">
+            {isSyncing ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
+            {isSyncing ? "Saving..." : "Push Live"}
           </Button>
         </header>
 
-        <Tabs value={activeTab} className="space-y-12">
+        <Tabs value={activeTab} className="space-y-8">
           {/* Media Hub */}
           <TabsContent value="media">
-             <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-              <Card className="p-8 space-y-6 border-none shadow-[0_20px_50px_-15px_rgba(0,0,0,0.05)] rounded-[40px] bg-white group">
+             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <Card className="p-4 space-y-4 border-none shadow-sm rounded-3xl bg-white group">
                 <div className="flex items-center justify-between">
-                  <h3 className="text-xl font-bold text-slate-900">Brand Logo</h3>
-                  <div className="p-2 bg-slate-50 rounded-xl text-slate-400"><ImageIcon className="h-5 w-5" /></div>
+                  <h3 className="text-sm font-bold text-slate-900">Brand Identity (Logo)</h3>
+                  <div className="p-1.5 bg-slate-50 rounded-lg text-slate-400"><ImageIcon className="h-4 w-4" /></div>
                 </div>
-                <div className="relative h-48 w-full bg-slate-50 rounded-[30px] flex items-center justify-center border-2 border-dashed border-slate-100 group-hover:border-primary/20 transition-colors">
+                <div className="relative h-32 w-full bg-slate-50 rounded-2xl flex items-center justify-center border-2 border-dashed border-slate-100 group-hover:border-primary/20 transition-colors">
                   {localSiteData?.brand?.logo ? (
-                    <Image src={localSiteData.brand.logo} alt="Logo" fill className="object-contain p-8" unoptimized />
+                    <Image src={localSiteData.brand.logo} alt="Logo" fill className="object-contain p-4" unoptimized />
                   ) : (
-                    <div className="flex flex-col items-center gap-2 opacity-30">
-                      <ImageIcon className="h-10 w-10" />
-                      <span className="text-[10px] font-bold uppercase tracking-widest">No Logo Set</span>
+                    <div className="flex flex-col items-center gap-1 opacity-20">
+                      <ImageIcon className="h-8 w-8" />
+                      <span className="text-[9px] font-bold uppercase tracking-widest">No Logo Set</span>
                     </div>
                   )}
                 </div>
-                <Button variant="outline" className="w-full h-14 rounded-2xl border-slate-100 hover:border-primary hover:text-primary font-bold" onClick={() => { setCurrentEditingPath(`brand.logo`); fileInputRef.current?.click(); }}>Replace Brand Identity</Button>
+                <Button variant="outline" className="w-full h-10 rounded-xl border-slate-100 hover:border-primary hover:text-primary font-bold text-xs" onClick={() => { setCurrentEditingPath(`brand.logo`); fileInputRef.current?.click(); }}>Replace Logo</Button>
               </Card>
-              <Card className="p-8 space-y-6 border-none shadow-[0_20px_50px_-15px_rgba(0,0,0,0.05)] rounded-[40px] bg-white group">
+              <Card className="p-4 space-y-4 border-none shadow-sm rounded-3xl bg-white group">
                 <div className="flex items-center justify-between">
-                  <h3 className="text-xl font-bold text-slate-900">Hero Canvas</h3>
-                  <div className="p-2 bg-slate-50 rounded-xl text-slate-400"><Layout className="h-5 w-5" /></div>
+                  <h3 className="text-sm font-bold text-slate-900">Hero Experience Visual</h3>
+                  <div className="p-1.5 bg-slate-50 rounded-lg text-slate-400"><Layout className="h-4 w-4" /></div>
                 </div>
-                <div className="relative h-48 w-full bg-slate-50 rounded-[30px] overflow-hidden border-2 border-dashed border-slate-100 group-hover:border-primary/20 transition-colors">
+                <div className="relative h-32 w-full bg-slate-50 rounded-2xl overflow-hidden border-2 border-dashed border-slate-100 group-hover:border-primary/20 transition-colors">
                   {localSiteData?.hero?.image ? (
                     <Image src={localSiteData.hero.image} alt="Hero" fill className="object-cover" unoptimized />
                   ) : (
-                    <div className="flex items-center justify-center h-full opacity-30"><ImageIcon className="h-10 w-10" /></div>
+                    <div className="flex items-center justify-center h-full opacity-20"><ImageIcon className="h-8 w-8" /></div>
                   )}
                 </div>
-                <Button variant="outline" className="w-full h-14 rounded-2xl border-slate-100 hover:border-primary hover:text-primary font-bold" onClick={() => { setCurrentEditingPath(`hero.image`); fileInputRef.current?.click(); }}>Change Background Visual</Button>
+                <Button variant="outline" className="w-full h-10 rounded-xl border-slate-100 hover:border-primary hover:text-primary font-bold text-xs" onClick={() => { setCurrentEditingPath(`hero.image`); fileInputRef.current?.click(); }}>Change Visual</Button>
               </Card>
              </div>
           </TabsContent>
 
-          {/* Hero & Stats */}
+          {/* Firm Architecture */}
+          <TabsContent value="settings">
+            <Card className="p-6 space-y-6 border-none shadow-sm rounded-3xl bg-white">
+               <h3 className="text-md font-headline font-bold text-slate-900 border-b border-slate-50 pb-3 flex items-center gap-2">
+                 <Globe className="h-4 w-4 text-primary" /> Header & Meta Settings
+               </h3>
+               <div className="grid md:grid-cols-2 gap-4">
+                 <div className="space-y-1">
+                    <label className="text-[9px] font-bold text-slate-400 uppercase tracking-widest ml-1">Platform Brand Title</label>
+                    <Input value={localSiteData?.brand?.name || "R&DServices"} onChange={(e) => setLocalSiteData({...localSiteData, brand: {...localSiteData.brand, name: e.target.value}})} className="rounded-xl h-10 bg-slate-50 border-none shadow-inner text-sm" />
+                 </div>
+                 <div className="space-y-1">
+                    <label className="text-[9px] font-bold text-slate-400 uppercase tracking-widest ml-1">Scholarly Tagline</label>
+                    <Input value={localSiteData?.brand?.tagline || "Academic Manuscript Solutions"} onChange={(e) => setLocalSiteData({...localSiteData, brand: {...localSiteData.brand, tagline: e.target.value}})} className="rounded-xl h-10 bg-slate-50 border-none shadow-inner text-sm" />
+                 </div>
+               </div>
+               
+               <h3 className="text-md font-headline font-bold text-slate-900 border-b border-slate-50 pb-3 flex items-center gap-2 pt-4">
+                 <Layout className="h-4 w-4 text-primary" /> Footer Infrastructure
+               </h3>
+               <div className="space-y-4">
+                 <div className="space-y-1">
+                    <label className="text-[9px] font-bold text-slate-400 uppercase tracking-widest ml-1">Footer Narrative</label>
+                    <Textarea value={localSiteData?.brand?.footerDesc || ""} onChange={(e) => setLocalSiteData({...localSiteData, brand: {...localSiteData.brand, footerDesc: e.target.value}})} className="rounded-xl min-h-[80px] bg-slate-50 border-none shadow-inner p-3 text-sm" />
+                 </div>
+                 <div className="grid md:grid-cols-2 gap-4">
+                    <div className="space-y-1">
+                       <label className="text-[9px] font-bold text-slate-400 uppercase tracking-widest ml-1">Official Support Email</label>
+                       <Input value={localSiteData?.brand?.email || ""} onChange={(e) => setLocalSiteData({...localSiteData, brand: {...localSiteData.brand, email: e.target.value}})} className="rounded-xl h-10 bg-slate-50 border-none shadow-inner text-sm" />
+                    </div>
+                    <div className="space-y-1">
+                       <label className="text-[9px] font-bold text-slate-400 uppercase tracking-widest ml-1">Copyright Holder</label>
+                       <Input value={localSiteData?.brand?.copyright || ""} onChange={(e) => setLocalSiteData({...localSiteData, brand: {...localSiteData.brand, copyright: e.target.value}})} className="rounded-xl h-10 bg-slate-50 border-none shadow-inner text-sm" />
+                    </div>
+                 </div>
+               </div>
+            </Card>
+          </TabsContent>
+
+          {/* Hero Experience */}
           <TabsContent value="hero">
-            <Card className="p-10 space-y-8 border-none shadow-[0_20px_50px_-15px_rgba(0,0,0,0.05)] rounded-[40px] bg-white">
-              <div className="grid md:grid-cols-2 gap-8">
-                <div className="space-y-2">
-                  <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Elite Badge</label>
-                  <Input value={localSiteData?.hero?.badge} onChange={(e) => setLocalSiteData({...localSiteData, hero: {...localSiteData.hero, badge: e.target.value}})} placeholder="e.g. Premier Research Excellence" className="rounded-2xl h-14 bg-slate-50 border-none shadow-inner" />
+            <Card className="p-6 space-y-6 border-none shadow-sm rounded-3xl bg-white">
+              <div className="grid md:grid-cols-2 gap-4">
+                <div className="space-y-1">
+                  <label className="text-[9px] font-bold text-slate-400 uppercase tracking-widest ml-1">Elite Badge Label</label>
+                  <Input value={localSiteData?.hero?.badge} onChange={(e) => setLocalSiteData({...localSiteData, hero: {...localSiteData.hero, badge: e.target.value}})} className="rounded-xl h-10 bg-slate-50 border-none shadow-inner text-sm" />
                 </div>
-                <div className="space-y-2">
-                  <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Headline Title</label>
-                  <Input value={localSiteData?.hero?.title} onChange={(e) => setLocalSiteData({...localSiteData, hero: {...localSiteData.hero, title: e.target.value}})} placeholder="Hero Title" className="rounded-2xl h-14 bg-slate-50 border-none shadow-inner" />
+                <div className="space-y-1">
+                  <label className="text-[9px] font-bold text-slate-400 uppercase tracking-widest ml-1">Main Experience Headline</label>
+                  <Input value={localSiteData?.hero?.title} onChange={(e) => setLocalSiteData({...localSiteData, hero: {...localSiteData.hero, title: e.target.value}})} className="rounded-xl h-10 bg-slate-50 border-none shadow-inner text-sm" />
                 </div>
               </div>
-              <div className="space-y-2">
-                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Value Proposition (Subtitle)</label>
-                <Textarea value={localSiteData?.hero?.subtitle} onChange={(e) => setLocalSiteData({...localSiteData, hero: {...localSiteData.hero, subtitle: e.target.value}})} placeholder="Detailed value proposition..." className="rounded-2xl min-h-[140px] bg-slate-50 border-none shadow-inner p-6" />
+              <div className="space-y-1">
+                <label className="text-[9px] font-bold text-slate-400 uppercase tracking-widest ml-1">Scholarly Value Prop</label>
+                <Textarea value={localSiteData?.hero?.subtitle} onChange={(e) => setLocalSiteData({...localSiteData, hero: {...localSiteData.hero, subtitle: e.target.value}})} className="rounded-xl min-h-[100px] bg-slate-50 border-none shadow-inner p-3 text-sm" />
               </div>
               
-              <div className="pt-10 border-t border-slate-50">
-                <div className="flex items-center gap-3 mb-8">
-                  <h4 className="font-bold text-xl text-slate-900">Performance Metrics</h4>
-                  <div className="h-1.5 w-1.5 rounded-full bg-primary" />
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="pt-6 border-t border-slate-50">
+                <h4 className="font-bold text-sm text-slate-900 mb-4">Performance Metrics</h4>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   {localSiteData?.hero?.stats?.map((stat: any, i: number) => (
-                    <div key={i} className="p-8 bg-slate-50 rounded-[30px] space-y-4 shadow-inner relative group">
-                      <div className="space-y-1.5">
-                        <label className="text-[9px] uppercase font-bold text-slate-300 tracking-widest">Label</label>
+                    <div key={i} className="p-4 bg-slate-50 rounded-2xl space-y-3 shadow-inner">
+                      <div className="space-y-1">
+                        <label className="text-[8px] uppercase font-bold text-slate-300 tracking-widest">Metric Label</label>
                         <Input value={stat.label} onChange={(e) => {
                           const newStats = [...localSiteData.hero.stats];
                           newStats[i].label = e.target.value;
                           setLocalSiteData({...localSiteData, hero: {...localSiteData.hero, stats: newStats}});
-                        }} className="h-12 bg-white rounded-xl font-medium border-none shadow-sm" />
+                        }} className="h-9 bg-white rounded-lg text-xs font-medium border-none" />
                       </div>
-                      <div className="space-y-1.5">
-                        <label className="text-[9px] uppercase font-bold text-slate-300 tracking-widest">Impact Value</label>
+                      <div className="space-y-1">
+                        <label className="text-[8px] uppercase font-bold text-slate-300 tracking-widest">Scholarly Value</label>
                         <Input value={stat.value} onChange={(e) => {
                           const newStats = [...localSiteData.hero.stats];
                           newStats[i].value = e.target.value;
                           setLocalSiteData({...localSiteData, hero: {...localSiteData.hero, stats: newStats}});
-                        }} className="h-12 bg-white rounded-xl font-bold border-none shadow-sm text-primary" />
+                        }} className="h-9 bg-white rounded-lg text-xs font-bold border-none text-primary" />
                       </div>
                     </div>
                   ))}
@@ -494,311 +533,271 @@ export default function AdminDashboard() {
 
           {/* Firm Summary */}
           <TabsContent value="summary">
-            <Card className="p-10 space-y-10 border-none shadow-[0_20px_50px_-15px_rgba(0,0,0,0.05)] rounded-[40px] bg-white">
-              <div className="space-y-2">
-                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Section Title</label>
-                <Input value={localSiteData?.firmSummary?.title} onChange={(e) => setLocalSiteData({...localSiteData, firmSummary: {...localSiteData.firmSummary, title: e.target.value}})} className="rounded-2xl h-14 bg-slate-50 border-none shadow-inner" />
+            <Card className="p-6 space-y-6 border-none shadow-sm rounded-3xl bg-white">
+              <div className="space-y-1">
+                <label className="text-[9px] font-bold text-slate-400 uppercase tracking-widest ml-1">Section Narrative Title</label>
+                <Input value={localSiteData?.firmSummary?.title} onChange={(e) => setLocalSiteData({...localSiteData, firmSummary: {...localSiteData.firmSummary, title: e.target.value}})} className="rounded-xl h-10 bg-slate-50 border-none shadow-inner text-sm" />
               </div>
-              <div className="space-y-2">
-                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Firm Narrative</label>
-                <Textarea value={localSiteData?.firmSummary?.description} onChange={(e) => setLocalSiteData({...localSiteData, firmSummary: {...localSiteData.firmSummary, description: e.target.value}})} className="rounded-2xl min-h-[200px] bg-slate-50 border-none shadow-inner p-8 text-lg font-light leading-relaxed" />
+              <div className="space-y-1">
+                <label className="text-[9px] font-bold text-slate-400 uppercase tracking-widest ml-1">Firm Global Narrative</label>
+                <Textarea value={localSiteData?.firmSummary?.description} onChange={(e) => setLocalSiteData({...localSiteData, firmSummary: {...localSiteData.firmSummary, description: e.target.value}})} className="rounded-xl min-h-[120px] bg-slate-50 border-none shadow-inner p-4 text-sm font-light leading-relaxed" />
               </div>
-              <div className="space-y-4">
-                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Legacy Visual</label>
-                <div className="relative h-64 w-full bg-slate-50 rounded-[40px] overflow-hidden border-2 border-dashed border-slate-100 group">
+              <div className="space-y-3">
+                <label className="text-[9px] font-bold text-slate-400 uppercase tracking-widest ml-1">Experience Visual</label>
+                <div className="relative h-40 w-full bg-slate-50 rounded-2xl overflow-hidden border-2 border-dashed border-slate-100 group">
                   {localSiteData?.firmSummary?.image ? (
                     <Image src={localSiteData.firmSummary.image} alt="Summary" fill className="object-cover transition-transform group-hover:scale-105" unoptimized />
                   ) : (
-                    <div className="flex items-center justify-center h-full opacity-30"><ImageIcon className="h-12 w-12" /></div>
+                    <div className="flex items-center justify-center h-full opacity-20"><ImageIcon className="h-8 w-8" /></div>
                   )}
                 </div>
-                <Button variant="outline" className="w-full h-14 rounded-2xl border-slate-100 hover:border-primary hover:text-primary font-bold" onClick={() => { setCurrentEditingPath(`firmSummary.image`); fileInputRef.current?.click(); }}>Change Summary Visual</Button>
+                <Button variant="outline" className="w-full h-10 rounded-xl border-slate-100 hover:border-primary hover:text-primary font-bold text-xs" onClick={() => { setCurrentEditingPath(`firmSummary.image`); fileInputRef.current?.click(); }}>Replace Summary Image</Button>
               </div>
             </Card>
           </TabsContent>
 
           {/* Authority Profiles */}
           <TabsContent value="leadership">
-            <div className="grid md:grid-cols-2 gap-10">
-              <Card className="p-10 space-y-8 border-none shadow-[0_20px_50px_-15px_rgba(0,0,0,0.05)] rounded-[40px] bg-white">
-                <h3 className="text-2xl font-headline font-bold text-slate-900 border-b border-slate-50 pb-6">Founder & Director</h3>
-                <div className="flex flex-col items-center gap-6">
-                  <div className="relative h-56 w-56 bg-slate-50 rounded-full overflow-hidden border-[8px] border-white shadow-2xl">
+            <div className="grid md:grid-cols-2 gap-6">
+              <Card className="p-6 space-y-6 border-none shadow-sm rounded-3xl bg-white">
+                <h3 className="text-md font-headline font-bold text-slate-900 border-b border-slate-50 pb-3">Founder & Director</h3>
+                <div className="flex flex-col items-center gap-4">
+                  <div className="relative h-32 w-32 bg-slate-50 rounded-full overflow-hidden border-4 border-white shadow-lg">
                     {localSiteData?.leadership?.founder?.image ? (
                       <Image src={localSiteData.leadership.founder.image} alt="Founder" fill className="object-cover" unoptimized />
                     ) : (
-                      <div className="flex items-center justify-center h-full text-slate-200"><UserCircle className="h-20 w-20" /></div>
+                      <div className="flex items-center justify-center h-full text-slate-200"><UserCircle className="h-12 w-12" /></div>
                     )}
                   </div>
-                  <Button variant="ghost" size="sm" className="text-primary font-bold hover:bg-primary/5" onClick={() => { setCurrentEditingPath(`leadership.founder.image`); fileInputRef.current?.click(); }}>Replace Portrait</Button>
+                  <Button variant="ghost" size="sm" className="text-primary font-bold hover:bg-primary/5 text-[10px]" onClick={() => { setCurrentEditingPath(`leadership.founder.image`); fileInputRef.current?.click(); }}>Update Portrait</Button>
                 </div>
-                <div className="space-y-4">
-                  <Input value={localSiteData?.leadership?.founder?.name} onChange={(e) => setLocalSiteData({...localSiteData, leadership: {...localSiteData.leadership, founder: {...localSiteData.leadership.founder, name: e.target.value}}})} placeholder="Full Scholarly Name" className="rounded-2xl h-14 bg-slate-50 border-none shadow-inner text-center font-bold" />
-                  <Input value={localSiteData?.leadership?.founder?.role} onChange={(e) => setLocalSiteData({...localSiteData, leadership: {...localSiteData.leadership, founder: {...localSiteData.leadership.founder, role: e.target.value}}})} placeholder="Designated Role" className="rounded-2xl h-12 bg-slate-50 border-none shadow-inner text-center text-slate-400" />
+                <div className="space-y-3">
+                  <Input value={localSiteData?.leadership?.founder?.name} onChange={(e) => setLocalSiteData({...localSiteData, leadership: {...localSiteData.leadership, founder: {...localSiteData.leadership.founder, name: e.target.value}}})} placeholder="Full Name" className="rounded-xl h-10 bg-slate-50 border-none shadow-inner text-center font-bold text-sm" />
+                  <Input value={localSiteData?.leadership?.founder?.role} onChange={(e) => setLocalSiteData({...localSiteData, leadership: {...localSiteData.leadership, founder: {...localSiteData.leadership.founder, role: e.target.value}}})} placeholder="Designated Role" className="rounded-xl h-9 bg-slate-50 border-none shadow-inner text-center text-slate-400 text-[10px]" />
                 </div>
               </Card>
 
-              <Card className="p-10 space-y-8 border-none shadow-[0_20px_50px_-15px_rgba(0,0,0,0.05)] rounded-[40px] bg-white bg-slate-50/30 border border-slate-100 border-dashed">
-                <h3 className="text-2xl font-headline font-bold text-slate-200 border-b border-white/5 pb-6">Co-Founder (Locked)</h3>
-                <div className="flex flex-col items-center justify-center h-full opacity-20 pointer-events-none grayscale">
-                  <UserCircle className="h-40 w-40 text-slate-200" />
-                  <p className="mt-4 font-bold uppercase tracking-widest text-[10px]">Placeholder Registry</p>
-                </div>
+              <Card className="p-6 border-none shadow-sm rounded-3xl bg-slate-50/30 border border-slate-100 border-dashed flex flex-col items-center justify-center">
+                 <h3 className="text-sm font-headline font-bold text-slate-300 mb-4">Secondary Registry (Locked)</h3>
+                 <UserCircle className="h-20 w-20 text-slate-200 opacity-20" />
               </Card>
             </div>
           </TabsContent>
 
           {/* Service Hub */}
           <TabsContent value="services">
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {localSiteData?.services?.map((s: any, i: number) => (
-                <Card key={i} className="p-8 space-y-6 border-none shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)] rounded-[40px] bg-white group hover:ring-2 hover:ring-primary/20 transition-all">
+                <Card key={i} className="p-4 space-y-4 border-none shadow-sm rounded-3xl bg-white group hover:ring-1 hover:ring-primary/20 transition-all">
                   <div className="flex justify-between items-center">
-                    <span className="bg-primary/10 text-primary px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest">Tier {i + 1}</span>
-                    <Button variant="ghost" size="icon" className="text-red-400 hover:text-red-600 hover:bg-red-50 rounded-xl" onClick={() => setDeleteConfirm({path: 'services', index: i})}><Trash2 className="h-4 w-4" /></Button>
+                    <span className="bg-primary/5 text-primary px-2 py-0.5 rounded-full text-[8px] font-bold uppercase tracking-widest">Tier {i + 1}</span>
+                    <Button variant="ghost" size="icon" className="text-red-400 hover:text-red-600 h-7 w-7 rounded-lg" onClick={() => setDeleteConfirm({path: 'services', index: i})}><Trash2 className="h-3.5 w-3.5" /></Button>
                   </div>
-                   <div className="relative h-40 w-full bg-slate-50 rounded-[24px] overflow-hidden mb-2 group">
+                   <div className="relative h-28 w-full bg-slate-50 rounded-xl overflow-hidden mb-1 group">
                     {s.image ? (
                       <Image src={s.image} alt={s.title} fill className="object-cover group-hover:scale-110 transition-transform duration-500" unoptimized />
                     ) : (
-                      <div className="flex items-center justify-center h-full opacity-20"><ImageIcon className="h-8 w-8" /></div>
+                      <div className="flex items-center justify-center h-full opacity-10"><ImageIcon className="h-6 w-6" /></div>
                     )}
                     <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                       <Button size="sm" className="bg-white text-primary hover:bg-white/90" onClick={() => { setCurrentEditingPath(`services.${i}.image`); fileInputRef.current?.click(); }}>Change Image</Button>
+                       <Button size="sm" className="bg-white text-primary hover:bg-white/90 text-[10px] h-7 px-3" onClick={() => { setCurrentEditingPath(`services.${i}.image`); fileInputRef.current?.click(); }}>Update Image</Button>
                     </div>
                   </div>
-                  <div className="space-y-4">
-                    <Input value={s.title} onChange={(e) => updateListItem('services', i, 'title', e.target.value)} className="rounded-xl font-bold border-none bg-slate-50 h-12 shadow-inner" placeholder="Service Title" />
-                    <Textarea value={s.description} onChange={(e) => updateListItem('services', i, 'description', e.target.value)} className="rounded-xl text-sm min-h-[120px] bg-slate-50 border-none shadow-inner p-4" placeholder="Detailed Service Scope" />
+                  <div className="space-y-3">
+                    <Input value={s.title} onChange={(e) => updateListItem('services', i, 'title', e.target.value)} className="rounded-lg font-bold border-none bg-slate-50 h-9 text-xs" />
+                    <Textarea value={s.description} onChange={(e) => updateListItem('services', i, 'description', e.target.value)} className="rounded-lg text-[10px] min-h-[60px] bg-slate-50 border-none p-2" />
                   </div>
                 </Card>
               ))}
-              <Button variant="outline" className="h-full min-h-[350px] border-2 border-dashed border-slate-100 rounded-[40px] flex flex-col gap-6 text-slate-300 hover:text-primary hover:border-primary/50 hover:bg-primary/[0.02] transition-all group" onClick={() => addItem('services', { title: "New Academic Service", description: "Comprehensive guidance for scholars...", features: ["Feature 1"], image: "" })}>
-                <div className="p-6 bg-slate-50 rounded-full group-hover:bg-primary/10 transition-colors"><Plus className="h-10 w-10" /></div>
-                <span className="font-bold uppercase tracking-widest text-xs">Register New Service</span>
+              <Button variant="outline" className="h-full min-h-[200px] border-2 border-dashed border-slate-100 rounded-3xl flex flex-col gap-3 text-slate-300 hover:text-primary hover:border-primary/50 transition-all" onClick={() => addItem('services', { title: "New Service", description: "Scholarly assistance details...", features: ["Feature 1"], image: "" })}>
+                <Plus className="h-6 w-6" />
+                <span className="font-bold uppercase tracking-widest text-[9px]">Add Service</span>
               </Button>
             </div>
           </TabsContent>
 
           {/* Pricing */}
           <TabsContent value="pricing">
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {localSiteData?.pricing?.map((p: any, i: number) => (
                 <Card key={i} className={cn(
-                  "p-8 space-y-6 border-none shadow-xl rounded-[40px] bg-white relative transition-all",
-                  p.highlight ? "ring-2 ring-primary" : ""
+                  "p-4 space-y-4 border-none shadow-sm rounded-3xl bg-white relative transition-all",
+                  p.highlight ? "ring-1 ring-primary" : ""
                 )}>
-                  {p.highlight && <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-primary text-white px-6 py-1.5 rounded-full text-[10px] font-bold tracking-[0.2em] uppercase shadow-lg">Featured Plan</div>}
-                  
-                  <div className="flex justify-between items-center gap-4">
-                    <Input value={p.name} onChange={(e) => updateListItem('pricing', i, 'name', e.target.value)} className="font-bold h-12 border-none bg-slate-50 rounded-2xl shadow-inner text-xl" />
-                    <Button variant="ghost" size="icon" className="text-red-400 hover:bg-red-50 rounded-xl shrink-0" onClick={() => setDeleteConfirm({path: 'pricing', index: i})}><Trash2 className="h-4 w-4" /></Button>
+                  <div className="flex justify-between items-center gap-2">
+                    <Input value={p.name} onChange={(e) => updateListItem('pricing', i, 'name', e.target.value)} className="font-bold h-9 border-none bg-slate-50 rounded-lg text-sm" />
+                    <Button variant="ghost" size="icon" className="text-red-400 hover:bg-red-50 h-7 w-7 rounded-lg shrink-0" onClick={() => setDeleteConfirm({path: 'pricing', index: i})}><Trash2 className="h-3.5 w-3.5" /></Button>
                   </div>
                   
-                  <div className="space-y-4">
-                    <div className="space-y-1.5">
-                      <label className="text-[9px] uppercase font-bold text-slate-300 tracking-widest ml-1">Plan Catchphrase</label>
-                      <Textarea value={p.description} onChange={(e) => updateListItem('pricing', i, 'description', e.target.value)} className="text-sm h-24 rounded-2xl bg-slate-50 border-none shadow-inner p-4" />
+                  <div className="space-y-3">
+                    <div className="space-y-0.5">
+                      <label className="text-[8px] uppercase font-bold text-slate-300 tracking-widest ml-1">Plan Catchphrase</label>
+                      <Textarea value={p.description} onChange={(e) => updateListItem('pricing', i, 'description', e.target.value)} className="text-[10px] h-16 rounded-lg bg-slate-50 border-none p-2" />
                     </div>
                     
-                    <div className="flex items-center gap-3 p-4 bg-slate-50 rounded-2xl border border-slate-100">
-                      <input type="checkbox" checked={p.highlight} onChange={(e) => updateListItem('pricing', i, 'highlight', e.target.checked)} className="h-5 w-5 rounded-lg border-slate-300 text-primary focus:ring-primary" id={`highlight-${i}`} />
-                      <label htmlFor={`highlight-${i}`} className="text-sm font-bold text-slate-600 cursor-pointer">Boost Visibility (Highlight)</label>
+                    <div className="flex items-center gap-2 p-2 bg-slate-50 rounded-xl border border-slate-100">
+                      <input type="checkbox" checked={p.highlight} onChange={(e) => updateListItem('pricing', i, 'highlight', e.target.checked)} className="h-3.5 w-3.5 rounded border-slate-300 text-primary" id={`highlight-${i}`} />
+                      <label htmlFor={`highlight-${i}`} className="text-[10px] font-bold text-slate-600 cursor-pointer">Featured Tier</label>
                     </div>
 
                     {p.highlight && (
-                      <div className="space-y-1.5 animate-in slide-in-from-top-2 duration-300">
-                        <label className="text-[9px] uppercase font-bold text-slate-300 tracking-widest ml-1">Popularity Badge</label>
-                        <Input value={p.badge} onChange={(e) => updateListItem('pricing', i, 'badge', e.target.value)} className="h-10 text-[10px] rounded-xl font-bold bg-primary/5 border-none shadow-inner text-primary uppercase" placeholder="e.g. MOST POPULAR" />
-                      </div>
+                      <Input value={p.badge} onChange={(e) => updateListItem('pricing', i, 'badge', e.target.value)} className="h-8 text-[9px] rounded-lg font-bold bg-primary/5 border-none text-primary uppercase" placeholder="MOST POPULAR" />
                     )}
                   </div>
                 </Card>
               ))}
-              <Button variant="outline" className="h-[400px] border-2 border-dashed border-slate-100 rounded-[40px] text-slate-300 hover:text-primary hover:bg-primary/[0.02] transition-all" onClick={() => addItem('pricing', { name: "New Strategy Plan", description: "Plan highlights...", features: ["Core Support"], highlight: false })}>
-                <Plus className="h-10 w-10" />
+              <Button variant="outline" className="h-[250px] border-2 border-dashed border-slate-100 rounded-3xl text-slate-300 hover:text-primary transition-all" onClick={() => addItem('pricing', { name: "New Plan", description: "Plan summary...", features: ["Basic Support"], highlight: false })}>
+                <Plus className="h-6 w-6" />
               </Button>
             </div>
           </TabsContent>
 
-          {/* Social Proof (Testimonials) */}
+          {/* Social Proof */}
           <TabsContent value="testimonials">
-            <div className="grid md:grid-cols-2 gap-10">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {localSiteData?.testimonials?.map((t: any, i: number) => (
-                <Card key={i} className="p-10 space-y-8 border-none shadow-[0_20px_50px_-15px_rgba(0,0,0,0.05)] rounded-[45px] bg-white group hover:shadow-2xl transition-all duration-500">
-                  <div className="flex items-center gap-6">
-                    <div className="relative h-24 w-24 rounded-full overflow-hidden bg-slate-50 border-4 border-white shadow-xl shrink-0 group">
+                <Card key={i} className="p-4 space-y-4 border-none shadow-sm rounded-3xl bg-white group hover:shadow-md transition-all">
+                  <div className="flex items-center gap-3">
+                    <div className="relative h-12 w-12 rounded-full overflow-hidden bg-slate-50 border-2 border-white shadow-sm shrink-0 group">
                       {t.image ? (
                         <Image src={t.image} alt={t.name} fill className="object-cover" unoptimized />
                       ) : (
-                        <div className="flex items-center justify-center h-full text-slate-200 bg-slate-50"><UserCircle className="h-14 w-14" /></div>
+                        <div className="flex items-center justify-center h-full text-slate-200 bg-slate-50"><UserCircle className="h-6 w-6" /></div>
                       )}
                       <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                        <Button size="icon" variant="ghost" className="text-white h-full w-full rounded-none" onClick={() => { setCurrentEditingPath(`testimonials.${i}.image`); fileInputRef.current?.click(); }}><ImageIcon className="h-5 w-5" /></Button>
+                        <Button size="icon" variant="ghost" className="text-white h-full w-full rounded-none" onClick={() => { setCurrentEditingPath(`testimonials.${i}.image`); fileInputRef.current?.click(); }}><ImageIcon className="h-3 w-3" /></Button>
                       </div>
                     </div>
-                    <div className="flex-grow space-y-3">
+                    <div className="flex-grow space-y-1">
                       <div className="flex justify-between items-start">
-                        <div className="space-y-1 w-full">
-                          <label className="text-[8px] uppercase font-bold text-slate-300 tracking-widest">Client Name</label>
-                          <Input value={t.name} onChange={(e) => updateListItem('testimonials', i, 'name', e.target.value)} className="h-12 font-bold rounded-xl border-none bg-slate-50 shadow-inner text-lg" />
-                        </div>
-                        <Button variant="ghost" size="icon" className="text-red-400 hover:bg-red-50 ml-2" onClick={() => setDeleteConfirm({path: 'testimonials', index: i})}><Trash2 className="h-4 w-4" /></Button>
+                        <Input value={t.name} onChange={(e) => updateListItem('testimonials', i, 'name', e.target.value)} className="h-8 font-bold rounded-lg border-none bg-slate-50 text-xs" />
+                        <Button variant="ghost" size="icon" className="text-red-400 hover:bg-red-50 h-7 w-7 rounded-lg ml-1" onClick={() => setDeleteConfirm({path: 'testimonials', index: i})}><Trash2 className="h-3.5 w-3.5" /></Button>
                       </div>
-                      <div className="space-y-1">
-                        <label className="text-[8px] uppercase font-bold text-slate-300 tracking-widest">Scholarly Role</label>
-                        <Input value={t.role} onChange={(e) => updateListItem('testimonials', i, 'role', e.target.value)} className="h-10 text-xs rounded-xl border-none bg-slate-50 shadow-inner text-slate-400" />
-                      </div>
+                      <Input value={t.role} onChange={(e) => updateListItem('testimonials', i, 'role', e.target.value)} className="h-7 text-[9px] rounded-lg border-none bg-slate-50 text-slate-400" />
                     </div>
                   </div>
-                  <div className="space-y-2">
-                    <label className="text-[9px] uppercase font-bold text-slate-400 tracking-widest ml-1">Scholarly Narrative</label>
-                    <Textarea value={t.content} onChange={(e) => updateListItem('testimonials', i, 'content', e.target.value)} className="min-h-[140px] text-base font-light italic text-slate-600 rounded-[24px] bg-slate-50 border-none shadow-inner p-6 leading-relaxed" />
-                  </div>
-                  <div className="flex items-center gap-4 p-4 bg-slate-50 rounded-2xl border border-slate-100">
-                    <Star className="h-5 w-5 text-primary fill-primary" />
-                    <span className="text-sm font-bold text-slate-900 uppercase tracking-widest">Client Rating (1-5)</span>
-                    <Input type="number" min="1" max="5" value={t.stars} onChange={(e) => updateListItem('testimonials', i, 'stars', parseInt(e.target.value))} className="h-12 w-24 rounded-xl border-none bg-white shadow-sm text-center font-bold text-primary text-xl" />
+                  <Textarea value={t.content} onChange={(e) => updateListItem('testimonials', i, 'content', e.target.value)} className="min-h-[80px] text-[11px] font-light italic text-slate-600 rounded-xl bg-slate-50 border-none p-3" />
+                  <div className="flex items-center gap-2 px-2">
+                    <Star className="h-3 w-3 text-primary fill-primary" />
+                    <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Rating (1-5)</span>
+                    <Input type="number" min="1" max="5" value={t.stars} onChange={(e) => updateListItem('testimonials', i, 'stars', parseInt(e.target.value))} className="h-8 w-12 rounded-lg border-none bg-slate-50 text-center font-bold text-primary text-xs" />
                   </div>
                 </Card>
               ))}
-              <Button variant="outline" className="border-2 border-dashed border-slate-100 rounded-[45px] h-full min-h-[400px] text-slate-300 hover:text-primary hover:bg-primary/[0.02] transition-all" onClick={() => addItem('testimonials', { name: "Client Identity", role: "Academic Scholar", content: "The scholarly support was...", stars: 5, image: "" })}>
-                <Plus className="h-12 w-12" />
+              <Button variant="outline" className="border-2 border-dashed border-slate-100 rounded-3xl h-[180px] text-slate-300 hover:text-primary transition-all" onClick={() => addItem('testimonials', { name: "Client Name", role: "Scholar", content: "Service was...", stars: 5, image: "" })}>
+                <Plus className="h-8 w-8" />
               </Button>
             </div>
           </TabsContent>
 
-          {/* Support Desk (FAQs) */}
+          {/* FAQs */}
           <TabsContent value="faqs">
-            <div className="space-y-6 max-w-5xl mx-auto">
+            <div className="space-y-4">
               {localSiteData?.faqs?.map((f: any, i: number) => (
-                <Card key={i} className="p-8 space-y-6 border-none shadow-lg rounded-[30px] bg-white group hover:shadow-2xl transition-all relative">
-                  <div className="flex justify-between items-start gap-6">
-                    <div className="bg-slate-50 p-4 rounded-2xl w-full shadow-inner flex items-center gap-4">
-                      <div className="h-8 w-8 bg-primary rounded-xl flex items-center justify-center text-white font-bold text-xs shrink-0">Q</div>
-                      <Input value={f.question} onChange={(e) => updateListItem('faqs', i, 'question', e.target.value)} className="font-bold border-none bg-transparent shadow-none p-0 h-auto text-lg focus-visible:ring-0" placeholder="Question Title" />
+                <Card key={i} className="p-4 space-y-3 border-none shadow-sm rounded-2xl bg-white relative">
+                  <div className="flex justify-between items-start gap-3">
+                    <div className="bg-slate-50 p-2 rounded-xl w-full flex items-center gap-2">
+                      <div className="h-6 w-6 bg-primary rounded-lg flex items-center justify-center text-white font-bold text-[8px] shrink-0">Q</div>
+                      <Input value={f.question} onChange={(e) => updateListItem('faqs', i, 'question', e.target.value)} className="font-bold border-none bg-transparent shadow-none p-0 h-6 text-sm focus-visible:ring-0" />
                     </div>
-                    <Button variant="ghost" size="icon" className="text-red-400 hover:bg-red-50 rounded-xl shrink-0 mt-2" onClick={() => setDeleteConfirm({path: 'faqs', index: i})}><Trash2 className="h-5 w-5" /></Button>
+                    <Button variant="ghost" size="icon" className="text-red-400 hover:bg-red-50 h-7 w-7 rounded-lg shrink-0" onClick={() => setDeleteConfirm({path: 'faqs', index: i})}><Trash2 className="h-3.5 w-3.5" /></Button>
                   </div>
-                  <div className="bg-slate-50/50 p-6 rounded-2xl border border-slate-100 flex gap-4">
-                     <div className="h-8 w-8 bg-slate-200 rounded-xl flex items-center justify-center text-slate-500 font-bold text-xs shrink-0">A</div>
-                     <Textarea value={f.answer} onChange={(e) => updateListItem('faqs', i, 'answer', e.target.value)} className="rounded-none bg-transparent border-none shadow-none h-auto min-h-[100px] text-slate-600 focus-visible:ring-0 p-0 leading-relaxed" placeholder="Detailed Scholarly Response" />
+                  <div className="bg-slate-50/50 p-3 rounded-xl border border-slate-100 flex gap-2">
+                     <div className="h-6 w-6 bg-slate-200 rounded-lg flex items-center justify-center text-slate-500 font-bold text-[8px] shrink-0">A</div>
+                     <Textarea value={f.answer} onChange={(e) => updateListItem('faqs', i, 'answer', e.target.value)} className="rounded-none bg-transparent border-none shadow-none h-auto min-h-[60px] text-xs text-slate-600 focus-visible:ring-0 p-0" />
                   </div>
                 </Card>
               ))}
-              <Button variant="outline" className="w-full py-12 border-2 border-dashed border-slate-100 rounded-[30px] text-slate-300 hover:text-primary hover:bg-primary/[0.02] transition-all font-bold uppercase tracking-[0.2em] text-xs" onClick={() => addItem('faqs', { question: "New Scholarly Inquiry?", answer: "Comprehensive response details..." })}>
-                <Plus className="h-6 w-6 mr-3" /> Add Support Resource
+              <Button variant="outline" className="w-full py-6 border-2 border-dashed border-slate-100 rounded-2xl text-slate-300 hover:text-primary transition-all font-bold uppercase tracking-widest text-[9px]" onClick={() => addItem('faqs', { question: "New Question?", answer: "Scholarly response..." })}>
+                Add Support Resource
               </Button>
             </div>
           </TabsContent>
 
-          {/* Academic Hub (Blog) */}
+          {/* Blog Management */}
           <TabsContent value="blog">
-             <Card className="p-10 space-y-8 border-none shadow-xl rounded-[40px] bg-white mb-12">
-               <h3 className="text-2xl font-headline font-bold text-slate-900 border-b border-slate-50 pb-6 flex items-center gap-3">
-                 <Newspaper className="h-6 w-6 text-primary" /> Hub Configuration
+             <Card className="p-6 space-y-4 border-none shadow-sm rounded-3xl bg-white mb-6">
+               <h3 className="text-md font-headline font-bold text-slate-900 border-b border-slate-50 pb-3 flex items-center gap-2">
+                 <Newspaper className="h-4 w-4 text-primary" /> Hub Branding
                </h3>
-               <div className="grid md:grid-cols-2 gap-10">
-                 <div className="space-y-2">
-                    <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Hub Identifier</label>
-                    <Input value={localSiteData?.blog?.title} onChange={(e) => setLocalSiteData({...localSiteData, blog: {...localSiteData.blog, title: e.target.value}})} className="rounded-2xl h-14 bg-slate-50 border-none shadow-inner font-bold text-lg" />
+               <div className="grid md:grid-cols-2 gap-4">
+                 <div className="space-y-1">
+                    <label className="text-[9px] font-bold text-slate-400 uppercase tracking-widest ml-1">Academic Hub Title</label>
+                    <Input value={localSiteData?.blog?.title} onChange={(e) => setLocalSiteData({...localSiteData, blog: {...localSiteData.blog, title: e.target.value}})} className="rounded-xl h-10 bg-slate-50 border-none shadow-inner font-bold text-sm" />
                  </div>
-                 <div className="space-y-2">
-                    <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Mission Tagline</label>
-                    <Input value={localSiteData?.blog?.subtitle} onChange={(e) => setLocalSiteData({...localSiteData, blog: {...localSiteData.blog, subtitle: e.target.value}})} className="rounded-2xl h-14 bg-slate-50 border-none shadow-inner" />
+                 <div className="space-y-1">
+                    <label className="text-[9px] font-bold text-slate-400 uppercase tracking-widest ml-1">Mission Tagline</label>
+                    <Input value={localSiteData?.blog?.subtitle} onChange={(e) => setLocalSiteData({...localSiteData, blog: {...localSiteData.blog, subtitle: e.target.value}})} className="rounded-xl h-10 bg-slate-50 border-none shadow-inner text-sm" />
                  </div>
                </div>
              </Card>
              
-             <div className="grid md:grid-cols-2 gap-10">
+             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                {localSiteData?.blog?.posts?.map((p: any, i: number) => (
-                 <Card key={i} className="p-10 space-y-8 border-none shadow-[0_20px_50px_-15px_rgba(0,0,0,0.05)] rounded-[45px] bg-white group hover:ring-2 hover:ring-primary/20 transition-all overflow-hidden">
-                    <div className="relative h-64 w-full bg-slate-50 rounded-[30px] overflow-hidden group">
+                 <Card key={i} className="p-4 space-y-4 border-none shadow-sm rounded-3xl bg-white group hover:ring-1 hover:ring-primary/20 transition-all overflow-hidden">
+                    <div className="relative h-32 w-full bg-slate-50 rounded-xl overflow-hidden group">
                       {p.image ? (
-                        <Image src={p.image} alt={p.title} fill className="object-cover group-hover:scale-105 transition-transform duration-700" unoptimized />
+                        <Image src={p.image} alt={p.title} fill className="object-cover" unoptimized />
                       ) : (
-                        <div className="flex items-center justify-center h-full opacity-20"><ImageIcon className="h-12 w-12" /></div>
+                        <div className="flex items-center justify-center h-full opacity-10"><ImageIcon className="h-8 w-8" /></div>
                       )}
                       <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                         <Button size="sm" className="bg-white text-primary rounded-xl font-bold" onClick={() => { setCurrentEditingPath(`blog.posts.${i}.image`); fileInputRef.current?.click(); }}>Replace Thumbnail</Button>
+                         <Button size="sm" className="bg-white text-primary rounded-lg font-bold text-[10px] h-7" onClick={() => { setCurrentEditingPath(`blog.posts.${i}.image`); fileInputRef.current?.click(); }}>Change Image</Button>
                       </div>
-                      <div className="absolute top-6 left-6">
-                        <span className="bg-primary text-white px-5 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest shadow-xl">{p.category}</span>
+                      <div className="absolute top-3 left-3">
+                        <span className="bg-primary text-white px-3 py-1 rounded-full text-[8px] font-bold uppercase tracking-widest shadow-lg">{p.category}</span>
                       </div>
                     </div>
                     
-                    <div className="space-y-6">
-                      <div className="flex justify-between items-start gap-4">
-                        <div className="w-full space-y-1">
-                           <label className="text-[8px] uppercase font-bold text-slate-300 tracking-widest">Scholarly Title</label>
-                           <Input value={p.title} onChange={(e) => updateListItem('blog.posts', i, 'title', e.target.value)} className="font-bold border-none bg-slate-50 rounded-2xl shadow-inner h-14 text-xl" />
-                        </div>
-                        <Button variant="ghost" size="icon" className="text-red-400 hover:bg-red-50 shrink-0 mt-6" onClick={() => setDeleteConfirm({path: 'blog.posts', index: i})}><Trash2 className="h-4 w-4" /></Button>
+                    <div className="space-y-3">
+                      <div className="flex justify-between items-start gap-2">
+                        <Input value={p.title} onChange={(e) => updateListItem('blog.posts', i, 'title', e.target.value)} className="font-bold border-none bg-slate-50 rounded-lg h-9 text-xs" />
+                        <Button variant="ghost" size="icon" className="text-red-400 hover:bg-red-50 h-7 w-7 rounded-lg shrink-0" onClick={() => setDeleteConfirm({path: 'blog.posts', index: i})}><Trash2 className="h-3.5 w-3.5" /></Button>
                       </div>
-                      
-                      <div className="space-y-1">
-                        <label className="text-[8px] uppercase font-bold text-slate-300 tracking-widest">Insight Excerpt</label>
-                        <Textarea value={p.excerpt} onChange={(e) => updateListItem('blog.posts', i, 'excerpt', e.target.value)} className="text-base font-light text-slate-600 h-32 rounded-2xl bg-slate-50 border-none shadow-inner p-6 leading-relaxed" />
-                      </div>
-                      
-                      <div className="grid grid-cols-2 gap-4 pt-4 border-t border-slate-50">
-                        <div className="space-y-1">
-                           <label className="text-[8px] uppercase font-bold text-slate-300 tracking-widest">Metadata: Category</label>
-                           <Input value={p.category} onChange={(e) => updateListItem('blog.posts', i, 'category', e.target.value)} className="h-12 text-[10px] rounded-xl bg-slate-50 border-none font-bold text-primary uppercase" />
-                        </div>
-                        <div className="space-y-1">
-                           <label className="text-[8px] uppercase font-bold text-slate-300 tracking-widest">Metadata: Publish Date</label>
-                           <Input value={p.date} onChange={(e) => updateListItem('blog.posts', i, 'date', e.target.value)} className="h-12 text-[10px] rounded-xl bg-slate-50 border-none font-bold text-slate-400" />
-                        </div>
-                      </div>
+                      <Textarea value={p.excerpt} onChange={(e) => updateListItem('blog.posts', i, 'excerpt', e.target.value)} className="text-[10px] h-16 rounded-lg bg-slate-50 border-none p-2" />
                     </div>
                  </Card>
                ))}
-               <Button variant="outline" className="h-full min-h-[500px] border-2 border-dashed border-slate-100 rounded-[45px] text-slate-300 hover:text-primary hover:bg-primary/[0.02] transition-all flex flex-col gap-6" onClick={() => addItem('blog.posts', { title: "Insightful Publication Title", excerpt: "Abstract summary of the scholarly insight...", author: "Academic Team", date: "May 15, 2025", image: "", category: "Research" })}>
-                 <div className="p-10 bg-slate-50 rounded-full"><Plus className="h-12 w-12" /></div>
-                 <span className="font-bold uppercase tracking-widest text-xs">New Academic Hub Publication</span>
+               <Button variant="outline" className="h-[200px] border-2 border-dashed border-slate-100 rounded-3xl text-slate-300 hover:text-primary transition-all flex flex-col gap-2" onClick={() => addItem('blog.posts', { title: "New Publication", excerpt: "Abstract summary...", author: "Academic Team", date: "May 15, 2025", image: "", category: "Research" })}>
+                 <Plus className="h-6 w-6" />
+                 <span className="font-bold uppercase tracking-widest text-[9px]">New Publication</span>
                </Button>
              </div>
           </TabsContent>
 
-          {/* Integration Hub */}
-          <TabsContent value="settings">
-            <Card className="p-10 space-y-12 border-none shadow-[0_20px_50px_-15px_rgba(0,0,0,0.05)] rounded-[45px] bg-white">
-              <div className="space-y-10">
-                <div className="flex items-center gap-4 border-b border-slate-50 pb-6">
-                  <div className="p-4 bg-[#25D366]/10 rounded-2xl text-[#25D366]"><MessageSquare className="h-8 w-8" /></div>
-                  <div className="space-y-1">
-                    <h3 className="text-2xl font-headline font-bold text-slate-900">WhatsApp Dispatch</h3>
-                    <p className="text-sm text-slate-400 font-medium">Connect global inquiries directly to your mobile terminal.</p>
-                  </div>
+          {/* Control Center */}
+          <TabsContent value="control">
+            <Card className="p-6 space-y-6 border-none shadow-sm rounded-3xl bg-white">
+              <div className="space-y-6">
+                <div className="flex items-center gap-3 border-b border-slate-50 pb-3">
+                  <div className="p-2 bg-[#25D366]/10 rounded-xl text-[#25D366]"><MessageSquare className="h-5 w-5" /></div>
+                  <h3 className="text-md font-headline font-bold text-slate-900">WhatsApp Terminal</h3>
                 </div>
                 
-                <div className="space-y-4 max-w-2xl">
-                  <div className="space-y-2">
-                    <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Terminal Phone Number</label>
+                <div className="space-y-3 max-w-sm">
+                  <div className="space-y-1">
+                    <label className="text-[9px] font-bold text-slate-400 uppercase tracking-widest ml-1">Terminal Phone Number</label>
                     <Input 
                       value={localSiteData?.integrations?.whatsapp || ""} 
                       onChange={(e) => setLocalSiteData({...localSiteData, integrations: {...localSiteData.integrations, whatsapp: e.target.value}})} 
                       placeholder="e.g. 916209779365" 
-                      className="rounded-2xl h-16 bg-slate-50 border-none shadow-inner text-xl font-bold tracking-widest"
+                      className="rounded-xl h-10 bg-slate-50 border-none shadow-inner text-sm font-bold tracking-widest"
                     />
                   </div>
-                  <div className="flex items-center gap-3 p-4 bg-blue-50/50 rounded-2xl text-blue-600 border border-blue-100">
-                    <AlertCircle className="h-5 w-5 shrink-0" />
-                    <p className="text-xs font-medium leading-relaxed">Ensure you include the full country code without '+' or special characters for optimal protocol performance.</p>
+                  <div className="flex items-start gap-2 p-3 bg-blue-50/50 rounded-xl text-blue-600 border border-blue-100">
+                    <AlertCircle className="h-3.5 w-3.5 shrink-0 mt-0.5" />
+                    <p className="text-[9px] font-medium leading-relaxed">Include country code without '+' for optimal routing.</p>
                   </div>
                 </div>
               </div>
               
-              <div className="pt-10 border-t border-slate-50 space-y-6">
-                 <h3 className="text-xl font-bold text-slate-900 flex items-center gap-3"><ShieldCheck className="h-6 w-6 text-primary" /> Authority Security</h3>
-                 <div className="p-8 bg-slate-900 text-white rounded-[32px] space-y-4 relative overflow-hidden">
-                    <div className="relative z-10">
-                      <p className="text-sm font-medium text-blue-200/60 leading-relaxed max-w-xl">
-                        Credentials for R&DServices Ops are currently hardware-mapped for maximum integrity. For security rotation or protocol updates, please contact your technical security officer.
-                      </p>
-                    </div>
-                    <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-primary/20 blur-3xl rounded-full" />
+              <div className="pt-6 border-t border-slate-50 space-y-4">
+                 <h3 className="text-sm font-bold text-slate-900 flex items-center gap-2"><ShieldCheck className="h-4 w-4 text-primary" /> Authority Security</h3>
+                 <div className="p-4 bg-slate-900 text-white rounded-2xl space-y-2 relative overflow-hidden">
+                    <p className="text-[10px] font-medium text-blue-200/60 leading-relaxed max-w-sm relative z-10">
+                      Access protocols are currently locked to your administrative terminal. For credential rotation, please contact technical support.
+                    </p>
+                    <div className="absolute -bottom-5 -right-5 w-20 h-20 bg-primary/20 blur-2xl rounded-full" />
                  </div>
               </div>
             </Card>
@@ -808,13 +807,13 @@ export default function AdminDashboard() {
 
       {/* Image Cropper Modal */}
       <Dialog open={isCropperOpen} onOpenChange={setIsCropperOpen}>
-        <DialogContent className="max-w-2xl p-0 overflow-hidden border-none rounded-[50px] bg-white shadow-2xl">
-          <DialogHeader className="p-8 bg-[#0a0f1c] text-white">
-            <DialogTitle className="text-2xl font-headline font-bold flex items-center gap-3">
-              <ImageIcon className="h-6 w-6 text-primary" /> Authority Visual Alignment
+        <DialogContent className="max-w-xl p-0 overflow-hidden border-none rounded-[32px] bg-white shadow-2xl">
+          <DialogHeader className="p-6 bg-[#0a0f1c] text-white">
+            <DialogTitle className="text-lg font-headline font-bold flex items-center gap-2">
+              <ImageIcon className="h-4 w-4 text-primary" /> Authority Visual Alignment
             </DialogTitle>
           </DialogHeader>
-          <div className="relative h-[450px] bg-slate-900">
+          <div className="relative h-80 bg-slate-900">
             {imageToCrop && (
               <Cropper 
                 image={imageToCrop} 
@@ -832,11 +831,11 @@ export default function AdminDashboard() {
               />
             )}
           </div>
-          <div className="p-10 grid grid-cols-2 gap-6 bg-white border-t border-slate-50">
-            <Button variant="ghost" className="rounded-2xl h-16 font-bold text-slate-400 hover:text-slate-900" onClick={() => setIsCropperOpen(false)}>Abort Change</Button>
-            <Button disabled={isUploading} className="rounded-2xl font-bold h-16 shadow-xl shadow-primary/20 transition-all active:scale-95" onClick={saveCroppedImage}>
-              {isUploading ? <Loader2 className="h-6 w-6 animate-spin mr-3" /> : <Upload className="h-6 w-6 mr-3" />}
-              {isUploading ? "Encrypting Asset..." : "Confirm Alignment"}
+          <div className="p-6 grid grid-cols-2 gap-4 bg-white border-t border-slate-50">
+            <Button variant="ghost" className="rounded-xl h-12 font-bold text-slate-400 hover:text-slate-900 text-xs" onClick={() => setIsCropperOpen(false)}>Abort</Button>
+            <Button disabled={isUploading} className="rounded-xl font-bold h-12 shadow-lg transition-all active:scale-95 text-xs" onClick={saveCroppedImage}>
+              {isUploading ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : <Upload className="h-4 w-4 mr-2" />}
+              {isUploading ? "Processing..." : "Confirm Alignment"}
             </Button>
           </div>
         </DialogContent>
@@ -844,20 +843,20 @@ export default function AdminDashboard() {
 
       {/* Delete Confirmation Modal */}
       <Dialog open={!!deleteConfirm} onOpenChange={(open) => !open && setDeleteConfirm(null)}>
-        <DialogContent className="max-w-md p-0 overflow-hidden border-none rounded-[40px] bg-white shadow-2xl">
-          <div className="p-10 text-center space-y-6">
-            <div className="mx-auto w-20 h-20 bg-red-50 rounded-full flex items-center justify-center text-red-500 mb-2">
-              <Trash2 className="h-10 w-10" />
+        <DialogContent className="max-w-xs p-0 overflow-hidden border-none rounded-[24px] bg-white shadow-2xl">
+          <div className="p-8 text-center space-y-4">
+            <div className="mx-auto w-12 h-12 bg-red-50 rounded-full flex items-center justify-center text-red-500 mb-2">
+              <Trash2 className="h-6 w-6" />
             </div>
-            <div className="space-y-2">
-              <h3 className="text-2xl font-headline font-bold text-slate-900">Delete Permanently?</h3>
-              <p className="text-sm text-slate-400 leading-relaxed px-4">
-                You are about to remove this scholarly resource from the registry. This action cannot be undone.
+            <div className="space-y-1">
+              <h3 className="text-lg font-headline font-bold text-slate-900">Remove Permanently?</h3>
+              <p className="text-[10px] text-slate-400 leading-relaxed px-2">
+                This action will delete the scholarly resource from the registry.
               </p>
             </div>
-            <div className="grid grid-cols-2 gap-4 pt-4">
-               <Button variant="ghost" className="h-14 rounded-2xl font-bold" onClick={() => setDeleteConfirm(null)}>Retain Entry</Button>
-               <Button className="h-14 rounded-2xl font-bold bg-red-500 hover:bg-red-600 shadow-xl shadow-red-500/20" onClick={executeRemoval}>Confirm Removal</Button>
+            <div className="grid grid-cols-2 gap-3 pt-2">
+               <Button variant="ghost" className="h-10 rounded-xl font-bold text-[10px]" onClick={() => setDeleteConfirm(null)}>Cancel</Button>
+               <Button className="h-10 rounded-xl font-bold bg-red-500 hover:bg-red-600 shadow-lg text-[10px]" onClick={executeRemoval}>Confirm</Button>
             </div>
           </div>
         </DialogContent>
