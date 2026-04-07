@@ -12,6 +12,8 @@ import { Footer } from "@/components/Footer";
 import fs from 'fs/promises';
 import path from 'path';
 
+export const dynamic = 'force-dynamic';
+
 async function getSiteData() {
   const DATA_PATH = path.join(process.cwd(), 'src/app/lib/leadership-data.json');
   try {
