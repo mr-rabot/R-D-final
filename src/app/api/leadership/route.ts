@@ -33,10 +33,26 @@ export async function GET() {
 export async function POST(request: Request) {
   try {
     const newData = await request.json();
+    
+    // Ensure the structure is valid before writing
+    if (!newData || typeof newData !== 'object') {
+      throw new Error("Invalid data payload received");
+    }
+
     await fs.writeFile(DATA_PATH, JSON.stringify(newData, null, 2), 'utf-8');
-    return NextResponse.json({ success: true });
-  } catch (error) {
+    
+    return new NextResponse(JSON.stringify({ success: true }), {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json',
+        'Cache-Control': 'no-store',
+      },
+    });
+  } catch (error: any) {
     console.error("Local Data Write Error:", error);
-    return NextResponse.json({ error: 'Failed to save data to root folder' }, { status: 500 });
+    return NextResponse.json({ 
+      error: 'Failed to save data to root folder', 
+      details: error.message 
+    }, { status: 500 });
   }
 }

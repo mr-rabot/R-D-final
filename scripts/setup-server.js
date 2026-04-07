@@ -13,6 +13,20 @@ const paths = [
   { path: path.join(process.cwd(), 'src/app/lib/leadership-data.json'), mode: 0o664, isFile: true }
 ];
 
+const defaultStructure = {
+  brand: { name: 'R&DServices', tagline: 'Academic Manuscript Solutions' },
+  hero: { badge: 'Premier Research Excellence', title: 'Scholarly Research Perfected.', stats: [] },
+  leadership: { founder: { name: 'Om Prakash Sinha', role: 'Founder & Director' } },
+  firmSummary: { title: 'A Global Research Legacy', description: '', stats: [] },
+  services: [],
+  blog: { title: 'Academic Hub', subtitle: '', posts: [] },
+  resources: [],
+  pricing: [],
+  testimonials: [],
+  faqs: [],
+  integrations: { whatsapp: '916209779365' }
+};
+
 console.log('--- Initializing R&DServices Server Environment ---');
 
 paths.forEach((target) => {
@@ -20,7 +34,7 @@ paths.forEach((target) => {
     if (target.isFile) {
       if (!fs.existsSync(target.path)) {
         console.log(`Creating default data file: ${target.path}`);
-        fs.writeFileSync(target.path, JSON.stringify({ brand: { name: 'R&DServices' } }, null, 2));
+        fs.writeFileSync(target.path, JSON.stringify(defaultStructure, null, 2));
       }
     } else {
       if (!fs.existsSync(target.path)) {
@@ -35,7 +49,7 @@ paths.forEach((target) => {
       console.log(`Permissions set to ${target.mode.toString(8)} for: ${path.basename(target.path)}`);
     }
   } catch (error) {
-    console.warn(`Warning: Could not set setup ${target.path}:`, error.message);
+    console.warn(`Warning: Could not setup ${target.path}:`, error.message);
   }
 });
 

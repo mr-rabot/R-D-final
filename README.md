@@ -33,14 +33,18 @@ pm2 start npm --name "rd-services" -- start
 ### 4. Reverse Proxy (Nginx)
 Configure Nginx to route traffic to `http://localhost:3000`. Ensure your client's body size limit is high enough for file uploads (e.g., `client_max_body_size 50M;`).
 
+### 5. Troubleshooting "Persistence Error"
+If you see a "Persistence Error" in the Admin Panel after deployment:
+1. Ensure the folder has correct ownership: `sudo chown -R $USER:$USER .`
+2. Ensure the build script ran successfully: `npm run setup`
+3. Check Nginx logs: `sudo tail -f /var/log/nginx/error.log`
+
 ---
 
 ## 🛠 Admin Panel Access
 The Admin Panel is located at `/admin`.
 - **Default User**: `prexani.tech@gmail.com`
 - **Default Key**: `Admin@9343`
-
-*Note: You can update these credentials in `src/app/admin/page.tsx`.*
 
 ## ⚠️ Important Note on Managed Hosting (Vercel/Netlify)
 If you deploy to Vercel or Netlify, the **Admin Panel will NOT persist changes**. These platforms use ephemeral filesystems. For those platforms, you must migrate the data to a database like MongoDB or Firestore. **For this project, a VPS is the recommended hosting choice.**
