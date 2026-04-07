@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useCallback, useRef, useEffect } from "react";
@@ -37,7 +38,10 @@ import {
   Settings2,
   FileType,
   Download,
-  FileUp
+  FileUp,
+  Facebook,
+  Instagram,
+  Linkedin
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import Image from "next/image";
@@ -871,25 +875,67 @@ export default function AdminDashboard() {
           {/* Control Center */}
           <TabsContent value="control">
             <Card className="p-6 space-y-6 border-none shadow-sm rounded-3xl bg-white">
-              <div className="space-y-6">
-                <div className="flex items-center gap-3 border-b border-slate-50 pb-3">
-                  <div className="p-2 bg-[#25D366]/10 rounded-xl text-[#25D366]"><MessageSquare className="h-5 w-5" /></div>
-                  <h3 className="text-md font-headline font-bold text-slate-900">WhatsApp Terminal</h3>
-                </div>
-                
-                <div className="space-y-3 max-w-sm">
-                  <div className="space-y-1">
-                    <label className="text-[9px] font-bold text-slate-400 uppercase tracking-widest ml-1">Terminal Phone Number</label>
-                    <Input 
-                      value={localSiteData?.integrations?.whatsapp || ""} 
-                      onChange={(e) => setLocalSiteData({...localSiteData, integrations: {...localSiteData.integrations, whatsapp: e.target.value}})} 
-                      placeholder="e.g. 916209779365" 
-                      className="rounded-xl h-10 bg-slate-50 border-none shadow-inner text-sm font-bold tracking-widest"
-                    />
+              <div className="space-y-8">
+                <div className="space-y-4">
+                  <div className="flex items-center gap-3 border-b border-slate-50 pb-3">
+                    <div className="p-2 bg-[#25D366]/10 rounded-xl text-[#25D366]"><MessageSquare className="h-5 w-5" /></div>
+                    <h3 className="text-md font-headline font-bold text-slate-900">Communication Terminal</h3>
                   </div>
-                  <div className="flex items-start gap-2 p-3 bg-blue-50/50 rounded-xl text-blue-600 border border-blue-100">
-                    <AlertCircle className="h-3.5 w-3.5 shrink-0 mt-0.5" />
-                    <p className="text-[9px] font-medium leading-relaxed">Include country code without '+' for optimal routing.</p>
+                  
+                  <div className="space-y-3 max-w-md">
+                    <div className="space-y-1">
+                      <label className="text-[9px] font-bold text-slate-400 uppercase tracking-widest ml-1">WhatsApp Phone Number</label>
+                      <Input 
+                        value={localSiteData?.integrations?.whatsapp || ""} 
+                        onChange={(e) => setLocalSiteData({...localSiteData, integrations: {...localSiteData.integrations, whatsapp: e.target.value}})} 
+                        placeholder="e.g. 916209779365" 
+                        className="rounded-xl h-10 bg-slate-50 border-none shadow-inner text-sm font-bold tracking-widest"
+                      />
+                      <p className="text-[9px] text-slate-400 ml-1">Include country code without '+' for optimal routing.</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="space-y-4">
+                  <div className="flex items-center gap-3 border-b border-slate-50 pb-3">
+                    <div className="p-2 bg-primary/10 rounded-xl text-primary"><Globe className="h-5 w-5" /></div>
+                    <h3 className="text-md font-headline font-bold text-slate-900">Social Connections</h3>
+                  </div>
+                  
+                  <div className="grid md:grid-cols-1 gap-6 max-w-xl">
+                    <div className="space-y-1">
+                      <label className="text-[9px] font-bold text-slate-400 uppercase tracking-widest ml-1 flex items-center gap-2">
+                        <Facebook className="h-3 w-3" /> Facebook URL
+                      </label>
+                      <Input 
+                        value={localSiteData?.integrations?.facebook || ""} 
+                        onChange={(e) => setLocalSiteData({...localSiteData, integrations: {...localSiteData.integrations, facebook: e.target.value}})} 
+                        placeholder="https://facebook.com/your-profile" 
+                        className="rounded-xl h-10 bg-slate-50 border-none shadow-inner text-sm"
+                      />
+                    </div>
+                    <div className="space-y-1">
+                      <label className="text-[9px] font-bold text-slate-400 uppercase tracking-widest ml-1 flex items-center gap-2">
+                        <Instagram className="h-3 w-3" /> Instagram URL
+                      </label>
+                      <Input 
+                        value={localSiteData?.integrations?.instagram || ""} 
+                        onChange={(e) => setLocalSiteData({...localSiteData, integrations: {...localSiteData.integrations, instagram: e.target.value}})} 
+                        placeholder="https://instagram.com/your-profile" 
+                        className="rounded-xl h-10 bg-slate-50 border-none shadow-inner text-sm"
+                      />
+                    </div>
+                    <div className="space-y-1">
+                      <label className="text-[9px] font-bold text-slate-400 uppercase tracking-widest ml-1 flex items-center gap-2">
+                        <Linkedin className="h-3 w-3" /> LinkedIn URL
+                      </label>
+                      <Input 
+                        value={localSiteData?.integrations?.linkedin || ""} 
+                        onChange={(e) => setLocalSiteData({...localSiteData, integrations: {...localSiteData.integrations, linkedin: e.target.value}})} 
+                        placeholder="https://linkedin.com/in/your-profile" 
+                        className="rounded-xl h-10 bg-slate-50 border-none shadow-inner text-sm"
+                      />
+                    </div>
                   </div>
                 </div>
               </div>

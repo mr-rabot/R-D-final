@@ -1,19 +1,26 @@
+
 "use client";
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { Facebook, Instagram, Linkedin, MessageSquare } from "lucide-react";
 
 export function Footer() {
-  const [whatsapp, setWhatsapp] = useState("916209779365");
+  const [siteData, setSiteData] = useState<any>(null);
 
   useEffect(() => {
     fetch('/api/leadership')
       .then(res => res.json())
       .then(data => {
-        if (data.integrations?.whatsapp) setWhatsapp(data.integrations.whatsapp);
+        setSiteData(data);
       })
       .catch(err => console.error("Error fetching footer data:", err));
   }, []);
+
+  const whatsapp = siteData?.integrations?.whatsapp || "916209779365";
+  const facebook = siteData?.integrations?.facebook;
+  const instagram = siteData?.integrations?.instagram;
+  const linkedin = siteData?.integrations?.linkedin;
 
   return (
     <footer className="bg-[#0a0f1c] text-white pt-24 pb-12 md:pt-32 md:pb-16">
@@ -34,6 +41,23 @@ export function Footer() {
             <p className="text-slate-400 leading-relaxed text-sm md:text-xl xl:text-2xl font-light">
               Professional research writing and academic consulting services. Led by Om Prakash Sinha, we guarantee quality, originality, and timely delivery for R&DServices.
             </p>
+            <div className="flex items-center gap-4 pt-4">
+              {facebook && (
+                <a href={facebook} target="_blank" rel="noopener noreferrer" className="p-3 bg-white/5 rounded-xl hover:bg-primary transition-all group">
+                  <Facebook className="h-5 w-5 text-slate-400 group-hover:text-white" />
+                </a>
+              )}
+              {instagram && (
+                <a href={instagram} target="_blank" rel="noopener noreferrer" className="p-3 bg-white/5 rounded-xl hover:bg-primary transition-all group">
+                  <Instagram className="h-5 w-5 text-slate-400 group-hover:text-white" />
+                </a>
+              )}
+              {linkedin && (
+                <a href={linkedin} target="_blank" rel="noopener noreferrer" className="p-3 bg-white/5 rounded-xl hover:bg-primary transition-all group">
+                  <Linkedin className="h-5 w-5 text-slate-400 group-hover:text-white" />
+                </a>
+              )}
+            </div>
           </div>
 
           {/* Quick Links */}

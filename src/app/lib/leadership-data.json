@@ -370,6 +370,9 @@
     }
   ],
   "integrations": {
-    "whatsapp": "916209779365"
+    "whatsapp": "916209779365",
+    "facebook": "https://facebook.com",
+    "instagram": "https://instagram.com",
+    "linkedin": "https://linkedin.com"
   }
 }
