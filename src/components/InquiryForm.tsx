@@ -11,7 +11,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
-import { Mail, Phone, User, MessageSquare, Send, Loader2 } from "lucide-react";
+import { Mail, Phone, User, MessageSquare, Send, Loader2, Linkedin } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const formSchema = z.object({
@@ -39,6 +39,7 @@ export function InquiryForm() {
   const { toast } = useToast();
   const [contactImage, setContactImage] = useState<string | null>(null);
   const [whatsapp, setWhatsapp] = useState("916209779365");
+  const [linkedin, setLinkedin] = useState<string | null>(null);
   const [isVisible, setIsVisible] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
@@ -61,6 +62,7 @@ export function InquiryForm() {
       .then(data => {
         if (data.firmSummary?.image) setContactImage(data.firmSummary.image);
         if (data.integrations?.whatsapp) setWhatsapp(data.integrations.whatsapp);
+        if (data.integrations?.linkedin) setLinkedin(data.integrations.linkedin);
       })
       .catch(err => console.error("Error fetching leadership data:", err));
 
@@ -202,6 +204,25 @@ export function InquiryForm() {
                   <p className="text-slate-400 text-[9px] md:text-[10px] font-bold uppercase tracking-widest mt-1">Available 24/7</p>
                 </div>
               </div>
+
+              {linkedin && (
+                <div className="flex items-start gap-5 md:gap-6">
+                  <div className="bg-white shadow-md p-3 rounded-xl text-primary shrink-0">
+                    <Linkedin className="h-6 w-6" />
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-accent text-lg">LinkedIn</h4>
+                    <a 
+                      href={linkedin} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="text-slate-600 font-medium text-sm md:text-base hover:text-primary transition-colors"
+                    >
+                      Connect with Us
+                    </a>
+                  </div>
+                </div>
+              )}
             </div>
 
             <div className="relative pt-4 hidden md:block">
