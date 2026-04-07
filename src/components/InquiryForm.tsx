@@ -183,7 +183,12 @@ export function InquiryForm() {
                 </div>
                 <div>
                   <h4 className="font-bold text-accent text-lg">Email Us</h4>
-                  <p className="text-slate-600 break-all font-medium text-sm md:text-base">support.rdservices@gmail.com</p>
+                  <a 
+                    href="mailto:support.rdservices@gmail.com" 
+                    className="text-slate-600 break-all font-medium text-sm md:text-base hover:text-primary transition-colors"
+                  >
+                    support.rdservices@gmail.com
+                  </a>
                 </div>
               </div>
 
