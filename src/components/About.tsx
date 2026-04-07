@@ -102,7 +102,7 @@ export function About() {
                   {founder?.role || "Founder & Director"}
                 </p>
                 <p className="text-[10px] md:text-xs xl:text-sm uppercase tracking-[0.6em] font-bold text-slate-400">
-                  Global Authority in R&D Services
+                  R&D Services
                 </p>
               </div>
 

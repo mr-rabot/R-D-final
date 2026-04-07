@@ -39,7 +39,7 @@ export function Footer() {
               </div>
             </Link>
             <p className="text-slate-400 leading-relaxed text-sm md:text-xl xl:text-2xl font-light">
-              Professional research writing and academic consulting services. Led by Om Prakash Sinha, we guarantee quality, originality, and timely delivery for R&DServices.
+              Professional research writing and academic consulting services. Led by Om Prakash Sinha, we guarantee quality, originality, and timely delivery for R&D Services.
             </p>
             <div className="flex items-center gap-4 pt-4">
               {facebook && (
@@ -109,7 +109,7 @@ export function Footer() {
 
         {/* Bottom Bar */}
         <div className="pt-8 md:pt-12 border-t border-slate-800 flex flex-col md:flex-row justify-between items-center gap-6 text-[10px] md:text-base text-slate-500 font-medium uppercase tracking-widest text-center md:text-left">
-          <p>© 2025 R&DServices. All rights reserved.</p>
+          <p>© 2025 R&D Services. All rights reserved.</p>
           <div className="flex gap-6 md:gap-10">
             <Link href="#" className="hover:text-white transition-colors">Privacy Policy</Link>
             <Link href="#" className="hover:text-white transition-colors">Terms & Conditions</Link>
