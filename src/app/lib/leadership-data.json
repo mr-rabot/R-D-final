@@ -235,7 +235,6 @@
         "Review Article",
         "Research Title",
         "Research Paper",
-        "Conference Paper",
         "Plagiarism Report",
         "5–8 Days Delivery"
       ],
@@ -260,14 +259,14 @@
   "testimonials": [
     {
       "name": "Deepak Kumar",
-      "role": "MCA Scholar",
+      "role": "MCA Scholar, Delhi",
       "content": "The technical guidance on my MCA project was exceptional. R&DServices provided deep insights into software architecture and precise documentation.",
       "stars": 5,
       "image": "https://picsum.photos/seed/deepak/100/100"
     },
     {
       "name": "Arjun Mehra",
-      "role": "M.Tech Research Student",
+      "role": "M.Tech Research Student, Jaipur",
       "content": "Working with the R&D team on my M.Tech thesis was a game changer. Their methodology for data analysis is top-notch and helped me secure high credits.",
       "stars": 5,
       "image": "https://picsum.photos/seed/arjun/100/100"
@@ -288,21 +287,21 @@
     },
     {
       "name": "Dr. Sarah Chen",
-      "role": "PhD Researcher",
+      "role": "PhD Researcher, Bihar",
       "content": "Excellent service for research proposal drafting. Their feedback on my literature review significantly improved the clarity of my research gap analysis.",
       "stars": 5,
       "image": "https://picsum.photos/seed/sarah/100/100"
     },
     {
       "name": "Sandip Dingore",
-      "role": "Research Scholar",
+      "role": "Research Scholar, Mumbai",
       "content": "The precision in methodology provided by R&DServices was instrumental in my paper's acceptance in a high-impact Scopus journal. Highly recommended.",
       "stars": 5,
       "image": "https://picsum.photos/seed/sandip/100/100"
     },
     {
       "name": "Anamika Patil",
-      "role": "PhD Candidate",
+      "role": "PhD Candidate, Pune",
       "content": "Professional, timely, and academically rigorous. The team helped me refine my research gap analysis for my PhD synopsis perfectly.",
       "stars": 5,
       "image": "https://picsum.photos/seed/custom-face/100/100"
