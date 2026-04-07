@@ -1,3 +1,4 @@
+
 # R&DServices - Academic Manuscript Solutions
 
 Professional research writing and academic consulting platform built with Next.js 15, Tailwind CSS, and a local file-based CMS.
@@ -9,7 +10,7 @@ This application is optimized for deployment on a Virtual Private Server (VPS) s
 ### 1. Server Environment Setup
 Ensure your server has Node.js (v20+) and a process manager like PM2 installed.
 
-### 2. Prepare the Application
+### 2. Prepare & Deploy
 ```bash
 # Clone your repository
 git clone <your-repo-url>
@@ -18,25 +19,18 @@ cd rd-services
 # Install dependencies
 npm install
 
-# Build the project
+# Build the project (Automated setup script will run pre-build)
+# This script creates public/images, public/resources and sets permissions.
 npm run build
 ```
 
-### 3. Set Permissions (CRITICAL)
-The Admin Panel needs permission to write to the data file and upload folders. Run these commands on your server:
-```bash
-chmod -R 775 public/images
-chmod -R 775 public/resources
-chmod 664 src/app/lib/leadership-data.json
-```
-
-### 4. Start the Production Server
+### 3. Start the Production Server
 Use PM2 to ensure the application stays online:
 ```bash
 pm2 start npm --name "rd-services" -- start
 ```
 
-### 5. Reverse Proxy (Nginx)
+### 4. Reverse Proxy (Nginx)
 Configure Nginx to route traffic to `http://localhost:3000`. Ensure your client's body size limit is high enough for file uploads (e.g., `client_max_body_size 50M;`).
 
 ---
