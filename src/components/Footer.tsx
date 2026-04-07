@@ -95,7 +95,10 @@ export function Footer() {
                     <span className="text-primary font-bold">Phone:</span> +{whatsapp}
                   </div>
                   <div className="flex items-center gap-2 text-white font-medium text-xs md:text-base">
-                    <span className="text-primary font-bold">Email:</span> support.rdservices@gmail.com
+                    <span className="text-primary font-bold">Email:</span> 
+                    <a href="mailto:support.rdservices@gmail.com" className="hover:text-primary transition-colors">
+                      support.rdservices@gmail.com
+                    </a>
                   </div>
                 </div>
                 <span className="inline-flex items-center gap-2 bg-primary/10 text-primary px-3 py-1 rounded-full text-[9px] md:text-xs font-bold uppercase tracking-widest w-fit">
