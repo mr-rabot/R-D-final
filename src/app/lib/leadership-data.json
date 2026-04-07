@@ -216,6 +216,7 @@
         "Project Report",
         "PPT",
         "Internship",
+        "Internship Report",
         "Basic Plagiarism Check",
         "Standard Research Formatting",
         "1 Revision Round",
@@ -227,15 +228,17 @@
       "name": "Professional",
       "description": "Ideal for research papers and advanced reports",
       "features": [
+        "Synopsis Writing",
         "Thesis Writing",
+        "Dissertation I",
+        "Dissertation II",
+        "Review Paper",
+        "Review Article",
         "Research Title",
         "Research Paper",
-        "Review Paper",
-        "Synopsis",
-        "Dissertation-I",
-        "Dissertation-II",
+        "Conference Paper",
         "Plagiarism Report",
-        "5-8 Days Delivery"
+        "5–8 Days Delivery"
       ],
       "highlight": true,
       "badge": "Most Popular"
