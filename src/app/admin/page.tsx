@@ -342,6 +342,25 @@ export default function AdminDashboard() {
     setLocalSiteData(newData);
   };
 
+  const updatePricingFeature = (pricingIndex: number, featureIndex: number, value: string) => {
+    const newData = JSON.parse(JSON.stringify(localSiteData));
+    newData.pricing[pricingIndex].features[featureIndex] = value;
+    setLocalSiteData(newData);
+  };
+
+  const addPricingFeature = (pricingIndex: number) => {
+    const newData = JSON.parse(JSON.stringify(localSiteData));
+    if (!newData.pricing[pricingIndex].features) newData.pricing[pricingIndex].features = [];
+    newData.pricing[pricingIndex].features.push("New Feature Item");
+    setLocalSiteData(newData);
+  };
+
+  const removePricingFeature = (pricingIndex: number, featureIndex: number) => {
+    const newData = JSON.parse(JSON.stringify(localSiteData));
+    newData.pricing[pricingIndex].features.splice(featureIndex, 1);
+    setLocalSiteData(newData);
+  };
+
   if (isLoadingData) return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-slate-50 gap-4">
       <Loader2 className="h-8 w-8 animate-spin text-primary" />
@@ -678,36 +697,75 @@ export default function AdminDashboard() {
 
           {/* Pricing */}
           <TabsContent value="pricing">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               {localSiteData?.pricing?.map((p: any, i: number) => (
                 <Card key={i} className={cn(
-                  "p-4 space-y-4 border-none shadow-sm rounded-3xl bg-white relative transition-all",
-                  p.highlight ? "ring-1 ring-primary" : ""
+                  "p-6 space-y-6 border-none shadow-sm rounded-3xl bg-white relative transition-all",
+                  p.highlight ? "ring-2 ring-primary" : ""
                 )}>
-                  <div className="flex justify-between items-center gap-2">
-                    <Input value={p.name} onChange={(e) => updateListItem('pricing', i, 'name', e.target.value)} className="font-bold h-9 border-none bg-slate-50 rounded-lg text-sm" />
-                    <Button variant="ghost" size="icon" className="text-red-400 hover:bg-red-50 h-7 w-7 rounded-lg shrink-0" onClick={() => setDeleteConfirm({path: 'pricing', index: i})}><Trash2 className="h-3.5 w-3.5" /></Button>
+                  <div className="flex justify-between items-center gap-4">
+                    <div className="flex-grow">
+                       <label className="text-[9px] font-bold text-slate-400 uppercase tracking-widest ml-1">Plan Title</label>
+                       <Input value={p.name} onChange={(e) => updateListItem('pricing', i, 'name', e.target.value)} className="font-bold h-11 border-none bg-slate-50 rounded-xl text-md" />
+                    </div>
+                    <Button variant="ghost" size="icon" className="text-red-400 hover:bg-red-50 h-10 w-10 rounded-xl shrink-0 mt-5" onClick={() => setDeleteConfirm({path: 'pricing', index: i})}><Trash2 className="h-5 w-5" /></Button>
                   </div>
                   
-                  <div className="space-y-3">
-                    <div className="space-y-0.5">
-                      <label className="text-[8px] uppercase font-bold text-slate-300 tracking-widest ml-1">Plan Catchphrase</label>
-                      <Textarea value={p.description} onChange={(e) => updateListItem('pricing', i, 'description', e.target.value)} className="text-[10px] h-16 rounded-lg bg-slate-50 border-none p-2" />
+                  <div className="space-y-4">
+                    <div className="space-y-1">
+                      <label className="text-[9px] uppercase font-bold text-slate-300 tracking-widest ml-1">Plan Catchphrase</label>
+                      <Textarea value={p.description} onChange={(e) => updateListItem('pricing', i, 'description', e.target.value)} className="text-sm h-20 rounded-xl bg-slate-50 border-none p-3" />
                     </div>
                     
-                    <div className="flex items-center gap-2 p-2 bg-slate-50 rounded-xl border border-slate-100">
-                      <input type="checkbox" checked={p.highlight} onChange={(e) => updateListItem('pricing', i, 'highlight', e.target.checked)} className="h-3.5 w-3.5 rounded border-slate-300 text-primary" id={`highlight-${i}`} />
-                      <label htmlFor={`highlight-${i}`} className="text-[10px] font-bold text-slate-600 cursor-pointer">Featured Tier</label>
+                    <div className="flex items-center gap-3 p-3 bg-slate-50 rounded-2xl border border-slate-100">
+                      <input type="checkbox" checked={p.highlight} onChange={(e) => updateListItem('pricing', i, 'highlight', e.target.checked)} className="h-5 w-5 rounded-md border-slate-300 text-primary" id={`highlight-${i}`} />
+                      <label htmlFor={`highlight-${i}`} className="text-xs font-bold text-slate-700 cursor-pointer">Featured Tier (Visual Priority)</label>
                     </div>
 
                     {p.highlight && (
-                      <Input value={p.badge} onChange={(e) => updateListItem('pricing', i, 'badge', e.target.value)} className="h-8 text-[9px] rounded-lg font-bold bg-primary/5 border-none text-primary uppercase" placeholder="MOST POPULAR" />
+                      <div className="space-y-1">
+                        <label className="text-[9px] uppercase font-bold text-slate-300 tracking-widest ml-1">Priority Badge</label>
+                        <Input value={p.badge} onChange={(e) => updateListItem('pricing', i, 'badge', e.target.value)} className="h-10 text-[10px] rounded-xl font-bold bg-primary/5 border-none text-primary uppercase" placeholder="MOST POPULAR" />
+                      </div>
                     )}
+
+                    <div className="pt-4 border-t border-slate-50">
+                      <div className="flex justify-between items-center mb-4">
+                        <label className="text-[9px] uppercase font-bold text-slate-400 tracking-widest ml-1">Included Scholarly Features</label>
+                        <Button variant="ghost" size="sm" onClick={() => addPricingFeature(i)} className="text-primary font-bold text-[10px] h-7 px-3 bg-primary/5 hover:bg-primary/10 rounded-lg">
+                          <Plus className="h-3 w-3 mr-1" /> Add Feature
+                        </Button>
+                      </div>
+                      <div className="space-y-2">
+                        {p.features?.map((feat: string, featIdx: number) => (
+                          <div key={featIdx} className="flex gap-2 items-center">
+                             <Input 
+                               value={feat} 
+                               onChange={(e) => updatePricingFeature(i, featIdx, e.target.value)} 
+                               className="h-9 text-xs rounded-xl bg-slate-50 border-none flex-grow" 
+                             />
+                             <Button 
+                               variant="ghost" 
+                               size="icon" 
+                               onClick={() => removePricingFeature(i, featIdx)}
+                               className="h-9 w-9 text-slate-300 hover:text-red-400 rounded-xl"
+                             >
+                               <X className="h-4 w-4" />
+                             </Button>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
                   </div>
                 </Card>
               ))}
-              <Button variant="outline" className="h-[250px] border-2 border-dashed border-slate-100 rounded-3xl text-slate-300 hover:text-primary transition-all" onClick={() => addItem('pricing', { name: "New Plan", description: "Plan summary...", features: ["Basic Support"], highlight: false })}>
-                <Plus className="h-6 w-6" />
+              <Button 
+                variant="outline" 
+                className="h-full min-h-[300px] border-2 border-dashed border-slate-100 rounded-[32px] text-slate-300 hover:text-primary hover:border-primary/50 transition-all flex flex-col gap-4" 
+                onClick={() => addItem('pricing', { name: "New Academic Plan", description: "Plan summary details...", features: ["Item 1"], highlight: false, badge: "" })}
+              >
+                <Plus className="h-10 w-10" />
+                <span className="font-bold uppercase tracking-widest text-[10px]">Create Scholarly Tier</span>
               </Button>
             </div>
           </TabsContent>
