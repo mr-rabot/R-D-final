@@ -1,16 +1,25 @@
 
 # R&DServices - Academic Manuscript Solutions
 
-Professional research writing and academic consulting platform built with Next.js 15, Tailwind CSS, and a local file-based CMS.
+Professional research writing and academic consulting platform built with Next.js 15, Tailwind CSS, and MySQL.
 
 ## 🚀 Deployment Guide (Self-Hosted VPS)
 
-This application is optimized for deployment on a Virtual Private Server (VPS) such as DigitalOcean, AWS EC2, or Linode. This ensures that your content updates and file uploads persist on your own hosting environment.
+This application is optimized for deployment on a Virtual Private Server (VPS) with a MySQL database.
 
 ### 1. Server Environment Setup
-Ensure your server has Node.js (v20+) and a process manager like PM2 installed.
+Ensure your server has Node.js (v20+), MySQL Server, and PM2 installed.
 
-### 2. Prepare & Deploy
+### 2. Database Configuration
+Create a `.env` file in the root directory with your MySQL credentials:
+```env
+DB_HOST=localhost
+DB_USER=your_username
+DB_PASSWORD=your_password
+DB_NAME=rd_services
+```
+
+### 3. Prepare & Deploy
 ```bash
 # Clone your repository
 git clone <your-repo-url>
@@ -19,25 +28,17 @@ cd rd-services
 # Install dependencies
 npm install
 
-# Build the project (Automated setup script will run pre-build)
-# This script creates public/images, public/resources and sets permissions.
+# Build the project (Automated setup script will run pre-build to init folders and DB)
 npm run build
 ```
 
-### 3. Start the Production Server
-Use PM2 to ensure the application stays online:
+### 4. Start the Production Server
 ```bash
 pm2 start npm --name "rd-services" -- start
 ```
 
-### 4. Reverse Proxy (Nginx)
-Configure Nginx to route traffic to `http://localhost:3000`. Ensure your client's body size limit is high enough for file uploads (e.g., `client_max_body_size 50M;`).
-
-### 5. Troubleshooting "Persistence Error"
-If you see a "Persistence Error" in the Admin Panel after deployment:
-1. Ensure the folder has correct ownership: `sudo chown -R $USER:$USER .`
-2. Ensure the build script ran successfully: `npm run setup`
-3. Check Nginx logs: `sudo tail -f /var/log/nginx/error.log`
+### 5. Nginx Configuration
+Ensure Nginx is configured to handle the reverse proxy. Since the app runs on HTTP internally, Nginx should handle SSL termination.
 
 ---
 
@@ -46,5 +47,5 @@ The Admin Panel is located at `/admin`.
 - **Default User**: `prexani.tech@gmail.com`
 - **Default Key**: `Admin@9343`
 
-## ⚠️ Important Note on Managed Hosting (Vercel/Netlify)
-If you deploy to Vercel or Netlify, the **Admin Panel will NOT persist changes**. These platforms use ephemeral filesystems. For those platforms, you must migrate the data to a database like MongoDB or Firestore. **For this project, a VPS is the recommended hosting choice.**
+## ⚠️ Persistence Note
+By using MySQL, your data is now professionally persisted. Changes made in the Admin Panel are stored in your database and served dynamically to users. Ensure you back up your MySQL database regularly.
