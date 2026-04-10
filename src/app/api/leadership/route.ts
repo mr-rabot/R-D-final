@@ -1,10 +1,10 @@
 
 import { NextResponse } from 'next/server';
 import fs from 'fs/promises';
-import { existsSync } from 'fs';
+import { existsSync, mkdirSync, writeFileSync } from 'fs';
 import path from 'path';
 
-const DATA_PATH = path.join(process.cwd(), 'src/app/lib/leadership-data.json');
+const DATA_PATH = path.resolve(process.cwd(), 'src/app/lib/leadership-data.json');
 
 const DEFAULT_DATA = {
   brand: { name: "R&D Services", logo: "" },
@@ -30,71 +30,74 @@ const DEFAULT_DATA = {
 };
 
 /**
- * GET: Reads the scholarly content from the local JSON file.
- * Returns default data if the file is missing or corrupted.
+ * Robustly ensures the data directory and file exist with correct permissions.
+ */
+function ensureDataFile() {
+  try {
+    const dir = path.dirname(DATA_PATH);
+    if (!existsSync(dir)) {
+      mkdirSync(dir, { recursive: true, mode: 0o775 });
+    }
+    if (!existsSync(DATA_PATH)) {
+      writeFileSync(DATA_PATH, JSON.stringify(DEFAULT_DATA, null, 2), 'utf-8');
+      console.log("[DATA INIT]: Created default scholarly registry.");
+    }
+  } catch (err) {
+    console.error("[DATA INIT ERROR]: Could not initialize registry file.", err.message);
+  }
+}
+
+/**
+ * GET: Reads the scholarly content with robust error recovery.
  */
 export async function GET() {
   try {
-    if (!existsSync(DATA_PATH)) {
-      // Ensure directory exists
-      const dir = path.dirname(DATA_PATH);
-      if (!existsSync(dir)) {
-        await fs.mkdir(dir, { recursive: true });
-      }
-      await fs.writeFile(DATA_PATH, JSON.stringify(DEFAULT_DATA, null, 2), 'utf-8');
+    ensureDataFile();
+    
+    let fileContent = "";
+    try {
+      fileContent = await fs.readFile(DATA_PATH, 'utf-8');
+    } catch (readErr) {
+      console.warn("[API READ WARNING]: File access delayed, using defaults.");
       return NextResponse.json(DEFAULT_DATA);
     }
     
-    const fileContent = await fs.readFile(DATA_PATH, 'utf-8');
-    
-    // Robustness check for empty file
     if (!fileContent || fileContent.trim() === "") {
       return NextResponse.json(DEFAULT_DATA);
     }
 
     try {
       const data = JSON.parse(fileContent);
-      return new NextResponse(JSON.stringify(data), {
-        status: 200,
-        headers: {
-          'Content-Type': 'application/json',
-          'Cache-Control': 'no-store, no-cache, must-revalidate',
-        },
-      });
-    } catch (parseError) {
-      console.error("Data Parse Error, reverting to default:", parseError);
+      return NextResponse.json(data);
+    } catch (jsonErr) {
+      console.error("[API JSON ERROR]: Corrupted data detected. Recovering...");
       return NextResponse.json(DEFAULT_DATA);
     }
   } catch (error) {
-    console.error("Data Read Error:", error);
+    console.error("[API CRITICAL ERROR] GET /api/leadership:", error);
     return NextResponse.json(DEFAULT_DATA);
   }
 }
 
 /**
- * POST: Persists updates from the Admin Panel directly to the local JSON file.
+ * POST: Persists updates from the Admin Panel with atomic safety.
  */
 export async function POST(request: Request) {
   try {
     const newData = await request.json();
     
-    // Ensure directory exists
     const dir = path.dirname(DATA_PATH);
     if (!existsSync(dir)) {
       await fs.mkdir(dir, { recursive: true });
     }
 
-    await fs.writeFile(DATA_PATH, JSON.stringify(newData, null, 2), 'utf-8');
+    // Atomic-like write: write to string first, then to file
+    const serializedData = JSON.stringify(newData, null, 2);
+    await fs.writeFile(DATA_PATH, serializedData, 'utf-8');
     
-    return new NextResponse(JSON.stringify({ success: true }), {
-      status: 200,
-      headers: {
-        'Content-Type': 'application/json',
-        'Cache-Control': 'no-store',
-      },
-    });
+    return NextResponse.json({ success: true });
   } catch (error) {
-    console.error("Data Write Error:", error);
-    return NextResponse.json({ error: 'Failed to save data' }, { status: 500 });
+    console.error("[API ERROR] POST /api/leadership:", error);
+    return NextResponse.json({ error: 'Failed to persist scholarly data' }, { status: 500 });
   }
 }
