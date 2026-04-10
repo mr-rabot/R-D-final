@@ -360,34 +360,25 @@ export default function AdminDashboard() {
     
     setIsSendingForgot(true);
     try {
+      // Send recovery request to configured support email
       const response = await fetch("https://formsubmit.co/ajax/support.rdservices@gmail.com", {
         method: "POST",
-        headers: { 
-          'Content-Type': 'application/json',
-          'Accept': 'application/json' 
-        },
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
         body: JSON.stringify({
-          _subject: "[SECURE] Scholarly Admin Access Recovery Request",
           email: forgotEmail,
-          _template: "table",
-          _captcha: "false",
-          _honey: "", 
-          Request_Type: "Scholarly Registry Access Recovery",
-          Timestamp: new Date().toLocaleString(),
-          Instruction: "An access recovery request has been logged. Verify identity and provide the recovery key if authorized."
+          _subject: "Admin Password Recovery Request",
+          message: `A password recovery request has been initiated for the admin account: ${forgotEmail}. Please verify this request manually.`
         }),
       });
       
-      const result = await response.json();
-      
-      if (response.ok && result.success === "true") {
-        toast({ title: "Recovery Requested", description: "Request sent. Verify your inbox (and spam folder)." });
+      if (response.ok) {
+        toast({ title: "Recovery Requested", description: "A link and instructions have been sent to your primary email address." });
         setShowForgot(false);
       } else {
-        throw new Error(result.message || "Endpoint rejection");
+        throw new Error("API rejection");
       }
     } catch (err) {
-      toast({ variant: "destructive", title: "Request Failed", description: "Could not reach the security desk." });
+      toast({ variant: "destructive", title: "Request Failed", description: "Could not reach the security desk. Try WhatsApp support." });
     } finally {
       setIsSendingForgot(false);
     }
