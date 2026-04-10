@@ -313,25 +313,30 @@ export default function AdminDashboard() {
     
     setIsSendingForgot(true);
     try {
-      // Send recovery request to configured support email
+      // Send recovery request to configured support email with deliverability optimizations
       const response = await fetch("https://formsubmit.co/ajax/support.rdservices@gmail.com", {
         method: "POST",
         headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
         body: JSON.stringify({
           email: forgotEmail,
-          _subject: "Admin Password Recovery Request",
-          message: `A password recovery request has been initiated for the admin account: ${forgotEmail}. Please verify this request manually.`
+          _subject: "[SECURE] Admin Access Recovery Request",
+          _template: "table",
+          _captcha: "false",
+          Request_Type: "Scholarly Registry Access Recovery",
+          Admin_Account: forgotEmail,
+          Timestamp: new Date().toLocaleString(),
+          Message: "A legitimate password recovery request has been initiated for the R&DServices administrative registry. Please proceed with manual identity verification and provide the recovery key to the requester if the email matches the authorized personnel record."
         }),
       });
       
       if (response.ok) {
-        toast({ title: "Recovery Requested", description: "A link and instructions have been sent to your primary email address." });
+        toast({ title: "Recovery Requested", description: "Verification link sent to the security desk." });
         setShowForgot(false);
       } else {
         throw new Error("API rejection");
       }
     } catch (err) {
-      toast({ variant: "destructive", title: "Request Failed", description: "Could not reach the security desk. Try WhatsApp support." });
+      toast({ variant: "destructive", title: "Request Failed", description: "Could not reach the security desk. Use WhatsApp protocol." });
     } finally {
       setIsSendingForgot(false);
     }
