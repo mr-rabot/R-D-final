@@ -360,30 +360,36 @@ export default function AdminDashboard() {
     
     setIsSendingForgot(true);
     try {
-      // Send recovery request to configured support email with deliverability optimizations
+      // FormSubmit requires verification for new emails. To ensure reliability, 
+      // we send recovery requests to the primary support address.
       const response = await fetch("https://formsubmit.co/ajax/support.rdservices@gmail.com", {
         method: "POST",
-        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          'Accept': 'application/json' 
+        },
         body: JSON.stringify({
+          _subject: "[SECURE] Scholarly Admin Access Recovery Request",
           email: forgotEmail,
-          _subject: "[SECURE] Admin Access Recovery Request",
           _template: "table",
           _captcha: "false",
+          _honey: "", // Anti-spam honeypot
           Request_Type: "Scholarly Registry Access Recovery",
-          Admin_Account: forgotEmail,
           Timestamp: new Date().toLocaleString(),
-          Message: "A legitimate password recovery request has been initiated for the R&DServices administrative registry. Please proceed with manual identity verification and provide the recovery key to the requester if the email matches the authorized personnel record."
+          Instruction: "An access recovery request has been logged for this email. Please verify the user's identity and provide the recovery key if authorized."
         }),
       });
       
-      if (response.ok) {
-        toast({ title: "Recovery Requested", description: "Verification link sent to the security desk." });
+      const result = await response.json();
+      
+      if (response.ok && result.success === "true") {
+        toast({ title: "Recovery Requested", description: "Request sent to the security desk. Verify your inbox (and spam folder)." });
         setShowForgot(false);
       } else {
-        throw new Error("API rejection");
+        throw new Error(result.message || "Endpoint rejection");
       }
     } catch (err) {
-      toast({ variant: "destructive", title: "Request Failed", description: "Could not reach the security desk. Use WhatsApp protocol." });
+      toast({ variant: "destructive", title: "Request Failed", description: "Could not reach the security desk. Please use the WhatsApp protocol." });
     } finally {
       setIsSendingForgot(false);
     }
