@@ -1,7 +1,9 @@
+
 {
   "brand": {
     "logo": "/images/brand_logo_1775302470865.png",
-    "name": "R&D Services"
+    "name": "R&D Services",
+    "tagline": "Academic Manuscript Solutions"
   },
   "hero": {
     "badge": "Premier Research Excellence",
@@ -178,6 +180,46 @@
         "date": "May 15, 2025",
         "image": "https://picsum.photos/seed/blog3/800/600",
         "category": "Statistics"
+      },
+      {
+        "title": "Journal Selection Criteria for High-Impact Impact",
+        "excerpt": "How to identify Scopus and Web of Science journals that align perfectly with your research scope.",
+        "author": "Academic Desk",
+        "date": "May 12, 2025",
+        "image": "https://picsum.photos/seed/blog4/800/600",
+        "category": "Publication"
+      },
+      {
+        "title": "APA 7th Edition: Common Formatting Pitfalls",
+        "excerpt": "Ensure your manuscript meets elite standards by avoiding these frequent citation and structural errors.",
+        "author": "Expert Review",
+        "date": "May 10, 2025",
+        "image": "https://picsum.photos/seed/blog5/800/600",
+        "category": "Writing"
+      },
+      {
+        "title": "Novelty Identification in PhD Research",
+        "excerpt": "A deep dive into articulating your unique contribution to the global scholarly landscape.",
+        "author": "Dr. Sinha",
+        "date": "May 08, 2025",
+        "image": "https://picsum.photos/seed/blog6/800/600",
+        "category": "Methodology"
+      },
+      {
+        "title": "Structural Blueprints for Doctoral Success",
+        "excerpt": "Frameworks for organizing dissertations that command respect and pass defense with high credits.",
+        "author": "Academic Lead",
+        "date": "May 05, 2025",
+        "image": "https://picsum.photos/seed/blog7/800/600",
+        "category": "Thesis"
+      },
+      {
+        "title": "Navigating Research Ethics and Plagiarism",
+        "excerpt": "Professional protocols for maintaining integrity and original thought in modern academic publishing.",
+        "author": "Compliance Desk",
+        "date": "May 01, 2025",
+        "image": "https://picsum.photos/seed/blog8/800/600",
+        "category": "Ethics"
       }
     ]
   },
