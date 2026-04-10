@@ -46,10 +46,13 @@ app.prepare().then(() => {
 
       await handle(req, res, parsedUrl)
     } catch (err) {
-      console.error(`[CRITICAL SERVER ERROR]: ${req.method} ${req.url}`, err)
+      // Detailed logging for VPS production debugging
+      console.error(`[CRITICAL SERVER ERROR]: ${req.method} ${req.url}`)
+      console.error(err.stack || err)
+      
       res.statusCode = 500
       res.setHeader('Content-Type', 'text/html')
-      res.end('<h1>Internal Server Error</h1><p>The scholarly platform encountered a critical issue. Please check server logs.</p>')
+      res.end('<h1>Internal Server Error</h1><p>The scholarly platform encountered a critical issue. Please check server logs for detailed diagnostics.</p>')
     }
   }).listen(port, (err) => {
     if (err) {
