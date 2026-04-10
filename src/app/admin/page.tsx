@@ -41,7 +41,11 @@ import {
   FileUp,
   Facebook,
   Instagram,
-  Linkedin
+  Linkedin,
+  ListTodo,
+  ChevronUp,
+  ChevronDown,
+  GripVertical
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import Image from "next/image";
@@ -54,6 +58,14 @@ import {
   DialogTitle,
   DialogFooter
 } from "@/components/ui/dialog";
+import { Checkbox } from "@/components/ui/checkbox";
+import { 
+  Select as UISelect, 
+  SelectContent, 
+  SelectItem, 
+  SelectTrigger, 
+  SelectValue 
+} from "@/components/ui/select";
 
 const getCroppedImg = async (imageSrc: string, pixelCrop: any): Promise<string> => {
   const image = new window.Image();
@@ -361,6 +373,59 @@ export default function AdminDashboard() {
     setLocalSiteData(newData);
   };
 
+  // Form Architect Logic
+  const addFormField = () => {
+    const newData = JSON.parse(JSON.stringify(localSiteData));
+    if (!newData.contactForm) newData.contactForm = { fields: [] };
+    newData.contactForm.fields.push({
+      id: `field_${Date.now()}`,
+      label: "New Field",
+      type: "text",
+      placeholder: "Enter details",
+      required: true
+    });
+    setLocalSiteData(newData);
+    toast({ title: "Field Added", description: "New registry field created." });
+  };
+
+  const updateFormField = (index: number, updates: any) => {
+    const newData = JSON.parse(JSON.stringify(localSiteData));
+    newData.contactForm.fields[index] = { ...newData.contactForm.fields[index], ...updates };
+    setLocalSiteData(newData);
+  };
+
+  const moveField = (index: number, direction: 'up' | 'down') => {
+    const newData = JSON.parse(JSON.stringify(localSiteData));
+    const fields = newData.contactForm.fields;
+    if (direction === 'up' && index > 0) {
+      [fields[index], fields[index - 1]] = [fields[index - 1], fields[index]];
+    } else if (direction === 'down' && index < fields.length - 1) {
+      [fields[index], fields[index + 1]] = [fields[index + 1], fields[index]];
+    }
+    setLocalSiteData(newData);
+  };
+
+  const addFieldOption = (fieldIndex: number) => {
+    const newData = JSON.parse(JSON.stringify(localSiteData));
+    if (!newData.contactForm.fields[fieldIndex].options) {
+      newData.contactForm.fields[fieldIndex].options = [];
+    }
+    newData.contactForm.fields[fieldIndex].options.push("New Option");
+    setLocalSiteData(newData);
+  };
+
+  const updateFieldOption = (fieldIndex: number, optionIndex: number, value: string) => {
+    const newData = JSON.parse(JSON.stringify(localSiteData));
+    newData.contactForm.fields[fieldIndex].options[optionIndex] = value;
+    setLocalSiteData(newData);
+  };
+
+  const removeFieldOption = (fieldIndex: number, optionIndex: number) => {
+    const newData = JSON.parse(JSON.stringify(localSiteData));
+    newData.contactForm.fields[fieldIndex].options.splice(optionIndex, 1);
+    setLocalSiteData(newData);
+  };
+
   if (isLoadingData) return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-slate-50 gap-4">
       <Loader2 className="h-8 w-8 animate-spin text-primary" />
@@ -412,6 +477,7 @@ export default function AdminDashboard() {
     { id: "faqs", icon: HelpCircle, label: "Support Desk" },
     { id: "blog", icon: Newspaper, label: "Academic Hub" },
     { id: "resources", icon: Download, label: "Resources Hub" },
+    { id: "form", icon: ListTodo, label: "Form Architect" },
     { id: "control", icon: Settings, label: "Control Center" }
   ];
 
@@ -718,7 +784,7 @@ export default function AdminDashboard() {
                     </div>
                     
                     <div className="flex items-center gap-3 p-3 bg-slate-50 rounded-2xl border border-slate-100">
-                      <input type="checkbox" checked={p.highlight} onChange={(e) => updateListItem('pricing', i, 'highlight', e.target.checked)} className="h-5 w-5 rounded-md border-slate-300 text-primary" id={`highlight-${i}`} />
+                      <Checkbox checked={p.highlight} onCheckedChange={(checked) => updateListItem('pricing', i, 'highlight', !!checked)} id={`highlight-${i}`} />
                       <label htmlFor={`highlight-${i}`} className="text-xs font-bold text-slate-700 cursor-pointer">Featured Tier (Visual Priority)</label>
                     </div>
 
@@ -928,6 +994,111 @@ export default function AdminDashboard() {
                  <span className="font-bold uppercase tracking-widest text-[9px]">Add Scholarly Resource</span>
               </Button>
             </div>
+          </TabsContent>
+
+          {/* Form Architect */}
+          <TabsContent value="form">
+            <Card className="p-6 space-y-6 border-none shadow-sm rounded-3xl bg-white">
+              <div className="flex justify-between items-center mb-4">
+                <h3 className="text-md font-headline font-bold text-slate-900">Inquiry Registry Architect</h3>
+                <Button onClick={addFormField} className="rounded-xl h-10 px-4 bg-primary text-white font-bold text-xs flex gap-2">
+                  <Plus className="h-4 w-4" /> Add Field
+                </Button>
+              </div>
+
+              <div className="space-y-4">
+                {localSiteData?.contactForm?.fields?.map((field: any, i: number) => (
+                  <div key={field.id} className="p-6 bg-slate-50 rounded-3xl border border-slate-100 space-y-6 relative group/field">
+                    <div className="flex justify-between items-start">
+                      <div className="flex items-center gap-3">
+                        <GripVertical className="h-5 w-5 text-slate-300 cursor-grab" />
+                        <span className="text-[10px] font-bold text-primary uppercase tracking-widest">Field #{i + 1}</span>
+                      </div>
+                      <div className="flex gap-1">
+                        <Button variant="ghost" size="icon" className="h-8 w-8 rounded-lg text-slate-400" onClick={() => moveField(i, 'up')} disabled={i === 0}>
+                          <ChevronUp className="h-4 w-4" />
+                        </Button>
+                        <Button variant="ghost" size="icon" className="h-8 w-8 rounded-lg text-slate-400" onClick={() => moveField(i, 'down')} disabled={i === localSiteData.contactForm.fields.length - 1}>
+                          <ChevronDown className="h-4 w-4" />
+                        </Button>
+                        <Button variant="ghost" size="icon" className="h-8 w-8 rounded-lg text-red-400 hover:text-red-600 hover:bg-red-50" onClick={() => deleteFormField(i)}>
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
+                      </div>
+                    </div>
+
+                    <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+                      <div className="space-y-1">
+                        <label className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Display Label</label>
+                        <Input value={field.label} onChange={(e) => updateFormField(i, { label: e.target.value })} className="h-10 rounded-xl bg-white border-none shadow-sm" />
+                      </div>
+                      <div className="space-y-1">
+                        <label className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Placeholder</label>
+                        <Input value={field.placeholder} onChange={(e) => updateFormField(i, { placeholder: e.target.value })} className="h-10 rounded-xl bg-white border-none shadow-sm" />
+                      </div>
+                      <div className="space-y-1">
+                        <label className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Field Type</label>
+                        <UISelect value={field.type} onValueChange={(val) => updateFormField(i, { type: val })}>
+                          <SelectTrigger className="h-10 rounded-xl bg-white border-none shadow-sm">
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent className="rounded-xl">
+                            <SelectItem value="text">Short Text</SelectItem>
+                            <SelectItem value="email">Email Address</SelectItem>
+                            <SelectItem value="tel">Phone / Mobile</SelectItem>
+                            <SelectItem value="select">Dropdown Menu</SelectItem>
+                            <SelectItem value="textarea">Long Narrative</SelectItem>
+                          </SelectContent>
+                        </UISelect>
+                      </div>
+                      <div className="flex flex-col justify-center gap-2">
+                        <label className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Constraints</label>
+                        <div className="flex items-center gap-2">
+                          <Checkbox checked={field.required} onCheckedChange={(val) => updateFormField(i, { required: !!val })} id={`req-${field.id}`} />
+                          <label htmlFor={`req-${field.id}`} className="text-xs font-medium text-slate-600">Required</label>
+                        </div>
+                        {field.type === 'tel' && (
+                          <div className="flex items-center gap-2">
+                            <Checkbox checked={field.showCountryCode} onCheckedChange={(val) => updateFormField(i, { showCountryCode: !!val })} id={`cc-${field.id}`} />
+                            <label htmlFor={`cc-${field.id}`} className="text-xs font-medium text-slate-600">Country Code UI</label>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+
+                    {field.type === 'select' && (
+                      <div className="pt-4 border-t border-slate-100">
+                        <div className="flex justify-between items-center mb-3">
+                          <label className="text-[9px] font-bold text-primary uppercase tracking-widest">Dropdown Registry Options</label>
+                          <Button variant="ghost" size="sm" onClick={() => addFieldOption(i)} className="h-7 text-[10px] font-bold bg-primary/5 text-primary rounded-lg px-3">
+                            <Plus className="h-3.5 w-3.5 mr-1" /> Add Option
+                          </Button>
+                        </div>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
+                          {field.options?.map((opt: string, optIdx: number) => (
+                            <div key={optIdx} className="flex items-center gap-2 group/opt">
+                              <Input 
+                                value={opt} 
+                                onChange={(e) => updateFieldOption(i, optIdx, e.target.value)} 
+                                className="h-8 rounded-lg bg-white border-none shadow-sm text-xs" 
+                              />
+                              <Button 
+                                variant="ghost" 
+                                size="icon" 
+                                className="h-8 w-8 text-slate-300 hover:text-red-400" 
+                                onClick={() => removeFieldOption(i, optIdx)}
+                              >
+                                <X className="h-3.5 w-3.5" />
+                              </Button>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </Card>
           </TabsContent>
 
           {/* Control Center */}

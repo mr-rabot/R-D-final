@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useEffect, useState, useRef } from "react";
@@ -14,15 +15,6 @@ import { useToast } from "@/hooks/use-toast";
 import { Mail, Phone, User, MessageSquare, Send, Loader2, Linkedin } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-const formSchema = z.object({
-  name: z.string().min(2, "Full name is required"),
-  email: z.string().email("Please enter a valid email address"),
-  countryCode: z.string().min(1, "Required"),
-  phone: z.string().min(1, "Mobile number is required"),
-  service: z.string().min(1, "Please select a service"),
-  details: z.string().min(10, "Please provide some project details"),
-});
-
 const countryCodes = [
   { code: "+91", flag: "🇮🇳", name: "India" },
   { code: "+977", flag: "🇳🇵", name: "Nepal" },
@@ -37,32 +29,18 @@ const countryCodes = [
 
 export function InquiryForm() {
   const { toast } = useToast();
-  const [contactImage, setContactImage] = useState<string | null>(null);
+  const [siteData, setSiteData] = useState<any>(null);
   const [whatsapp, setWhatsapp] = useState("916209779365");
-  const [linkedin, setLinkedin] = useState<string | null>(null);
   const [isVisible, setIsVisible] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
   
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      name: "",
-      email: "",
-      countryCode: "India",
-      phone: "",
-      service: "",
-      details: "",
-    },
-  });
-
   useEffect(() => {
     fetch('/api/leadership', { cache: 'no-store' })
       .then(res => res.json())
       .then(data => {
-        if (data.firmSummary?.image) setContactImage(data.firmSummary.image);
+        setSiteData(data);
         if (data.integrations?.whatsapp) setWhatsapp(data.integrations.whatsapp);
-        if (data.integrations?.linkedin) setLinkedin(data.integrations.linkedin);
       })
       .catch(err => console.error("Error fetching leadership data:", err));
 
@@ -83,9 +61,39 @@ export function InquiryForm() {
     return () => observer.disconnect();
   }, []);
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
+  const fields = siteData?.contactForm?.fields || [];
+
+  // Dynamically build validation schema
+  const schemaShape: any = {
+    countryCode: z.string().optional()
+  };
+  fields.forEach((f: any) => {
+    let validator = z.string();
+    if (f.required) validator = validator.min(1, `${f.label} is required`);
+    if (f.type === 'email') validator = z.string().email("Invalid email address");
+    schemaShape[f.id] = validator;
+  });
+
+  const dynamicSchema = z.object(schemaShape);
+
+  const form = useForm<z.infer<typeof dynamicSchema>>({
+    resolver: zodResolver(dynamicSchema),
+    defaultValues: {
+      countryCode: "India"
+    },
+  });
+
+  async function onSubmit(values: any) {
     setIsSubmitting(true);
     
+    // Format payload for email
+    const payload: any = { ...values };
+    const phoneField = fields.find((f: any) => f.type === 'tel' && f.showCountryCode);
+    if (phoneField && values[phoneField.id]) {
+      const selectedCountry = countryCodes.find(c => c.name === values.countryCode);
+      payload[phoneField.id] = `${selectedCountry?.code || "+91"} ${values[phoneField.id]}`;
+    }
+
     try {
       const response = await fetch("https://formsubmit.co/ajax/support.rdservices@gmail.com", {
         method: "POST",
@@ -94,12 +102,8 @@ export function InquiryForm() {
           'Accept': 'application/json'
         },
         body: JSON.stringify({
-          name: values.name,
-          email: values.email,
-          phone: `${values.countryCode} ${values.phone}`,
-          service: values.service,
-          message: values.details,
-          _subject: `New Research Inquiry: ${values.service} from ${values.name}`,
+          ...payload,
+          _subject: `New Scholarly Inquiry from ${values.name || values.email || 'Website'}`,
           _template: "table"
         }),
       });
@@ -109,14 +113,7 @@ export function InquiryForm() {
           title: "Inquiry Sent Successfully",
           description: "Our academic team has received your message and will contact you shortly.",
         });
-        form.reset({
-          name: "",
-          email: "",
-          phone: "",
-          details: "",
-          service: "",
-          countryCode: "India"
-        });
+        form.reset();
       } else {
         throw new Error("Submission failed");
       }
@@ -133,23 +130,19 @@ export function InquiryForm() {
 
   const handleWhatsAppQuickAction = () => {
     const values = form.getValues();
-    if (!values.name || !values.service) {
-      const quickMessage = encodeURIComponent("Hi R&DServices, I am interested in your academic consulting services.");
-      window.open(`https://wa.me/${whatsapp}?text=${quickMessage}`, '_blank');
-      return;
-    }
+    const messageLines = ["*New Scholarly Quote Request*"];
+    fields.forEach((f: any) => {
+      if (values[f.id]) {
+        if (f.type === 'tel' && f.showCountryCode) {
+          const cc = countryCodes.find(c => c.name === values.countryCode)?.code || "+91";
+          messageLines.push(`*${f.label}:* ${cc} ${values[f.id]}`);
+        } else {
+          messageLines.push(`*${f.label}:* ${values[f.id]}`);
+        }
+      }
+    });
 
-    const selectedCountry = countryCodes.find(c => c.name === values.countryCode);
-    const code = selectedCountry?.code || "+91";
-    const fullPhone = `${code} ${values.phone}`;
-    
-    const messageText = `*New Quote Request from Website*\n\n` +
-      `*Name:* ${values.name}\n` +
-      `*Email:* ${values.email}\n` +
-      `*Phone:* ${fullPhone}\n` +
-      `*Service:* ${values.service}\n` +
-      `*Details:* ${values.details}`;
-    
+    const messageText = messageLines.length > 1 ? messageLines.join('\n') : "Hi R&DServices, I am interested in your academic consulting services.";
     window.open(`https://wa.me/${whatsapp}?text=${encodeURIComponent(messageText)}`, '_blank');
   };
 
@@ -174,8 +167,8 @@ export function InquiryForm() {
                   <User className="h-6 w-6" />
                 </div>
                 <div>
-                  <h4 className="font-bold text-accent text-lg md:text-xl">Om Prakash Sinha</h4>
-                  <p className="text-slate-500 text-[13px] md:text-sm">Founder & Director</p>
+                  <h4 className="font-bold text-accent text-lg md:text-xl">{siteData?.leadership?.founder?.name || "Om Prakash Sinha"}</h4>
+                  <p className="text-slate-500 text-[13px] md:text-sm">{siteData?.leadership?.founder?.role || "Founder & Director"}</p>
                 </div>
               </div>
 
@@ -205,7 +198,7 @@ export function InquiryForm() {
                 </div>
               </div>
 
-              {linkedin && (
+              {siteData?.integrations?.linkedin && (
                 <div className="flex items-start gap-5 md:gap-6">
                   <div className="bg-white shadow-md p-3 rounded-xl text-primary shrink-0">
                     <Linkedin className="h-6 w-6" />
@@ -213,7 +206,7 @@ export function InquiryForm() {
                   <div>
                     <h4 className="font-bold text-accent text-lg">LinkedIn</h4>
                     <a 
-                      href={linkedin} 
+                      href={siteData.integrations.linkedin} 
                       target="_blank" 
                       rel="noopener noreferrer"
                       className="text-slate-600 font-medium text-sm md:text-base hover:text-primary transition-colors"
@@ -226,13 +219,13 @@ export function InquiryForm() {
             </div>
 
             <div className="relative pt-4 hidden md:block">
-              {contactImage ? (
+              {siteData?.firmSummary?.image ? (
                 <div className={cn(
                   "relative w-full aspect-[16/10] overflow-hidden rounded-[32px] shadow-[0_30px_60px_rgba(0,0,0,0.15)] border border-slate-200 transition-all duration-1000 delay-300 bg-slate-100",
                   isVisible ? "scale-100 opacity-100" : "scale-95 opacity-0"
                 )}>
                   <Image
-                    src={contactImage}
+                    src={siteData.firmSummary.image}
                     alt="Research Visual"
                     fill
                     className="object-cover grayscale hover:grayscale-0 transition-all duration-1000"
@@ -255,145 +248,93 @@ export function InquiryForm() {
 
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 md:space-y-8">
-                <div className="grid md:grid-cols-2 gap-6">
+                {fields.map((f: any) => (
                   <FormField
+                    key={f.id}
                     control={form.control}
-                    name="name"
+                    name={f.id}
                     render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="text-[11px] font-bold text-accent uppercase tracking-wider">Full Name *</FormLabel>
+                      <FormItem className="w-full">
+                        <FormLabel className="text-[11px] font-bold text-accent uppercase tracking-wider">{f.label} {f.required && '*'}</FormLabel>
                         <FormControl>
-                          <Input placeholder="Enter your name" {...field} className="bg-slate-50 border-none rounded-2xl h-14 md:h-16 shadow-inner text-sm md:text-base" />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  
-                  <FormField
-                    control={form.control}
-                    name="email"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="text-[11px] font-bold text-accent uppercase tracking-wider">Email Address *</FormLabel>
-                        <FormControl>
-                          <Input placeholder="email@example.com" {...field} className="bg-slate-50 border-none rounded-2xl h-14 md:h-16 shadow-inner text-sm md:text-base" />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-
-                <div className="grid md:grid-cols-2 gap-6">
-                  <div className="space-y-2">
-                    <FormLabel className="text-[11px] font-bold text-accent uppercase tracking-wider">Contact Number *</FormLabel>
-                    <div className="flex items-center gap-0 bg-slate-50 border-none rounded-2xl shadow-inner overflow-hidden focus-within:ring-2 focus-within:ring-primary/20">
-                      <FormField
-                        control={form.control}
-                        name="countryCode"
-                        render={({ field }) => (
-                          <FormItem className="w-[110px] md:w-[120px] shrink-0 space-y-0">
-                            <Select onValueChange={field.onChange} defaultValue={field.value}>
+                          {f.type === 'textarea' ? (
+                            <Textarea 
+                              placeholder={f.placeholder} 
+                              className="bg-slate-50 border-none rounded-2xl min-h-[160px] md:min-h-[200px] shadow-inner text-sm md:text-lg p-6 resize-none" 
+                              {...field} 
+                            />
+                          ) : f.type === 'select' ? (
+                            <Select onValueChange={field.onChange} value={field.value}>
                               <FormControl>
-                                <SelectTrigger className="bg-transparent border-none h-14 md:h-16 shadow-none focus:ring-0 px-3">
-                                  <SelectValue placeholder="Code">
-                                    {(() => {
-                                      const selected = countryCodes.find(c => c.name === field.value);
-                                      return selected ? (
-                                        <span className="flex items-center gap-1.5">
-                                          <span className="text-lg md:text-xl leading-none">{selected.flag}</span>
-                                          <span className="text-[13px] md:text-sm font-bold">{selected.code}</span>
-                                        </span>
-                                      ) : "Code";
-                                    })()}
-                                  </SelectValue>
+                                <SelectTrigger className="bg-slate-50 border-none rounded-2xl h-14 md:h-16 shadow-inner text-sm md:text-base">
+                                  <SelectValue placeholder={f.placeholder} />
                                 </SelectTrigger>
                               </FormControl>
-                              <SelectContent className="rounded-2xl border-slate-100 max-h-[300px]">
-                                {countryCodes.map((item) => (
-                                  <SelectItem key={`${item.code}-${item.name}`} value={item.name}>
-                                    <span className="flex items-center gap-3">
-                                      <span className="text-xl">{item.flag}</span>
-                                      <span className="text-sm font-medium">{item.code} {item.name}</span>
-                                    </span>
-                                  </SelectItem>
+                              <SelectContent className="rounded-2xl border-slate-100">
+                                {f.options?.map((opt: string) => (
+                                  <SelectItem key={opt} value={opt}>{opt}</SelectItem>
                                 ))}
                               </SelectContent>
                             </Select>
-                          </FormItem>
-                        )}
-                      />
-                      <div className="w-px h-8 bg-slate-200" />
-                      <FormField
-                        control={form.control}
-                        name="phone"
-                        render={({ field }) => (
-                          <FormItem className="flex-grow space-y-0">
-                            <FormControl>
+                          ) : f.type === 'tel' && f.showCountryCode ? (
+                            <div className="flex items-center gap-0 bg-slate-50 border-none rounded-2xl shadow-inner overflow-hidden focus-within:ring-2 focus-within:ring-primary/20">
+                              <FormField
+                                control={form.control}
+                                name="countryCode"
+                                render={({ field: ccField }) => (
+                                  <FormItem className="w-[110px] md:w-[120px] shrink-0 space-y-0">
+                                    <Select onValueChange={ccField.onChange} defaultValue={ccField.value}>
+                                      <FormControl>
+                                        <SelectTrigger className="bg-transparent border-none h-14 md:h-16 shadow-none focus:ring-0 px-3">
+                                          <SelectValue placeholder="Code">
+                                            {(() => {
+                                              const selected = countryCodes.find(c => c.name === ccField.value);
+                                              return selected ? (
+                                                <span className="flex items-center gap-1.5">
+                                                  <span className="text-lg md:text-xl leading-none">{selected.flag}</span>
+                                                  <span className="text-[13px] md:text-sm font-bold">{selected.code}</span>
+                                                </span>
+                                              ) : "Code";
+                                            })()}
+                                          </SelectValue>
+                                        </SelectTrigger>
+                                      </FormControl>
+                                      <SelectContent className="rounded-2xl border-slate-100 max-h-[300px]">
+                                        {countryCodes.map((item) => (
+                                          <SelectItem key={`${item.code}-${item.name}`} value={item.name}>
+                                            <span className="flex items-center gap-3">
+                                              <span className="text-xl">{item.flag}</span>
+                                              <span className="text-sm font-medium">{item.code} {item.name}</span>
+                                            </span>
+                                          </SelectItem>
+                                        ))}
+                                      </SelectContent>
+                                    </Select>
+                                  </FormItem>
+                                )}
+                              />
+                              <div className="w-px h-8 bg-slate-200" />
                               <Input 
                                 type="tel"
-                                placeholder="Mobile number" 
+                                placeholder={f.placeholder} 
                                 {...field} 
                                 className="bg-transparent border-none h-14 md:h-16 shadow-none focus-visible:ring-0 text-sm md:text-base px-4" 
                               />
-                            </FormControl>
-                          </FormItem>
-                        )}
-                      />
-                    </div>
-                    <FormMessage />
-                  </div>
-
-                  <FormField
-                    control={form.control}
-                    name="service"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="text-[11px] font-bold text-accent uppercase tracking-wider">Service Type *</FormLabel>
-                        <Select onValueChange={field.onChange} value={field.value}>
-                          <FormControl>
-                            <SelectTrigger className="bg-slate-50 border-none rounded-2xl h-14 md:h-16 shadow-inner text-sm md:text-base">
-                              <SelectValue placeholder="Select service type" />
-                            </SelectTrigger>
-                          </FormControl>
-                          <SelectContent className="rounded-2xl border-slate-100">
-                            <SelectItem value="Thesis Writing">Thesis Writing</SelectItem>
-                            <SelectItem value="Research Title">Research Title</SelectItem>
-                            <SelectItem value="Research Paper">Research Paper</SelectItem>
-                            <SelectItem value="Review Paper">Review Paper</SelectItem>
-                            <SelectItem value="Synopsis">Synopsis</SelectItem>
-                            <SelectItem value="Dissertation - I">Dissertation - I</SelectItem>
-                            <SelectItem value="Dissertation - II">Dissertation - II</SelectItem>
-                            <SelectItem value="PPT">PPT</SelectItem>
-                            <SelectItem value="Project Report">Project Report</SelectItem>
-                            <SelectItem value="Internship Report">Internship</SelectItem>
-                            <SelectItem value="Others">Others</SelectItem>
-                          </SelectContent>
-                        </Select>
+                            </div>
+                          ) : (
+                            <Input 
+                              type={f.type} 
+                              placeholder={f.placeholder} 
+                              {...field} 
+                              className="bg-slate-50 border-none rounded-2xl h-14 md:h-16 shadow-inner text-sm md:text-base" 
+                            />
+                          )}
+                        </FormControl>
                         <FormMessage />
                       </FormItem>
                     )}
                   />
-                </div>
-
-                <FormField
-                  control={form.control}
-                  name="details"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="text-[11px] font-bold text-accent uppercase tracking-wider">Research Details *</FormLabel>
-                      <FormControl>
-                        <Textarea 
-                          placeholder="Please provide topic details, desired timeline, and specific requirements..." 
-                          className="bg-slate-50 border-none rounded-2xl min-h-[160px] md:min-h-[200px] shadow-inner text-sm md:text-lg p-6 resize-none" 
-                          {...field} 
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                ))}
 
                 <div className="flex flex-col gap-4 pt-4">
                   <Button 

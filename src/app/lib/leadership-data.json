@@ -375,5 +375,57 @@
     "facebook": "https://facebook.com",
     "instagram": "https://instagram.com",
     "linkedin": "https://www.linkedin.com/company/r-and-d-services?utm_source=chatgpt.com"
+  },
+  "contactForm": {
+    "fields": [
+      {
+        "id": "name",
+        "label": "Full Name",
+        "type": "text",
+        "placeholder": "Enter your name",
+        "required": true
+      },
+      {
+        "id": "email",
+        "label": "Email Address",
+        "type": "email",
+        "placeholder": "email@example.com",
+        "required": true
+      },
+      {
+        "id": "phone",
+        "label": "Contact Number",
+        "type": "tel",
+        "placeholder": "Mobile number",
+        "required": true,
+        "showCountryCode": true
+      },
+      {
+        "id": "service",
+        "label": "Service Type",
+        "type": "select",
+        "placeholder": "Select service type",
+        "required": true,
+        "options": [
+          "Thesis Writing",
+          "Research Title",
+          "Research Paper",
+          "Review Paper",
+          "Synopsis",
+          "Dissertation - I",
+          "Dissertation - II",
+          "PPT",
+          "Project Report",
+          "Others"
+        ]
+      },
+      {
+        "id": "details",
+        "label": "Research Details",
+        "type": "textarea",
+        "placeholder": "Please provide topic details, desired timeline, and specific requirements...",
+        "required": true
+      }
+    ]
   }
 }
