@@ -72,33 +72,33 @@ export function Services() {
         isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
       )}>
         
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 md:gap-16 mb-24 md:mb-40">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 md:gap-12 mb-20 md:mb-32">
           {trustIndicators.map((item, i) => (
             <div 
               key={i} 
               className={cn(
-                "flex flex-col items-center gap-4 md:gap-6 text-center group transition-all duration-700",
+                "flex flex-col items-center gap-3 md:gap-5 text-center group transition-all duration-700",
                 isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
               )} 
               style={{ transitionDelay: `${i * 100}ms` }}
             >
               <div className={cn(
-                "p-5 md:p-7 rounded-[24px] md:rounded-[32px] shadow-[0_15px_35px_rgba(0,0,0,0.08)] transition-all duration-500 group-hover:-translate-y-2 group-hover:shadow-[0_25px_50px_rgba(0,71,255,0.15)]",
+                "p-4 md:p-6 rounded-[20px] md:rounded-[28px] shadow-[0_10px_30px_rgba(0,0,0,0.06)] transition-all duration-500 group-hover:-translate-y-1.5 group-hover:shadow-[0_20px_40px_rgba(0,71,255,0.12)]",
                 item.bg, item.color
               )}>
-                <item.icon className="h-6 w-6 md:h-9 md:w-9" />
+                <item.icon className="h-5 w-5 md:h-7 md:w-7" />
               </div>
-              <span className="text-[8px] md:text-sm font-bold text-slate-400 uppercase tracking-[0.2em]">{item.label}</span>
+              <span className="text-[8px] md:text-xs font-bold text-slate-400 uppercase tracking-[0.2em]">{item.label}</span>
             </div>
           ))}
         </div>
 
-        <div className="text-center mb-16 md:mb-28 space-y-4 md:space-y-6">
-          <div className="inline-block bg-accent text-white text-[8px] md:text-[10px] uppercase tracking-[0.3em] font-bold px-5 md:px-7 py-2 md:py-2.5 rounded-full mb-2 shadow-xl shadow-accent/20">
+        <div className="text-center mb-12 md:mb-20 space-y-3 md:space-y-5">
+          <div className="inline-block bg-accent text-white text-[8px] md:text-[9px] uppercase tracking-[0.2em] font-bold px-4 md:px-6 py-1.5 md:py-2 rounded-full mb-1 shadow-lg shadow-accent/15">
             Our Expertise
           </div>
-          <h2 className="text-4xl md:text-6xl lg:text-8xl font-headline font-bold text-accent leading-tight">Comprehensive Services</h2>
-          <p className="text-slate-500 max-w-4xl mx-auto text-base md:text-xl font-light px-4">
+          <h2 className="text-3xl md:text-5xl lg:text-6xl font-headline font-bold text-accent leading-tight">Comprehensive Services</h2>
+          <p className="text-slate-500 max-w-3xl mx-auto text-base md:text-lg font-light px-4">
             High-end research writing solutions tailored for global academic success and peer-review publication.
           </p>
         </div>
@@ -113,15 +113,15 @@ export function Services() {
                 loop: true,
               }}
             >
-              <CarouselContent className="-ml-4 md:-ml-10">
+              <CarouselContent className="-ml-4 md:-ml-8">
                 {services.map((service, index) => {
                   const placeholderId = `service-${(index % 3) + 1}`;
                   const placeholder = PlaceHolderImages.find(p => p.id === placeholderId);
                   const displayImage = service.image || placeholder?.imageUrl;
 
                   return (
-                    <CarouselItem key={index} className="pl-4 md:pl-10 basis-full md:basis-1/2 lg:basis-1/3 xl:basis-1/4 py-4 md:py-8">
-                      <Card className="border-none shadow-[0_20px_50px_-15px_rgba(0,0,0,0.08)] hover:shadow-[0_45px_90px_-20px_rgba(0,71,255,0.2)] transition-all duration-700 rounded-[35px] md:rounded-[45px] bg-white flex flex-col h-full group overflow-hidden border-b-8 border-transparent hover:border-primary">
+                    <CarouselItem key={index} className="pl-4 md:pl-8 basis-full md:basis-1/2 lg:basis-1/3 xl:basis-1/4 py-4 md:py-6">
+                      <Card className="border-none shadow-[0_15px_40px_-10px_rgba(0,0,0,0.06)] hover:shadow-[0_30px_70px_-15px_rgba(0,71,255,0.15)] transition-all duration-700 rounded-[28px] md:rounded-[36px] bg-white flex flex-col h-full group overflow-hidden border-b-4 border-transparent hover:border-primary">
                         <div className="relative aspect-video w-full overflow-hidden shrink-0">
                           {displayImage && (
                             <Image 
@@ -132,26 +132,26 @@ export function Services() {
                               unoptimized
                             />
                           )}
-                          <div className="absolute inset-0 bg-gradient-to-t from-white via-white/20 to-transparent" />
-                          <div className="absolute bottom-4 left-6 md:bottom-6 md:left-10">
-                             <div className="bg-primary/90 backdrop-blur-md w-10 h-10 md:w-14 md:h-14 rounded-[12px] md:rounded-[18px] flex items-center justify-center text-white shadow-lg">
-                              <FileText className="h-5 w-5 md:h-7 md:w-7" />
+                          <div className="absolute inset-0 bg-gradient-to-t from-white via-white/10 to-transparent" />
+                          <div className="absolute bottom-3 left-5 md:bottom-5 md:left-8">
+                             <div className="bg-primary/90 backdrop-blur-md w-8 h-8 md:w-12 md:h-12 rounded-lg md:rounded-[14px] flex items-center justify-center text-white shadow-md">
+                              <FileText className="h-4 w-4 md:h-6 md:w-6" />
                             </div>
                           </div>
                         </div>
-                        <CardHeader className="px-6 md:px-10 pt-6 pb-2">
-                          <CardTitle className="font-headline text-2xl md:text-3xl text-accent mb-2 group-hover:text-primary transition-colors leading-tight">
+                        <CardHeader className="px-5 md:px-8 pt-5 pb-1">
+                          <CardTitle className="font-headline text-xl md:text-2xl text-accent mb-1 group-hover:text-primary transition-colors leading-tight">
                             {service.title}
                           </CardTitle>
                         </CardHeader>
-                        <CardContent className="px-6 md:px-10 pb-10 space-y-6 flex-grow">
-                          <p className="text-slate-500 text-sm md:text-base leading-relaxed font-light line-clamp-4">
+                        <CardContent className="px-5 md:px-8 pb-8 space-y-4 flex-grow">
+                          <p className="text-slate-500 text-xs md:text-sm leading-relaxed font-light line-clamp-4">
                             {service.description}
                           </p>
-                          <div className="space-y-3 pt-2">
+                          <div className="space-y-2 pt-1">
                             {service.features && Array.isArray(service.features) && service.features.slice(0, 3).map((feature: string, i: number) => (
-                              <div key={i} className="flex items-center gap-3 text-[9px] md:text-[11px] text-slate-400 font-bold uppercase tracking-wider">
-                                <CheckCircle className="h-3 w-3 text-primary shrink-0" />
+                              <div key={i} className="flex items-center gap-2 text-[8px] md:text-[10px] text-slate-400 font-bold uppercase tracking-wider">
+                                <CheckCircle className="h-2.5 w-2.5 text-primary shrink-0" />
                                 <span className="truncate">{feature}</span>
                               </div>
                             ))}
@@ -162,13 +162,13 @@ export function Services() {
                   );
                 })}
               </CarouselContent>
-              <div className="flex justify-center mt-10 md:mt-16 gap-6 md:block">
-                <CarouselPrevious className="static md:absolute md:-left-12 lg:-left-16 translate-y-0 bg-white border-none hover:bg-primary hover:text-white h-12 w-12 md:h-16 md:w-16 flex items-center justify-center rounded-full shadow-xl transition-all active:scale-90" />
-                <CarouselNext className="static md:absolute md:-right-12 lg:-right-16 translate-y-0 bg-white border-none hover:bg-primary hover:text-white h-12 w-12 md:h-16 md:w-16 flex items-center justify-center rounded-full shadow-xl transition-all active:scale-90" />
+              <div className="flex justify-center mt-8 md:mt-12 gap-4 md:block">
+                <CarouselPrevious className="static md:absolute md:-left-8 lg:-left-12 translate-y-0 bg-white border-none hover:bg-primary hover:text-white h-10 w-10 md:h-14 md:w-14 flex items-center justify-center rounded-full shadow-lg transition-all active:scale-90" />
+                <CarouselNext className="static md:absolute md:-right-8 lg:-right-12 translate-y-0 bg-white border-none hover:bg-primary hover:text-white h-10 w-10 md:h-14 md:w-14 flex items-center justify-center rounded-full shadow-lg transition-all active:scale-90" />
               </div>
             </Carousel>
           ) : (
-            <div className="text-center py-20 text-slate-400 font-bold uppercase tracking-widest text-xs">Syncing scholarly services...</div>
+            <div className="text-center py-16 text-slate-400 font-bold uppercase tracking-widest text-[10px]">Syncing scholarly services...</div>
           )}
         </div>
       </div>
