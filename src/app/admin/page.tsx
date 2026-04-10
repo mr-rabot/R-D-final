@@ -43,7 +43,8 @@ import {
   ListTodo,
   ChevronUp,
   ChevronDown,
-  GripVertical
+  GripVertical,
+  Download
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import Image from "next/image";
@@ -350,25 +351,6 @@ export default function AdminDashboard() {
     setLocalSiteData(newData);
   };
 
-  const updatePricingFeature = (pricingIndex: number, featureIndex: number, value: string) => {
-    const newData = JSON.parse(JSON.stringify(localSiteData));
-    newData.pricing[pricingIndex].features[featureIndex] = value;
-    setLocalSiteData(newData);
-  };
-
-  const addPricingFeature = (pricingIndex: number) => {
-    const newData = JSON.parse(JSON.stringify(localSiteData));
-    if (!newData.pricing[pricingIndex].features) newData.pricing[pricingIndex].features = [];
-    newData.pricing[pricingIndex].features.push("New Feature Item");
-    setLocalSiteData(newData);
-  };
-
-  const removePricingFeature = (pricingIndex: number, featureIndex: number) => {
-    const newData = JSON.parse(JSON.stringify(localSiteData));
-    newData.pricing[pricingIndex].features.splice(featureIndex, 1);
-    setLocalSiteData(newData);
-  };
-
   const addFormField = () => {
     const newData = JSON.parse(JSON.stringify(localSiteData));
     if (!newData.contactForm) newData.contactForm = { fields: [] };
@@ -596,10 +578,44 @@ export default function AdminDashboard() {
             </Card>
           </TabsContent>
 
+          <TabsContent value="summary">
+            <Card className="p-6 space-y-6 border-none shadow-sm rounded-3xl bg-white">
+              <div className="grid md:grid-cols-2 gap-4">
+                <div className="space-y-1">
+                  <label className="text-[9px] font-bold text-slate-400 uppercase">Summary Title</label>
+                  <Input value={localSiteData?.firmSummary?.title} onChange={(e) => setLocalSiteData({...localSiteData, firmSummary: {...localSiteData.firmSummary, title: e.target.value}})} className="rounded-xl h-10 bg-slate-50 border-none" />
+                </div>
+                <div className="space-y-1">
+                  <label className="text-[9px] font-bold text-slate-400 uppercase">Description</label>
+                  <Textarea value={localSiteData?.firmSummary?.description} onChange={(e) => setLocalSiteData({...localSiteData, firmSummary: {...localSiteData.firmSummary, description: e.target.value}})} className="rounded-xl min-h-[100px] bg-slate-50 border-none" />
+                </div>
+              </div>
+              <div className="space-y-4">
+                <h4 className="text-xs font-bold text-slate-900 border-b pb-2">Synthesis Stats</h4>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {localSiteData?.firmSummary?.stats?.map((stat: any, i: number) => (
+                    <div key={i} className="flex gap-2">
+                      <Input value={stat.label} onChange={(e) => {
+                        const newData = JSON.parse(JSON.stringify(localSiteData));
+                        newData.firmSummary.stats[i].label = e.target.value;
+                        setLocalSiteData(newData);
+                      }} placeholder="Label" className="rounded-xl bg-slate-50 border-none" />
+                      <Input value={stat.value} onChange={(e) => {
+                        const newData = JSON.parse(JSON.stringify(localSiteData));
+                        newData.firmSummary.stats[i].value = e.target.value;
+                        setLocalSiteData(newData);
+                      }} placeholder="Value" className="rounded-xl bg-slate-50 border-none" />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </Card>
+          </TabsContent>
+
           <TabsContent value="leadership">
             <div className="grid md:grid-cols-2 gap-6">
               <Card className="p-6 space-y-6 border-none shadow-sm rounded-3xl bg-white">
-                <h3 className="text-md font-headline font-bold text-slate-900 border-b pb-3">Founder</h3>
+                <h3 className="text-md font-headline font-bold text-slate-900 border-b pb-3">Founder Profile</h3>
                 <div className="flex flex-col items-center gap-4">
                   <div className="relative h-24 w-24 bg-slate-50 rounded-full overflow-hidden shadow-md">
                     {localSiteData?.leadership?.founder?.image ? (
@@ -611,6 +627,21 @@ export default function AdminDashboard() {
                 <div className="space-y-3">
                   <Input value={localSiteData?.leadership?.founder?.name} onChange={(e) => setLocalSiteData({...localSiteData, leadership: {...localSiteData.leadership, founder: {...localSiteData.leadership.founder, name: e.target.value}}})} placeholder="Name" className="rounded-xl h-10 bg-slate-50 border-none" />
                   <Input value={localSiteData?.leadership?.founder?.role} onChange={(e) => setLocalSiteData({...localSiteData, leadership: {...localSiteData.leadership, founder: {...localSiteData.leadership.founder, role: e.target.value}}})} placeholder="Role" className="rounded-xl h-10 bg-slate-50 border-none" />
+                </div>
+              </Card>
+              <Card className="p-6 space-y-6 border-none shadow-sm rounded-3xl bg-white">
+                <h3 className="text-md font-headline font-bold text-slate-900 border-b pb-3">Co-Founder Profile</h3>
+                <div className="flex flex-col items-center gap-4">
+                  <div className="relative h-24 w-24 bg-slate-50 rounded-full overflow-hidden shadow-md">
+                    {localSiteData?.leadership?.coFounder?.image ? (
+                      <Image src={localSiteData.leadership.coFounder.image} alt="Co-Founder" fill className="object-cover" unoptimized />
+                    ) : <UserCircle className="h-12 w-12 text-slate-200" />}
+                  </div>
+                  <Button variant="ghost" size="sm" className="text-primary font-bold" onClick={() => { setCurrentEditingPath(`leadership.coFounder.image`); fileInputRef.current?.click(); }}>Update Photo</Button>
+                </div>
+                <div className="space-y-3">
+                  <Input value={localSiteData?.leadership?.coFounder?.name} onChange={(e) => setLocalSiteData({...localSiteData, leadership: {...localSiteData.leadership, coFounder: {...localSiteData.leadership.coFounder, name: e.target.value}}})} placeholder="Name" className="rounded-xl h-10 bg-slate-50 border-none" />
+                  <Input value={localSiteData?.leadership?.coFounder?.role} onChange={(e) => setLocalSiteData({...localSiteData, leadership: {...localSiteData.leadership, coFounder: {...localSiteData.leadership.coFounder, role: e.target.value}}})} placeholder="Role" className="rounded-xl h-10 bg-slate-50 border-none" />
                 </div>
               </Card>
             </div>
@@ -630,11 +661,158 @@ export default function AdminDashboard() {
                   </div>
                 </Card>
               ))}
-              <Button variant="outline" className="h-full min-h-[150px] border-2 border-dashed border-slate-100 rounded-3xl flex flex-col gap-3" onClick={() => addItem('services', { title: "New Service", description: "Details...", features: ["Feature 1"], image: "" })}>
+              <Button variant="outline" className="h-full min-h-[150px] border-2 border-dashed border-slate-100 rounded-3xl flex flex-col gap-3" onClick={() => addItem('services', { title: "New Service", description: "Details...", features: ["Expert Analysis"], image: "" })}>
                 <Plus className="h-6 w-6" />
                 <span className="font-bold text-[9px] uppercase">Add Service</span>
               </Button>
             </div>
+          </TabsContent>
+
+          <TabsContent value="pricing">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {localSiteData?.pricing?.map((p: any, i: number) => (
+                <Card key={i} className={cn("p-6 space-y-4 border-none shadow-sm rounded-3xl bg-white", p.highlight && "ring-2 ring-primary")}>
+                  <div className="flex justify-between items-center">
+                    <Checkbox checked={p.highlight} onCheckedChange={(val) => updateListItem('pricing', i, 'highlight', !!val)} id={`highlight-${i}`} />
+                    <label htmlFor={`highlight-${i}`} className="text-[10px] font-bold text-primary uppercase ml-2 flex-grow">Highlighted</label>
+                    <Button variant="ghost" size="icon" className="text-red-400" onClick={() => setDeleteConfirm({path: 'pricing', index: i})}><Trash2 className="h-4 w-4" /></Button>
+                  </div>
+                  <Input value={p.name} onChange={(e) => updateListItem('pricing', i, 'name', e.target.value)} placeholder="Plan Name" className="font-bold h-10 rounded-xl bg-slate-50 border-none" />
+                  <Input value={p.badge} onChange={(e) => updateListItem('pricing', i, 'badge', e.target.value)} placeholder="Badge (e.g. Popular)" className="text-xs h-8 rounded-lg bg-slate-50 border-none" />
+                  <Textarea value={p.description} onChange={(e) => updateListItem('pricing', i, 'description', e.target.value)} placeholder="Description" className="text-xs min-h-[60px] rounded-xl bg-slate-50 border-none" />
+                  <div className="space-y-2">
+                    <label className="text-[9px] font-bold text-slate-400 uppercase">Features</label>
+                    {p.features?.map((f: string, fIdx: number) => (
+                      <div key={fIdx} className="flex gap-2">
+                        <Input value={f} onChange={(e) => {
+                          const newData = JSON.parse(JSON.stringify(localSiteData));
+                          newData.pricing[i].features[fIdx] = e.target.value;
+                          setLocalSiteData(newData);
+                        }} className="h-8 rounded-lg text-xs bg-slate-50 border-none" />
+                        <Button variant="ghost" size="icon" className="h-8 w-8 text-red-300" onClick={() => {
+                          const newData = JSON.parse(JSON.stringify(localSiteData));
+                          newData.pricing[i].features.splice(fIdx, 1);
+                          setLocalSiteData(newData);
+                        }}><X className="h-3 w-3" /></Button>
+                      </div>
+                    ))}
+                    <Button variant="ghost" size="sm" onClick={() => {
+                      const newData = JSON.parse(JSON.stringify(localSiteData));
+                      newData.pricing[i].features.push("New Feature");
+                      setLocalSiteData(newData);
+                    }} className="text-[9px] font-bold uppercase text-primary">Add Feature</Button>
+                  </div>
+                </Card>
+              ))}
+              <Button variant="outline" className="h-full min-h-[300px] border-2 border-dashed border-slate-100 rounded-3xl flex flex-col gap-3" onClick={() => addItem('pricing', { name: "New Tier", description: "Details...", features: [], highlight: false, badge: "" })}>
+                <Plus className="h-6 w-6" />
+                <span className="font-bold text-[9px] uppercase">Add Pricing Plan</span>
+              </Button>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="testimonials">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {localSiteData?.testimonials?.map((t: any, i: number) => (
+                <Card key={i} className="p-6 space-y-4 border-none shadow-sm rounded-3xl bg-white">
+                  <div className="flex justify-between items-center">
+                    <div className="relative h-12 w-12 rounded-full overflow-hidden bg-slate-50">
+                      {t.image ? <Image src={t.image} alt={t.name} fill className="object-cover" unoptimized /> : <UserCircle className="h-full w-full text-slate-200" />}
+                    </div>
+                    <Button variant="ghost" size="icon" className="text-red-400" onClick={() => setDeleteConfirm({path: 'testimonials', index: i})}><Trash2 className="h-4 w-4" /></Button>
+                  </div>
+                  <Input value={t.name} onChange={(e) => updateListItem('testimonials', i, 'name', e.target.value)} placeholder="Client Name" className="font-bold rounded-xl bg-slate-50 border-none" />
+                  <Input value={t.role} onChange={(e) => updateListItem('testimonials', i, 'role', e.target.value)} placeholder="Role/Affiliation" className="text-xs rounded-xl bg-slate-50 border-none" />
+                  <Textarea value={t.content} onChange={(e) => updateListItem('testimonials', i, 'content', e.target.value)} placeholder="Testimonial Quote" className="text-xs min-h-[100px] rounded-xl bg-slate-50 border-none" />
+                  <div className="flex items-center gap-2">
+                    <label className="text-[9px] font-bold text-slate-400 uppercase">Rating</label>
+                    <Input type="number" min="1" max="5" value={t.stars || 5} onChange={(e) => updateListItem('testimonials', i, 'stars', parseInt(e.target.value))} className="w-16 h-8 rounded-lg bg-slate-50 border-none" />
+                  </div>
+                </Card>
+              ))}
+              <Button variant="outline" className="h-full min-h-[250px] border-2 border-dashed border-slate-100 rounded-3xl flex flex-col gap-3" onClick={() => addItem('testimonials', { name: "New Client", role: "PhD Scholar", content: "Great support.", stars: 5, image: "" })}>
+                <Plus className="h-6 w-6" />
+                <span className="font-bold text-[9px] uppercase">Add Testimonial</span>
+              </Button>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="faqs">
+            <Card className="p-6 space-y-6 border-none shadow-sm rounded-3xl bg-white">
+              <div className="space-y-4">
+                {localSiteData?.faqs?.map((faq: any, i: number) => (
+                  <div key={i} className="p-4 bg-slate-50 rounded-2xl space-y-3 relative group">
+                    <Button variant="ghost" size="icon" className="absolute top-2 right-2 text-red-400 opacity-0 group-hover:opacity-100" onClick={() => setDeleteConfirm({path: 'faqs', index: i})}><Trash2 className="h-4 w-4" /></Button>
+                    <Input value={faq.question} onChange={(e) => updateListItem('faqs', i, 'question', e.target.value)} placeholder="Question" className="font-bold rounded-xl bg-white border-none h-10" />
+                    <Textarea value={faq.answer} onChange={(e) => updateListItem('faqs', i, 'answer', e.target.value)} placeholder="Answer" className="text-sm rounded-xl bg-white border-none min-h-[80px]" />
+                  </div>
+                ))}
+                <Button variant="outline" className="w-full border-2 border-dashed border-slate-100 h-14 rounded-2xl flex gap-2" onClick={() => addItem('faqs', { question: "New Question?", answer: "Answer details." })}>
+                  <Plus className="h-4 w-4" /> Add FAQ Entry
+                </Button>
+              </div>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="blog">
+            <Card className="p-6 space-y-6 border-none shadow-sm rounded-3xl bg-white">
+              <div className="grid md:grid-cols-2 gap-4">
+                <div className="space-y-1">
+                  <label className="text-[9px] font-bold text-slate-400 uppercase">Hub Title</label>
+                  <Input value={localSiteData?.blog?.title} onChange={(e) => setLocalSiteData({...localSiteData, blog: {...localSiteData.blog, title: e.target.value}})} className="rounded-xl bg-slate-50 border-none" />
+                </div>
+                <div className="space-y-1">
+                  <label className="text-[9px] font-bold text-slate-400 uppercase">Hub Subtitle</label>
+                  <Input value={localSiteData?.blog?.subtitle} onChange={(e) => setLocalSiteData({...localSiteData, blog: {...localSiteData.blog, subtitle: e.target.value}})} className="rounded-xl bg-slate-50 border-none" />
+                </div>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4">
+                {localSiteData?.blog?.posts?.map((post: any, i: number) => (
+                  <Card key={i} className="p-4 space-y-4 border border-slate-100 rounded-2xl relative group">
+                    <Button variant="ghost" size="icon" className="absolute top-2 right-2 text-red-400" onClick={() => setDeleteConfirm({path: 'blog.posts', index: i})}><Trash2 className="h-4 w-4" /></Button>
+                    <div className="relative h-32 w-full bg-slate-50 rounded-xl overflow-hidden mb-2">
+                      {post.image ? <Image src={post.image} alt={post.title} fill className="object-cover" unoptimized /> : <ImageIcon className="h-8 w-8 text-slate-200 m-auto mt-12" />}
+                    </div>
+                    <Input value={post.title} onChange={(e) => updateListItem('blog.posts', i, 'title', e.target.value)} placeholder="Post Title" className="font-bold rounded-xl bg-slate-50 border-none" />
+                    <Input value={post.category} onChange={(e) => updateListItem('blog.posts', i, 'category', e.target.value)} placeholder="Category" className="text-xs rounded-xl bg-slate-50 border-none" />
+                    <Textarea value={post.excerpt} onChange={(e) => updateListItem('blog.posts', i, 'excerpt', e.target.value)} placeholder="Excerpt" className="text-xs rounded-xl bg-slate-50 border-none min-h-[60px]" />
+                  </Card>
+                ))}
+                <Button variant="outline" className="h-full min-h-[200px] border-2 border-dashed border-slate-100 rounded-2xl flex flex-col gap-3" onClick={() => addItem('blog.posts', { title: "New Publication", excerpt: "Summary...", author: "Expert Team", date: new Date().toLocaleDateString(), category: "Research", image: "" })}>
+                  <Plus className="h-6 w-6" />
+                  <span className="font-bold text-[9px] uppercase">Add Publication</span>
+                </Button>
+              </div>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="resources">
+            <Card className="p-6 space-y-6 border-none shadow-sm rounded-3xl bg-white">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {localSiteData?.resources?.map((res: any, i: number) => (
+                  <div key={i} className="p-4 bg-slate-50 rounded-2xl space-y-3 relative group">
+                    <div className="flex justify-between items-center">
+                      <div className="bg-primary/10 p-2 rounded-lg text-primary">
+                        <FileType className="h-5 w-5" />
+                      </div>
+                      <Button variant="ghost" size="icon" className="text-red-400" onClick={() => setDeleteConfirm({path: 'resources', index: i})}><Trash2 className="h-4 w-4" /></Button>
+                    </div>
+                    <Input value={res.name} onChange={(e) => updateListItem('resources', i, 'name', e.target.value)} placeholder="Resource Name" className="font-bold rounded-xl bg-white border-none" />
+                    <div className="flex gap-2">
+                      <Input value={res.type} readOnly className="text-[10px] uppercase font-bold text-slate-400 bg-white border-none w-20" />
+                      <Input value={res.size} readOnly className="text-[10px] uppercase font-bold text-slate-400 bg-white border-none w-20" />
+                    </div>
+                    <Button variant="outline" className="w-full h-10 rounded-xl bg-white text-primary text-xs font-bold" onClick={() => { setCurrentEditingPath(`${i}`); resourceFileInputRef.current?.click(); }}>
+                      <FileUp className="h-4 w-4 mr-2" /> Upload Protocol
+                    </Button>
+                  </div>
+                ))}
+                <Button variant="outline" className="h-full min-h-[150px] border-2 border-dashed border-slate-100 rounded-2xl flex flex-col gap-3" onClick={() => addItem('resources', { name: "New Blueprint", type: "PDF", size: "0 KB", url: "#" })}>
+                  <Plus className="h-6 w-6" />
+                  <span className="font-bold text-[9px] uppercase">Add Resource</span>
+                </Button>
+              </div>
+            </Card>
           </TabsContent>
 
           <TabsContent value="form">
@@ -728,10 +906,28 @@ export default function AdminDashboard() {
 
           <TabsContent value="control">
             <Card className="p-6 space-y-6 border-none shadow-sm rounded-3xl bg-white">
-              <div className="space-y-4">
-                <div className="space-y-1">
-                  <label className="text-[9px] font-bold text-slate-400 uppercase">WhatsApp Number</label>
-                  <Input value={localSiteData?.integrations?.whatsapp} onChange={(e) => setLocalSiteData({...localSiteData, integrations: {...localSiteData.integrations, whatsapp: e.target.value}})} className="rounded-xl h-10 bg-slate-50 border-none" />
+              <div className="grid md:grid-cols-2 gap-6">
+                <div className="space-y-4">
+                  <h4 className="text-xs font-bold text-slate-900 border-b pb-2">Communications</h4>
+                  <div className="space-y-1">
+                    <label className="text-[9px] font-bold text-slate-400 uppercase">WhatsApp Number</label>
+                    <Input value={localSiteData?.integrations?.whatsapp} onChange={(e) => setLocalSiteData({...localSiteData, integrations: {...localSiteData.integrations, whatsapp: e.target.value}})} className="rounded-xl h-10 bg-slate-50 border-none" />
+                  </div>
+                </div>
+                <div className="space-y-4">
+                  <h4 className="text-xs font-bold text-slate-900 border-b pb-2">Social Protocols</h4>
+                  <div className="space-y-1">
+                    <label className="text-[9px] font-bold text-slate-400 uppercase">LinkedIn URL</label>
+                    <Input value={localSiteData?.integrations?.linkedin} onChange={(e) => setLocalSiteData({...localSiteData, integrations: {...localSiteData.integrations, linkedin: e.target.value}})} className="rounded-xl h-10 bg-slate-50 border-none" />
+                  </div>
+                  <div className="space-y-1">
+                    <label className="text-[9px] font-bold text-slate-400 uppercase">Facebook URL</label>
+                    <Input value={localSiteData?.integrations?.facebook} onChange={(e) => setLocalSiteData({...localSiteData, integrations: {...localSiteData.integrations, facebook: e.target.value}})} className="rounded-xl h-10 bg-slate-50 border-none" />
+                  </div>
+                  <div className="space-y-1">
+                    <label className="text-[9px] font-bold text-slate-400 uppercase">Instagram URL</label>
+                    <Input value={localSiteData?.integrations?.instagram} onChange={(e) => setLocalSiteData({...localSiteData, integrations: {...localSiteData.integrations, instagram: e.target.value}})} className="rounded-xl h-10 bg-slate-50 border-none" />
+                  </div>
                 </div>
               </div>
             </Card>
