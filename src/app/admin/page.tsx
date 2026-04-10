@@ -44,7 +44,9 @@ import {
   ChevronUp,
   ChevronDown,
   GripVertical,
-  Download
+  Download,
+  Lock,
+  Mail
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import Image from "next/image";
@@ -124,6 +126,10 @@ export default function AdminDashboard() {
   const [isCropperOpen, setIsCropperOpen] = useState(false);
   const [currentEditingPath, setCurrentEditingPath] = useState<string | null>(null);
   const [deleteConfirm, setDeleteConfirm] = useState<{path: string, index: number} | null>(null);
+
+  // Account settings temporary state
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const resourceFileInputRef = useRef<HTMLInputElement>(null);
@@ -283,7 +289,9 @@ export default function AdminDashboard() {
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    if (email === "prexani.tech@gmail.com" && password === "Admin@9343") {
+    const storedCreds = localSiteData?.adminCredentials || { email: "prexani.tech@gmail.com", password: "Admin@9343" };
+    
+    if (email === storedCreds.email && password === storedCreds.password) {
       setIsLoggedIn(true);
       localStorage.setItem("rd_admin_session", "active");
       toast({ title: "Access Granted", description: "Welcome back." });
@@ -410,6 +418,22 @@ export default function AdminDashboard() {
     setLocalSiteData(newData);
   };
 
+  const updateAdminAccount = () => {
+    if (newPassword && newPassword !== confirmPassword) {
+      toast({ variant: "destructive", title: "Security Error", description: "New passwords do not match." });
+      return;
+    }
+
+    const newData = JSON.parse(JSON.stringify(localSiteData));
+    if (newPassword) {
+      newData.adminCredentials.password = newPassword;
+    }
+    setLocalSiteData(newData);
+    setNewPassword("");
+    setConfirmPassword("");
+    toast({ title: "Account Staged", description: "Credentials updated. Click 'Push Live' to finalize." });
+  };
+
   if (isLoadingData) return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-slate-50 gap-4">
       <Loader2 className="h-8 w-8 animate-spin text-primary" />
@@ -446,6 +470,7 @@ export default function AdminDashboard() {
   const navigationItems = [
     { id: "media", icon: GalleryVertical, label: "Brand Assets" },
     { id: "settings", icon: Settings2, label: "Architecture" },
+    { id: "account", icon: ShieldCheck, label: "Security Hub" },
     { id: "hero", icon: Rocket, label: "Landing" },
     { id: "summary", icon: Layout, label: "Synthesis" },
     { id: "leadership", icon: Users, label: "Profiles" },
@@ -511,7 +536,7 @@ export default function AdminDashboard() {
               <Menu className="h-5 w-5" />
             </Button>
             <h2 className="text-xl lg:text-2xl font-headline font-bold text-slate-900 uppercase tracking-tight">
-              {activeTab}
+              {navigationItems.find(n => n.id === activeTab)?.label || activeTab}
             </h2>
           </div>
           <Button disabled={isSyncing} onClick={saveToSite} className="bg-primary rounded-xl font-bold px-6 h-12 flex gap-2">
@@ -557,6 +582,75 @@ export default function AdminDashboard() {
                  </div>
                </div>
             </Card>
+          </TabsContent>
+
+          <TabsContent value="account">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <Card className="p-6 space-y-6 border-none shadow-sm rounded-3xl bg-white">
+                <div className="flex items-center gap-3 border-b pb-4">
+                  <div className="p-2 bg-primary/10 rounded-lg text-primary">
+                    <Mail className="h-5 w-5" />
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-bold text-slate-900">Admin Email</h3>
+                    <p className="text-[10px] text-slate-400">Identification for registry operations.</p>
+                  </div>
+                </div>
+                <div className="space-y-4">
+                  <div className="space-y-1">
+                    <label className="text-[9px] font-bold text-slate-400 uppercase">Primary Admin Email</label>
+                    <Input 
+                      value={localSiteData?.adminCredentials?.email} 
+                      onChange={(e) => setLocalSiteData({...localSiteData, adminCredentials: {...localSiteData.adminCredentials, email: e.target.value}})} 
+                      className="rounded-xl h-12 bg-slate-50 border-none font-medium" 
+                    />
+                  </div>
+                  <p className="text-[10px] italic text-slate-400 leading-relaxed">
+                    Note: Changes to email take effect immediately upon sync. Ensure you use a valid address you have access to.
+                  </p>
+                </div>
+              </Card>
+
+              <Card className="p-6 space-y-6 border-none shadow-sm rounded-3xl bg-white">
+                <div className="flex items-center gap-3 border-b pb-4">
+                  <div className="p-2 bg-red-50 rounded-lg text-red-500">
+                    <Lock className="h-5 w-5" />
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-bold text-slate-900">Security Key</h3>
+                    <p className="text-[10px] text-slate-400">Secure access to the command center.</p>
+                  </div>
+                </div>
+                <div className="space-y-4">
+                  <div className="space-y-1">
+                    <label className="text-[9px] font-bold text-slate-400 uppercase">New Key Password</label>
+                    <Input 
+                      type="password"
+                      value={newPassword} 
+                      onChange={(e) => setNewPassword(e.target.value)} 
+                      placeholder="Leave blank to keep current"
+                      className="rounded-xl h-12 bg-slate-50 border-none" 
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    <label className="text-[9px] font-bold text-slate-400 uppercase">Confirm Key</label>
+                    <Input 
+                      type="password"
+                      value={confirmPassword} 
+                      onChange={(e) => setConfirmPassword(e.target.value)} 
+                      placeholder="Repeat new key"
+                      className="rounded-xl h-12 bg-slate-50 border-none" 
+                    />
+                  </div>
+                  <Button 
+                    onClick={updateAdminAccount} 
+                    className="w-full rounded-xl font-bold bg-slate-900 hover:bg-black h-12"
+                  >
+                    Update Security Protocols
+                  </Button>
+                </div>
+              </Card>
+            </div>
           </TabsContent>
 
           <TabsContent value="hero">

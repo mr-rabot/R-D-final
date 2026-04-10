@@ -7,6 +7,10 @@ import path from 'path';
 const DATA_PATH = path.join(process.cwd(), 'src/app/lib/leadership-data.json');
 
 const DEFAULT_DATA = {
+  adminCredentials: {
+    email: "prexani.tech@gmail.com",
+    password: "Admin@9343"
+  },
   brand: { name: "R&D Services", logo: "", tagline: "Academic Manuscript Solutions" },
   hero: { title: "Scholarly Research Perfected.", subtitle: "Elite academic support.", badge: "Premier Research Excellence", stats: [], image: "" },
   leadership: { 
@@ -60,9 +64,13 @@ export async function GET() {
     const fileContent = await fs.readFile(DATA_PATH, 'utf-8');
     if (!fileContent.trim()) return NextResponse.json(DEFAULT_DATA);
     
-    // Attempt to merge defaults with existing data to prevent crashes if schema is old
     const existingData = JSON.parse(fileContent);
-    const mergedData = { ...DEFAULT_DATA, ...existingData };
+    // Deep merge to ensure adminCredentials exist if they were missing in an old file version
+    const mergedData = { 
+      ...DEFAULT_DATA, 
+      ...existingData,
+      adminCredentials: { ...DEFAULT_DATA.adminCredentials, ...(existingData.adminCredentials || {}) }
+    };
     
     return new NextResponse(JSON.stringify(mergedData), {
       status: 200,

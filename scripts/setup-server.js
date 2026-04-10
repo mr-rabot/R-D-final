@@ -10,6 +10,10 @@ const paths = [
 ];
 
 const DEFAULT_DATA = {
+  adminCredentials: {
+    email: "prexani.tech@gmail.com",
+    password: "Admin@9343"
+  },
   brand: { name: "R&D Services", logo: "", tagline: "Academic Manuscript Solutions" },
   hero: { title: "Scholarly Research Perfected.", subtitle: "Elite academic support.", badge: "Premier Research Excellence", stats: [], image: "" },
   leadership: { founder: { name: "Om Prakash Sinha", role: "Founder & Director", image: "" } },
