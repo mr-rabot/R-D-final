@@ -10,7 +10,7 @@
     "setup": "node scripts/setup-server.js",
     "prebuild": "npm run setup",
     "build": "next build",
-    "start": "NODE_ENV=production node server.js",
+    "start": "NODE_ENV=production node app.js",
     "lint": "next lint",
     "typecheck": "tsc --noEmit"
   },
