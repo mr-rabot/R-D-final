@@ -193,18 +193,21 @@ export function InquiryForm() {
         "w-full max-w-[1440px] mx-auto px-6 md:px-12 lg:px-24 transition-all duration-1000",
         isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
       )}>
-        <div className="flex flex-col lg:grid lg:grid-cols-2 gap-16 lg:gap-32 items-start">
-          <div className="space-y-10 md:space-y-16 w-full">
-            <div className="space-y-6">
+        {/* Main Stack: Information then Form */}
+        <div className="flex flex-col gap-16 lg:gap-24">
+          
+          {/* Top Row: Contact Information */}
+          <div className="space-y-12 w-full text-center lg:text-left">
+            <div className="space-y-6 max-w-4xl mx-auto lg:mx-0">
               <h2 className="text-4xl md:text-7xl lg:text-8xl font-headline font-bold text-accent tracking-tight">Get in Touch</h2>
               <p className="text-lg md:text-2xl text-slate-600 leading-relaxed font-light">
                 Discuss your research project directly with our experts. We guarantee scholarly precision and academic integrity.
               </p>
             </div>
             
-            <div className="grid sm:grid-cols-2 gap-8 md:gap-10">
-              <div className="flex items-start gap-5 md:gap-6">
-                <div className="bg-white shadow-md p-3 rounded-xl text-primary shrink-0">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-10">
+              <div className="flex flex-col items-center lg:items-start gap-4">
+                <div className="bg-white shadow-md p-4 rounded-2xl text-primary shrink-0">
                   <User className="h-6 w-6" />
                 </div>
                 <div>
@@ -213,8 +216,8 @@ export function InquiryForm() {
                 </div>
               </div>
 
-              <div className="flex items-start gap-5 md:gap-6">
-                <div className="bg-white shadow-md p-3 rounded-xl text-primary shrink-0">
+              <div className="flex flex-col items-center lg:items-start gap-4">
+                <div className="bg-white shadow-md p-4 rounded-2xl text-primary shrink-0">
                   <Mail className="h-6 w-6" />
                 </div>
                 <div>
@@ -225,8 +228,8 @@ export function InquiryForm() {
                 </div>
               </div>
 
-              <div className="flex items-start gap-5 md:gap-6">
-                <div className="bg-white shadow-md p-3 rounded-xl text-primary shrink-0">
+              <div className="flex flex-col items-center lg:items-start gap-4">
+                <div className="bg-white shadow-md p-4 rounded-2xl text-primary shrink-0">
                   <Phone className="h-6 w-6" />
                 </div>
                 <div>
@@ -236,146 +239,139 @@ export function InquiryForm() {
                 </div>
               </div>
 
-              {linkedinUrl && (
-                <div className="flex items-start gap-5 md:gap-6">
-                  <div className="bg-white shadow-md p-3 rounded-xl text-primary shrink-0">
-                    <Linkedin className="h-6 w-6" />
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-accent text-lg">LinkedIn</h4>
+              <div className="flex flex-col items-center lg:items-start gap-4">
+                <div className="bg-white shadow-md p-4 rounded-2xl text-primary shrink-0">
+                  <Linkedin className="h-6 w-6" />
+                </div>
+                <div>
+                  <h4 className="font-bold text-accent text-lg">LinkedIn</h4>
+                  {linkedinUrl ? (
                     <a href={linkedinUrl} target="_blank" rel="noopener noreferrer" className="text-slate-600 font-medium text-sm md:text-base hover:text-primary transition-colors">
                       Connect with Us
                     </a>
-                  </div>
+                  ) : (
+                    <span className="text-slate-400 text-sm">Official Hub</span>
+                  )}
                 </div>
-              )}
-            </div>
-
-            <div className="relative pt-4 hidden md:block">
-              {contactImage && (
-                <div className={cn(
-                  "relative w-full aspect-[16/10] overflow-hidden rounded-[32px] shadow-[0_30px_60px_rgba(0,0,0,0.15)] border border-slate-200 transition-all duration-1000 delay-300 bg-slate-100",
-                  isVisible ? "scale-100 opacity-100" : "scale-95 opacity-0"
-                )}>
-                  <Image src={contactImage} alt="Research Visual" fill className="object-cover grayscale hover:grayscale-0 transition-all duration-1000" unoptimized />
-                  <div className="absolute inset-0 bg-primary/5 mix-blend-multiply" />
-                </div>
-              )}
+              </div>
             </div>
           </div>
 
+          {/* Next Row: Request Quote Form Full Width */}
           <div className={cn(
-            "bg-white p-8 md:p-12 lg:p-16 rounded-[40px] md:rounded-[45px] shadow-[0_40px_100px_-20px_rgba(0,0,0,0.12)] border border-slate-100 transition-all duration-1000 w-full",
-            isVisible ? "translate-x-0 opacity-100" : "translate-x-12 opacity-0"
+            "bg-white p-8 md:p-16 lg:p-20 rounded-[40px] md:rounded-[60px] shadow-[0_40px_100px_-20px_rgba(0,0,0,0.12)] border border-slate-100 transition-all duration-1000 w-full",
+            isVisible ? "translate-y-0 opacity-100" : "translate-y-12 opacity-0"
           )}>
-            <div className="mb-10 space-y-2 md:space-y-3 text-center lg:text-left">
-              <h3 className="text-3xl md:text-5xl font-headline font-bold text-accent tracking-tight">Request Quote</h3>
-              <p className="text-slate-500 text-sm md:text-lg font-light">Secure scholarly support for your research project.</p>
+            <div className="mb-12 space-y-4 text-center">
+              <h3 className="text-4xl md:text-6xl font-headline font-bold text-accent tracking-tight">Request Quote</h3>
+              <p className="text-slate-500 text-lg md:text-xl font-light">Secure scholarly support for your research project through our academic registry.</p>
             </div>
 
             <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 md:space-y-8">
-                {formFields.map((field: any) => {
-                  if (field.type === 'phone') {
-                    return (
-                      <div key={field.id} className="space-y-2">
-                        <FormLabel className="text-[11px] font-bold text-accent uppercase tracking-wider">{field.label} {field.required && "*"}</FormLabel>
-                        <div className="flex items-center gap-0 bg-slate-50 border-none rounded-2xl shadow-inner overflow-hidden focus-within:ring-2 focus-within:ring-primary/20">
-                          <FormField
-                            control={form.control}
-                            name="countryCode"
-                            render={({ field }) => (
-                              <FormItem className="w-[110px] md:w-[120px] shrink-0 space-y-0">
-                                <Select onValueChange={field.onChange} defaultValue={field.value}>
+              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 max-w-5xl mx-auto">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  {formFields.map((field: any) => {
+                    if (field.type === 'phone') {
+                      return (
+                        <div key={field.id} className="space-y-2 col-span-1 md:col-span-2">
+                          <FormLabel className="text-[11px] font-bold text-accent uppercase tracking-wider">{field.label} {field.required && "*"}</FormLabel>
+                          <div className="flex items-center gap-0 bg-slate-50 border-none rounded-2xl shadow-inner overflow-hidden focus-within:ring-2 focus-within:ring-primary/20">
+                            <FormField
+                              control={form.control}
+                              name="countryCode"
+                              render={({ field }) => (
+                                <FormItem className="w-[120px] md:w-[140px] shrink-0 space-y-0">
+                                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                    <FormControl>
+                                      <SelectTrigger className="bg-transparent border-none h-14 md:h-18 shadow-none focus:ring-0 px-4">
+                                        <SelectValue placeholder="Code">
+                                          {(() => {
+                                            const selected = countryCodes.find(c => c.name === field.value);
+                                            return selected ? (
+                                              <span className="flex items-center gap-2">
+                                                <span className="text-xl leading-none">{selected.flag}</span>
+                                                <span className="text-sm font-bold">{selected.code}</span>
+                                              </span>
+                                            ) : "Code";
+                                          })()}
+                                        </SelectValue>
+                                      </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent className="rounded-2xl border-slate-100 max-h-[300px]">
+                                      {countryCodes.map((item) => (
+                                        <SelectItem key={`${item.code}-${item.name}`} value={item.name}>
+                                          <span className="flex items-center gap-3">
+                                            <span className="text-xl">{item.flag}</span>
+                                            <span className="text-sm font-medium">{item.code} {item.name}</span>
+                                          </span>
+                                        </SelectItem>
+                                      ))}
+                                    </SelectContent>
+                                  </Select>
+                                </FormItem>
+                              )}
+                            />
+                            <div className="w-px h-8 bg-slate-200" />
+                            <FormField
+                              control={form.control}
+                              name="phone"
+                              render={({ field: phoneField }) => (
+                                <FormItem className="flex-grow space-y-0">
                                   <FormControl>
-                                    <SelectTrigger className="bg-transparent border-none h-14 md:h-16 shadow-none focus:ring-0 px-3">
-                                      <SelectValue placeholder="Code">
-                                        {(() => {
-                                          const selected = countryCodes.find(c => c.name === field.value);
-                                          return selected ? (
-                                            <span className="flex items-center gap-1.5">
-                                              <span className="text-lg md:text-xl leading-none">{selected.flag}</span>
-                                              <span className="text-[13px] md:text-sm font-bold">{selected.code}</span>
-                                            </span>
-                                          ) : "Code";
-                                        })()}
-                                      </SelectValue>
+                                    <Input type="tel" placeholder="Mobile number" {...phoneField} className="bg-transparent border-none h-14 md:h-18 shadow-none focus-visible:ring-0 text-base px-6" />
+                                  </FormControl>
+                                </FormItem>
+                              )}
+                            />
+                          </div>
+                          <FormMessage />
+                        </div>
+                      );
+                    }
+
+                    return (
+                      <FormField
+                        key={field.id}
+                        control={form.control}
+                        name={field.name}
+                        render={({ field: inputField }) => (
+                          <FormItem className={cn(field.type === 'textarea' ? "col-span-1 md:col-span-2" : "col-span-1")}>
+                            <FormLabel className="text-[11px] font-bold text-accent uppercase tracking-wider">{field.label} {field.required && "*"}</FormLabel>
+                            <FormControl>
+                              {field.type === 'textarea' ? (
+                                <Textarea placeholder={field.placeholder} {...inputField} className="bg-slate-50 border-none rounded-2xl min-h-[180px] md:min-h-[220px] shadow-inner text-lg p-8 resize-none" />
+                              ) : field.type === 'select' ? (
+                                <Select onValueChange={inputField.onChange} defaultValue={inputField.value}>
+                                  <FormControl>
+                                    <SelectTrigger className="bg-slate-50 border-none rounded-2xl h-14 md:h-18 shadow-inner text-base px-6">
+                                      <SelectValue placeholder={field.placeholder || "Select an option"} />
                                     </SelectTrigger>
                                   </FormControl>
-                                  <SelectContent className="rounded-2xl border-slate-100 max-h-[300px]">
-                                    {countryCodes.map((item) => (
-                                      <SelectItem key={`${item.code}-${item.name}`} value={item.name}>
-                                        <span className="flex items-center gap-3">
-                                          <span className="text-xl">{item.flag}</span>
-                                          <span className="text-sm font-medium">{item.code} {item.name}</span>
-                                        </span>
-                                      </SelectItem>
+                                  <SelectContent className="rounded-2xl border-slate-100">
+                                    {field.options?.map((opt: string) => (
+                                      <SelectItem key={opt} value={opt}>{opt}</SelectItem>
                                     ))}
                                   </SelectContent>
                                 </Select>
-                              </FormItem>
-                            )}
-                          />
-                          <div className="w-px h-8 bg-slate-200" />
-                          <FormField
-                            control={form.control}
-                            name="phone"
-                            render={({ field: phoneField }) => (
-                              <FormItem className="flex-grow space-y-0">
-                                <FormControl>
-                                  <Input type="tel" placeholder="Mobile number" {...phoneField} className="bg-transparent border-none h-14 md:h-16 shadow-none focus-visible:ring-0 text-sm md:text-base px-4" />
-                                </FormControl>
-                              </FormItem>
-                            )}
-                          />
-                        </div>
-                        <FormMessage />
-                      </div>
+                              ) : (
+                                <Input type={field.type} placeholder={field.placeholder} {...inputField} className="bg-slate-50 border-none rounded-2xl h-14 md:h-18 shadow-inner text-base px-6" />
+                              )}
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
                     );
-                  }
+                  })}
+                </div>
 
-                  return (
-                    <FormField
-                      key={field.id}
-                      control={form.control}
-                      name={field.name}
-                      render={({ field: inputField }) => (
-                        <FormItem>
-                          <FormLabel className="text-[11px] font-bold text-accent uppercase tracking-wider">{field.label} {field.required && "*"}</FormLabel>
-                          <FormControl>
-                            {field.type === 'textarea' ? (
-                              <Textarea placeholder={field.placeholder} {...inputField} className="bg-slate-50 border-none rounded-2xl min-h-[160px] md:min-h-[200px] shadow-inner text-sm md:text-lg p-6 resize-none" />
-                            ) : field.type === 'select' ? (
-                              <Select onValueChange={inputField.onChange} defaultValue={inputField.value}>
-                                <FormControl>
-                                  <SelectTrigger className="bg-slate-50 border-none rounded-2xl h-14 md:h-16 shadow-inner text-sm md:text-base">
-                                    <SelectValue placeholder={field.placeholder || "Select an option"} />
-                                  </SelectTrigger>
-                                </FormControl>
-                                <SelectContent className="rounded-2xl border-slate-100">
-                                  {field.options?.map((opt: string) => (
-                                    <SelectItem key={opt} value={opt}>{opt}</SelectItem>
-                                  ))}
-                                </SelectContent>
-                              </Select>
-                            ) : (
-                              <Input type={field.type} placeholder={field.placeholder} {...inputField} className="bg-slate-50 border-none rounded-2xl h-14 md:h-16 shadow-inner text-sm md:text-base" />
-                            )}
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  );
-                })}
-
-                <div className="flex flex-col gap-4 pt-4">
-                  <Button type="submit" disabled={isSubmitting} className="w-full h-16 md:h-20 rounded-2xl text-lg md:text-xl bg-primary hover:bg-blue-600 text-white shadow-2xl shadow-primary/20 flex gap-4 transition-all hover:-translate-y-1 active:scale-95 py-6 md:py-8 font-bold">
-                     {isSubmitting ? <Loader2 className="h-6 w-6 animate-spin" /> : <Send className="h-6 w-6" />}
+                <div className="flex flex-col sm:flex-row gap-6 pt-8">
+                  <Button type="submit" disabled={isSubmitting} className="flex-1 h-18 md:h-22 rounded-2xl text-xl bg-primary hover:bg-blue-600 text-white shadow-2xl shadow-primary/20 flex gap-4 transition-all hover:-translate-y-1 active:scale-95 py-8 font-bold">
+                     {isSubmitting ? <Loader2 className="h-7 w-7 animate-spin" /> : <Send className="h-7 w-7" />}
                      {isSubmitting ? "Submitting..." : "Submit Inquiry"}
                   </Button>
-                  <Button type="button" onClick={handleWhatsAppQuickAction} variant="outline" className="w-full h-16 md:h-20 rounded-2xl text-base md:text-lg border-2 border-slate-100 hover:border-[#25D366] hover:text-[#25D366] transition-all active:scale-95 flex gap-4 shadow-sm bg-transparent text-slate-500 py-6 md:py-8 font-bold">
-                    <MessageSquare className="h-6 w-6" /> Chat on WhatsApp
+                  <Button type="button" onClick={handleWhatsAppQuickAction} variant="outline" className="flex-1 h-18 md:h-22 rounded-2xl text-lg border-2 border-slate-100 hover:border-[#25D366] hover:text-[#25D366] transition-all active:scale-95 flex gap-4 shadow-sm bg-transparent text-slate-500 py-8 font-bold">
+                    <MessageSquare className="h-7 w-7" /> Chat on WhatsApp
                   </Button>
                 </div>
               </form>

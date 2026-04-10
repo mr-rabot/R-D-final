@@ -16,14 +16,10 @@ import path from 'path';
 
 export const dynamic = 'force-dynamic';
 
-/**
- * Resiliently fetches site data for Server-Side Rendering.
- */
 async function getSiteData() {
   const DATA_PATH = path.resolve(process.cwd(), 'src/app/lib/leadership-data.json');
   try {
     if (!existsSync(DATA_PATH)) {
-      console.warn("[SSR WARNING]: Data registry missing on home page load.");
       return null;
     }
     
@@ -33,11 +29,11 @@ async function getSiteData() {
     try {
       return JSON.parse(fileContent);
     } catch (parseErr) {
-      console.error("[SSR ERROR]: Invalid JSON in registry.", parseErr.message);
+      console.error("[SSR ERROR]: Data parse failure.");
       return null;
     }
   } catch (error) {
-    console.error("[SSR CRITICAL ERROR]: Failed to fetch site data for home page:", error.message);
+    console.error("[SSR ERROR]: Data access failure.");
     return null;
   }
 }

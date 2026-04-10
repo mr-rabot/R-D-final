@@ -29,9 +29,6 @@ const DEFAULT_DATA = {
   integrations: { whatsapp: "916209779365" }
 };
 
-/**
- * Robustly ensures the data directory and file exist with correct permissions.
- */
 function ensureDataFile() {
   try {
     const dir = path.dirname(DATA_PATH);
@@ -43,13 +40,10 @@ function ensureDataFile() {
       console.log("[DATA INIT]: Created default scholarly registry.");
     }
   } catch (err) {
-    console.error("[DATA INIT ERROR]: Could not initialize registry file.", err.message);
+    console.error("[DATA INIT ERROR]: Could not initialize registry file.");
   }
 }
 
-/**
- * GET: Reads the scholarly content with robust error recovery.
- */
 export async function GET() {
   try {
     ensureDataFile();
@@ -58,7 +52,6 @@ export async function GET() {
     try {
       fileContent = await fs.readFile(DATA_PATH, 'utf-8');
     } catch (readErr) {
-      console.warn("[API READ WARNING]: File access delayed, using defaults.");
       return NextResponse.json(DEFAULT_DATA);
     }
     
@@ -70,7 +63,7 @@ export async function GET() {
       const data = JSON.parse(fileContent);
       return NextResponse.json(data);
     } catch (jsonErr) {
-      console.error("[API JSON ERROR]: Corrupted data detected. Recovering...");
+      console.error("[API JSON ERROR]: Corrupted data. Self-healing to default.");
       return NextResponse.json(DEFAULT_DATA);
     }
   } catch (error) {
@@ -79,19 +72,16 @@ export async function GET() {
   }
 }
 
-/**
- * POST: Persists updates from the Admin Panel with atomic safety.
- */
 export async function POST(request: Request) {
   try {
     const newData = await request.json();
+    if (!newData) throw new Error("No data provided");
     
     const dir = path.dirname(DATA_PATH);
     if (!existsSync(dir)) {
       await fs.mkdir(dir, { recursive: true });
     }
 
-    // Atomic-like write: write to string first, then to file
     const serializedData = JSON.stringify(newData, null, 2);
     await fs.writeFile(DATA_PATH, serializedData, 'utf-8');
     

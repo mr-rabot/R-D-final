@@ -60,7 +60,7 @@ export function Hero({ initialData }: HeroProps) {
               <Skeleton className="h-24 w-full bg-white/10 rounded-2xl" />
             </div>
           ) : (
-            <div className="space-y-10 md:space-y-12 text-center lg:text-left animate-in fade-in slide-in-from-bottom-12 duration-1000 w-full">
+            <div className="space-y-10 md:space-y-12 text-center lg:text-left animate-in fade-in slide-in-from-bottom-12 duration-[1200ms] w-full">
               <div className="inline-flex items-center gap-3 bg-white/10 backdrop-blur-xl border border-white/25 px-6 py-2.5 rounded-full text-white font-bold text-xs md:text-sm uppercase tracking-[0.3em] mx-auto lg:mx-0 shadow-2xl">
                 <Sparkles className="h-5 w-5 text-blue-300 animate-pulse" />
                 {heroData?.badge || "Premier Research Excellence"}
@@ -108,7 +108,7 @@ export function Hero({ initialData }: HeroProps) {
             </div>
           )}
 
-          <div className="mt-20 lg:mt-0 relative flex justify-center w-full animate-in fade-in zoom-in duration-1000 delay-500">
+          <div className="mt-20 lg:mt-0 relative flex justify-center w-full animate-in fade-in slide-in-from-bottom-16 duration-[1500ms] delay-500">
             <div className="relative z-10 w-full max-w-lg">
               {isLoading ? (
                 <Skeleton className="aspect-[4/5] w-full rounded-[40px] bg-white/5" />

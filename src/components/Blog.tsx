@@ -109,9 +109,11 @@ export function Blog({ initialData, isFullPage = false }: BlogProps) {
   return (
     <section id="blog" className="py-24 md:py-32 bg-background overflow-hidden w-full">
       <div className="w-full px-6 md:px-12 max-w-[1440px] mx-auto">
-        <div className="flex flex-col lg:grid lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+        {/* Main Stack: Content then Resources */}
+        <div className="flex flex-col gap-24">
           
-          <div className="lg:col-span-8 space-y-12 w-full">
+          {/* Top Row: Academic Hub Full Width */}
+          <div className="space-y-12 w-full">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-8">
               <div className="space-y-4 max-w-2xl">
                 <div className="inline-flex items-center gap-2 bg-primary/10 text-primary text-[10px] md:text-xs uppercase tracking-[0.2em] font-bold px-4 py-2 rounded-full mb-1">
@@ -145,7 +147,7 @@ export function Blog({ initialData, isFullPage = false }: BlogProps) {
                       const displayImage = post.image || placeholder?.imageUrl;
 
                       return (
-                        <CarouselItem key={i} className="pl-6 basis-full md:basis-1/2 py-4">
+                        <CarouselItem key={i} className="pl-6 basis-full md:basis-1/2 lg:basis-1/3 py-4">
                           <Card className="overflow-hidden border-none shadow-xl hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 rounded-[32px] group bg-white h-full flex flex-col">
                             <div className="relative aspect-video shrink-0">
                               {displayImage && (
@@ -194,60 +196,67 @@ export function Blog({ initialData, isFullPage = false }: BlogProps) {
             </div>
           </div>
 
-          <div id="resources" className="w-full lg:col-span-4 lg:sticky lg:top-32 h-fit">
-            <div className="bg-accent text-white p-10 md:p-12 rounded-[40px] space-y-10 shadow-2xl relative overflow-hidden group border border-white/5">
-              <div className="relative z-10 space-y-8">
-                <div className="flex items-center gap-4 text-primary">
-                  <div className="p-3 bg-primary/10 rounded-xl">
-                    <Sparkles className="h-5 w-5" />
+          {/* Next Row: Scholarly Templates Full Width */}
+          <div id="resources" className="w-full">
+            <div className="bg-accent text-white p-10 md:p-16 rounded-[40px] md:rounded-[60px] shadow-2xl relative overflow-hidden group border border-white/5">
+              <div className="relative z-10 flex flex-col md:grid md:grid-cols-12 gap-12 items-center">
+                
+                <div className="md:col-span-4 space-y-6">
+                  <div className="flex items-center gap-4 text-primary">
+                    <div className="p-3 bg-primary/10 rounded-xl">
+                      <Sparkles className="h-5 w-5" />
+                    </div>
+                    <span className="text-[10px] md:text-xs uppercase tracking-[0.4em] font-bold text-blue-400">Assets Hub</span>
                   </div>
-                  <span className="text-[10px] md:text-xs uppercase tracking-[0.4em] font-bold text-blue-400">Assets Hub</span>
-                </div>
-                
-                <div className="space-y-4">
-                  <h3 className="text-3xl md:text-4xl font-headline font-bold leading-tight tracking-tight">Scholarly Templates</h3>
-                  <p className="text-blue-100/60 text-base md:text-lg font-light italic leading-relaxed">
-                    Precision-engineered frameworks to accelerate your publishing success.
-                  </p>
-                </div>
-                
-                <div className="space-y-4 pt-4">
-                  {displayResources.map((res, i) => (
-                    <a 
-                      key={i} 
-                      href={res.url === "#" ? "javascript:void(0)" : res.url}
-                      onClick={(e) => {
-                        if (res.url === "#") {
-                          e.preventDefault();
-                          scrollToContact();
-                        }
-                      }}
-                      download={res.url !== "#"}
-                      className="flex items-center justify-between p-5 md:p-6 bg-white/5 border border-white/10 rounded-[24px] hover:bg-white/10 hover:border-primary/40 transition-all cursor-pointer group/link shadow-md"
-                    >
-                      <div className="flex items-center gap-4 min-w-0">
-                        <div className="bg-primary/20 p-3 rounded-lg text-primary group-hover/link:scale-110 transition-transform">
-                          <FileType className="h-6 w-6" />
-                        </div>
-                        <div className="min-w-0 flex-1">
-                          <div className="text-base md:text-lg font-bold truncate group-hover/link:text-primary transition-colors">{res.name}</div>
-                          <div className="text-[9px] text-blue-200/40 uppercase tracking-widest font-bold mt-1">{res.type} • {res.size}</div>
-                        </div>
-                      </div>
-                      <Download className="h-5 w-5 text-blue-200/40 group-hover/link:text-white transition-colors shrink-0" />
-                    </a>
-                  ))}
+                  
+                  <div className="space-y-4">
+                    <h3 className="text-4xl md:text-5xl font-headline font-bold leading-tight tracking-tight">Scholarly Templates</h3>
+                    <p className="text-blue-100/60 text-lg md:text-xl font-light italic leading-relaxed">
+                      Precision-engineered frameworks to accelerate your publishing success.
+                    </p>
+                  </div>
+
+                  <Button 
+                    onClick={scrollToContact}
+                    className="w-full bg-primary hover:bg-blue-600 text-white rounded-[24px] h-16 md:h-20 font-bold shadow-xl shadow-primary/30 transition-all active:scale-95 text-lg"
+                  >
+                    Unlock Full Library
+                  </Button>
                 </div>
 
-                <Button 
-                  onClick={scrollToContact}
-                  className="w-full bg-primary hover:bg-blue-600 text-white rounded-[24px] h-16 md:h-18 font-bold shadow-xl shadow-primary/30 transition-all active:scale-95 text-lg"
-                >
-                  Unlock Full Library
-                </Button>
+                <div className="md:col-span-8 w-full">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    {displayResources.map((res, i) => (
+                      <a 
+                        key={i} 
+                        href={res.url === "#" ? "javascript:void(0)" : res.url}
+                        onClick={(e) => {
+                          if (res.url === "#") {
+                            e.preventDefault();
+                            scrollToContact();
+                          }
+                        }}
+                        download={res.url !== "#"}
+                        className="flex items-center justify-between p-6 bg-white/5 border border-white/10 rounded-[28px] hover:bg-white/10 hover:border-primary/40 transition-all cursor-pointer group/link shadow-md"
+                      >
+                        <div className="flex items-center gap-4 min-w-0">
+                          <div className="bg-primary/20 p-3 rounded-xl text-primary group-hover/link:scale-110 transition-transform">
+                            <FileType className="h-7 w-7" />
+                          </div>
+                          <div className="min-w-0 flex-1">
+                            <div className="text-lg font-bold truncate group-hover/link:text-primary transition-colors">{res.name}</div>
+                            <div className="text-[10px] text-blue-200/40 uppercase tracking-widest font-bold mt-1">{res.type} • {res.size}</div>
+                          </div>
+                        </div>
+                        <Download className="h-6 w-6 text-blue-200/40 group-hover/link:text-white transition-colors shrink-0" />
+                      </a>
+                    ))}
+                  </div>
+                </div>
+
               </div>
               
-              <div className="absolute -top-24 -right-24 w-64 h-64 bg-primary/20 blur-[100px] rounded-full group-hover:bg-primary/30 transition-all duration-1000" />
+              <div className="absolute -top-24 -right-24 w-96 h-96 bg-primary/10 blur-[120px] rounded-full group-hover:bg-primary/15 transition-all duration-1000" />
             </div>
           </div>
 
