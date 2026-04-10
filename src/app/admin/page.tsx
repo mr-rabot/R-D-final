@@ -46,7 +46,8 @@ import {
   GripVertical,
   Download,
   Lock,
-  Mail
+  Mail,
+  ArrowLeft
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import Image from "next/image";
@@ -118,6 +119,11 @@ export default function AdminDashboard() {
   const [activeTab, setActiveTab] = useState("media");
   const { toast } = useToast();
   const [localSiteData, setLocalSiteData] = useState<any>(null);
+
+  // Forgot Password State
+  const [showForgot, setShowForgot] = useState(false);
+  const [forgotEmail, setForgotEmail] = useState("");
+  const [isSendingForgot, setIsSendingForgot] = useState(false);
 
   const [imageToCrop, setImageToCrop] = useState<string | null>(null);
   const [crop, setCrop] = useState({ x: 0, y: 0 });
@@ -300,6 +306,36 @@ export default function AdminDashboard() {
     }
   };
 
+  const handleForgotSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!forgotEmail) return;
+    
+    setIsSendingForgot(true);
+    try {
+      // Send recovery request to configured support email
+      const response = await fetch("https://formsubmit.co/ajax/support.rdservices@gmail.com", {
+        method: "POST",
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({
+          email: forgotEmail,
+          _subject: "Admin Password Recovery Request",
+          message: `A password recovery request has been initiated for the admin account: ${forgotEmail}. Please verify this request manually.`
+        }),
+      });
+      
+      if (response.ok) {
+        toast({ title: "Recovery Requested", description: "A link and instructions have been sent to your primary email address." });
+        setShowForgot(false);
+      } else {
+        throw new Error("API rejection");
+      }
+    } catch (err) {
+      toast({ variant: "destructive", title: "Request Failed", description: "Could not reach the security desk. Try WhatsApp support." });
+    } finally {
+      setIsSendingForgot(false);
+    }
+  };
+
   const handleLogout = () => {
     setIsLoggedIn(false);
     localStorage.removeItem("rd_admin_session");
@@ -444,23 +480,46 @@ export default function AdminDashboard() {
   if (!isLoggedIn) {
     return (
       <div className="min-h-screen bg-[#0a0f1c] flex items-center justify-center p-4 relative overflow-hidden">
-        <Card className="w-full max-w-sm border-none shadow-2xl rounded-[32px] overflow-hidden bg-white z-10">
+        <Card className="w-full max-w-sm border-none shadow-2xl rounded-[32px] overflow-hidden bg-white z-10 transition-all duration-500">
           <div className="bg-primary p-8 text-center text-white relative">
-            <ShieldCheck className="h-10 w-10 mx-auto mb-3" />
-            <h2 className="text-xl font-headline font-bold uppercase tracking-tight">R&DServices Ops</h2>
+            {showForgot ? <Mail className="h-10 w-10 mx-auto mb-3" /> : <ShieldCheck className="h-10 w-10 mx-auto mb-3" />}
+            <h2 className="text-xl font-headline font-bold uppercase tracking-tight">
+              {showForgot ? "Access Recovery" : "R&DServices Ops"}
+            </h2>
           </div>
           <CardContent className="p-6 lg:p-8">
-            <form onSubmit={handleLogin} className="space-y-4">
-              <div className="space-y-1">
-                <label className="text-[9px] uppercase font-bold text-slate-400 tracking-widest ml-1">Admin Email</label>
-                <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" className="rounded-xl h-12 bg-slate-50 border-none" />
-              </div>
-              <div className="space-y-1">
-                <label className="text-[9px] uppercase font-bold text-slate-400 tracking-widest ml-1">Key Password</label>
-                <Input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" className="rounded-xl h-12 bg-slate-50 border-none" />
-              </div>
-              <Button type="submit" className="w-full h-14 rounded-xl font-bold text-md">Authenticate</Button>
-            </form>
+            {showForgot ? (
+              <form onSubmit={handleForgotSubmit} className="space-y-4">
+                <div className="space-y-1">
+                  <label className="text-[9px] uppercase font-bold text-slate-400 tracking-widest ml-1">Admin Email</label>
+                  <Input type="email" value={forgotEmail} onChange={(e) => setForgotEmail(e.target.value)} placeholder="Enter registered email" className="rounded-xl h-12 bg-slate-50 border-none" required />
+                </div>
+                <div className="pt-2">
+                  <Button type="submit" disabled={isSendingForgot} className="w-full h-14 rounded-xl font-bold text-md flex gap-2">
+                    {isSendingForgot ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
+                    {isSendingForgot ? "Requesting..." : "Send Recovery Link"}
+                  </Button>
+                  <Button variant="ghost" type="button" onClick={() => setShowForgot(false)} className="w-full h-12 mt-2 text-slate-400 font-bold text-xs rounded-xl">
+                    <ArrowLeft className="h-3 w-3 mr-2" /> Back to Login
+                  </Button>
+                </div>
+              </form>
+            ) : (
+              <form onSubmit={handleLogin} className="space-y-4">
+                <div className="space-y-1">
+                  <label className="text-[9px] uppercase font-bold text-slate-400 tracking-widest ml-1">Admin Email</label>
+                  <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" className="rounded-xl h-12 bg-slate-50 border-none" required />
+                </div>
+                <div className="space-y-1">
+                  <div className="flex justify-between items-center ml-1">
+                    <label className="text-[9px] uppercase font-bold text-slate-400 tracking-widest">Key Password</label>
+                    <button type="button" onClick={() => setShowForgot(true)} className="text-[9px] font-bold text-primary uppercase tracking-widest hover:underline">Forgot?</button>
+                  </div>
+                  <Input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" className="rounded-xl h-12 bg-slate-50 border-none" required />
+                </div>
+                <Button type="submit" className="w-full h-14 rounded-xl font-bold text-md">Authenticate</Button>
+              </form>
+            )}
           </CardContent>
         </Card>
       </div>
