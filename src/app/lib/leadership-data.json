@@ -1,4 +1,3 @@
-
 {
   "brand": {
     "logo": "/images/brand_logo_1775302470865.png",
@@ -236,7 +235,8 @@
         "Research Title",
         "Research Paper",
         "Plagiarism Report",
-        "5–8 Days Delivery"
+        "5–8 Days Delivery",
+        "Conference Papers"
       ],
       "highlight": true,
       "badge": "Most Popular"
@@ -416,6 +416,7 @@
           "Dissertation - II",
           "PPT",
           "Project Report",
+          "Intership Report",
           "Others"
         ]
       },

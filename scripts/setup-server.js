@@ -2,11 +2,6 @@
 const fs = require('fs');
 const path = require('path');
 
-/**
- * Automates server environment setup for R&D Services.
- * Handles directory creation and file permissions for local persistence.
- */
-
 const paths = [
   { path: path.join(process.cwd(), 'public/images'), mode: 0o775 },
   { path: path.join(process.cwd(), 'public/resources'), mode: 0o775 },
@@ -15,18 +10,27 @@ const paths = [
 ];
 
 const DEFAULT_DATA = {
-  brand: { name: "R&D Services", logo: "" },
-  hero: { title: "Scholarly Research Perfected.", subtitle: "Elite academic support.", stats: [] },
+  brand: { name: "R&D Services", logo: "", tagline: "Academic Manuscript Solutions" },
+  hero: { title: "Scholarly Research Perfected.", subtitle: "Elite academic support.", badge: "Premier Research Excellence", stats: [], image: "" },
+  leadership: { founder: { name: "Om Prakash Sinha", role: "Founder & Director", image: "" } },
   services: [],
   pricing: [],
   testimonials: [],
   faqs: [],
-  blog: { posts: [] },
+  blog: { title: "Academic Hub", subtitle: "Expert advice.", posts: [] },
   resources: [],
-  integrations: { whatsapp: "916209779365" }
+  integrations: { whatsapp: "916209779365" },
+  contactForm: { 
+    fields: [
+      { id: "name", label: "Full Name", type: "text", placeholder: "Enter your name", required: true },
+      { id: "email", label: "Email", type: "email", placeholder: "email@example.com", required: true },
+      { id: "service", label: "Service", type: "select", placeholder: "Select service", required: true, options: ["Thesis Writing", "Research Paper", "Others"] },
+      { id: "details", label: "Details", type: "textarea", placeholder: "Requirements...", required: true }
+    ] 
+  }
 };
 
-console.log('--- Initializing R&D Services Server Environment ---');
+console.log('--- Initializing Server Environment ---');
 
 paths.forEach((target) => {
   try {
@@ -42,7 +46,6 @@ paths.forEach((target) => {
 
     if (process.platform !== 'win32') {
       fs.chmodSync(target.path, target.mode);
-      console.log(`Permissions set to ${target.mode.toString(8)} for: ${path.basename(target.path)}`);
     }
   } catch (error) {
     console.warn(`Warning: Could not setup ${target.path}:`, error.message);
