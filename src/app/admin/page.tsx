@@ -22,6 +22,7 @@ import {
   X,
   Settings,
   Loader2,
+  Send,
   Image as ImageIcon,
   GalleryVertical,
   Users,
