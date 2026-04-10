@@ -1,3 +1,4 @@
+
 'use client';
 
 import { firebaseConfig } from '@/firebase/config';
@@ -10,13 +11,17 @@ import { getStorage } from 'firebase/storage';
 export function initializeFirebase() {
   if (!getApps().length) {
     let firebaseApp;
-    try {
-      firebaseApp = initializeApp();
-    } catch (e) {
-      if (process.env.NODE_ENV === "production") {
-        console.warn('Automatic initialization failed. Falling back to firebase config object.', e);
-      }
+    
+    // On VPS/Custom environments, we prioritize the config object to avoid 
+    // "Automatic initialization failed" warnings.
+    if (typeof window !== 'undefined' && !window.location.hostname.includes('web.app') && !window.location.hostname.includes('firebaseapp.com')) {
       firebaseApp = initializeApp(firebaseConfig);
+    } else {
+      try {
+        firebaseApp = initializeApp();
+      } catch (e) {
+        firebaseApp = initializeApp(firebaseConfig);
+      }
     }
 
     return getSdks(firebaseApp);
