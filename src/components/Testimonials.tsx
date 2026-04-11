@@ -14,8 +14,8 @@ import Autoplay from "embla-carousel-autoplay";
 import * as React from "react";
 import { cn } from "@/lib/utils";
 
-export function Testimonials() {
-  const [testimonials, setTestimonials] = useState<any[]>([]);
+export function Testimonials({ initialData }: { initialData?: any[] }) {
+  const [testimonials, setTestimonials] = useState<any[]>(initialData || []);
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
   const plugin = React.useRef(
@@ -23,10 +23,12 @@ export function Testimonials() {
   );
 
   useEffect(() => {
-    fetch('/api/leadership', { cache: 'no-store' })
-      .then(res => res.json())
-      .then(data => setTestimonials(data.testimonials || []))
-      .catch(err => console.error("Error fetching testimonials:", err));
+    if (!initialData) {
+      fetch('/api/leadership', { cache: 'no-store' })
+        .then(res => res.json())
+        .then(data => setTestimonials(data.testimonials || []))
+        .catch(err => console.error("Error fetching testimonials:", err));
+    }
 
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -43,17 +45,25 @@ export function Testimonials() {
     }
 
     return () => observer.disconnect();
-  }, []);
+  }, [initialData]);
 
   return (
-    <section id="testimonials" ref={sectionRef} className="py-32 bg-slate-50/50 overflow-hidden relative w-full border-y border-slate-100">
+    <section 
+      id="testimonials" 
+      ref={sectionRef} 
+      className="py-32 bg-slate-50/50 overflow-hidden relative w-full border-y border-slate-100"
+    >
+      {/* Background Blobs */}
       <div className="absolute top-0 right-0 w-1/3 h-1/3 bg-primary/5 blur-[120px] rounded-full pointer-events-none" />
       <div className="absolute bottom-0 left-0 w-1/4 h-1/4 bg-blue-400/5 blur-[100px] rounded-full pointer-events-none" />
 
+      {/* Inner Container with Padding for Buttons */}
       <div className={cn(
-        "w-full px-4 sm:px-12 lg:px-32 xl:px-48 relative z-10 transition-all duration-1000",
+        "w-full max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-20 xl:px-32 relative z-10 transition-all duration-1000",
         isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
       )}>
+        
+        {/* Header Section */}
         <div className="flex flex-col items-center mb-24 text-center space-y-6">
           <div className="inline-flex items-center gap-2 bg-slate-900 text-white text-[10px] uppercase tracking-[0.3em] font-bold px-6 py-2 rounded-full mb-2 shadow-xl shadow-black/10">
             <Users className="h-3 w-3" />
@@ -66,51 +76,66 @@ export function Testimonials() {
           </p>
         </div>
 
-        <div className="relative px-2">
+        {/* Carousel Container */}
+        <div className="relative group">
           <Carousel
             plugins={[plugin.current]}
             className="w-full"
             opts={{
               align: "start",
               loop: true,
+              dragFree: false,
             }}
           >
             <CarouselContent className="-ml-4 md:-ml-6">
               {testimonials.map((t, index) => {
                 const placeholderId = `testimonial-${(index % 6) + 1}`;
                 const img = PlaceHolderImages.find(i => i.id === placeholderId);
+                
                 return (
-                  <CarouselItem key={index} className="pl-4 md:pl-6 basis-full md:basis-1/2 lg:basis-1/3 xl:basis-1/4">
-                    <div className="h-full py-4">
-                      <div className="bg-white p-8 lg:p-10 rounded-[40px] border border-slate-100 shadow-[0_20px_50px_-12px_rgba(0,0,0,0.06)] hover:shadow-[0_45px_100px_-20px_rgba(0,71,255,0.12)] transition-all duration-500 flex flex-col h-full group relative overflow-hidden">
-                        <div className="absolute -top-6 -right-6 opacity-[0.03] group-hover:opacity-[0.08] transition-opacity">
+                  <CarouselItem 
+                    key={index} 
+                    // Ensure consistent width: 3 cards on desktop
+                    className="pl-4 md:pl-6 basis-full sm:basis-1/2 lg:basis-1/3 min-w-0 w-full"
+                  >
+                    <div className="h-full py-4 group/card">
+                      <div className="bg-white p-8 lg:p-10 rounded-[40px] border border-slate-100 shadow-[0_20px_50px_-12px_rgba(0,0,0,0.06)] hover:shadow-[0_45px_100px_-20px_rgba(0,71,255,0.12)] transition-all duration-500 flex flex-col h-full relative overflow-hidden w-full">
+                        
+                        {/* Decorative Quote Icon */}
+                        <div className="absolute -top-6 -right-6 opacity-[0.03] group-hover/card:opacity-[0.08] transition-opacity pointer-events-none">
                           <Quote className="h-32 w-32 text-accent" />
                         </div>
                         
-                        <div className="flex gap-1 mb-6">
+                        {/* 1. Stars (Top) */}
+                        <div className="flex gap-1 mb-6 shrink-0">
                           {[...Array(t.stars || 5)].map((_, i) => (
-                            <Star key={i} className="h-3 w-3 fill-primary text-primary" />
+                            <Star key={i} className="h-4 w-4 fill-primary text-primary" />
                           ))}
                         </div>
                         
-                        <div className="relative mb-8 flex-grow">
+                        {/* 2. Content (Middle - Grows to fill space) */}
+                        <div className="relative flex-grow mb-8">
                           <Quote className="h-5 w-5 text-primary/20 absolute -top-2 -left-2" />
                           <p className="text-slate-600 leading-relaxed font-light italic text-sm lg:text-base relative z-10">
                             {t.content}
                           </p>
                         </div>
                         
-                        <div className="flex items-center gap-4 pt-6 border-t border-slate-50 mt-auto">
-                          <div className="relative h-12 w-12 rounded-full overflow-hidden border-2 border-white shadow-sm shrink-0">
+                        {/* 3. Footer (Bottom - Pushed down by flex-grow above) */}
+                        <div className="flex items-center gap-4 pt-6 border-t border-slate-50 shrink-0 mt-auto">
+                          <div className="relative h-12 w-12 rounded-full overflow-hidden border-2 border-white shadow-sm shrink-0 bg-slate-100">
                             <img 
                               src={t.image || img?.imageUrl} 
                               alt={t.name} 
                               className="h-full w-full object-cover" 
+                              onError={(e) => {
+                                (e.target as HTMLImageElement).src = "https://via.placeholder.com/150";
+                              }}
                             />
                           </div>
-                          <div className="text-left overflow-hidden">
-                            <h4 className="font-headline font-bold text-accent text-lg leading-tight mb-1 truncate">{t.name}</h4>
-                            <p className="text-[9px] text-primary/80 font-bold uppercase tracking-[0.1em] truncate">{t.role}</p>
+                          <div className="text-left overflow-hidden flex-1">
+                            <h4 className="font-headline font-bold text-accent text-lg leading-tight mb-0.5 truncate">{t.name}</h4>
+                            <p className="text-[10px] text-primary/80 font-bold uppercase tracking-[0.1em] truncate">{t.role}</p>
                           </div>
                         </div>
                       </div>
@@ -120,13 +145,19 @@ export function Testimonials() {
               })}
             </CarouselContent>
             
-            <div className="flex justify-center mt-12 gap-6 md:block">
-              <CarouselPrevious className="static md:absolute md:-left-16 lg:-left-20 translate-y-0 bg-white border-slate-100 hover:bg-primary hover:text-white h-14 w-14 flex items-center justify-center rounded-full shadow-lg transition-all hover:scale-110 active:scale-90" />
-              <CarouselNext className="static md:absolute md:-right-16 lg:-right-20 translate-y-0 bg-white border-slate-100 hover:bg-primary hover:text-white h-14 w-14 flex items-center justify-center rounded-full shadow-lg transition-all hover:scale-110 active:scale-90" />
+            {/* 
+               Navigation Buttons:
+               - Mobile/Tablet: Flex row, centered, below carousel (static position)
+               - Desktop (md+): Absolute position on sides
+            */}
+            <div className="flex flex-col md:block items-center mt-8 md:mt-0">
+              <CarouselPrevious className="static md:absolute md:-left-16 lg:-left-20 top-1/2 -translate-y-1/2 translate-y-0 bg-white border-slate-100 hover:bg-primary hover:text-white h-14 w-14 flex items-center justify-center rounded-full shadow-lg transition-all hover:scale-110 active:scale-90" />
+              <CarouselNext className="static md:absolute md:-right-16 lg:-right-20 top-1/2 -translate-y-1/2 translate-y-0 bg-white border-slate-100 hover:bg-primary hover:text-white h-14 w-14 flex items-center justify-center rounded-full shadow-lg transition-all hover:scale-110 active:scale-90 mt-4 md:mt-0" />
             </div>
           </Carousel>
         </div>
 
+        {/* Stats Section */}
         <div className="mt-32 grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-12 border-t border-slate-100 pt-20">
           {[
             { icon: ShieldCheck, label: "100%", sub: "Academic Integrity" },

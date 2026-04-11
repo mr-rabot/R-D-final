@@ -1,4 +1,3 @@
-
 import type { Metadata, Viewport } from 'next';
 import './globals.css';
 import { Toaster } from "@/components/ui/toaster";
@@ -41,6 +40,11 @@ export const metadata: Metadata = {
     'PhD Dissertation Support',
     'Academic Consulting'
   ],
+  icons: {
+    icon: '/images/Logo.png',
+    shortcut: '/images/Logo.png',
+    apple: '/images/Logo.png',
+  },
   authors: [{ name: 'Om Prakash Sinha' }],
   creator: 'R&D Services',
   publisher: 'R&D Services',
@@ -49,7 +53,7 @@ export const metadata: Metadata = {
     address: false,
     telephone: false,
   },
-  metadataBase: new URL('https://rdservices.in'), // Replace with your actual production domain
+  metadataBase: new URL('https://rdservices.in'),
   alternates: {
     canonical: '/',
   },
@@ -60,7 +64,7 @@ export const metadata: Metadata = {
     siteName: 'R&D Services',
     images: [
       {
-        url: '/images/og-image.jpg', // Ensure this image exists in public/images
+        url: '/images/og-image.jpg',
         width: 1200,
         height: 630,
         alt: 'R&D Services - Scholarly Research Perfected',
@@ -93,8 +97,29 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "R&D Services",
+    "url": "https://rdservices.in",
+    "logo": "https://rdservices.in/images/Logo.png",
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "telephone": "+916209779365",
+      "contactType": "customer service",
+      "areaServed": "IN",
+      "availableLanguage": "en"
+    }
+  };
+
   return (
     <html lang="en" className={`${inter.variable} ${alegreya.variable} w-full overflow-x-hidden scroll-smooth`}>
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      </head>
       <body className="font-body antialiased selection:bg-primary/20 w-full overflow-x-hidden bg-background">
         <FirebaseClientProvider>
           {children}
