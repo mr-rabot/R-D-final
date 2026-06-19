@@ -360,8 +360,6 @@ export default function AdminDashboard() {
     
     setIsSendingForgot(true);
     try {
-      // FormSubmit requires verification for new emails. To ensure reliability, 
-      // we send recovery requests to the primary support address.
       const response = await fetch("https://formsubmit.co/ajax/support.rdservices@gmail.com", {
         method: "POST",
         headers: { 
@@ -373,23 +371,23 @@ export default function AdminDashboard() {
           email: forgotEmail,
           _template: "table",
           _captcha: "false",
-          _honey: "", // Anti-spam honeypot
+          _honey: "", 
           Request_Type: "Scholarly Registry Access Recovery",
           Timestamp: new Date().toLocaleString(),
-          Instruction: "An access recovery request has been logged for this email. Please verify the user's identity and provide the recovery key if authorized."
+          Instruction: "An access recovery request has been logged. Verify identity and provide the recovery key if authorized."
         }),
       });
       
       const result = await response.json();
       
       if (response.ok && result.success === "true") {
-        toast({ title: "Recovery Requested", description: "Request sent to the security desk. Verify your inbox (and spam folder)." });
+        toast({ title: "Recovery Requested", description: "Request sent. Verify your inbox (and spam folder)." });
         setShowForgot(false);
       } else {
         throw new Error(result.message || "Endpoint rejection");
       }
     } catch (err) {
-      toast({ variant: "destructive", title: "Request Failed", description: "Could not reach the security desk. Please use the WhatsApp protocol." });
+      toast({ variant: "destructive", title: "Request Failed", description: "Could not reach the security desk." });
     } finally {
       setIsSendingForgot(false);
     }
