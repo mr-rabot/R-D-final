@@ -9,7 +9,8 @@ const DATA_PATH = path.join(process.cwd(), 'src/app/lib/leadership-data.json');
 const DEFAULT_DATA = {
   adminCredentials: {
     email: "prexani.tech@gmail.com",
-    password: "Admin@9343"
+    password: "Admin@9343",
+    lastChanged: Date.now()
   },
   brand: { name: "R&D Services", logo: "", tagline: "Academic Manuscript Solutions" },
   hero: { title: "Scholarly Research Perfected.", subtitle: "Elite academic support.", badge: "Premier Research Excellence", stats: [], image: "" },
@@ -65,11 +66,15 @@ export async function GET() {
     if (!fileContent.trim()) return NextResponse.json(DEFAULT_DATA);
     
     const existingData = JSON.parse(fileContent);
-    // Deep merge to ensure adminCredentials exist if they were missing in an old file version
+    
+    // Hardened deep merge for credentials and session timestamps
     const mergedData = { 
       ...DEFAULT_DATA, 
       ...existingData,
-      adminCredentials: { ...DEFAULT_DATA.adminCredentials, ...(existingData.adminCredentials || {}) }
+      adminCredentials: { 
+        ...DEFAULT_DATA.adminCredentials, 
+        ...(existingData.adminCredentials || {}) 
+      }
     };
     
     return new NextResponse(JSON.stringify(mergedData), {

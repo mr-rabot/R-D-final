@@ -48,7 +48,8 @@ import {
   Download,
   Lock,
   Mail,
-  ArrowLeft
+  ArrowLeft,
+  AlertCircle
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import Image from "next/image";
@@ -68,6 +69,7 @@ import {
   SelectTrigger, 
   SelectValue 
 } from "@/components/ui/select";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 const getCroppedImg = async (imageSrc: string, pixelCrop: any): Promise<string> => {
   const image = new window.Image();
@@ -121,6 +123,9 @@ export default function AdminDashboard() {
   const { toast } = useToast();
   const [localSiteData, setLocalSiteData] = useState<any>(null);
 
+  // Lockout State
+  const [lockoutUntil, setLockoutUntil] = useState<number | null>(null);
+
   // Forgot Password State
   const [showForgot, setShowForgot] = useState(false);
   const [forgotEmail, setForgotEmail] = useState("");
@@ -135,6 +140,7 @@ export default function AdminDashboard() {
   const [deleteConfirm, setDeleteConfirm] = useState<{path: string, index: number} | null>(null);
 
   // Account settings temporary state
+  const [currentPasswordConfirm, setCurrentPasswordConfirm] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
@@ -142,16 +148,38 @@ export default function AdminDashboard() {
   const resourceFileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    const session = localStorage.getItem("rd_admin_session");
-    if (session === "active") {
-      setIsLoggedIn(true);
+    // Check lockout first
+    const storedLockout = localStorage.getItem("rd_admin_lockout_until");
+    if (storedLockout) {
+      const until = parseInt(storedLockout);
+      if (until > Date.now()) {
+        setLockoutUntil(until);
+      } else {
+        localStorage.removeItem("rd_admin_lockout_until");
+      }
     }
-    
+
     fetch('/api/leadership')
       .then(res => res.json())
       .then(data => {
         setLocalSiteData(data);
         setIsLoadingData(false);
+
+        // Session Validation Logic
+        const session = localStorage.getItem("rd_admin_session");
+        const sessionTime = localStorage.getItem("rd_admin_session_time");
+        const lastChanged = data.adminCredentials?.lastChanged || 0;
+
+        if (session === "active" && sessionTime && parseInt(sessionTime) > lastChanged) {
+          setIsLoggedIn(true);
+        } else {
+          setIsLoggedIn(false);
+          if (session === "active") {
+            localStorage.removeItem("rd_admin_session");
+            localStorage.removeItem("rd_admin_session_time");
+            toast({ variant: "destructive", title: "Session Expired", description: "Security settings updated. Please log in again." });
+          }
+        }
       })
       .catch(err => {
         console.error("Init load error:", err);
@@ -296,14 +324,33 @@ export default function AdminDashboard() {
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (lockoutUntil && lockoutUntil > Date.now()) {
+      toast({ variant: "destructive", title: "Device Blocked", description: `Too many attempts. Try again later.` });
+      return;
+    }
+
     const storedCreds = localSiteData?.adminCredentials || { email: "prexani.tech@gmail.com", password: "Admin@9343" };
     
     if (email === storedCreds.email && password === storedCreds.password) {
       setIsLoggedIn(true);
       localStorage.setItem("rd_admin_session", "active");
+      localStorage.setItem("rd_admin_session_time", Date.now().toString());
+      localStorage.removeItem("rd_login_attempts");
+      localStorage.removeItem("rd_admin_lockout_until");
       toast({ title: "Access Granted", description: "Welcome back." });
     } else {
-      toast({ variant: "destructive", title: "Login Failed", description: "Invalid admin credentials." });
+      const attempts = parseInt(localStorage.getItem("rd_login_attempts") || "0") + 1;
+      localStorage.setItem("rd_login_attempts", attempts.toString());
+      
+      if (attempts >= 3) {
+        const until = Date.now() + 24 * 60 * 60 * 1000;
+        localStorage.setItem("rd_admin_lockout_until", until.toString());
+        setLockoutUntil(until);
+        toast({ variant: "destructive", title: "Device Locked", description: "3 failed attempts. Blocked for 24 hours." });
+      } else {
+        toast({ variant: "destructive", title: "Login Failed", description: `Invalid credentials. ${3 - attempts} attempts remaining.` });
+      }
     }
   };
 
@@ -313,8 +360,6 @@ export default function AdminDashboard() {
     
     setIsSendingForgot(true);
     try {
-      // FormSubmit requires verification for new emails. To ensure reliability, 
-      // we send recovery requests to the primary support address.
       const response = await fetch("https://formsubmit.co/ajax/support.rdservices@gmail.com", {
         method: "POST",
         headers: { 
@@ -326,23 +371,23 @@ export default function AdminDashboard() {
           email: forgotEmail,
           _template: "table",
           _captcha: "false",
-          _honey: "", // Anti-spam honeypot
+          _honey: "", 
           Request_Type: "Scholarly Registry Access Recovery",
           Timestamp: new Date().toLocaleString(),
-          Instruction: "An access recovery request has been logged for this email. Please verify the user's identity and provide the recovery key if authorized."
+          Instruction: "An access recovery request has been logged. Verify identity and provide the recovery key if authorized."
         }),
       });
       
       const result = await response.json();
       
       if (response.ok && result.success === "true") {
-        toast({ title: "Recovery Requested", description: "Request sent to the security desk. Verify your inbox (and spam folder)." });
+        toast({ title: "Recovery Requested", description: "Request sent. Verify your inbox (and spam folder)." });
         setShowForgot(false);
       } else {
         throw new Error(result.message || "Endpoint rejection");
       }
     } catch (err) {
-      toast({ variant: "destructive", title: "Request Failed", description: "Could not reach the security desk. Please use the WhatsApp protocol." });
+      toast({ variant: "destructive", title: "Request Failed", description: "Could not reach the security desk." });
     } finally {
       setIsSendingForgot(false);
     }
@@ -351,6 +396,7 @@ export default function AdminDashboard() {
   const handleLogout = () => {
     setIsLoggedIn(false);
     localStorage.removeItem("rd_admin_session");
+    localStorage.removeItem("rd_admin_session_time");
     toast({ title: "Signed Out", description: "Session ended." });
   };
 
@@ -467,6 +513,13 @@ export default function AdminDashboard() {
   };
 
   const updateAdminAccount = () => {
+    const storedPass = localSiteData?.adminCredentials?.password;
+    
+    if (currentPasswordConfirm !== storedPass) {
+      toast({ variant: "destructive", title: "Verification Failed", description: "Current password is incorrect." });
+      return;
+    }
+
     if (newPassword && newPassword !== confirmPassword) {
       toast({ variant: "destructive", title: "Security Error", description: "New passwords do not match." });
       return;
@@ -475,11 +528,14 @@ export default function AdminDashboard() {
     const newData = JSON.parse(JSON.stringify(localSiteData));
     if (newPassword) {
       newData.adminCredentials.password = newPassword;
+      newData.adminCredentials.lastChanged = Date.now();
     }
+    
     setLocalSiteData(newData);
+    setCurrentPasswordConfirm("");
     setNewPassword("");
     setConfirmPassword("");
-    toast({ title: "Account Staged", description: "Credentials updated. Click 'Push Live' to finalize." });
+    toast({ title: "Security Staged", description: "Credentials updated. Click 'Push Live' to finalize and invalidate all sessions." });
   };
 
   if (isLoadingData) return (
@@ -500,7 +556,18 @@ export default function AdminDashboard() {
             </h2>
           </div>
           <CardContent className="p-6 lg:p-8">
-            {showForgot ? (
+            {lockoutUntil && lockoutUntil > Date.now() ? (
+              <div className="text-center space-y-4 py-4">
+                <div className="bg-red-50 text-red-500 p-4 rounded-2xl flex flex-col items-center gap-2">
+                  <AlertCircle className="h-10 w-10" />
+                  <p className="font-bold text-sm uppercase">Device Blocked</p>
+                </div>
+                <p className="text-xs text-slate-500 italic">This device has been locked out for 24 hours due to multiple failed login attempts. Contact support if this was an error.</p>
+                <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest pt-2">
+                  Unlocks: {new Date(lockoutUntil).toLocaleString()}
+                </div>
+              </div>
+            ) : showForgot ? (
               <form onSubmit={handleForgotSubmit} className="space-y-4">
                 <div className="space-y-1">
                   <label className="text-[9px] uppercase font-bold text-slate-400 tracking-widest ml-1">Admin Email</label>
@@ -656,15 +723,14 @@ export default function AdminDashboard() {
           </TabsContent>
 
           <TabsContent value="account">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <Card className="p-6 space-y-6 border-none shadow-sm rounded-3xl bg-white">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              <Card className="lg:col-span-1 p-6 space-y-6 border-none shadow-sm rounded-3xl bg-white">
                 <div className="flex items-center gap-3 border-b pb-4">
                   <div className="p-2 bg-primary/10 rounded-lg text-primary">
                     <Mail className="h-5 w-5" />
                   </div>
                   <div>
-                    <h3 className="text-sm font-bold text-slate-900">Admin Email</h3>
-                    <p className="text-[10px] text-slate-400">Identification for registry operations.</p>
+                    <h3 className="text-sm font-bold text-slate-900">Identification</h3>
                   </div>
                 </div>
                 <div className="space-y-4">
@@ -677,48 +743,65 @@ export default function AdminDashboard() {
                     />
                   </div>
                   <p className="text-[10px] italic text-slate-400 leading-relaxed">
-                    Note: Changes to email take effect immediately upon sync. Ensure you use a valid address you have access to.
+                    Note: Changes to email take effect immediately upon sync.
                   </p>
                 </div>
               </Card>
 
-              <Card className="p-6 space-y-6 border-none shadow-sm rounded-3xl bg-white">
+              <Card className="lg:col-span-2 p-6 space-y-6 border-none shadow-sm rounded-3xl bg-white">
                 <div className="flex items-center gap-3 border-b pb-4">
                   <div className="p-2 bg-red-50 rounded-lg text-red-500">
                     <Lock className="h-5 w-5" />
                   </div>
                   <div>
-                    <h3 className="text-sm font-bold text-slate-900">Security Key</h3>
-                    <p className="text-[10px] text-slate-400">Secure access to the command center.</p>
+                    <h3 className="text-sm font-bold text-slate-900">Security Key Overhaul</h3>
+                    <p className="text-[10px] text-slate-400">Update credentials and invalidate all sessions.</p>
                   </div>
                 </div>
-                <div className="space-y-4">
-                  <div className="space-y-1">
-                    <label className="text-[9px] font-bold text-slate-400 uppercase">New Key Password</label>
-                    <Input 
-                      type="password"
-                      value={newPassword} 
-                      onChange={(e) => setNewPassword(e.target.value)} 
-                      placeholder="Leave blank to keep current"
-                      className="rounded-xl h-12 bg-slate-50 border-none" 
-                    />
+                <div className="grid md:grid-cols-2 gap-6">
+                  <div className="space-y-4">
+                    <div className="space-y-1">
+                      <label className="text-[9px] font-bold text-red-500 uppercase">Current Security Key *</label>
+                      <Input 
+                        type="password"
+                        value={currentPasswordConfirm} 
+                        onChange={(e) => setCurrentPasswordConfirm(e.target.value)} 
+                        placeholder="Verify identity"
+                        className="rounded-xl h-12 bg-red-50/30 border-red-100" 
+                      />
+                    </div>
                   </div>
-                  <div className="space-y-1">
-                    <label className="text-[9px] font-bold text-slate-400 uppercase">Confirm Key</label>
-                    <Input 
-                      type="password"
-                      value={confirmPassword} 
-                      onChange={(e) => setConfirmPassword(e.target.value)} 
-                      placeholder="Repeat new key"
-                      className="rounded-xl h-12 bg-slate-50 border-none" 
-                    />
+                  <div className="space-y-4">
+                    <div className="space-y-1">
+                      <label className="text-[9px] font-bold text-slate-400 uppercase">New Key Password</label>
+                      <Input 
+                        type="password"
+                        value={newPassword} 
+                        onChange={(e) => setNewPassword(e.target.value)} 
+                        placeholder="Leave blank to keep current"
+                        className="rounded-xl h-12 bg-slate-50 border-none" 
+                      />
+                    </div>
+                    <div className="space-y-1">
+                      <label className="text-[9px] font-bold text-slate-400 uppercase">Confirm New Key</label>
+                      <Input 
+                        type="password"
+                        value={confirmPassword} 
+                        onChange={(e) => setConfirmPassword(e.target.value)} 
+                        placeholder="Repeat new key"
+                        className="rounded-xl h-12 bg-slate-50 border-none" 
+                      />
+                    </div>
                   </div>
+                </div>
+                <div className="pt-4 border-t flex flex-col md:flex-row items-center gap-4">
                   <Button 
                     onClick={updateAdminAccount} 
-                    className="w-full rounded-xl font-bold bg-slate-900 hover:bg-black h-12"
+                    className="w-full md:w-auto px-8 rounded-xl font-bold bg-slate-900 hover:bg-black h-12"
                   >
-                    Update Security Protocols
+                    Authorize Security Change
                   </Button>
+                  <p className="text-[10px] text-slate-400 italic">Changing the password will automatically log out all devices globally.</p>
                 </div>
               </Card>
             </div>
