@@ -1,5 +1,9 @@
-
 {
+  "adminCredentials": {
+    "email": "prexani.tech@gmail.com",
+    "password": "SuperAdmin@123",
+    "lastChanged": 1781843464406
+  },
   "brand": {
     "logo": "/images/brand_logo_1775302470865.png",
     "name": "R&D Services",
@@ -151,102 +155,6 @@
         "Standardized formatting"
       ],
       "image": "/images/services_3_image_1774844167105.jpg"
-    }
-  ],
-  "blog": {
-    "title": "Academic Hub",
-    "subtitle": "Expert advice on academic writing and research methodology.",
-    "posts": [
-      {
-        "title": "Systematic Literature Review: A Step-by-Step Guide",
-        "excerpt": "Learn how to conduct a rigorous systematic review that meets the standards of high-impact indexed journals.",
-        "author": "Dr. Sarah Chen",
-        "date": "May 20, 2025",
-        "image": "https://picsum.photos/seed/blog1/800/600",
-        "category": "Methodology"
-      },
-      {
-        "title": "Navigating the Peer-Review Process in STEM",
-        "excerpt": "Insights into responding to reviewer comments and increasing your chances of acceptance in Scopus-indexed journals.",
-        "author": "Academic Team",
-        "date": "May 18, 2025",
-        "image": "https://picsum.photos/seed/blog2/800/600",
-        "category": "Publishing"
-      },
-      {
-        "title": "Statistical Power and Sample Size Calculation",
-        "excerpt": "A comprehensive overview of ensuring your research findings are statistically robust and reproducible.",
-        "author": "Expert Review",
-        "date": "May 15, 2025",
-        "image": "https://picsum.photos/seed/blog3/800/600",
-        "category": "Statistics"
-      },
-      {
-        "title": "Journal Selection Criteria for High-Impact Impact",
-        "excerpt": "How to identify Scopus and Web of Science journals that align perfectly with your research scope.",
-        "author": "Academic Desk",
-        "date": "May 12, 2025",
-        "image": "https://picsum.photos/seed/blog4/800/600",
-        "category": "Publication"
-      },
-      {
-        "title": "APA 7th Edition: Common Formatting Pitfalls",
-        "excerpt": "Ensure your manuscript meets elite standards by avoiding these frequent citation and structural errors.",
-        "author": "Expert Review",
-        "date": "May 10, 2025",
-        "image": "https://picsum.photos/seed/blog5/800/600",
-        "category": "Writing"
-      },
-      {
-        "title": "Novelty Identification in PhD Research",
-        "excerpt": "A deep dive into articulating your unique contribution to the global scholarly landscape.",
-        "author": "Dr. Sinha",
-        "date": "May 08, 2025",
-        "image": "https://picsum.photos/seed/blog6/800/600",
-        "category": "Methodology"
-      },
-      {
-        "title": "Structural Blueprints for Doctoral Success",
-        "excerpt": "Frameworks for organizing dissertations that command respect and pass defense with high credits.",
-        "author": "Academic Lead",
-        "date": "May 05, 2025",
-        "image": "https://picsum.photos/seed/blog7/800/600",
-        "category": "Thesis"
-      },
-      {
-        "title": "Navigating Research Ethics and Plagiarism",
-        "excerpt": "Professional protocols for maintaining integrity and original thought in modern academic publishing.",
-        "author": "Compliance Desk",
-        "date": "May 01, 2025",
-        "image": "https://picsum.photos/seed/blog8/800/600",
-        "category": "Ethics"
-      }
-    ]
-  },
-  "resources": [
-    {
-      "name": "Dissertation Structural Template",
-      "type": "DOCX",
-      "size": "1.2 MB",
-      "url": "/resources/dissertation-template.docx"
-    },
-    {
-      "name": "Scholarly Proposal Blueprint",
-      "type": "PDF",
-      "size": "850 KB",
-      "url": "/resources/proposal-blueprint.pdf"
-    },
-    {
-      "name": "APA 7th Formatting Guide",
-      "type": "PDF",
-      "size": "2.1 MB",
-      "url": "/resources/apa-formatting-guide.pdf"
-    },
-    {
-      "name": "Literature Review Matrix",
-      "type": "XLSX",
-      "size": "420 KB",
-      "url": "/resources/lit-review-matrix.xlsx"
     }
   ],
   "pricing": [
@@ -410,6 +318,102 @@
     {
       "question": "Do you provide support for research proposals and synopses?",
       "answer": "Yes, we offer specialized drafting for PhD synopses, M.Tech proposals, and ethical clearance documentation to ensure your project gets approved."
+    }
+  ],
+  "blog": {
+    "title": "Academic Hub",
+    "subtitle": "Expert advice on academic writing and research methodology.",
+    "posts": [
+      {
+        "title": "Systematic Literature Review: A Step-by-Step Guide",
+        "excerpt": "Learn how to conduct a rigorous systematic review that meets the standards of high-impact indexed journals.",
+        "author": "Dr. Sarah Chen",
+        "date": "May 20, 2025",
+        "image": "https://picsum.photos/seed/blog1/800/600",
+        "category": "Methodology"
+      },
+      {
+        "title": "Navigating the Peer-Review Process in STEM",
+        "excerpt": "Insights into responding to reviewer comments and increasing your chances of acceptance in Scopus-indexed journals.",
+        "author": "Academic Team",
+        "date": "May 18, 2025",
+        "image": "https://picsum.photos/seed/blog2/800/600",
+        "category": "Publishing"
+      },
+      {
+        "title": "Statistical Power and Sample Size Calculation",
+        "excerpt": "A comprehensive overview of ensuring your research findings are statistically robust and reproducible.",
+        "author": "Expert Review",
+        "date": "May 15, 2025",
+        "image": "https://picsum.photos/seed/blog3/800/600",
+        "category": "Statistics"
+      },
+      {
+        "title": "Journal Selection Criteria for High-Impact Impact",
+        "excerpt": "How to identify Scopus and Web of Science journals that align perfectly with your research scope.",
+        "author": "Academic Desk",
+        "date": "May 12, 2025",
+        "image": "https://picsum.photos/seed/blog4/800/600",
+        "category": "Publication"
+      },
+      {
+        "title": "APA 7th Edition: Common Formatting Pitfalls",
+        "excerpt": "Ensure your manuscript meets elite standards by avoiding these frequent citation and structural errors.",
+        "author": "Expert Review",
+        "date": "May 10, 2025",
+        "image": "https://picsum.photos/seed/blog5/800/600",
+        "category": "Writing"
+      },
+      {
+        "title": "Novelty Identification in PhD Research",
+        "excerpt": "A deep dive into articulating your unique contribution to the global scholarly landscape.",
+        "author": "Dr. Sinha",
+        "date": "May 08, 2025",
+        "image": "https://picsum.photos/seed/blog6/800/600",
+        "category": "Methodology"
+      },
+      {
+        "title": "Structural Blueprints for Doctoral Success",
+        "excerpt": "Frameworks for organizing dissertations that command respect and pass defense with high credits.",
+        "author": "Academic Lead",
+        "date": "May 05, 2025",
+        "image": "https://picsum.photos/seed/blog7/800/600",
+        "category": "Thesis"
+      },
+      {
+        "title": "Navigating Research Ethics and Plagiarism",
+        "excerpt": "Professional protocols for maintaining integrity and original thought in modern academic publishing.",
+        "author": "Compliance Desk",
+        "date": "May 01, 2025",
+        "image": "https://picsum.photos/seed/blog8/800/600",
+        "category": "Ethics"
+      }
+    ]
+  },
+  "resources": [
+    {
+      "name": "Dissertation Structural Template",
+      "type": "DOCX",
+      "size": "1.2 MB",
+      "url": "/resources/dissertation-template.docx"
+    },
+    {
+      "name": "Scholarly Proposal Blueprint",
+      "type": "PDF",
+      "size": "850 KB",
+      "url": "/resources/proposal-blueprint.pdf"
+    },
+    {
+      "name": "APA 7th Formatting Guide",
+      "type": "PDF",
+      "size": "2.1 MB",
+      "url": "/resources/apa-formatting-guide.pdf"
+    },
+    {
+      "name": "Literature Review Matrix",
+      "type": "XLSX",
+      "size": "420 KB",
+      "url": "/resources/lit-review-matrix.xlsx"
     }
   ],
   "integrations": {
