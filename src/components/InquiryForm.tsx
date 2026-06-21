@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useEffect, useState, useRef, useMemo } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -30,7 +30,6 @@ const countryCodes = [
 export function InquiryForm() {
   const { toast } = useToast();
   const [siteData, setSiteData] = useState<any>(null);
-<<<<<<< HEAD
   const [whatsapp, setWhatsapp] = useState("916209779365");
   const [isVisible, setIsVisible] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -43,73 +42,6 @@ export function InquiryForm() {
         setSiteData(data);
         if (data.integrations?.whatsapp) setWhatsapp(data.integrations.whatsapp);
       })
-=======
-  const [isVisible, setIsVisible] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const sectionRef = useRef<HTMLElement>(null);
-
-  // Initialize form structure from data
-  const formFields = siteData?.contactForm?.fields || [
-    { id: "1", name: "name", label: "Full Name", type: "text", placeholder: "Enter your name", required: true },
-    { id: "2", name: "email", label: "Email Address", type: "email", placeholder: "email@example.com", required: true },
-    { id: "phone-group", name: "phone", label: "Contact Number", type: "phone", required: true },
-    { id: "3", name: "service", label: "Service Type", type: "select", options: ["Thesis Writing", "Research Paper", "Synopsis", "Dissertation - I", "Dissertation - II", "PPT", "Project Report"], required: true },
-    { id: "4", name: "details", label: "Research Details", type: "textarea", placeholder: "Please provide topic details...", required: true }
-  ];
-
-  // Dynamic Schema Generation
-  const dynamicSchema = useMemo(() => {
-    const shape: any = {};
-    formFields.forEach((field: any) => {
-      let validator = z.string();
-      
-      if (field.type === 'email') {
-        validator = validator.email("Please enter a valid email address");
-      }
-      
-      if (field.required) {
-        validator = validator.min(1, `${field.label} is required`);
-        if (field.type === 'textarea') {
-          validator = validator.min(10, "Please provide more details");
-        }
-      } else {
-        validator = validator.optional() as any;
-      }
-
-      if (field.type === 'phone') {
-        shape['countryCode'] = z.string().min(1, "Required");
-        shape['phone'] = field.required ? z.string().min(1, "Mobile number is required") : z.string().optional();
-      } else {
-        shape[field.name] = validator;
-      }
-    });
-    return z.object(shape);
-  }, [formFields]);
-
-  // Default values
-  const defaultValues = useMemo(() => {
-    const values: any = {};
-    formFields.forEach((field: any) => {
-      if (field.type === 'phone') {
-        values['countryCode'] = "India";
-        values['phone'] = "";
-      } else {
-        values[field.name] = "";
-      }
-    });
-    return values;
-  }, [formFields]);
-
-  const form = useForm<z.infer<typeof dynamicSchema>>({
-    resolver: zodResolver(dynamicSchema),
-    defaultValues
-  });
-
-  useEffect(() => {
-    fetch('/api/leadership', { cache: 'no-store' })
-      .then(res => res.json())
-      .then(data => setSiteData(data))
->>>>>>> 98a2c8f27094db91b0e91c5b2cc561733cfa401a
       .catch(err => console.error("Error fetching leadership data:", err));
 
     const observer = new IntersectionObserver(
@@ -126,7 +58,6 @@ export function InquiryForm() {
     return () => observer.disconnect();
   }, []);
 
-<<<<<<< HEAD
   const fields = siteData?.contactForm?.fields || [];
 
   // Dynamically build validation schema
@@ -149,8 +80,6 @@ export function InquiryForm() {
     },
   });
 
-=======
->>>>>>> 98a2c8f27094db91b0e91c5b2cc561733cfa401a
   async function onSubmit(values: any) {
     setIsSubmitting(true);
     
@@ -163,16 +92,6 @@ export function InquiryForm() {
     }
 
     try {
-      // Build a clean message for the email
-      let message = "";
-      formFields.forEach((f: any) => {
-        if (f.type === 'phone') {
-          message += `${f.label}: ${values.countryCode} ${values.phone}\n`;
-        } else {
-          message += `${f.label}: ${values[f.name]}\n`;
-        }
-      });
-
       const response = await fetch("https://formsubmit.co/ajax/support.rdservices@gmail.com", {
         method: "POST",
         headers: { 
@@ -180,14 +99,8 @@ export function InquiryForm() {
           'Accept': 'application/json'
         },
         body: JSON.stringify({
-<<<<<<< HEAD
           ...payload,
           _subject: `New Scholarly Inquiry from ${values.name || values.email || 'Website'}`,
-=======
-          ...values,
-          message: message,
-          _subject: `New Research Inquiry from ${values.name || 'Scholar'}`,
->>>>>>> 98a2c8f27094db91b0e91c5b2cc561733cfa401a
           _template: "table"
         }),
       });
@@ -197,11 +110,7 @@ export function InquiryForm() {
           title: "Inquiry Sent Successfully",
           description: "Our academic team has received your message and will contact you shortly.",
         });
-<<<<<<< HEAD
         form.reset();
-=======
-        form.reset(defaultValues);
->>>>>>> 98a2c8f27094db91b0e91c5b2cc561733cfa401a
       } else {
         throw new Error("Submission failed");
       }
@@ -218,7 +127,6 @@ export function InquiryForm() {
 
   const handleWhatsAppQuickAction = () => {
     const values = form.getValues();
-<<<<<<< HEAD
     const messageLines = ["*New Scholarly Quote Request*"];
     fields.forEach((f: any) => {
       if (values[f.id]) {
@@ -233,27 +141,6 @@ export function InquiryForm() {
 
     const messageText = messageLines.length > 1 ? messageLines.join('\n') : "Hi R&DServices, I am interested in your academic consulting services.";
     window.open(`https://wa.me/${whatsapp}?text=${encodeURIComponent(messageText)}`, '_blank');
-=======
-    const whatsappNumber = siteData?.integrations?.whatsapp || "916209779365";
-    
-    if (!values.name || !values.service) {
-      const quickMessage = encodeURIComponent("Hi R&DServices, I am interested in your academic consulting services.");
-      window.open(`https://wa.me/${whatsappNumber}?text=${quickMessage}`, '_blank');
-      return;
-    }
-
-    let messageText = `*New Quote Request from Website*\n\n`;
-    formFields.forEach((f: any) => {
-      if (f.type === 'phone') {
-        const selectedCountry = countryCodes.find(c => c.name === values.countryCode);
-        messageText += `*${f.label}:* ${selectedCountry?.code || "+91"} ${values.phone}\n`;
-      } else {
-        messageText += `*${f.label}:* ${values[f.name]}\n`;
-      }
-    });
-    
-    window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(messageText)}`, '_blank');
->>>>>>> 98a2c8f27094db91b0e91c5b2cc561733cfa401a
   };
 
   const founder = siteData?.leadership?.founder;
@@ -283,13 +170,8 @@ export function InquiryForm() {
                   <User className="h-5 w-5" />
                 </div>
                 <div>
-<<<<<<< HEAD
                   <h4 className="font-bold text-accent text-lg md:text-xl">{siteData?.leadership?.founder?.name || "Om Prakash Sinha"}</h4>
                   <p className="text-slate-500 text-[13px] md:text-sm">{siteData?.leadership?.founder?.role || "Founder & Director"}</p>
-=======
-                  <h4 className="font-bold text-accent text-base md:text-lg">{founder?.name || "Om Prakash Sinha"}</h4>
-                  <p className="text-slate-500 text-xs md:text-sm">{founder?.role || "Founder & Director"}</p>
->>>>>>> 98a2c8f27094db91b0e91c5b2cc561733cfa401a
                 </div>
               </div>
 
@@ -316,37 +198,23 @@ export function InquiryForm() {
                 </div>
               </div>
 
-<<<<<<< HEAD
               {siteData?.integrations?.linkedin && (
-                <div className="flex items-start gap-5 md:gap-6">
-                  <div className="bg-white shadow-md p-3 rounded-xl text-primary shrink-0">
-                    <Linkedin className="h-6 w-6" />
+                <div className="flex flex-col items-center lg:items-start gap-3">
+                  <div className="bg-white shadow-md p-3.5 rounded-xl text-primary shrink-0">
+                    <Linkedin className="h-5 w-5" />
                   </div>
                   <div>
                     <h4 className="font-bold text-accent text-lg">LinkedIn</h4>
-                    <a 
-                      href={siteData.integrations.linkedin} 
-                      target="_blank" 
+                    <a
+                      href={siteData.integrations.linkedin}
+                      target="_blank"
                       rel="noopener noreferrer"
-                      className="text-slate-600 font-medium text-sm md:text-base hover:text-primary transition-colors"
+                      className="text-slate-600 font-medium text-sm hover:text-primary transition-colors"
                     >
-=======
-              <div className="flex flex-col items-center lg:items-start gap-3">
-                <div className="bg-white shadow-md p-3.5 rounded-xl text-primary shrink-0">
-                  <Linkedin className="h-5 w-5" />
-                </div>
-                <div>
-                  <h4 className="font-bold text-accent text-base">LinkedIn</h4>
-                  {linkedinUrl ? (
-                    <a href={linkedinUrl} target="_blank" rel="noopener noreferrer" className="text-slate-600 font-medium text-sm hover:text-primary transition-colors">
->>>>>>> 98a2c8f27094db91b0e91c5b2cc561733cfa401a
                       Connect with Us
                     </a>
-                  ) : (
-                    <span className="text-slate-400 text-sm">Official Hub</span>
-                  )}
+                  </div>
                 </div>
-<<<<<<< HEAD
               )}
             </div>
 
@@ -366,9 +234,6 @@ export function InquiryForm() {
                   <div className="absolute inset-0 bg-primary/5 mix-blend-multiply" />
                 </div>
               ) : null}
-=======
-              </div>
->>>>>>> 98a2c8f27094db91b0e91c5b2cc561733cfa401a
             </div>
           </div>
 
@@ -383,7 +248,6 @@ export function InquiryForm() {
             </div>
 
             <Form {...form}>
-<<<<<<< HEAD
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 md:space-y-8">
                 {fields.map((f: any) => (
                   <FormField
@@ -480,108 +344,6 @@ export function InquiryForm() {
                     className="w-full h-16 md:h-20 rounded-2xl text-lg md:text-xl bg-primary hover:bg-blue-600 text-white shadow-2xl shadow-primary/20 flex gap-4 transition-all hover:-translate-y-1 active:scale-95 py-6 md:py-8 font-bold"
                   >
                      {isSubmitting ? <Loader2 className="h-6 w-6 animate-spin" /> : <Send className="h-6 w-6" />}
-=======
-              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 max-w-4xl mx-auto">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {formFields.map((field: any) => {
-                    if (field.type === 'phone') {
-                      return (
-                        <div key={field.id} className="space-y-1.5 col-span-1 md:col-span-2">
-                          <FormLabel className="text-[10px] font-bold text-accent uppercase tracking-wider">{field.label} {field.required && "*"}</FormLabel>
-                          <div className="flex items-center gap-0 bg-slate-50 border-none rounded-xl shadow-inner overflow-hidden focus-within:ring-2 focus-within:ring-primary/20">
-                            <FormField
-                              control={form.control}
-                              name="countryCode"
-                              render={({ field }) => (
-                                <FormItem className="w-[100px] md:w-[120px] shrink-0 space-y-0">
-                                  <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                    <FormControl>
-                                      <SelectTrigger className="bg-transparent border-none h-12 md:h-14 shadow-none focus:ring-0 px-3">
-                                        <SelectValue placeholder="Code">
-                                          {(() => {
-                                            const selected = countryCodes.find(c => c.name === field.value);
-                                            return selected ? (
-                                              <span className="flex items-center gap-2">
-                                                <span className="text-lg leading-none">{selected.flag}</span>
-                                                <span className="text-xs font-bold">{selected.code}</span>
-                                              </span>
-                                            ) : "Code";
-                                          })()}
-                                        </SelectValue>
-                                      </SelectTrigger>
-                                    </FormControl>
-                                    <SelectContent className="rounded-xl border-slate-100 max-h-[250px]">
-                                      {countryCodes.map((item) => (
-                                        <SelectItem key={`${item.code}-${item.name}`} value={item.name}>
-                                          <span className="flex items-center gap-2.5">
-                                            <span className="text-lg">{item.flag}</span>
-                                            <span className="text-xs font-medium">{item.code} {item.name}</span>
-                                          </span>
-                                        </SelectItem>
-                                      ))}
-                                    </SelectContent>
-                                  </Select>
-                                </FormItem>
-                              )}
-                            />
-                            <div className="w-px h-6 bg-slate-200" />
-                            <FormField
-                              control={form.control}
-                              name="phone"
-                              render={({ field: phoneField }) => (
-                                <FormItem className="flex-grow space-y-0">
-                                  <FormControl>
-                                    <Input type="tel" placeholder="Mobile number" {...phoneField} className="bg-transparent border-none h-12 md:h-14 shadow-none focus-visible:ring-0 text-sm px-4" />
-                                  </FormControl>
-                                </FormItem>
-                              )}
-                            />
-                          </div>
-                          <FormMessage />
-                        </div>
-                      );
-                    }
-
-                    return (
-                      <FormField
-                        key={field.id}
-                        control={form.control}
-                        name={field.name}
-                        render={({ field: inputField }) => (
-                          <FormItem className={cn(field.type === 'textarea' ? "col-span-1 md:col-span-2" : "col-span-1")}>
-                            <FormLabel className="text-[10px] font-bold text-accent uppercase tracking-wider">{field.label} {field.required && "*"}</FormLabel>
-                            <FormControl>
-                              {field.type === 'textarea' ? (
-                                <Textarea placeholder={field.placeholder} {...inputField} className="bg-slate-50 border-none rounded-xl min-h-[150px] md:min-h-[180px] shadow-inner text-sm p-5 resize-none" />
-                              ) : field.type === 'select' ? (
-                                <Select onValueChange={inputField.onChange} defaultValue={inputField.value}>
-                                  <FormControl>
-                                    <SelectTrigger className="bg-slate-50 border-none rounded-xl h-12 md:h-14 shadow-inner text-sm px-4">
-                                      <SelectValue placeholder={field.placeholder || "Select an option"} />
-                                    </SelectTrigger>
-                                  </FormControl>
-                                  <SelectContent className="rounded-xl border-slate-100">
-                                    {field.options?.map((opt: string) => (
-                                      <SelectItem key={opt} value={opt} className="text-xs">{opt}</SelectItem>
-                                    ))}
-                                  </SelectContent>
-                                </Select>
-                              ) : (
-                                <Input type={field.type} placeholder={field.placeholder} {...inputField} className="bg-slate-50 border-none rounded-xl h-12 md:h-14 shadow-inner text-sm px-4" />
-                              )}
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    );
-                  })}
-                </div>
-
-                <div className="flex flex-col sm:flex-row gap-5 pt-6">
-                  <Button type="submit" disabled={isSubmitting} className="flex-1 h-14 md:h-16 rounded-xl text-lg bg-primary hover:bg-blue-600 text-white shadow-xl shadow-primary/20 flex gap-3 transition-all hover:-translate-y-0.5 active:scale-95 font-bold">
-                     {isSubmitting ? <Loader2 className="h-5 w-5 animate-spin" /> : <Send className="h-5 w-5" />}
->>>>>>> 98a2c8f27094db91b0e91c5b2cc561733cfa401a
                      {isSubmitting ? "Submitting..." : "Submit Inquiry"}
                   </Button>
                   <Button type="button" onClick={handleWhatsAppQuickAction} variant="outline" className="flex-1 h-14 md:h-16 rounded-xl text-base border-2 border-slate-100 hover:border-[#25D366] hover:text-[#25D366] transition-all active:scale-95 flex gap-3 shadow-sm bg-transparent text-slate-500 font-bold">
