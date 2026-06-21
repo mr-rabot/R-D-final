@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useEffect, useState, useRef } from "react";
@@ -72,10 +71,10 @@ export function About() {
         isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
       )}>
 
-        <div className="flex flex-col items-center mb-32 md:mb-40">
+        <div className="flex flex-col items-center mb-24 md:mb-32">
           <div className="relative flex flex-col items-center w-full">
             <div className={cn(
-              "relative w-64 h-64 md:w-80 md:h-80 lg:w-[450px] lg:h-[450px] xl:w-[500px] xl:h-[500px] z-10 overflow-hidden rounded-full shadow-2xl border-[10px] md:border-[20px] border-white transition-all duration-1000 hover:scale-[1.02] bg-slate-50",
+              "relative w-56 h-56 md:w-72 md:h-72 lg:w-[380px] lg:h-[380px] z-10 overflow-hidden rounded-full shadow-2xl border-[10px] md:border-[15px] border-white transition-all duration-1000 hover:scale-[1.02] bg-slate-50",
               isVisible ? "scale-100 opacity-100" : "scale-95 opacity-0"
             )}>
               {displayFounderImage ? (
@@ -88,42 +87,42 @@ export function About() {
                 />
               ) : (
                 <div className="w-full h-full bg-slate-100 flex items-center justify-center text-slate-300">
-                  <Globe className="h-16 w-16" />
+                  <Globe className="h-12 w-12" />
                 </div>
               )}
             </div>
 
-            <div className="mt-12 md:mt-16 text-center w-full">
-              <h3 className="text-4xl md:text-6xl lg:text-7xl font-headline font-bold text-slate-900 tracking-tight mb-4">
+            <div className="mt-10 md:mt-12 text-center w-full">
+              <h3 className="text-3xl md:text-5xl lg:text-6xl font-headline font-bold text-slate-900 tracking-tight mb-3">
                 {founder?.name || "Om Prakash Sinha"}
               </h3>
-              <div className="space-y-2 mb-12">
-                <p className="text-sm md:text-base xl:text-lg uppercase tracking-[0.4em] font-bold text-primary/80">
+              <div className="space-y-1.5 mb-10">
+                <p className="text-xs md:text-sm lg:text-base uppercase tracking-[0.3em] font-bold text-primary/80">
                   {founder?.role || "Founder & Director"}
                 </p>
-                <p className="text-[10px] md:text-xs xl:text-sm uppercase tracking-[0.2em] font-bold text-slate-400">
+                <p className="text-[9px] md:text-[10px] uppercase tracking-[0.2em] font-bold text-slate-400">
                   R&D Services
                 </p>
               </div>
 
-              <div className="space-y-12 flex flex-col items-center">
-                <h2 className="text-5xl md:text-7xl lg:text-8xl font-headline font-bold text-accent leading-[1.1] tracking-tight">
+              <div className="space-y-10 flex flex-col items-center">
+                <h2 className="text-4xl md:text-6xl lg:text-7xl font-headline font-bold text-accent leading-[1.1] tracking-tight">
                   Precision <br />
-                  <span className="text-primary italic text-3xl md:text-5xl xl:text-6xl">in Research</span>
+                  <span className="text-primary italic text-2xl md:text-4xl lg:text-5xl">in Research</span>
                 </h2>
 
-                <div className="max-w-4xl mx-auto border-t border-slate-100 pt-12 mt-4">
-                  <p className="text-xl md:text-2xl lg:text-3xl text-slate-600 font-light leading-relaxed text-center italic px-4">
+                <div className="max-w-3xl mx-auto border-t border-slate-100 pt-10 mt-2">
+                  <p className="text-lg md:text-xl lg:text-2xl text-slate-600 font-light leading-relaxed text-center italic px-4">
                     Under the expert guidance of <span className="font-semibold text-accent">{founder?.name || "Om Prakash Sinha"}</span>, we provide the rigorous methodology and academic integrity required for success in global publishing.
                   </p>
                 </div>
               </div>
             </div>
 
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-5xl aspect-square bg-primary/5 rounded-full blur-[150px] md:blur-[200px] -z-10" />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-4xl aspect-square bg-primary/5 rounded-full blur-[120px] md:blur-[180px] -z-10" />
           </div>
 
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 md:gap-10 pt-24 w-full">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-5 md:gap-8 pt-20 w-full">
             {[
               { icon: ShieldCheck, label: "Ethical Integrity", desc: "Plagiarism-free" },
               { icon: Zap, label: "Rapid Synthesis", desc: "Expert literature" },
@@ -133,28 +132,28 @@ export function About() {
               <div
                 key={i}
                 className={cn(
-                  "flex flex-col items-center text-center p-8 md:p-12 rounded-[40px] bg-white border border-slate-100 hover:border-primary/20 hover:shadow-xl transition-all duration-500 group shadow-sm",
+                  "flex flex-col items-center text-center p-6 md:p-8 lg:p-10 rounded-[32px] bg-white border border-slate-100 hover:border-primary/20 hover:shadow-xl transition-all duration-500 group shadow-sm",
                   isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
                 )}
                 style={{ transitionDelay: `${i * 100}ms` }}
               >
-                <div className="bg-primary/5 p-5 rounded-[25px] text-primary mb-6 transition-all group-hover:scale-110 group-hover:bg-primary group-hover:text-white">
-                  <item.icon className="h-8 w-8" />
+                <div className="bg-primary/5 p-4 rounded-[20px] text-primary mb-5 transition-all group-hover:scale-110 group-hover:bg-primary group-hover:text-white">
+                  <item.icon className="h-6 w-6" />
                 </div>
-                <h4 className="font-bold text-accent text-lg md:text-xl xl:text-2xl mb-2 leading-tight">{item.label}</h4>
-                <p className="text-[10px] md:text-xs text-slate-400 uppercase font-bold tracking-widest">{item.desc}</p>
+                <h4 className="font-bold text-accent text-base md:text-lg xl:text-xl mb-1 leading-tight">{item.label}</h4>
+                <p className="text-[9px] md:text-[10px] text-slate-400 uppercase font-bold tracking-widest">{item.desc}</p>
               </div>
             ))}
           </div>
 
-          <div className="pt-20">
+          <div className="pt-16">
             <Button
               onClick={() => {
                 const el = document.getElementById('contact');
                 if (el) el.scrollIntoView({ behavior: 'smooth' });
               }}
               size="lg"
-              className="rounded-full px-12 h-16 md:h-20 bg-accent hover:bg-slate-900 text-white font-bold transition-all shadow-xl hover:-translate-y-1 text-lg md:text-xl"
+              className="rounded-full px-10 h-14 md:h-16 bg-accent hover:bg-slate-900 text-white font-bold transition-all shadow-xl hover:-translate-y-1 text-base md:text-lg"
             >
               Consult with Leadership
             </Button>
@@ -162,37 +161,37 @@ export function About() {
         </div>
 
         <div className={cn(
-          "bg-[#0a0f1c] rounded-[40px] md:rounded-[80px] p-8 md:p-20 lg:p-24 text-white relative overflow-hidden shadow-2xl border border-white/5 transition-all duration-1000",
+          "bg-[#0a0f1c] rounded-[32px] md:rounded-[60px] p-8 md:p-16 lg:p-20 text-white relative overflow-hidden shadow-2xl border border-white/5 transition-all duration-1000",
           isVisible ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-12 scale-95"
         )}>
-          <div className="relative z-10 flex flex-col lg:grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
-            <div className="space-y-8 md:space-y-12">
-              <div className="flex items-center gap-4 text-primary">
-                <Globe className="h-6 w-6 animate-pulse" />
-                <span className="text-xs md:text-sm uppercase tracking-[0.6em] font-bold text-blue-400">The R&D Standard</span>
+          <div className="relative z-10 flex flex-col lg:grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+            <div className="space-y-6 md:space-y-8">
+              <div className="flex items-center gap-3 text-primary">
+                <Globe className="h-5 w-5 animate-pulse" />
+                <span className="text-[10px] md:text-xs uppercase tracking-[0.4em] font-bold text-blue-400">The R&D Standard</span>
               </div>
 
-              <div className="space-y-6">
-                <h3 className="text-3xl md:text-5xl lg:text-6xl font-headline font-bold leading-tight tracking-tight">
+              <div className="space-y-4">
+                <h3 className="text-2xl md:text-4xl lg:text-5xl font-headline font-bold leading-tight tracking-tight">
                   {firmData?.title || "A Legacy of Academic Excellence"}
                 </h3>
-                <div className="h-1.5 w-24 bg-primary rounded-full" />
+                <div className="h-1 w-20 bg-primary rounded-full" />
               </div>
 
-              <div className="space-y-10">
-                <p className="text-blue-100/80 leading-relaxed text-lg md:text-2xl xl:text-3xl font-light italic border-l-4 border-primary/50 pl-6 md:pl-10">
+              <div className="space-y-8">
+                <p className="text-blue-100/80 leading-relaxed text-base md:text-xl xl:text-2xl font-light italic border-l-4 border-primary/50 pl-5 md:pl-8">
                   {firmData?.description || "R&D Services provides a premier academic consulting platform dedicated to bridging the gap between innovative research and high-impact publishing."}
                 </p>
-                <div className="grid grid-cols-2 gap-8 md:gap-16">
+                <div className="grid grid-cols-2 gap-6 md:gap-12">
                   {(firmData?.stats || [
                     { label: "Research Legacy", value: "500+" },
                     { label: "Elite Journals", value: "120+" }
                   ]).map((stat, i) => (
-                    <div key={i} className="space-y-2 group">
-                      <div className="text-4xl md:text-6xl lg:text-7xl font-headline font-bold text-primary transition-all duration-500 leading-none">
+                    <div key={i} className="space-y-1 group">
+                      <div className="text-3xl md:text-5xl lg:text-6xl font-headline font-bold text-primary transition-all duration-500 leading-none">
                         {stat.value}
                       </div>
-                      <div className="text-[10px] md:text-xs lg:text-sm uppercase tracking-widest font-bold text-blue-300 opacity-60">
+                      <div className="text-[9px] md:text-[10px] lg:text-xs uppercase tracking-widest font-bold text-blue-300 opacity-60">
                         {stat.label}
                       </div>
                     </div>
@@ -201,9 +200,9 @@ export function About() {
               </div>
             </div>
 
-            <div className="relative mt-12 lg:mt-0 w-full group">
+            <div className="relative mt-8 lg:mt-0 w-full group">
               {displaySummaryImage && (
-                <div className="relative aspect-[16/10] w-full overflow-hidden rounded-[30px] md:rounded-[50px] shadow-2xl border border-white/10 bg-slate-800">
+                <div className="relative aspect-[16/10] w-full overflow-hidden rounded-[24px] md:rounded-[40px] shadow-2xl border border-white/10 bg-slate-800">
                   <Image
                     src={displaySummaryImage}
                     alt="Research and Development Overview"

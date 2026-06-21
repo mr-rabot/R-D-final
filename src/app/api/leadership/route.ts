@@ -1,10 +1,10 @@
 
 import { NextResponse } from 'next/server';
 import fs from 'fs/promises';
-import { existsSync } from 'fs';
+import { existsSync, mkdirSync, writeFileSync } from 'fs';
 import path from 'path';
 
-const DATA_PATH = path.join(process.cwd(), 'src/app/lib/leadership-data.json');
+const DATA_PATH = path.resolve(process.cwd(), 'src/app/lib/leadership-data.json');
 
 const DEFAULT_DATA = {
   adminCredentials: {
